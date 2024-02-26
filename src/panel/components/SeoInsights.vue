@@ -11,10 +11,11 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import { LOG_LEVELS } from "../constants";
-import { useLocale, useSeoReport } from "../composables";
+import { useLocale, useSeoInsights } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareRemoteData } from "../utils/remote";
+import { throttle } from "../utils/throttle";
 import SeoResultEntry from "./SeoResultEntry.vue";
 
 const propsDefinition = {
@@ -38,7 +39,7 @@ const panel = usePanel();
 const api = useApi();
 const store = useStore();
 const { getNonLocalizedPath } = useLocale();
-const { getYoastInsightsForContent } = useSeoReport();
+const { getYoastInsightsForContent } = useSeoInsights();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -226,29 +227,6 @@ async function fetchHtml(url) {
   });
 
   return result.html;
-}
-
-function throttle(fn, limit) {
-  let lasFn;
-  let lastRan;
-
-  return (...args) => {
-    if (!lastRan) {
-      fn(...args);
-      lastRan = Date.now();
-    } else {
-      clearTimeout(lasFn);
-      lasFn = setTimeout(
-        () => {
-          if (Date.now() - lastRan >= limit) {
-            fn(...args);
-            lastRan = Date.now();
-          }
-        },
-        limit - (Date.now() - lastRan),
-      );
-    }
-  };
 }
 </script>
 

@@ -19,7 +19,7 @@ const assessmentClassConfigKeyMap = {
   SentenceLengthInTextAssessment: "sentenceLength",
 };
 
-export function useSeoReport() {
+export function useSeoInsights() {
   const panel = usePanel();
   const store = useStore();
   const currentContent = computed(() => store.getters["content/values"]());
