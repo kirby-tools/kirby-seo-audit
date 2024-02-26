@@ -1,9 +1,9 @@
-import SeoReportSection from "./components/SeoReport.vue";
+import SeoInsightsSection from "./components/SeoInsights.vue";
 import "./index.css";
 
 window.panel.plugin("johannschopplich/seo-insights", {
   sections: {
-    "seo-insights": SeoReportSection,
+    "seo-insights": SeoInsightsSection,
   },
   icons: {
     // i-ri:seo-line

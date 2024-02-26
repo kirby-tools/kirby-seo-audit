@@ -26,7 +26,7 @@ export function useSeoReport() {
 
   const getYoastInsightsForContent = async (html, options) => {
     const YoastSEO = await getModule("yoastseo");
-    const Jed = await getModule("jed");
+    const { Jed } = await getModule("jed");
     const pixelWidth = await interopDefault(getModule("string-pixel-width"));
 
     const paper = new YoastSEO.Paper(html, {
