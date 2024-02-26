@@ -120,14 +120,13 @@ watch(
 // Watch for content changes on the same page
 // eslint-disable-next-line no-undef
 if (__PLAYGROUND__) {
+  const throttledAnalyze = throttle(analyze, 750);
   watch(
     () => currentContent.value.assessments,
     (newValue, oldValue) => {
-      throttle(() => {
-        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-          analyze();
-        }
-      }, 750);
+      if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+        throttledAnalyze();
+      }
     },
   );
   watch(
