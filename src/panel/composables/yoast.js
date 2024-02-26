@@ -1,4 +1,3 @@
-import Jed from "jed";
 import get from "just-safe-get";
 import yoastseoDefaultConfig from "yoastseo/src/config/content/default.js";
 import { computed, usePanel, useStore } from "kirbyuse";
@@ -9,7 +8,11 @@ const TRANSLATIONS = {
   de,
 };
 
-const ignoredAssessments = ["UrlLengthAssessment"];
+const ignoredAssessments = [
+  "TaxonomyTextLengthAssessment",
+  "UrlLengthAssessment",
+  "UrlStopWordsAssessment",
+];
 
 const assessmentClassConfigKeyMap = {
   FleschReadingEaseAssessment: "fleschReading",
@@ -23,6 +26,7 @@ export function useSeoReport() {
 
   const getYoastInsightsForContent = async (html, options) => {
     const YoastSEO = await getModule("yoastseo");
+    const Jed = await getModule("jed");
     const pixelWidth = await interopDefault(getModule("string-pixel-width"));
 
     const paper = new YoastSEO.Paper(html, {
@@ -42,11 +46,11 @@ export function useSeoReport() {
     const translations = __PLAYGROUND__
       ? TRANSLATIONS[currentContent.value.language]
       : TRANSLATIONS[panel.translation.code];
-    const i18n = getI18n(translations);
+    const i18n = getI18n(Jed, translations);
 
     // console.log("YoastSEO.assessments", YoastSEO.assessments);
 
-    const resolvedCustomAssessments = options.assessments.map((i) => {
+    const resolvedSelectedAssessments = options.assessments.map((i) => {
       i = i.toLowerCase();
       if (!i.endsWith("assessment")) i += "assessment";
       return i;
@@ -57,8 +61,8 @@ export function useSeoReport() {
         for (const [name, value] of Object.entries(assessments)) {
           if (ignoredAssessments.includes(name)) continue;
           if (
-            resolvedCustomAssessments.length > 0 &&
-            !resolvedCustomAssessments.includes(name.toLowerCase())
+            resolvedSelectedAssessments.length > 0 &&
+            !resolvedSelectedAssessments.includes(name.toLowerCase())
           )
             continue;
 
@@ -112,7 +116,7 @@ export function useSeoReport() {
   };
 }
 
-function getI18n(translations) {
+function getI18n(Jed, translations) {
   return new Jed({
     domain: "js-text-analysis",
     locale_data: {

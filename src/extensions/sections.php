@@ -4,7 +4,7 @@ use Kirby\Cms\PluginAsset;
 use Kirby\Toolkit\I18n;
 
 return [
-    'seo-report' => [
+    'seo-insights' => [
         'props' => [
             'label' => fn ($label = null) => I18n::translate($label, $label),
             'siteUrl' => fn ($siteUrl = null) => $siteUrl,
@@ -24,7 +24,7 @@ return [
             'config' => function () {
                 /** @var \Kirby\Cms\App */
                 $kirby = $this->kirby();
-                $config = $kirby->option('johannschopplich.seo-report', []);
+                $config = $kirby->option('johannschopplich.seo-insights', []);
 
                 $defaultConfig = [
                     'localePrefix' => $kirby->multilang()
@@ -38,7 +38,7 @@ return [
             'assets' => function () {
                 /** @var \Kirby\Cms\App */
                 $kirby = $this->kirby();
-                $plugin = $kirby->plugin('johannschopplich/seo-report');
+                $plugin = $kirby->plugin('johannschopplich/seo-insights');
 
                 return $plugin
                     ->assets()

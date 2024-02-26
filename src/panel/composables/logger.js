@@ -3,5 +3,5 @@ import { createLogger } from "../utils/logger";
 let instance;
 
 export function useLogger() {
-  return (instance ??= createLogger("seo-report"));
+  return (instance ??= createLogger("seo-insights"));
 }

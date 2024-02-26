@@ -26,6 +26,6 @@
     "yaml"
   ],
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file:///Users/johannschopplich/Git/kirby-seo-report/playground/site/blueprints/site.yml"
+    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file:///Users/johannschopplich/Git/kirby-seo-insights/playground/site/blueprints/site.yml"
   }
 }

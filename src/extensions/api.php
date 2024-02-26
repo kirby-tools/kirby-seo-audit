@@ -7,12 +7,12 @@ use Kirby\Http\Uri;
 return [
     'routes' => fn (\Kirby\Cms\App $kirby) => [
         [
-            'pattern' => '__seo-report__/proxy',
+            'pattern' => '__seo-insights__/proxy',
             'method' => 'POST',
             'action' => function () use ($kirby) {
                 $request = $kirby->request();
                 $url = new Uri($request->get('url'));
-                $isDocker = $kirby->option('johannschopplich.seo-report.isDocker', false);
+                $isDocker = $kirby->option('johannschopplich.seo-insights.isDocker', false);
 
                 // Resolve to the host URL if inside Docker container
                 if ($isDocker) {

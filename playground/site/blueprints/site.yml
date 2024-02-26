@@ -16,10 +16,10 @@ columns:
             type: info
             theme: positive
             text: |
-              To get an idea of what the Kirby SEO Report can do for you, enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations.
+              To get an idea of what the Kirby SEO Insights can do for you, enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations.
               The production version of this plugin will use the URL of the current page.
-      seoReport:
-        type: seo-report
+      seoInsights:
+        type: seo-insights
   - width: 1/2
     sections:
       settings:
@@ -31,7 +31,7 @@ columns:
             text: In production, configuration will be done in the blueprint section.
             theme: passive
           targetUrl:
-            label: URL for SEO Report
+            label: URL to Analyze
             type: url
             help: Will be the current page in the production version.
           assessments:
@@ -66,7 +66,6 @@ columns:
               TextLength: Text Length
               TitleKeyword: Title Keyword
               UrlKeyword: Url Keyword
-              UrlStopWords: Url Stop Words
             help: By default, all assessments are included. Customize the report to your needs.
           language:
             label: Language

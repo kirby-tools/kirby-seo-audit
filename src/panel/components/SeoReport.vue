@@ -31,7 +31,7 @@ const props = defineProps(propsDefinition);
 
 // Force Kirby v4
 if (!window.panel.$api) {
-  throw new Error("Kirby SEO Report requires Kirby 4");
+  throw new Error("Kirby SEO Insights requires Kirby 4");
 }
 
 const panel = usePanel();
@@ -101,7 +101,7 @@ watch(
     name: props.name,
   });
   label.value =
-    t(response.label) || panel.t("johannschopplich.seo-report.label");
+    t(response.label) || panel.t("johannschopplich.seo-insights.label");
   siteUrl.value = response.siteUrl;
   keyphraseField.value = response.keyphraseField;
   assessments.value = response.assessments;
@@ -201,7 +201,7 @@ async function analyze() {
   } catch (error) {
     console.error(error);
     panel.notification.error(
-      panel.t("johannschopplich.seo-report.generator.error"),
+      panel.t("johannschopplich.seo-insights.generator.error"),
     );
   }
 
@@ -209,7 +209,7 @@ async function analyze() {
   isGenerating.value = false;
   panel.notification.success({
     icon: "check",
-    message: panel.t("johannschopplich.seo-report.generator.success"),
+    message: panel.t("johannschopplich.seo-insights.generator.success"),
   });
 }
 
@@ -220,7 +220,7 @@ async function fetchHtml(url) {
     return await response.text();
   }
 
-  const { result } = await api.post("__seo-report__/proxy", {
+  const { result } = await api.post("__seo-insights__/proxy", {
     url,
   });
 
@@ -233,8 +233,8 @@ async function fetchHtml(url) {
     <div class="ksr-space-y-4">
       <k-button-group layout="collapsed">
         <k-button
-          :icon="isGenerating ? 'loader' : 'seo-report-analyze'"
-          :text="panel.t('johannschopplich.seo-report.analyze')"
+          :icon="isGenerating ? 'loader' : 'seo-insights-analyze'"
+          :text="panel.t('johannschopplich.seo-insights.analyze')"
           variant="filled"
           size="sm"
           theme="positive"
@@ -264,7 +264,7 @@ async function fetchHtml(url) {
 
             <div v-if="readability">
               <k-label class="ksr-mb-1">
-                {{ panel.t("johannschopplich.seo-report.readability") }}
+                {{ panel.t("johannschopplich.seo-insights.readability") }}
               </k-label>
               <div
                 v-for="(item, index) in report.result.readability"
