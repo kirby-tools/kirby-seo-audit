@@ -41,6 +41,7 @@ const { getYoastInsightsForContent } = useSeoInsights();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
+let previewUrl;
 
 // Section props
 const label = ref();
@@ -54,7 +55,6 @@ const config = ref();
 // Local data
 const isInitialized = ref(false);
 const isGenerating = ref(false);
-const previewUrl = ref();
 const report = ref(JSON.parse(localStorage.getItem(storageKey)));
 
 const currentContent = computed(() => store.getters["content/values"]());
@@ -69,7 +69,7 @@ watch(
     const data = await panel.api.get(panel.view.path, {
       select: ["previewUrl"],
     });
-    previewUrl.value = data.previewUrl;
+    previewUrl = data.previewUrl;
   },
   { immediate: true },
 );
@@ -144,9 +144,7 @@ async function analyze() {
   }
 
   // eslint-disable-next-line no-undef
-  const url = __PLAYGROUND__
-    ? currentContent.value.targeturl
-    : previewUrl.value;
+  const url = __PLAYGROUND__ ? currentContent.value.targeturl : previewUrl;
   panel.isLoading = true;
   isGenerating.value = true;
 
