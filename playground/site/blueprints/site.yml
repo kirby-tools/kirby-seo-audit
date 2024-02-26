@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=../../../.vscode/schemas/kirby4-blueprints.schema.json
+blueprint: site
+title: Playground
+
+options:
+  preview: https://kirbyseo.com
+
+columns:
+  - width: 1/2
+    sections:
+      leftContent:
+        type: fields
+        fields:
+          infoGettingStarted:
+            label: Getting Started
+            type: info
+            theme: positive
+            text: |
+              To get an idea of what the Kirby SEO Report can do for you, enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations.
+              The production version of this plugin will use the URL of the current page.
+      seoReport:
+        type: seo-report
+  - width: 1/2
+    sections:
+      settings:
+        type: fields
+        fields:
+          settingsInfo:
+            type: info
+            label: Playground Configuration
+            text: In production, configuration will be done in the blueprint section.
+            theme: passive
+          targetUrl:
+            label: URL for SEO Report
+            type: url
+            help: Will be the current page in the production version.
+          assessments:
+            label: Assessments
+            type: multiselect
+            options:
+              FleschReadingEase: Flesch Reading Ease
+              ParagraphTooLong: Paragraph Too Long
+              PassiveVoice: Passive Voice
+              SentenceBeginnings: Sentence Beginnings
+              SentenceLengthInDescription: Sentence Length in Description
+              SentenceLengthInText: Sentence Length in Text
+              SubheadingDistributionTooLong: Subheading Distribution Too Long
+              TextPresence: Text Presence
+              TransitionWords: Transition Words
+              WordComplexity: Word Complexity
+              FunctionWordsInKeyphrase: Function Words in Keyphrase
+              InternalLinks: Internal Links
+              IntroductionKeyword: Introduction Keyword
+              KeyphraseLength: Keyphrase Length
+              KeywordDensity: Keyword Density
+              KeywordStopWords: Keyword Stop Words
+              KeyphraseDistribution: Keyphrase Distribution
+              MetaDescriptionKeyword: Meta Description Keyword
+              MetaDescriptionLength: Meta Description Length
+              OutboundLinks: Outbound Links
+              PageTitleWidth: Page Title Width
+              SingleH1: Single H1
+              SubheadingsKeyword: Subheadings Keyword
+              TextCompetingLinks: Text Competing Links
+              TextImages: Text Images
+              TextLength: Text Length
+              TitleKeyword: Title Keyword
+              UrlKeyword: Url Keyword
+              UrlStopWords: Url Stop Words
+            help: By default, all assessments are included. Customize the report to your needs.
+          language:
+            label: Language
+            type: select
+            options:
+              en: English
+              de: German
+            help: Will use the user's Panel language in the production version.
+            width: 1/2
+          links:
+            label: Show Recommendation Links?
+            type: toggle
+            width: 1/2
+          fieldsInfo:
+            type: info
+            label: Fields
+            text: |
+              The following fields can be added to your blueprints for further context for the SEO anylysis:
+              - Focus Keyphrase
+          metaKeyphrase:
+            label: Focus Keyphrase
+            type: text
+            help: Enter the keyword or keyphrase you'd like the page to rank for in Google. Next, analyze the page's content to see if search engines will understand what the it is about.

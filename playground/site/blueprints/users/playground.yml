@@ -1,0 +1,17 @@
+title: Playground
+permissions:
+  access:
+    account: false
+    panel: true
+    site: true
+    languages: false
+    system: false
+    users: false
+  files: false
+  languages: false
+  pages: false
+  site:
+    changeTitle: false
+    update: true
+  user: false
+  users: false

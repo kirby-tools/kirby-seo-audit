@@ -1,0 +1,31 @@
+# OS files
+.DS_Store
+
+# Vendor files
+/node_modules
+/vendor
+
+# Build files
+/assets
+/index.dev.mjs
+/index.js
+/index.css
+
+# Playground files
+.env
+.license
+/playground/public/media/*
+/playground/storage/accounts/*
+!/playground/storage/accounts/playgrnd
+/playground/storage/cache/*
+/playground/storage/sessions/*
+
+# Cache and temporary files
+/.cache
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/tests/coverage
+/tests/*/tmp
+
+# Releases
+kirby-seo-report-*.zip

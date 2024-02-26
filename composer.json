@@ -1,0 +1,46 @@
+{
+  "name": "johannschopplich/kirby-seo-report",
+  "description": "State-of-the-art SEO analysis Kirby CMS",
+  "type": "kirby-plugin",
+  "version": "1.0.0",
+  "keywords": [
+    "getkirby",
+    "kirby",
+    "seo",
+    "yoast"
+  ],
+  "license": "PROPRIETARY",
+  "homepage": "https://kirbycopilot.com",
+  "authors": [
+    {
+      "name": "Johann Schopplich",
+      "email": "pkg@johannschopplich.com",
+      "homepage": "https://johannschopplich.com"
+    }
+  ],
+  "require": {
+    "getkirby/cms": "^4.1",
+    "getkirby/composer-installer": "^1.2",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "@stable"
+  },
+  "scripts": {
+    "dev": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php -S localhost:8000 -t playground/public vendor/getkirby/cms/router.php"
+    ],
+    "fix": "php-cs-fixer fix",
+    "dist": "composer install --no-dev --optimize-autoloader"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "getkirby/composer-installer": true
+    }
+  },
+  "extra": {
+    "kirby-cms-path": false
+  }
+}

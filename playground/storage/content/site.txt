@@ -1,0 +1,21 @@
+Title: Playground
+
+----
+
+Metakeyphrase: cms
+
+----
+
+Targeturl: https://getkirby.com
+
+----
+
+Assessments: 
+
+----
+
+Language: de
+
+----
+
+Links: true
