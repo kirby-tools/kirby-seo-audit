@@ -26,9 +26,7 @@ return [
                 $kirby = $this->kirby();
                 $config = $kirby->option('johannschopplich.seo-insights', []);
 
-                $defaultConfig = [
-                    'localePrefix' => $kirby->multilang()
-                ];
+                $defaultConfig = [];
 
                 // Merge user configuration with defaults
                 $config = array_replace_recursive($defaultConfig, $config);

@@ -1,5 +1,4 @@
 <script>
-import { joinURL, withLeadingSlash } from "ufo";
 import {
   computed,
   ref,
@@ -11,7 +10,7 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import { LOG_LEVELS } from "../constants";
-import { useLocale, useSeoInsights } from "../composables";
+import { useSeoInsights } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareRemoteData } from "../utils/remote";
@@ -38,7 +37,6 @@ if (!window.panel.$api) {
 const panel = usePanel();
 const api = useApi();
 const store = useStore();
-const { getNonLocalizedPath } = useLocale();
 const { getYoastInsightsForContent } = useSeoInsights();
 
 // Non-reactive data
@@ -46,7 +44,6 @@ const storageKey = getHashedStorageKey(panel.view.path);
 
 // Section props
 const label = ref();
-const siteUrl = ref();
 const keyphraseField = ref();
 const assessments = ref();
 const readability = ref();
@@ -57,30 +54,10 @@ const config = ref();
 // Local data
 const isInitialized = ref(false);
 const isGenerating = ref(false);
-const url = ref();
+const previewUrl = ref();
 const report = ref(JSON.parse(localStorage.getItem(storageKey)));
 
 const currentContent = computed(() => store.getters["content/values"]());
-const path = computed(() => {
-  if (!url.value) return "";
-
-  if (!panel.multilang) {
-    const _url = new URL(url.value);
-    return _url.pathname;
-  }
-
-  let path = getNonLocalizedPath(url.value);
-
-  if (config.value?.languagePrefix === "exceptDefault") {
-    if (!panel.language.default) {
-      path = joinURL(panel.language.code, path);
-    }
-  } else {
-    path = joinURL(panel.language.code, path);
-  }
-
-  return withLeadingSlash(path);
-});
 const focusKeyphrase = computed(() =>
   keyphraseField.value ? currentContent.value[keyphraseField.value] || "" : "",
 );
@@ -89,8 +66,10 @@ watch(
   // Will be `null` in single language setups
   () => panel.language.code,
   async () => {
-    const data = await panel.api.get(panel.view.path);
-    url.value = data.url;
+    const data = await panel.api.get(panel.view.path, {
+      select: ["previewUrl"],
+    });
+    previewUrl.value = data.previewUrl;
   },
   { immediate: true },
 );
@@ -103,7 +82,6 @@ watch(
   });
   label.value =
     t(response.label) || panel.t("johannschopplich.seo-insights.label");
-  siteUrl.value = response.siteUrl;
   keyphraseField.value = response.keyphraseField;
   assessments.value = response.assessments;
   readability.value = response.readability;
@@ -168,7 +146,7 @@ async function analyze() {
   // eslint-disable-next-line no-undef
   const url = __PLAYGROUND__
     ? currentContent.value.targeturl
-    : joinURL(siteUrl.value, path.value);
+    : previewUrl.value;
   panel.isLoading = true;
   isGenerating.value = true;
 
