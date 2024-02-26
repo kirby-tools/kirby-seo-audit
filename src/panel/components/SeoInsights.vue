@@ -120,7 +120,7 @@ watch(
 // Watch for content changes on the same page
 // eslint-disable-next-line no-undef
 if (__PLAYGROUND__) {
-  const throttledAnalyze = throttle(analyze, 750);
+  const throttledAnalyze = throttle(analyze, 1000);
   watch(
     () => currentContent.value.assessments,
     (newValue, oldValue) => {
