@@ -78,7 +78,7 @@
   "%1$sKeyphrase distribution%3$s: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.": [
     "%1$sVerteilung der Keyphrase%3$s: Ungleiche Verteilung. Einige Teile Ihres Textes enthalten die Keyphrase oder deren Synonyme nicht. %2$sVerteilen Sie sie gleichmäßiger%3$s."
   ],
-  "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not containthe keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.": [
+  "%1$sKeyphrase distribution%3$s: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. %2$sDistribute them more evenly%3$s.": [
     "%1$sVerteilung der Keyphrase%3$s: Sehr ungleiche Verteilung. Große Teile Ihres Textes enthalten die Keyphrase oder deren Synonyme nicht. %2$sVerteilen Sie sie gleichmäßiger%3$s."
   ],
   "%1$sKeyphrase in introduction%2$s: Well done!": [
