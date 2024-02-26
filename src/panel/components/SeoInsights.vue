@@ -123,9 +123,11 @@ if (__PLAYGROUND__) {
   watch(
     () => currentContent.value.assessments,
     (newValue, oldValue) => {
-      if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-        analyze();
-      }
+      throttle(() => {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+          analyze();
+        }
+      }, 750);
     },
   );
   watch(
@@ -225,6 +227,29 @@ async function fetchHtml(url) {
   });
 
   return result.html;
+}
+
+function throttle(fn, limit) {
+  let lasFn;
+  let lastRan;
+
+  return (...args) => {
+    if (!lastRan) {
+      fn(...args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lasFn);
+      lasFn = setTimeout(
+        () => {
+          if (Date.now() - lastRan >= limit) {
+            fn(...args);
+            lastRan = Date.now();
+          }
+        },
+        limit - (Date.now() - lastRan),
+      );
+    }
+  };
 }
 </script>
 
