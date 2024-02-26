@@ -70,6 +70,7 @@ columns:
           language:
             label: Language
             type: select
+            required: true
             options:
               en: English
               de: German

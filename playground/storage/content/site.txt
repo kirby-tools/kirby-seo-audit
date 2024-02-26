@@ -2,10 +2,6 @@ Title: Playground
 
 ----
 
-Metakeyphrase: cms
-
-----
-
 Targeturl: https://getkirby.com
 
 ----
@@ -19,3 +15,7 @@ Language: de
 ----
 
 Links: true
+
+----
+
+Metakeyphrase: flat-file CMS
