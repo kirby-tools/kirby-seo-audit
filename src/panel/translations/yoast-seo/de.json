@@ -33,7 +33,7 @@
     "%1$sAlt-Attribute von Bildern%3$s: Bilder auf dieser Seite haben keine Alt-Attribute, die das Thema Ihres Textes widerspiegeln. %2$sFügen Sie Ihre Keyphrase oder Synonyme den Alt-Tags relevanter Bilder hinzu%3$s!"
   ],
   "%1$sImage alt attributes%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!": [
-    "%1$sAlt-Attribute von Bildern%3$s: Bilder auf dieser Seite haben Alt-Attribute, aber Sie haben Ihre Keyphrase nicht festgelegt. %2$sÄnderung empfohlen%3$s!"
+    "%1$sAlt-Attribute von Bildern%3$s: Bilder auf dieser Seite haben Alt-Attribute, aber Sie haben Ihre Keyphrase nicht festgelegt. %2$sAnpassung empfohlen%3$s!"
   ],
   "%1$sImage alt attributes%3$s: No images appear on this page. %2$sAdd some%3$s!": [
     "%1$sAlt-Attribute von Bildern%3$s: Auf dieser Seite erscheinen keine Bilder. %2$sFügen Sie welche hinzu%3$s!"
@@ -88,7 +88,7 @@
     "%1$sKeyphrase in der Einleitung%3$s: Ihre Keyphrase oder deren Synonyme erscheinen nicht im ersten Absatz. %2$sStellen Sie sicher, dass das Thema sofort klar ist%3$s."
   ],
   "%1$sKeyphrase in introduction%3$s:Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!": [
-    "%1$sKeyphrase in der Einleitung%3$s: Ihre Keyphrase oder deren Synonyme erscheinen im ersten Absatz des Textes, aber nicht innerhalb eines Satzes. %2$sÄnderung empfohlen%3$s!"
+    "%1$sKeyphrase in der Einleitung%3$s: Ihre Keyphrase oder deren Synonyme erscheinen im ersten Absatz des Textes, aber nicht innerhalb eines Satzes. %2$sAnpassung empfohlen%3$s!"
   ],
   "%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!": [
     "%1$sKeyphrase in der Meta-Beschreibung%2$s: Keyphrase oder Synonym erscheinen in der Meta-Beschreibung. Gut gemacht!"
@@ -97,7 +97,7 @@
     "%1$sKeyphrase in der Meta-Beschreibung%2$s: Die Meta-Beschreibung enthält die Keyphrase %3$s Mal, was über dem empfohlenen Maximum von 2 Mal liegt. %4$sBegrenzung empfohlen%5$s!"
   ],
   "%1$sKeyphrase in meta description%2$s: The meta description has been specified, but it does not contain the keyphrase. %3$sFix that%4$s!": [
-    "%1$sKeyphrase in der Meta-Beschreibung%2$s: Die Meta-Beschreibung wurde angegeben, enthält aber nicht die Keyphrase. %3$sÄnderung empfohlen%4$s!"
+    "%1$sKeyphrase in der Meta-Beschreibung%2$s: Die Meta-Beschreibung wurde angegeben, enthält aber nicht die Keyphrase. %3$sAnpassung empfohlen%4$s!"
   ],
   "%1$sKeyphrase in slug%2$s: Great work!": [
     "%1$sKeyphrase im Slug%2$s: Großartige Arbeit!"
@@ -106,7 +106,7 @@
     "%1$sKeyphrase im Slug%2$s: Mehr als die Hälfte Ihrer Keyphrase erscheint im Slug. Das ist großartig!"
   ],
   "%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!": [
-    "%1$sKeyphrase im Slug%3$s: (Ein Teil) Ihrer Keyphrase erscheint nicht im Slug. %2$sÄnderung empfohlen%3$s!"
+    "%1$sKeyphrase im Slug%3$s: (Ein Teil) Ihrer Keyphrase erscheint nicht im Slug. %2$sAnpassung empfohlen%3$s!"
   ],
   "%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!": [
     "%1$sKeyphrase in Zwischenüberschriften%2$s: %3$s Ihrer H2- und H3-Zwischenüberschriften spiegeln das Thema Ihres Textes wider. Gute Arbeit!",
