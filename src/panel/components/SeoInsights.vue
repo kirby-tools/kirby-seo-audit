@@ -10,7 +10,7 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import { LOG_LEVELS } from "../constants";
-import { useSeoInsights } from "../composables";
+import { useCompatibility, useSeoInsights } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareRemoteData } from "../utils/remote";
@@ -29,11 +29,7 @@ export default {
 <script setup>
 const props = defineProps(propsDefinition);
 
-// Force Kirby v4
-if (!window.panel.$api) {
-  throw new Error("Kirby SEO Insights requires Kirby 4");
-}
-
+useCompatibility();
 const panel = usePanel();
 const api = useApi();
 const store = useStore();
@@ -143,6 +139,13 @@ async function analyze() {
     }
   }
 
+  if (!previewUrl) {
+    panel.notification.error(
+      panel.t("johannschopplich.seo-insights.error.missingPreviewUrl"),
+    );
+    return;
+  }
+
   // eslint-disable-next-line no-undef
   const url = __PLAYGROUND__ ? currentContent.value.targeturl : previewUrl;
   panel.isLoading = true;
@@ -179,7 +182,7 @@ async function analyze() {
   } catch (error) {
     console.error(error);
     panel.notification.error(
-      panel.t("johannschopplich.seo-insights.generator.error"),
+      panel.t("johannschopplich.seo-insights.analyze.error"),
     );
   }
 
@@ -187,7 +190,7 @@ async function analyze() {
   isGenerating.value = false;
   panel.notification.success({
     icon: "check",
-    message: panel.t("johannschopplich.seo-insights.generator.success"),
+    message: panel.t("johannschopplich.seo-insights.analyze.success"),
   });
 }
 
