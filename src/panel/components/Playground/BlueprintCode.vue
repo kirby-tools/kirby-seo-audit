@@ -1,9 +1,9 @@
 <script>
-import { computed, useStore } from "kirbyuse";
-import { label as _label } from "kirbyuse/props";
+import { computed, ref, useSection, useStore } from "kirbyuse";
+import { section } from "kirbyuse/props";
 
 const propsDefinition = {
-  ..._label,
+  ...section,
 };
 
 export default {
@@ -12,7 +12,16 @@ export default {
 </script>
 
 <script setup>
-defineProps(propsDefinition);
+const props = defineProps(propsDefinition);
+const data = ref();
+
+(async () => {
+  const { load } = useSection();
+  data.value = await load({
+    parent: props.parent,
+    name: props.name,
+  });
+})();
 
 const store = useStore();
 const currentContent = computed(() => store.getters["content/values"]());
@@ -37,8 +46,16 @@ seoInsights:
 </script>
 
 <template>
-  <k-section :label="label">
-    <!--  eslint-disable-next-line vue/singleline-html-element-content-newline -->
+  <k-section :label="data.label" class="ksr-space-y-2">
+    <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
     <k-code language="yaml">{{ code }}</k-code>
+    <k-text
+      v-if="data.help"
+      :style="{
+        color: 'var(--color-text-dimmed)',
+      }"
+    >
+      {{ data.help }}
+    </k-text>
   </k-section>
 </template>

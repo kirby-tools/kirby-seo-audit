@@ -11,7 +11,7 @@ columns:
       leftContent:
         type: fields
         fields:
-          infoGettingStarted:
+          gettingStartedInfo:
             label: Getting Started
             type: info
             theme: positive
@@ -80,6 +80,8 @@ columns:
             label: Show Recommendation Links?
             type: toggle
             width: 1/2
+          lineFields:
+            type: line
           fieldsInfo:
             type: info
             label: Fields
@@ -90,16 +92,9 @@ columns:
             label: Focus Keyphrase
             type: text
             help: Enter the keyword or keyphrase you'd like the page to rank for in Google. Next, analyze the page's content to see if search engines will understand what the it is about.
-  - width: 1/2
-    sections:
-      meta:
-        type: fields
-        fields:
-          infoConfigurationPreview:
-            label: Blueprint
-            type: info
-            theme: passive
-            text: |
-              Below is the section blueprint code with all the configuration options you have currently selected. You can copy and paste this code into your blueprint to use it in your project.
+          lineBlueprintCode:
+            type: line
       blueprintCode:
+        label: Blueprint Code
         type: playground-blueprint-code
+        help: This is the section code with all the configuration options you have currently selected. Copy and paste this code into your blueprint of choice.

@@ -31,7 +31,9 @@ return [
             $kirby->extend([
                 'sections' => [
                     'playground-blueprint-code' => [
-                        'props' => []
+                        'props' => [
+                            'help' => fn ($help = null) => $help
+                        ]
                     ]
                 ],
                 'routes' => fn (App $kirby) => [
