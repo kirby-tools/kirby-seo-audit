@@ -22,10 +22,10 @@ columns:
         type: seo-insights
   - width: 1/2
     sections:
-      settings:
+      configuration:
         type: fields
         fields:
-          settingsInfo:
+          configurationInfo:
             type: info
             label: Playground Configuration
             text: In production, configuration will be done in the blueprint section.
@@ -59,7 +59,7 @@ columns:
               MetaDescriptionLength: Meta Description Length
               OutboundLinks: Outbound Links
               PageTitleWidth: Page Title Width
-              SingleH1: Single H1
+              # SingleH1: Single H1
               SubheadingsKeyword: Subheadings Keyword
               TextCompetingLinks: Text Competing Links
               TextImages: Text Images
@@ -90,3 +90,16 @@ columns:
             label: Focus Keyphrase
             type: text
             help: Enter the keyword or keyphrase you'd like the page to rank for in Google. Next, analyze the page's content to see if search engines will understand what the it is about.
+  - width: 1/2
+    sections:
+      meta:
+        type: fields
+        fields:
+          infoConfigurationPreview:
+            label: Blueprint
+            type: info
+            theme: passive
+            text: |
+              Below is the section blueprint code with all the configuration options you have currently selected. You can copy and paste this code into your blueprint to use it in your project.
+      blueprintCode:
+        type: playground-blueprint-code

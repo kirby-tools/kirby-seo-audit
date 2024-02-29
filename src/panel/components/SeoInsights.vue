@@ -243,7 +243,7 @@ async function fetchHtml(url) {
               </div>
             </div>
 
-            <div v-if="readability">
+            <div v-if="readability && report.result.readability.length > 0">
               <k-label class="ksr-mb-1">
                 {{ panel.t("johannschopplich.seo-insights.readability") }}
               </k-label>

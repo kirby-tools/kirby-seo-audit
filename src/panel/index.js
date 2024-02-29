@@ -1,9 +1,14 @@
+import PlaygroundBlueprintCodeField from "./components/Playground/BlueprintCode.vue";
 import SeoInsightsSection from "./components/SeoInsights.vue";
 import "./index.css";
 
 window.panel.plugin("johannschopplich/seo-insights", {
   sections: {
     "seo-insights": SeoInsightsSection,
+    // eslint-disable-next-line no-undef
+    ...(__PLAYGROUND__ && {
+      "playground-blueprint-code": PlaygroundBlueprintCodeField,
+    }),
   },
   icons: {
     // i-ri:seo-line

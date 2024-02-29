@@ -7,7 +7,6 @@ return [
     'seo-insights' => [
         'props' => [
             'label' => fn ($label = null) => I18n::translate($label, $label),
-            'siteUrl' => fn ($siteUrl = null) => $siteUrl,
             'keyphraseField' => fn ($keyphraseField = null) => $keyphraseField,
             'assessments' => fn ($assessments = []) => is_array($assessments) ? $assessments : [],
             'readability' => fn ($readability = true) => $readability,
@@ -15,12 +14,6 @@ return [
             'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : 'warn'
         ],
         'computed' => [
-            'siteUrl' => function () {
-                /** @var \Kirby\Cms\App */
-                $kirby = $this->kirby();
-
-                return $this->tryResolveQuery($this->siteUrl, $kirby->site()->url());
-            },
             'config' => function () {
                 /** @var \Kirby\Cms\App */
                 $kirby = $this->kirby();

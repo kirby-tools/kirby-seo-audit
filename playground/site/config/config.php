@@ -29,6 +29,11 @@ return [
             $kirby = App::instance();
 
             $kirby->extend([
+                'sections' => [
+                    'playground-blueprint-code' => [
+                        'props' => []
+                    ]
+                ],
                 'routes' => fn (App $kirby) => [
                     [
                         'pattern' => '(:all)',

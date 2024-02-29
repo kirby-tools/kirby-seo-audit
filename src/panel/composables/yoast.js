@@ -12,6 +12,21 @@ const ignoredAssessments = [
   "TaxonomyTextLengthAssessment",
   "UrlLengthAssessment",
   "UrlStopWordsAssessment",
+  // Produces wrong results (fixed upstream?)
+  "SingleH1Assessment",
+];
+
+const keyphraseAssessments = [
+  "FunctionWordsInKeyphraseAssessment",
+  "IntroductionKeywordAssessment",
+  "KeyphraseLengthAssessment",
+  "KeywordDensityAssessment",
+  // "KeywordStopWordsAssessment",
+  "KeyphraseDistributionAssessment",
+  "MetaDescriptionKeywordAssessment",
+  "SubheadingsKeywordAssessment",
+  "TitleKeywordAssessment",
+  "UrlKeywordAssessment",
 ];
 
 const assessmentClassConfigKeyMap = {
@@ -59,10 +74,21 @@ export function useSeoInsights() {
     return Object.entries(YoastSEO.assessments).reduce(
       (acc, [category, assessments]) => {
         for (const [name, value] of Object.entries(assessments)) {
+          // Skip assessments that are not viable anymore
           if (ignoredAssessments.includes(name)) continue;
+
+          // User-defined assessments
           if (
             resolvedSelectedAssessments.length > 0 &&
             !resolvedSelectedAssessments.includes(name.toLowerCase())
+          )
+            continue;
+
+          // Skip keyphrase assessments if keyword is empty
+          if (
+            !options.keyword &&
+            resolvedSelectedAssessments.length === 0 &&
+            keyphraseAssessments.includes(name)
           )
             continue;
 
