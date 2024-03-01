@@ -37,7 +37,7 @@ seoInsights:
     Array.isArray(currentContent.value.assessments) &&
     currentContent.value.assessments.length
       ? `assessments:\n${currentContent.value.assessments
-          .map((i) => `    - ${i}Assessment`)
+          .map((i) => `    - ${i}`)
           .join("\n")}`
       : ""
   }
