@@ -9,9 +9,7 @@ export function get(obj, propsArg, defaultValue) {
 
   if (Array.isArray(propsArg)) {
     props = [...propsArg];
-  }
-
-  if (typeof propsArg === "string") {
+  } else if (typeof propsArg === "string") {
     props = propsArg.split(".");
   } else if (typeof propsArg === "symbol") {
     props = [propsArg];
