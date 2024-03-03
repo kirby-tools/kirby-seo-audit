@@ -9,7 +9,6 @@ return [
             'label' => fn ($label = null) => I18n::translate($label, $label),
             'keyphraseField' => fn ($keyphraseField = null) => $keyphraseField,
             'assessments' => fn ($assessments = []) => is_array($assessments) ? $assessments : [],
-            'readability' => fn ($readability = true) => $readability,
             'links' => fn ($links = true) => $links !== false,
             'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : 'warn'
         ],

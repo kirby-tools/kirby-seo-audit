@@ -43,7 +43,6 @@ let previewUrl;
 const label = ref();
 const keyphraseField = ref();
 const assessments = ref();
-const readability = ref();
 const links = ref();
 const logLevel = ref();
 // Section computed
@@ -80,7 +79,6 @@ watch(
     t(response.label) || panel.t("johannschopplich.seo-insights.label");
   keyphraseField.value = response.keyphraseField;
   assessments.value = response.assessments;
-  readability.value = response.readability;
   links.value = response.links;
   logLevel.value = LOG_LEVELS.indexOf(
     response.config.logLevel ?? response.logLevel,
@@ -243,7 +241,7 @@ async function fetchHtml(url) {
               </div>
             </div>
 
-            <div v-if="readability && report.result.readability.length > 0">
+            <div v-if="report.result.readability.length > 0">
               <k-label class="ksr-mb-1">
                 {{ panel.t("johannschopplich.seo-insights.readability") }}
               </k-label>

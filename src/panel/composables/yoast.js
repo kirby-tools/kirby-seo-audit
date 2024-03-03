@@ -1,7 +1,7 @@
-import get from "just-safe-get";
 import yoastseoDefaultConfig from "yoastseo/src/config/content/default.js";
 import { computed, usePanel, useStore } from "kirbyuse";
 import { getModule, interopDefault } from "../utils/assets";
+import { get } from "../utils/safe-get";
 import de from "../translations/yoast-seo/de.json";
 
 const TRANSLATIONS = {
