@@ -2,7 +2,7 @@
 
 ## Welcome!
 
-Thank you for purchasing Kirby SEO Audit. We appreciate your decision to enhance your Kirby projects with our plugin. This document is intended to help you get started with Kirby SEO Audit as quickly and easily as possible.
+Thank you for purchasing Kirby SEO Audit. This document is intended to help you get started with Kirby SEO Audit as quickly and easily as possible, so you can improve your content to improve your rankings in search engines.
 
 ## Getting Started
 
