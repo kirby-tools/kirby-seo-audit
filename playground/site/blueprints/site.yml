@@ -16,10 +16,10 @@ columns:
             type: info
             theme: positive
             text: |
-              To get an idea of what the Kirby SEO Insights can do for you, enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations.
+              To get an idea of what the Kirby SEO Audit can do for you, enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations.
               The production version of this plugin will use the URL of the current page.
-      seoInsights:
-        type: seo-insights
+      seoAudit:
+        type: seo-audit
   - width: 1/2
     sections:
       configuration:

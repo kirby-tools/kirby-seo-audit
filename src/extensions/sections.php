@@ -4,7 +4,7 @@ use Kirby\Cms\PluginAsset;
 use Kirby\Toolkit\I18n;
 
 return [
-    'seo-insights' => [
+    'seo-audit' => [
         'props' => [
             'label' => fn ($label = null) => I18n::translate($label, $label),
             'keyphraseField' => fn ($keyphraseField = null) => $keyphraseField,
@@ -16,7 +16,7 @@ return [
             'config' => function () {
                 /** @var \Kirby\Cms\App */
                 $kirby = $this->kirby();
-                $config = $kirby->option('johannschopplich.seo-insights', []);
+                $config = $kirby->option('johannschopplich.seo-audit', []);
 
                 $defaultConfig = [];
 
@@ -28,7 +28,7 @@ return [
             'assets' => function () {
                 /** @var \Kirby\Cms\App */
                 $kirby = $this->kirby();
-                $plugin = $kirby->plugin('johannschopplich/seo-insights');
+                $plugin = $kirby->plugin('johannschopplich/seo-audit');
 
                 return $plugin
                     ->assets()

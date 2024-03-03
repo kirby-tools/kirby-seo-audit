@@ -28,8 +28,8 @@ const currentContent = computed(() => store.getters["content/values"]());
 
 const code = computed(() =>
   `
-seoInsights:
-  type: seo-insights
+seoAudit:
+  type: seo-audit
   # Optional if you want to omit keyphrase assessments
   keyphraseField: metaKeyphrase
   links: ${currentContent.value.links}

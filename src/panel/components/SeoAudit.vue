@@ -10,7 +10,7 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import { LOG_LEVELS } from "../constants";
-import { useCompatibility, useSeoInsights } from "../composables";
+import { useCompatibility, useSeoAudit } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareRemoteData } from "../utils/remote";
@@ -33,7 +33,7 @@ useCompatibility();
 const panel = usePanel();
 const api = useApi();
 const store = useStore();
-const { getYoastInsightsForContent } = useSeoInsights();
+const { getYoastInsightsForContent } = useSeoAudit();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -76,7 +76,7 @@ watch(
     name: props.name,
   });
   label.value =
-    t(response.label) || panel.t("johannschopplich.seo-insights.label");
+    t(response.label) || panel.t("johannschopplich.seo-audit.label");
   keyphraseField.value = response.keyphraseField;
   assessments.value = response.assessments;
   links.value = response.links;
@@ -139,7 +139,7 @@ async function analyze() {
 
   if (!previewUrl) {
     panel.notification.error(
-      panel.t("johannschopplich.seo-insights.error.missingPreviewUrl"),
+      panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
     );
     return;
   }
@@ -180,7 +180,7 @@ async function analyze() {
   } catch (error) {
     console.error(error);
     panel.notification.error(
-      panel.t("johannschopplich.seo-insights.analyze.error"),
+      panel.t("johannschopplich.seo-audit.analyze.error"),
     );
   }
 
@@ -188,7 +188,7 @@ async function analyze() {
   isGenerating.value = false;
   panel.notification.success({
     icon: "check",
-    message: panel.t("johannschopplich.seo-insights.analyze.success"),
+    message: panel.t("johannschopplich.seo-audit.analyze.success"),
   });
 }
 
@@ -199,7 +199,7 @@ async function fetchHtml(url) {
     return await response.text();
   }
 
-  const { result } = await api.post("__seo-insights__/proxy", {
+  const { result } = await api.post("__seo-audit__/proxy", {
     url,
   });
 
@@ -212,8 +212,8 @@ async function fetchHtml(url) {
     <div class="ksr-space-y-4">
       <k-button-group layout="collapsed">
         <k-button
-          :icon="isGenerating ? 'loader' : 'seo-insights-analyze'"
-          :text="panel.t('johannschopplich.seo-insights.analyze')"
+          :icon="isGenerating ? 'loader' : 'seo-audit-analyze'"
+          :text="panel.t('johannschopplich.seo-audit.analyze')"
           variant="filled"
           size="sm"
           theme="positive"
@@ -243,7 +243,7 @@ async function fetchHtml(url) {
 
             <div v-if="report.result.readability.length > 0">
               <k-label class="ksr-mb-1">
-                {{ panel.t("johannschopplich.seo-insights.readability") }}
+                {{ panel.t("johannschopplich.seo-audit.readability") }}
               </k-label>
               <div
                 v-for="(item, index) in report.result.readability"

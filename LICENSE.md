@@ -1,10 +1,10 @@
-# Kirby SEO Insights Plugin License Agreement
+# Kirby SEO Audit Plugin License Agreement
 
 Published: 2024-02-26
 
 ## About this License Agreement
 
-This License Agreement outlines the terms and conditions for the use of the Kirby SEO Insights plugin ("Plugin") sold on Lemon Squeezy by Johann Schopplich ("Licensor"). By purchasing, downloading, installing, or using the Plugin, you ("Licensee") agree to comply with this License Agreement.
+This License Agreement outlines the terms and conditions for the use of the Kirby SEO Audit plugin ("Plugin") sold on Lemon Squeezy by Johann Schopplich ("Licensor"). By purchasing, downloading, installing, or using the Plugin, you ("Licensee") agree to comply with this License Agreement.
 
 ## Grant of License
 

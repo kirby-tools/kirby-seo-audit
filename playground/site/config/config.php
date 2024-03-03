@@ -61,7 +61,7 @@ return [
                         ];
                     }
                 ]
-            ], $kirby->plugin('johannschopplich/seo-insights'));
+            ], $kirby->plugin('johannschopplich/seo-audit'));
         }
     ]
 ];

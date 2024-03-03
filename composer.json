@@ -1,5 +1,5 @@
 {
-  "name": "johannschopplich/kirby-seo-insights",
+  "name": "johannschopplich/kirby-seo-audit",
   "description": "State-of-the-art SEO analysis Kirby CMS",
   "type": "kirby-plugin",
   "version": "1.0.0",
