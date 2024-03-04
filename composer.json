@@ -1,6 +1,6 @@
 {
   "name": "johannschopplich/kirby-seo-audit",
-  "description": "State-of-the-art SEO analysis Kirby CMS",
+  "description": "State-of-the-art SEO analysis for Kirby CMS",
   "type": "kirby-plugin",
   "version": "1.0.0",
   "keywords": [
@@ -10,7 +10,7 @@
     "yoast"
   ],
   "license": "PROPRIETARY",
-  "homepage": "https://kirbycopilot.com",
+  "homepage": "https://kirbyseo.com",
   "authors": [
     {
       "name": "Johann Schopplich",

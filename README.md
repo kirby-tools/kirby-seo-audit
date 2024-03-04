@@ -29,7 +29,7 @@ For the sake of reproducible bug reports, please include the following informati
 - Kirby & Kirby SEO Audit version
 - Browser environment (name, version, operating system)
 - Global and section configuration (without any sensitive information)
-- Steps to reproduce the bug (Steps to reproduce the bug (if no reproduction is provided))
+- Steps to reproduce the bug (if no reproduction is provided)
 - Screenshots or screen recordings if applicable
 
 ## Feedback
