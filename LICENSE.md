@@ -1,6 +1,6 @@
 # Kirby SEO Audit Plugin License Agreement
 
-Published: 2024-02-26
+Published: 2024-03-03
 
 ## About this License Agreement
 
