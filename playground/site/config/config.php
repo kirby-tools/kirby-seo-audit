@@ -14,7 +14,6 @@ return [
 
     'panel' => [
         'css' => 'assets/panel.css',
-        'js' => 'assets/panel.js',
         'frameAncestors' => ['https://kirbyseo.com']
     ],
 
