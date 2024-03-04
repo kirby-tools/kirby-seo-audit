@@ -20,6 +20,7 @@ columns:
               The production version of this plugin will use the URL of the current page.
       seoAudit:
         type: seo-audit
+        keyphraseField: metaKeyphrase
   - width: 1/2
     sections:
       configuration:
