@@ -92,7 +92,7 @@ columns:
           metaKeyphrase:
             label: Focus Keyphrase
             type: text
-            help: Enter the keyword or keyphrase you'd like the page to rank for in Google. Next, analyze the page's content to see if search engines will understand what the it is about.
+            help: Enter the keyword or keyphrase the page should rank for in Google. Next, analyze the page's content to see if search engines will understand what it is about.
           lineBlueprintCode:
             type: line
       blueprintCode:
