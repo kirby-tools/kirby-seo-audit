@@ -163,10 +163,7 @@ async function analyze() {
       title,
       description,
       langCulture: locale,
-      // eslint-disable-next-line no-undef
-      keyword: __PLAYGROUND__
-        ? currentContent.value.metakeyphrase
-        : focusKeyphrase.value,
+      keyword: focusKeyphrase.value,
       synonyms: [],
       // eslint-disable-next-line no-undef
       assessments: __PLAYGROUND__
