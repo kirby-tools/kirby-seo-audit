@@ -54,9 +54,7 @@ const report = ref(JSON.parse(localStorage.getItem(storageKey)));
 
 const currentContent = computed(() => store.getters["content/values"]());
 const focusKeyphrase = computed(() =>
-  keyphraseField.value
-    ? currentContent.value[keyphraseField.value.toLowerCase()] || ""
-    : "",
+  keyphraseField.value ? currentContent.value[keyphraseField.value] || "" : "",
 );
 
 watch(
