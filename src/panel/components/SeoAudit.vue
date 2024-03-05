@@ -54,7 +54,9 @@ const report = ref(JSON.parse(localStorage.getItem(storageKey)));
 
 const currentContent = computed(() => store.getters["content/values"]());
 const focusKeyphrase = computed(() =>
-  keyphraseField.value ? currentContent.value[keyphraseField.value] || "" : "",
+  keyphraseField.value
+    ? currentContent.value[keyphraseField.value.toLowerCase()] || ""
+    : "",
 );
 
 watch(
@@ -161,7 +163,10 @@ async function analyze() {
       title,
       description,
       langCulture: locale,
-      keyword: focusKeyphrase.value,
+      // eslint-disable-next-line no-undef
+      keyword: __PLAYGROUND__
+        ? currentContent.value.metakeyphrase
+        : focusKeyphrase.value,
       synonyms: [],
       // eslint-disable-next-line no-undef
       assessments: __PLAYGROUND__
