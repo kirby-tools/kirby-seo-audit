@@ -29,7 +29,7 @@ columns:
           configurationInfo:
             type: info
             label: Playground Configuration
-            text: In production, configuration will be done in the blueprint section.
+            text: For your projects, configuration will be done in the blueprints.
             theme: passive
           targetUrl:
             label: URL to Analyze
