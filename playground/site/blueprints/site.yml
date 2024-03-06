@@ -14,7 +14,7 @@ columns:
           gettingStartedInfo:
             label: Getting Started
             type: info
-            theme: positive
+            theme: passive
             text: |
               To get an idea of what the Kirby SEO Audit can do for you, enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations.
               The production version of this plugin will use the URL of the current page.
