@@ -37,6 +37,7 @@ const { getYoastInsightsForContent } = useSeoAudit();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
+let persisted;
 let previewUrl;
 
 // Section props
@@ -50,7 +51,7 @@ const config = ref();
 // Local data
 const isInitialized = ref(false);
 const isGenerating = ref(false);
-const report = ref(JSON.parse(localStorage.getItem(storageKey)));
+const report = ref();
 
 const currentContent = computed(() => store.getters["content/values"]());
 const focusKeyphrase = computed(() =>
@@ -80,12 +81,18 @@ watch(
   keyphraseField.value = response.keyphraseField;
   assessments.value = response.assessments;
   links.value = response.links;
+  persisted = response.storage;
   logLevel.value = LOG_LEVELS.indexOf(
     response.config.logLevel ?? response.logLevel,
   );
   config.value = response.config;
 
   registerPluginAssets(response.assets);
+
+  if (persisted) {
+    const persistedReport = JSON.parse(localStorage.getItem(storageKey));
+    if (persistedReport) report.value = persistedReport;
+  }
 
   isInitialized.value = true;
 })();
@@ -173,7 +180,10 @@ async function analyze() {
       result,
       timestamp: Date.now(),
     };
-    localStorage.setItem(storageKey, JSON.stringify(report.value));
+
+    if (persisted) {
+      localStorage.setItem(storageKey, JSON.stringify(report.value));
+    }
   } catch (error) {
     console.error(error);
     panel.notification.error(
