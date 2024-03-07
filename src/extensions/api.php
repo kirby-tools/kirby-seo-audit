@@ -12,11 +12,10 @@ return [
             'action' => function () use ($kirby) {
                 $request = $kirby->request();
                 $url = new Uri($request->get('url'));
-                $isDocker = $kirby->option('johannschopplich.seo-audit.isDocker', false);
+                $proxyUrlTransformer = $kirby->option('johannschopplich.seo-audit.proxyUrlTransformer');
 
-                // Resolve to the host URL if inside Docker container
-                if ($isDocker) {
-                    $url->setHost('host.docker.internal');
+                if (is_callable($proxyUrlTransformer)) {
+                    $url = $proxyUrlTransformer($url);
                 }
 
                 $response = Remote::request($url->toString());

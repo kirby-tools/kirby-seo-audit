@@ -24,6 +24,9 @@ return [
                 // Merge user configuration with defaults
                 $config = array_replace_recursive($defaultConfig, $config);
 
+                // Remove `proxyUrlResolver` transformer function
+                unset($config['proxyUrlTransformer']);
+
                 return $config;
             },
             'assets' => function () {
