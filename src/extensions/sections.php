@@ -19,13 +19,17 @@ return [
                 $kirby = $this->kirby();
                 $config = $kirby->option('johannschopplich.seo-audit', []);
 
-                $defaultConfig = [];
+                $defaultConfig = [
+                    'proxy' => [
+                        'params' => []
+                    ]
+                ];
 
                 // Merge user configuration with defaults
                 $config = array_replace_recursive($defaultConfig, $config);
 
-                // Remove `proxyUrlResolver` transformer function
-                unset($config['transformers']);
+                // Remove proxy API configuration for the client
+                unset($config['proxy']);
 
                 return $config;
             },

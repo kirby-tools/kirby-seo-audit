@@ -2,7 +2,6 @@
 
 use Kirby\Http\Remote;
 use Kirby\Http\Response;
-use Kirby\Http\Uri;
 
 return [
     'routes' => fn (\Kirby\Cms\App $kirby) => [
@@ -10,15 +9,15 @@ return [
             'pattern' => '__seo-audit__/proxy',
             'method' => 'POST',
             'action' => function () use ($kirby) {
-                $request = $kirby->request();
-                $url = new Uri($request->get('url'));
-                $proxyUrlTransformer = $kirby->option('johannschopplich.seo-audit.transformers.proxyUrl');
+                $url = $kirby->request()->get('url');
+                $urlResolver = $kirby->option('johannschopplich.seo-audit.proxy.urlResolver');
+                $params = $kirby->option('johannschopplich.seo-audit.proxy.params', []);
 
-                if (is_callable($proxyUrlTransformer)) {
-                    $url = $proxyUrlTransformer($url);
+                if (is_callable($urlResolver)) {
+                    $url = $urlResolver($url);
                 }
 
-                $response = Remote::request($url->toString());
+                $response = Remote::request($url, $params);
 
                 return Response::json([
                     'code' => $response->code(),
