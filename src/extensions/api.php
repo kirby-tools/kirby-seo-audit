@@ -25,7 +25,7 @@ return [
                     'result' => [
                         'html' => $response->content()
                     ]
-                ], $response->code());
+                ], 200);
             }
         ],
     ]
