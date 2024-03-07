@@ -12,7 +12,7 @@ return [
             'action' => function () use ($kirby) {
                 $request = $kirby->request();
                 $url = new Uri($request->get('url'));
-                $proxyUrlTransformer = $kirby->option('johannschopplich.seo-audit.proxyUrlTransformer');
+                $proxyUrlTransformer = $kirby->option('johannschopplich.seo-audit.transformers.proxyUrl');
 
                 if (is_callable($proxyUrlTransformer)) {
                     $url = $proxyUrlTransformer($url);

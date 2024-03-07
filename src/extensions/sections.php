@@ -25,7 +25,7 @@ return [
                 $config = array_replace_recursive($defaultConfig, $config);
 
                 // Remove `proxyUrlResolver` transformer function
-                unset($config['proxyUrlTransformer']);
+                unset($config['transformers']);
 
                 return $config;
             },
