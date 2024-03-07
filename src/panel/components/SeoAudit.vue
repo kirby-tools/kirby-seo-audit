@@ -10,7 +10,7 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import { LOG_LEVELS } from "../constants";
-import { useCompatibility, useSeoAudit } from "../composables";
+import { useCompatibility, useLogger, useSeoAudit } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareRemoteData } from "../utils/remote";
@@ -33,11 +33,11 @@ useCompatibility();
 const panel = usePanel();
 const api = useApi();
 const store = useStore();
+const logger = useLogger();
 const { getYoastInsightsForContent } = useSeoAudit();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
-let persisted;
 let previewUrl;
 
 // Section props
@@ -45,6 +45,7 @@ const label = ref();
 const keyphraseField = ref();
 const assessments = ref();
 const links = ref();
+const persisted = ref();
 const logLevel = ref();
 // Section computed
 const config = ref();
@@ -81,7 +82,7 @@ watch(
   keyphraseField.value = response.keyphraseField;
   assessments.value = response.assessments;
   links.value = response.links;
-  persisted = response.storage;
+  persisted.value = response.persisted;
   logLevel.value = LOG_LEVELS.indexOf(
     response.config.logLevel ?? response.logLevel,
   );
@@ -89,7 +90,7 @@ watch(
 
   registerPluginAssets(response.assets);
 
-  if (persisted) {
+  if (persisted.value) {
     const persistedReport = JSON.parse(localStorage.getItem(storageKey));
     if (persistedReport) report.value = persistedReport;
   }
@@ -181,7 +182,7 @@ async function analyze() {
       timestamp: Date.now(),
     };
 
-    if (persisted) {
+    if (persisted.value) {
       localStorage.setItem(storageKey, JSON.stringify(report.value));
     }
   } catch (error) {
@@ -203,12 +204,23 @@ async function fetchHtml(url) {
   // Check if the current location has the same origin as the target URL
   if (location.origin === new URL(url).origin) {
     const response = await fetch(url);
+    if (!response.ok) {
+      logger.warn(
+        `Response status code ${response.status} for URL ${url} is an indication that the error page is being analyzed.`,
+      );
+    }
     return await response.text();
   }
 
-  const { result } = await api.post("__seo-audit__/proxy", {
+  const { code, result } = await api.post("__seo-audit__/proxy", {
     url,
   });
+
+  if (code !== 200) {
+    logger.warn(
+      `Response status code ${code} for URL ${url} is an indication that the error page is being analyzed.`,
+    );
+  }
 
   return result.html;
 }
