@@ -1,8 +1,4 @@
-const {
-  GettextExtractor,
-  JsExtractors,
-  HtmlExtractors,
-} = require("gettext-extractor");
+const { GettextExtractor, JsExtractors } = require("gettext-extractor");
 
 let extractor = new GettextExtractor();
 

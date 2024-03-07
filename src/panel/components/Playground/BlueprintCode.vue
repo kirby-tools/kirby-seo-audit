@@ -13,14 +13,17 @@ export default {
 
 <script setup>
 const props = defineProps(propsDefinition);
-const data = ref();
+const data = ref({});
 
 (async () => {
   const { load } = useSection();
-  data.value = await load({
-    parent: props.parent,
-    name: props.name,
-  });
+  Object.assign(
+    data.value,
+    await load({
+      parent: props.parent,
+      name: props.name,
+    }),
+  );
 })();
 
 const store = useStore();

@@ -2,11 +2,6 @@ import yoastseoDefaultConfig from "yoastseo/src/config/content/default.js";
 import { computed, usePanel, useStore } from "kirbyuse";
 import { getModule, interopDefault } from "../utils/assets";
 import { get } from "../utils/safe-get";
-import de from "../translations/yoast-seo/de.json";
-
-const TRANSLATIONS = {
-  de,
-};
 
 const ignoredAssessments = [
   "TaxonomyTextLengthAssessment",
@@ -43,6 +38,9 @@ export function useSeoAudit() {
     const YoastSEO = await getModule("yoastseo");
     const { Jed } = await getModule("jed");
     const pixelWidth = await interopDefault(getModule("string-pixel-width"));
+    const YoastSEOTranslations = await interopDefault(
+      getModule("yoastseo-translations"),
+    );
 
     const paper = new YoastSEO.Paper(html, {
       keyword: options.keyword,
@@ -59,8 +57,8 @@ export function useSeoAudit() {
     const researcher = new YoastSEO.Researcher(paper);
     // eslint-disable-next-line no-undef
     const translations = __PLAYGROUND__
-      ? TRANSLATIONS[currentContent.value.language]
-      : TRANSLATIONS[panel.translation.code];
+      ? YoastSEOTranslations[currentContent.value.language]
+      : YoastSEOTranslations[panel.translation.code];
     const i18n = getI18n(Jed, translations);
 
     // console.log("YoastSEO.assessments", YoastSEO.assessments);
