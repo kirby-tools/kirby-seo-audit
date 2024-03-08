@@ -13,7 +13,7 @@ import { LOG_LEVELS } from "../constants";
 import { useCompatibility, useLogger, useSeoReview } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
-import { prepareRemoteData } from "../utils/seo-review";
+import { prepareContent } from "../utils/seo-review";
 import { throttle } from "../utils/throttle";
 import SeoResultEntry from "./SeoResultEntry.vue";
 
@@ -159,7 +159,7 @@ async function analyze() {
 
   try {
     const html = await fetchHtml(url);
-    const { locale, title, description, content } = await prepareRemoteData({
+    const { locale, title, description, content } = await prepareContent({
       html,
     });
 
