@@ -152,7 +152,7 @@ function mapResult(result, YoastSEO) {
     score: result.score,
     rating: YoastSEO.helpers.scoreToRating(result.score),
     hasMarks: result.hasMarks(),
-    marker: result.getMarker(),
+    // marker: result.getMarker(),
     text: result.text,
   };
 
