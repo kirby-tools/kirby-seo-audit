@@ -1,7 +1,6 @@
 import yoastseoDefaultConfig from "yoastseo/src/config/content/default.js";
 import { computed, usePanel, useStore } from "kirbyuse";
 import { getModule, interopDefault } from "../utils/assets";
-import { get } from "../utils/safe-get";
 
 const ignoredAssessments = [
   "TaxonomyTextLengthAssessment",
@@ -24,17 +23,17 @@ const keyphraseAssessments = [
   "UrlKeywordAssessment",
 ];
 
-const assessmentClassConfigKeyMap = {
+const assessmentConfigLookup = {
   FleschReadingEaseAssessment: "fleschReading",
   SentenceLengthInTextAssessment: "sentenceLength",
 };
 
-export function useSeoAudit() {
+export function useSeoReview() {
   const panel = usePanel();
   const store = useStore();
   const currentContent = computed(() => store.getters["content/values"]());
 
-  const getYoastInsightsForContent = async (html, options) => {
+  const performSeoReview = async (html, options) => {
     const YoastSEO = await getModule("yoastseo");
     const { Jed } = await getModule("jed");
     const pixelWidth = await interopDefault(getModule("string-pixel-width"));
@@ -44,13 +43,13 @@ export function useSeoAudit() {
 
     const paper = new YoastSEO.Paper(html, {
       keyword: options.keyword,
-      url: options.url,
-      permalink: options.permalink,
+      synonyms: options.synonyms.join(","),
+      url: new URL(options.url).pathname,
+      permalink: options.url,
       title: options.title,
       titleWidth: options.title
         ? pixelWidth(options.title, { font: "arial", size: 20 })
         : undefined,
-      synonyms: options.synonyms.join(","),
       description: options.description,
       locale: options.langCulture.replace("-", "_"),
     });
@@ -61,69 +60,53 @@ export function useSeoAudit() {
       : YoastSEOTranslations[panel.translation.code];
     const i18n = getI18n(Jed, translations);
 
-    // console.log("YoastSEO.assessments", YoastSEO.assessments);
-
-    const resolvedSelectedAssessments = options.assessments.map((i) => {
+    const selectedAssessments = options.assessments.map((i) => {
       i = i.toLowerCase();
       if (!i.endsWith("assessment")) i += "assessment";
       return i;
     });
 
-    return Object.entries(YoastSEO.assessments).reduce(
+    const assessmentResults = Object.entries(YoastSEO.assessments).reduce(
       (acc, [category, assessments]) => {
-        for (const [name, value] of Object.entries(assessments)) {
-          // Skip assessments that are not viable anymore
-          if (ignoredAssessments.includes(name)) continue;
+        for (const [key, CurrentAssessment] of Object.entries(assessments)) {
+          // Some assessments have been depreciated
+          if (ignoredAssessments.includes(key)) continue;
 
           // User-defined assessments
           if (
-            resolvedSelectedAssessments.length > 0 &&
-            !resolvedSelectedAssessments.includes(name.toLowerCase())
+            selectedAssessments.length > 0 &&
+            !selectedAssessments.includes(key.toLowerCase())
           )
             continue;
 
           // Skip keyphrase assessments if keyword is empty
           if (
             !options.keyword &&
-            resolvedSelectedAssessments.length === 0 &&
-            keyphraseAssessments.includes(name)
+            selectedAssessments.length === 0 &&
+            keyphraseAssessments.includes(key)
           )
             continue;
 
           if (
-            typeof value === "object" &&
-            Object.prototype.hasOwnProperty.call(value, "getResult")
+            typeof CurrentAssessment === "object" &&
+            Object.prototype.hasOwnProperty.call(CurrentAssessment, "getResult")
           ) {
-            const result = value.getResult(paper, researcher, i18n);
-            if (result?.text) {
-              acc[category].push({
-                ...result,
-                rating: YoastSEO.helpers.scoreToRating(result.score),
-              });
-            }
-          } else if (typeof value === "function") {
-            const configKey = get(assessmentClassConfigKeyMap, name, null);
+            const result = CurrentAssessment.getResult(paper, researcher, i18n);
+            acc[category].push(result);
+          } else if (typeof CurrentAssessment === "function") {
+            const configKey = assessmentConfigLookup[key];
             const config = configKey
-              ? get(yoastseoDefaultConfig, configKey, {})
+              ? yoastseoDefaultConfig[configKey] ?? {}
               : {};
-            // eslint-disable-next-line new-cap
-            const result = new value(config).getResult(paper, researcher, i18n);
 
-            if (result?.text) {
-              acc[category].push({
-                ...result,
-                rating: YoastSEO.helpers.scoreToRating(result.score),
-              });
-            }
+            const result = new CurrentAssessment(config).getResult(
+              paper,
+              researcher,
+              i18n,
+            );
+
+            acc[category].push(result);
           }
-        }
-
-        if (Object.prototype.hasOwnProperty.call(acc, category)) {
-          acc[category].sort((a, b) => {
-            if (a.rating === "feedback") return -1;
-            if (b.rating === "feedback") return 1;
-            return a.score < b.score ? -1 : 1;
-          });
         }
 
         return acc;
@@ -133,10 +116,19 @@ export function useSeoAudit() {
         readability: [],
       },
     );
+
+    const mappedResults = Object.fromEntries(
+      Object.entries(assessmentResults).map(([category, results]) => [
+        category,
+        results.map((result) => mapResult(result, YoastSEO)).filter(Boolean),
+      ]),
+    );
+
+    return mappedResults;
   };
 
   return {
-    getYoastInsightsForContent,
+    performSeoReview,
   };
 }
 
@@ -147,4 +139,27 @@ function getI18n(Jed, translations) {
       "js-text-analysis": translations || { "": {} },
     },
   });
+}
+
+/**
+ * Maps a single results to a result that can be interpreted
+ * by yoast-component's `ContentAnalysis`
+ */
+function mapResult(result, YoastSEO) {
+  if (!result.text) return;
+
+  const mappedResult = {
+    score: result.score,
+    rating: YoastSEO.helpers.scoreToRating(result.score),
+    hasMarks: result.hasMarks(),
+    marker: result.getMarker(),
+    text: result.text,
+  };
+
+  // Because of inconsistency between YoastSEO and yoast-components
+  // if (mappedResult.rating === "ok") {
+  //   mappedResult.rating = "OK";
+  // }
+
+  return mappedResult;
 }

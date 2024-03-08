@@ -10,10 +10,10 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import { LOG_LEVELS } from "../constants";
-import { useCompatibility, useLogger, useSeoAudit } from "../composables";
+import { useCompatibility, useLogger, useSeoReview } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
-import { prepareRemoteData } from "../utils/remote";
+import { prepareRemoteData } from "../utils/seo-review";
 import { throttle } from "../utils/throttle";
 import SeoResultEntry from "./SeoResultEntry.vue";
 
@@ -34,7 +34,7 @@ const panel = usePanel();
 const api = useApi();
 const store = useStore();
 const logger = useLogger();
-const { getYoastInsightsForContent } = useSeoAudit();
+const { performSeoReview } = useSeoReview();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -163,9 +163,8 @@ async function analyze() {
       html,
     });
 
-    const result = await getYoastInsightsForContent(content, {
+    const result = await performSeoReview(content, {
       url,
-      permalink: url,
       title,
       description,
       langCulture: locale,
@@ -178,7 +177,9 @@ async function analyze() {
     });
 
     report.value = {
-      result,
+      result: Object.fromEntries(
+        Object.entries(result).map(([key, value]) => [key, sortResults(value)]),
+      ),
       timestamp: Date.now(),
     };
 
@@ -197,6 +198,14 @@ async function analyze() {
   panel.notification.success({
     icon: "check",
     message: panel.t("johannschopplich.seo-audit.analyze.success"),
+  });
+}
+
+function sortResults(results) {
+  return results.toSorted((a, b) => {
+    if (a.rating === "feedback") return -1;
+    if (b.rating === "feedback") return 1;
+    return a.score < b.score ? -1 : 1;
   });
 }
 
@@ -261,7 +270,12 @@ async function fetchHtml(url) {
             </div>
 
             <div v-if="report.result.readability.length > 0">
-              <k-label class="ksr-mb-1">
+              <k-label
+                class="ksr-mb-1"
+                :style="{
+                  color: 'var(--color-text)',
+                }"
+              >
                 {{ panel.t("johannschopplich.seo-audit.readability") }}
               </k-label>
               <div

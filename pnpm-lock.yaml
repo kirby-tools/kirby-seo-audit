@@ -23,9 +23,6 @@ devDependencies:
   jed:
     specifier: ^1.1.1
     version: 1.1.1
-  just-safe-get:
-    specifier: ^4.2.0
-    version: 4.2.0
   kirbyup:
     specifier: ^3.1.4
     version: 3.1.4(rollup@4.12.0)
@@ -3273,10 +3270,6 @@ packages:
 
   /jsonc-parser@3.2.1:
     resolution: {integrity: sha512-AilxAyFOAcK5wA1+LeaySVBrHsGQvUFCDWXKpZjzaL0PqW+xfBOttn8GNtWKFWqneyMZj41MWF9Kl6iPWLwgOA==}
-    dev: true
-
-  /just-safe-get@4.2.0:
-    resolution: {integrity: sha512-+tS4Bvgr/FnmYxOGbwziJ8I2BFk+cP1gQHm6rm7zo61w1SbxBwWGEq/Ryy9Gb6bvnloPq6pz7Bmm4a0rjTNlXA==}
     dev: true
 
   /keyv@4.5.4:
