@@ -2,11 +2,11 @@
 import yoastseoDefaultConfig from "yoastseo/src/config/content/default.js";
 import { langCultureMap } from "../constants";
 import { getModule, interopDefault } from "./assets";
-import { singleH1 } from "./assessments";
+import { altText } from "./assessments";
 
 export const assessments = {
   seo: {
-    SingleH1: singleH1,
+    AltTextAssessment: altText,
   },
 };
 
