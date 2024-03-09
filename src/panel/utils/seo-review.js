@@ -20,9 +20,9 @@ const TRANSLATIONS = {
 
 const ASSESSMENTS = {
   seo: {
-    altAttribute,
-    headingStructureOrder,
-    singleH1,
+    AltAttributeAssessment: altAttribute,
+    HeadingStructureOrderAssessment: headingStructureOrder,
+    SingleH1Assessment: singleH1,
   },
   readability: {},
 };
