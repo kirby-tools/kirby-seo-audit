@@ -1,5 +1,4 @@
-/* eslint-disable unicorn/prefer-dom-node-text-content */
-import yoastseoDefaultConfig from "yoastseo/src/config/content/default.js";
+import yoastseoDefaultConfig from "yoastseo/src/config/content/default";
 import {
   ASSESSMENT_CONFIG_LOOKUP,
   IGNORED_ASSESSMENTS,
@@ -206,7 +205,9 @@ export async function prepareContent(html) {
   // Extract the title, description and content
   const title =
     htmlDocument.title ||
+    // eslint-disable-next-line unicorn/prefer-dom-node-text-content
     htmlDocument.querySelector("h1")?.innerText ||
+    // eslint-disable-next-line unicorn/prefer-dom-node-text-content
     htmlDocument.querySelector("h2")?.innerText ||
     "";
   const description =

@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [nodePolyfills()],
 
   build: {
+    emptyOutDir: false,
     outDir: resolve(rootDir, "assets"),
     lib: {
       entry: resolve(rootDir, "node_modules/yoastseo/index.js"),

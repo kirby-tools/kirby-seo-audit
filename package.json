@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "PLAYGROUND=true kirbyup serve src/panel/index.js",
     "build": "kirbyup src/panel/index.js",
-    "build:assets": "vite build --config src/assets/yoastseo/vite.config.js && vite build --config src/assets/yoastseo-translations/vite.config.js && vite build --config src/assets/jed/vite.config.js && vite build --config src/assets/string-pixel-width/vite.config.js",
+    "build:assets": "rm -rf assets && vite build --config src/assets/yoastseo/vite.config.js && vite build --config src/assets/yoastseo-translations/vite.config.js && vite build --config src/assets/jed/vite.config.js && vite build --config src/assets/string-pixel-width/vite.config.js",
     "build:playground": "PLAYGROUND=true pnpm run build && pnpm run build:assets",
     "test": "vitest",
     "lint": "eslint .",
