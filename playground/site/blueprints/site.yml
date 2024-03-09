@@ -21,6 +21,7 @@ columns:
       seoAudit:
         type: seo-audit
         keyphraseField: metaKeyphrase
+        synonymsField: metaSynonyms
   - width: 1/2
     sections:
       configuration:
@@ -92,10 +93,15 @@ columns:
             text: |
               The following fields can be added to your blueprints for further context for the SEO anylysis:
               - Focus Keyphrase
+              - Keyphrase Synonyms
           metaKeyphrase:
             label: Focus Keyphrase
             type: text
             help: Enter the keyword or keyphrase you want the page to rank for in Google. Next, analyze the content of the page to see if search engines understand what it is about.
+          metaSynonyms:
+            label: Keyphrase Synonyms
+            type: tags
+            help: Using synonyms is a way to help users understand your copy better, and search engines will recognize these synonyms as well.
           lineBlueprintCode:
             type: line
       blueprintCode:

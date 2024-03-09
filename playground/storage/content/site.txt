@@ -2,7 +2,7 @@ Title: Playground
 
 ----
 
-Targeturl: https://getkirby.com
+Targeturl: https://getkirby.com/features/developers
 
 ----
 
@@ -18,4 +18,8 @@ Links: true
 
 ----
 
-Metakeyphrase: flat-file CMS
+Metakeyphrase: developers
+
+----
+
+Metasynonyms: plugins, flexibility

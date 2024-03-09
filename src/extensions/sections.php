@@ -8,6 +8,7 @@ return [
         'props' => [
             'label' => fn ($label = null) => I18n::translate($label, $label),
             'keyphraseField' => fn ($keyphraseField = null) => is_string($keyphraseField) ? strtolower($keyphraseField) : null,
+            'synonymsField' => fn ($synonymsField = null) => is_string($synonymsField) ? strtolower($synonymsField) : null,
             'assessments' => fn ($assessments = []) => is_array($assessments) ? $assessments : [],
             'links' => fn ($links = true) => $links !== false,
             'persisted' => fn ($persisted = true) => $persisted !== false,

@@ -43,6 +43,7 @@ let previewUrl;
 // Section props
 const label = ref();
 const keyphraseField = ref();
+const synonymsField = ref();
 const assessments = ref();
 const links = ref();
 const persisted = ref();
@@ -58,6 +59,13 @@ const currentContent = computed(() => store.getters["content/values"]());
 const focusKeyphrase = computed(() =>
   keyphraseField.value ? currentContent.value[keyphraseField.value] || "" : "",
 );
+const synonyms = computed(() => {
+  if (!synonymsField.value) return [];
+  const value = currentContent.value[synonymsField.value];
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") return value.split(",");
+  return [];
+});
 
 watch(
   // Will be `null` in single language setups
@@ -80,6 +88,7 @@ watch(
   label.value =
     t(response.label) || panel.t("johannschopplich.seo-audit.label");
   keyphraseField.value = response.keyphraseField;
+  synonymsField.value = response.synonymsField;
   assessments.value = response.assessments;
   links.value = response.links;
   persisted.value = response.persisted;
@@ -174,7 +183,7 @@ async function analyze() {
       description,
       langCulture: locale,
       keyword: focusKeyphrase.value,
-      synonyms: [],
+      synonyms: synonyms.value,
     });
 
     for (const key of Object.keys(result)) {
