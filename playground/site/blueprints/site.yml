@@ -60,13 +60,16 @@ columns:
               MetaDescriptionLength: Meta Description Length
               OutboundLinks: Outbound Links
               PageTitleWidth: Page Title Width
-              # SingleH1: Single H1
               SubheadingsKeyword: Subheadings Keyword
               TextCompetingLinks: Text Competing Links
               TextImages: Text Images
               TextLength: Text Length
               TitleKeyword: Title Keyword
               UrlKeyword: Url Keyword
+              # Custom assessments
+              AltAttribute: Alt Attribute
+              HeadingStructureOrder: Heading Structure Order
+              SingleH1: Single H1
             help: By default, all assessments are included. Customize the report to your needs.
           language:
             label: Language

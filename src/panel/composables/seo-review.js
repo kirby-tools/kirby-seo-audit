@@ -24,12 +24,21 @@ export function useSeoReview() {
       ? currentContent.value.language
       : panel.translation.code;
 
-    const result = performSeoReview({
+    const result = {
+      seo: [],
+      readability: [],
+    };
+
+    const seoResult = performSeoReview({
       htmlDocument,
       contentSelector,
       assessments: options.assessments,
       locale,
     });
+
+    for (const [category, assessments] of Object.entries(seoResult)) {
+      result[category] = result[category].concat(assessments);
+    }
 
     const yoastResult = await performYoastSeoReview({
       htmlDocument,
@@ -38,8 +47,9 @@ export function useSeoReview() {
       translations: YoastSEOTranslations[locale],
     });
 
-    result.seo = result.seo.concat(yoastResult.seo);
-    result.readability = result.readability.concat(yoastResult.readability);
+    for (const [category, assessments] of Object.entries(yoastResult)) {
+      result[category] = result[category].concat(assessments);
+    }
 
     return result;
   };

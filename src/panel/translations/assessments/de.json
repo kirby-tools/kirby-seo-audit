@@ -1,16 +1,16 @@
 {
-  "singleH1": {
-    "one": "Einzelne H1: Der Text enthält einen H1-Tag. Gute Arbeit!",
-    "multiple": "Einzelne H1: Der Text enthält mehrere H1-Tags. Überdenken Sie Ihre Überschriftenstruktur!",
-    "none": "Einzelne H1: Der Text enthält keinen H1-Tag. Fügen Sie ihn hinzu!"
-  },
-  "altAttribute": {
+  "AltAttributeAssessment": {
     "none": "Alt-Attribut für Bilder: Keines der {imagesWithoutAltAttribute} Bilder enthält ein Attribut für alternativen Text. Fügen Sie sie hinzu!",
     "some": "Alt-Attribut für Bilder: Einige der {imagesWithoutAltAttribute} Bilder enthalten ein Attribut für alternativen Text. Fügen Sie sie hinzu!",
     "every": "Alt-Attribut für Bilder: Alle Bilder enthalten ein Attribut für alternativen Text. Gute Arbeit!"
   },
-  "headingStructureOrder": {
+  "HeadingStructureOrderAssessment": {
     "sequential": "Reihenfolge der Überschriften: Die Überschriftenstruktur ist in sequenzieller Reihenfolge. Gute Arbeit!",
     "nonSequential": "Reihenfolge der Überschriften: Die Überschriftenstruktur ist nicht in sequenzieller Reihenfolge. Korrigieren Sie Ihre Überschriftenstruktur!"
+  },
+  "SingleH1Assessment": {
+    "one": "Einzelne H1: Der Text enthält einen H1-Tag. Gute Arbeit!",
+    "multiple": "Einzelne H1: Der Text enthält mehrere H1-Tags. Überdenken Sie Ihre Überschriftenstruktur!",
+    "none": "Einzelne H1: Der Text enthält keinen H1-Tag. Fügen Sie ihn hinzu!"
   }
 }

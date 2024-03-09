@@ -24,7 +24,7 @@ const ASSESSMENTS = {
     HeadingStructureOrderAssessment: headingStructureOrder,
     SingleH1Assessment: singleH1,
   },
-  readability: {},
+  // readability: {},
 };
 
 export function performSeoReview({
@@ -53,15 +53,16 @@ export function performSeoReview({
         contentSelector,
       });
 
-      const result = {
+      const template = get(translations, `${key}.${translation}`, context);
+
+      // Skip assessment if no translation is available
+      if (!template) continue;
+
+      categoryResults.push({
         score,
         rating: scoreToRating(score),
-        text: renderTemplate(
-          get(translations, `${key}.${translation}`, context),
-        ),
-      };
-
-      categoryResults.push(result);
+        text: renderTemplate(template),
+      });
     }
 
     results[category] = categoryResults;
