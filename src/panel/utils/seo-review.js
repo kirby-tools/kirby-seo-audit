@@ -19,8 +19,12 @@ const TRANSLATIONS = {
 };
 
 const ASSESSMENTS = {
-  seo: [altAttribute, headingStructureOrder, singleH1],
-  readability: [],
+  seo: {
+    altAttribute,
+    headingStructureOrder,
+    singleH1,
+  },
+  readability: {},
 };
 
 export function performSeoReview({
@@ -30,32 +34,40 @@ export function performSeoReview({
   locale,
 }) {
   const translations = TRANSLATIONS[locale] || TRANSLATIONS.en;
+  const results = {};
 
-  return Object.fromEntries(
-    Object.entries(ASSESSMENTS).map(([category, assessments]) => [
-      category,
-      assessments
-        .filter(
-          (assessmentFn) =>
-            selectedAssessments.length === 0 ||
-            selectedAssessments.includes(assessmentFn.name.toLowerCase()),
-        )
-        .map((assessmentFn) => {
-          const { score, translation, context } = assessmentFn({
-            htmlDocument,
-            contentSelector,
-          });
+  for (const [category, assessments] of Object.entries(ASSESSMENTS)) {
+    const categoryResults = [];
 
-          return {
-            score,
-            rating: scoreToRating(score),
-            text: renderTemplate(
-              get(translations, `${assessmentFn.name}.${translation}`, context),
-            ),
-          };
-        }),
-    ]),
-  );
+    for (const [key, assessmentFn] of Object.entries(assessments)) {
+      // Skip assessment if it's not part of the selected assessments
+      if (
+        selectedAssessments.length > 0 &&
+        !selectedAssessments.includes(key.toLowerCase())
+      ) {
+        continue;
+      }
+
+      const { score, translation, context } = assessmentFn({
+        htmlDocument,
+        contentSelector,
+      });
+
+      const result = {
+        score,
+        rating: scoreToRating(score),
+        text: renderTemplate(
+          get(translations, `${key}.${translation}`, context),
+        ),
+      };
+
+      categoryResults.push(result);
+    }
+
+    results[category] = categoryResults;
+  }
+
+  return results;
 }
 
 export async function performYoastSeoReview({
