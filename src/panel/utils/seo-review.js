@@ -97,6 +97,7 @@ export async function performYoastSeoReview({
         if (IGNORED_ASSESSMENTS.includes(key)) continue;
 
         // Skip keyphrase assessments if keyword is empty
+        // and no assessments are selected
         if (
           !options.keyword &&
           options.assessments.length === 0 &&
@@ -104,7 +105,7 @@ export async function performYoastSeoReview({
         )
           continue;
 
-        // User-defined list of assessments
+        // Process only selected assessments if any
         if (
           options.assessments.length > 0 &&
           !options.assessments.includes(key.toLowerCase())
