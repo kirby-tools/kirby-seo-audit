@@ -9,9 +9,7 @@
     "build": "kirbyup src/panel/index.js",
     "build:assets": "vite build --config src/assets/yoastseo/vite.config.js && vite build --config src/assets/yoastseo-translations/vite.config.js && vite build --config src/assets/jed/vite.config.js && vite build --config src/assets/string-pixel-width/vite.config.js",
     "build:playground": "PLAYGROUND=true pnpm run build && pnpm run build:assets",
-    "readme:dev": "vitepress dev readme",
-    "readme:build": "vitepress build readme",
-    "readme:preview": "vitepress preview readme",
+    "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier \"src/panel/**\" --write",
@@ -23,6 +21,7 @@
     "autoprefixer": "^10.4.17",
     "bumpp": "^9.3.0",
     "eslint": "^8.57.0",
+    "happy-dom": "^13.7.1",
     "jed": "^1.1.1",
     "kirbyup": "^3.1.4",
     "kirbyuse": "^0.4.1",
@@ -35,6 +34,7 @@
     "ufo": "^1.4.0",
     "vite": "^5.1.4",
     "vite-plugin-node-polyfills": "^0.21.0",
+    "vitest": "^1.3.1",
     "yoastseo": "^1.91.2"
   },
   "pnpm": {

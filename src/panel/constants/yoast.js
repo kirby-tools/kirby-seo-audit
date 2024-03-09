@@ -1,4 +1,30 @@
-export const langCultureMap = Object.freeze({
+export const IGNORED_ASSESSMENTS = [
+  "TaxonomyTextLengthAssessment",
+  "UrlLengthAssessment",
+  "UrlStopWordsAssessment",
+  // Produces incorrect results
+  "SingleH1Assessment",
+];
+
+export const ASSESSMENT_CONFIG_LOOKUP = {
+  FleschReadingEaseAssessment: "fleschReading",
+  SentenceLengthInTextAssessment: "sentenceLength",
+};
+
+export const KEYPHRASE_ASSESSMENTS = [
+  "FunctionWordsInKeyphraseAssessment",
+  "IntroductionKeywordAssessment",
+  "KeyphraseLengthAssessment",
+  "KeywordDensityAssessment",
+  // "KeywordStopWordsAssessment",
+  "KeyphraseDistributionAssessment",
+  "MetaDescriptionKeywordAssessment",
+  "SubheadingsKeywordAssessment",
+  "TitleKeywordAssessment",
+  "UrlKeywordAssessment",
+];
+
+export const LANG_CULTURES = Object.freeze({
   af: "af-ZA",
   ar: "ar-SA",
   az: "az-Latn-AZ",

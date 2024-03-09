@@ -1,13 +1,13 @@
 import { computed, usePanel, useStore } from "kirbyuse";
 import { getModule, interopDefault } from "../utils/assets";
-import { performYoastSeoReview } from "../utils/seo-review";
+import { performSeoReview, performYoastSeoReview } from "../utils/seo-review";
 
 export function useSeoReview() {
   const panel = usePanel();
   const store = useStore();
   const currentContent = computed(() => store.getters["content/values"]());
 
-  const performSeoReview = async (html, options) => {
+  const generateReport = async (htmlDocument, contentSelector, options) => {
     const YoastSEOTranslations = await interopDefault(
       getModule("yoastseo-translations"),
     );
@@ -20,14 +20,31 @@ export function useSeoReview() {
     });
 
     // eslint-disable-next-line no-undef
-    const translations = __PLAYGROUND__
-      ? YoastSEOTranslations[currentContent.value.language]
-      : YoastSEOTranslations[panel.translation.code];
+    const locale = __PLAYGROUND__
+      ? currentContent.value.language
+      : panel.translation.code;
 
-    return await performYoastSeoReview({ html, options, translations });
+    const result = performSeoReview({
+      htmlDocument,
+      contentSelector,
+      assessments: options.assessments,
+      locale,
+    });
+
+    const yoastResult = await performYoastSeoReview({
+      htmlDocument,
+      contentSelector,
+      options,
+      translations: YoastSEOTranslations[locale],
+    });
+
+    result.seo = result.seo.concat(yoastResult.seo);
+    result.readability = result.readability.concat(yoastResult.readability);
+
+    return result;
   };
 
   return {
-    performSeoReview,
+    generateReport,
   };
 }

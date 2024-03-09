@@ -1,0 +1,16 @@
+{
+  "singleH1": {
+    "one": "Single H1: The text contains a single H1 tag. Good job!",
+    "multiple": "Single H1: The text contains multiple H1 tags. Rethink your heading structure!",
+    "none": "Single H1: The text contains no H1 tag. Add it!"
+  },
+  "altAttribute": {
+    "none": "Image alt attribute: None of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
+    "some": "Image alt attribute: Some of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
+    "every": "Image alt attribute: All images contain an alternative text attribute. Good job!"
+  },
+  "headingStructureOrder": {
+    "sequential": "Heading order: The heading structure is in sequential order. Good job!",
+    "nonSequential": "Heading order: The heading structure is not in sequential order. Fix your heading structure!"
+  }
+}

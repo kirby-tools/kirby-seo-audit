@@ -34,7 +34,7 @@ const panel = usePanel();
 const api = useApi();
 const store = useStore();
 const logger = useLogger();
-const { performSeoReview } = useSeoReview();
+const { generateReport } = useSeoReview();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -159,27 +159,30 @@ async function analyze() {
 
   try {
     const html = await fetchHtml(url);
-    const { locale, title, description, content } = await prepareContent({
-      html,
-    });
+    const contentSelector = "body";
+    const { htmlDocument, locale, title, description } =
+      await prepareContent(html);
 
-    const result = await performSeoReview(content, {
+    const result = await generateReport(htmlDocument, contentSelector, {
+      // eslint-disable-next-line no-undef
+      assessments: __PLAYGROUND__
+        ? currentContent.value.assessments
+        : assessments.value,
+      // For Yoast SEO
       url,
       title,
       description,
       langCulture: locale,
       keyword: focusKeyphrase.value,
       synonyms: [],
-      // eslint-disable-next-line no-undef
-      assessments: __PLAYGROUND__
-        ? currentContent.value.assessments
-        : assessments.value,
     });
 
+    for (const key of Object.keys(result)) {
+      result[key] = sortResults(result[key]);
+    }
+
     report.value = {
-      result: Object.fromEntries(
-        Object.entries(result).map(([key, value]) => [key, sortResults(value)]),
-      ),
+      result,
       timestamp: Date.now(),
     };
 
