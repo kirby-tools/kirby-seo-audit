@@ -63,7 +63,7 @@ const synonyms = computed(() => {
   if (!synonymsField.value) return [];
   const value = currentContent.value[synonymsField.value];
   if (Array.isArray(value)) return value;
-  if (typeof value === "string") return value.split(",");
+  if (typeof value === "string") return value.split(",").map((i) => i.trim());
   return [];
 });
 
