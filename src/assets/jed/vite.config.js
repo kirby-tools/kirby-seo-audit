@@ -17,8 +17,6 @@ export default defineConfig({
       output: {
         entryFileNames: "jed.js",
         inlineDynamicImports: true,
-        generatedCode: { constBindings: true },
-        externalLiveBindings: false,
       },
     },
   },

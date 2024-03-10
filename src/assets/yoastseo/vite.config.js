@@ -17,8 +17,6 @@ export default defineConfig({
       output: {
         entryFileNames: "yoastseo.js",
         inlineDynamicImports: true,
-        generatedCode: { constBindings: true },
-        externalLiveBindings: false,
       },
     },
   },

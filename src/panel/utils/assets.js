@@ -14,9 +14,9 @@ export async function registerPluginAssets(assets) {
     throw new TypeError("Expected an array of assets");
   }
 
-  if (_assets.length === 0) {
-    _assets = assets;
-  }
+  if (_assets.length > 0) return;
+
+  _assets = assets;
 }
 
 export function resolvePluginAsset(filename) {
@@ -43,7 +43,7 @@ export async function getModule(filename) {
   }
 
   const asset = resolvePluginAsset(filename);
-  const mod = import(/* @vite-ignore */ asset.url);
+  const mod = await import(/* @vite-ignore */ asset.url);
   moduleCache.set(filename, mod);
   return mod;
 }

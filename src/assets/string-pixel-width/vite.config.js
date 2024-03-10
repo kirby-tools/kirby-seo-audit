@@ -14,8 +14,6 @@ export default defineConfig({
       output: {
         entryFileNames: "string-pixel-width.js",
         inlineDynamicImports: true,
-        generatedCode: { constBindings: true },
-        externalLiveBindings: false,
       },
     },
   },
