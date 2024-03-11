@@ -37,12 +37,11 @@ export function altAttribute({ htmlDocument, contentSelector }) {
             "some"
           : // All images have an alt attribute
             "every",
-    context: {
-      imagesWithoutAltAttribute:
-        imagesWithoutAltAttributeCount > 0
-          ? imagesWithoutAltAttributeCount
-          : undefined,
-    },
+    ...(imagesWithoutAltAttributeCount > 0 && {
+      context: {
+        imagesWithoutAltAttribute: imagesWithoutAltAttributeCount,
+      },
+    }),
   };
 }
 
@@ -55,24 +54,30 @@ export function headingStructureOrder({ htmlDocument, contentSelector }) {
     htmlDocument,
   );
   let previousLevel = 0;
-  const violations = [];
+  const issues = [];
 
   for (const heading of headings) {
     const currentLevel = Number.parseInt(heading.tagName.substring(1), 10);
     if (currentLevel - previousLevel > 1) {
-      violations.push(heading);
+      issues.push(heading);
     }
     previousLevel = currentLevel;
   }
 
-  const isSequential = violations.length === 0;
+  const isSequential = issues.length === 0;
 
   return {
     score: isSequential ? 9 : 3,
     translation: isSequential ? "sequential" : "nonSequential",
-    context: {
-      firstViolation: !isSequential ? violations[0].tagName : undefined,
-    },
+    ...(!isSequential && {
+      details: {
+        text: `<ul>${issues.map(
+          (heading) =>
+            // eslint-disable-next-line unicorn/prefer-dom-node-text-content
+            `<li><strong>${heading.tagName}</strong>: ${heading.innerText}</li>`,
+        )}</ul>`,
+      },
+    }),
   };
 }
 

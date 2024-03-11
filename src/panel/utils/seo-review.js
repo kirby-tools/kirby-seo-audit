@@ -47,20 +47,21 @@ export function performSeoReview({
         continue;
       }
 
-      const { score, translation, context } = assessmentFn({
+      const { score, translation, context, details } = assessmentFn({
         htmlDocument,
         contentSelector,
       });
 
       const template = get(translations, `${key}.${translation}`, context);
 
-      // Skip assessment if no translation is available
+      // Ensure translations is available
       if (!template) continue;
 
       categoryResults.push({
         score,
         rating: scoreToRating(score),
         text: renderTemplate(template),
+        details,
       });
     }
 

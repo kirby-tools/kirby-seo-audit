@@ -58,9 +58,6 @@ describe("altAttribute", () => {
     });
     expect(result).toMatchInlineSnapshot(`
       {
-        "context": {
-          "imagesWithoutAltAttribute": undefined,
-        },
         "score": 9,
         "translation": "every",
       }
@@ -98,9 +95,6 @@ describe("headingStructureOrder", () => {
     });
     expect(result).toMatchInlineSnapshot(`
       {
-        "context": {
-          "firstViolation": undefined,
-        },
         "score": 9,
         "translation": "sequential",
       }
@@ -117,8 +111,8 @@ describe("headingStructureOrder", () => {
     });
     expect(result).toMatchInlineSnapshot(`
       {
-        "context": {
-          "firstViolation": "H3",
+        "details": {
+          "text": "<ul><li><strong>H3</strong>: Subsection without H2</li></ul>",
         },
         "score": 3,
         "translation": "nonSequential",
