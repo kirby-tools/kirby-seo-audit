@@ -40,6 +40,11 @@ columns:
             label: Assessments
             type: multiselect
             options:
+              # Custom assessments
+              SingleH1: Single H1
+              HeadingStructureOrder: Heading Structure Order
+              AltAttribute: Alt Attribute
+              # Yoast SEO assessments
               FleschReadingEase: Flesch Reading Ease
               ParagraphTooLong: Paragraph Too Long
               PassiveVoice: Passive Voice
@@ -67,10 +72,6 @@ columns:
               TextLength: Text Length
               TitleKeyword: Title Keyword
               UrlKeyword: Url Keyword
-              # Custom assessments
-              AltAttribute: Alt Attribute
-              HeadingStructureOrder: Heading Structure Order
-              SingleH1: Single H1
             help: By default, all assessments are included. Customize the report to your needs.
           language:
             label: Language
