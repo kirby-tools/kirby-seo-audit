@@ -105,6 +105,6 @@ columns:
           lineBlueprintCode:
             type: line
       blueprintCode:
-        label: Blueprint Code
+        label: Blueprint Generator
         type: playground-blueprint-code
         help: This is the section code with all the configuration options you have currently selected. Copy and paste this code into your blueprint of choice.
