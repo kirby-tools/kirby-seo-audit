@@ -40,7 +40,7 @@ columns:
             label: Assessments
             type: multiselect
             options:
-              # Custom assessments
+              # Plugin assessments
               SingleH1: Single H1
               HeadingStructureOrder: Heading Structure Order
               AltAttribute: Alt Attribute
