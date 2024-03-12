@@ -60,7 +60,7 @@ return [
                         ];
                     }
                 ]
-            ], $kirby->plugin('johannschopplich/seo-audit'));
+            ], $kirby->plugin('johannschopplich/playground'));
         }
     ]
 ];
