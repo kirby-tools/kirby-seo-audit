@@ -135,10 +135,13 @@ if (__PLAYGROUND__) {
   );
 }
 
-const { format } = new Intl.DateTimeFormat(panel.translation.code, {
-  dateStyle: "short",
-  timeStyle: "short",
-});
+const { format } = new Intl.DateTimeFormat(
+  panel.translation.code ? panel.translation.code.replace("_", "-") : "en",
+  {
+    dateStyle: "short",
+    timeStyle: "short",
+  },
+);
 
 function t(value) {
   if (!value || typeof value === "string") return value;
