@@ -11,6 +11,7 @@ kirbyup.config.js export-ignore
 postcss.config.cjs export-ignore
 prettier.config.mjs export-ignore
 tailwind.config.cjs export-ignore
+vitest.config.mjs export-ignore
 
 # Playground files
 playground/ export-ignore
