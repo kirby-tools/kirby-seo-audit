@@ -57,6 +57,13 @@ export function performSeoReview({
         contentSelector,
       });
 
+      const template = get(translations, `${key}.${translation}`);
+
+      // Ensure translations is available
+      if (!template) continue;
+
+      const label = get(translations, `${key}._label`, key);
+
       // Lowercase all keys in context for the template renderer
       const _context = Object.fromEntries(
         Object.entries(context).map(([key, value]) => [
@@ -64,13 +71,6 @@ export function performSeoReview({
           value,
         ]),
       );
-
-      const template = get(translations, `${key}.${translation}`);
-
-      // Ensure translations is available
-      if (!template) continue;
-
-      const label = get(translations, `${key}._label`, key);
 
       categoryResults.push({
         score,
