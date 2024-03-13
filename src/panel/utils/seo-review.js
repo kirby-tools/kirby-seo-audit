@@ -47,20 +47,35 @@ export function performSeoReview({
         continue;
       }
 
-      const { score, translation, context, details } = assessmentFn({
+      const {
+        score,
+        translation,
+        context = {},
+        details,
+      } = assessmentFn({
         htmlDocument,
         contentSelector,
       });
 
-      const template = get(translations, `${key}.${translation}`, context);
+      // Lowercase all keys in context for the template renderer
+      const _context = Object.fromEntries(
+        Object.entries(context).map(([key, value]) => [
+          key.toLowerCase(),
+          value,
+        ]),
+      );
+
+      const template = get(translations, `${key}.${translation}`);
 
       // Ensure translations is available
       if (!template) continue;
 
+      const label = get(translations, `${key}._label`, key);
+
       categoryResults.push({
         score,
         rating: scoreToRating(score),
-        text: renderTemplate(template),
+        text: `${label}: ${renderTemplate(template, _context)}`,
         details,
       });
     }

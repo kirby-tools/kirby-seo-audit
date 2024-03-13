@@ -16,6 +16,14 @@ export function singleH1({ htmlDocument, contentSelector }) {
  */
 export function altAttribute({ htmlDocument, contentSelector }) {
   const images = queryAllWithin(`${contentSelector} img`, htmlDocument);
+
+  if (images.length === 0) {
+    return {
+      score: 9,
+      translation: "na",
+    };
+  }
+
   const imagesWithoutAltAttribute = images.filter(
     (image) => image.getAttribute("alt") === null,
   );

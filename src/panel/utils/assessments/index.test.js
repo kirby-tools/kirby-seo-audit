@@ -48,6 +48,20 @@ describe("singleH1", () => {
 });
 
 describe("altAttribute", () => {
+  it("should pass if there are no images", () => {
+    const htmlDocument = createHtmlDocument("<div></div>");
+    const result = altAttribute({
+      htmlDocument,
+      contentSelector: "div",
+    });
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "score": 9,
+        "translation": "na",
+      }
+    `);
+  });
+
   it("should pass if all images have an alt attribute", () => {
     const htmlDocument = createHtmlDocument(
       '<div><img src="image.jpg" alt="Image description"></div>',

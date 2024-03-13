@@ -1,16 +1,20 @@
 {
   "AltAttributeAssessment": {
-    "none": "Image alt attribute: None of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
-    "some": "Image alt attribute: Some of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
-    "every": "Image alt attribute: All images contain an alternative text attribute. Good job!"
+    "_label": "Image alt attribute",
+    "na": "The text doesn't contain any images.",
+    "none": "None of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
+    "some": "Some of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
+    "every": "All images contain an alternative text attribute. Good job!"
   },
   "HeadingStructureOrderAssessment": {
-    "sequential": "Heading order: The heading structure is in sequential order. Good job!",
-    "nonSequential": "Heading order: The heading structure is not in sequential order. Fix your heading structure!"
+    "_label": "Heading structure",
+    "sequential": "The heading structure is in sequential order. Good job!",
+    "nonSequential": "The heading structure is not in sequential order. Fix your heading structure!"
   },
   "SingleH1Assessment": {
-    "one": "Single H1: The text contains a single H1 tag. Good job!",
-    "multiple": "Single H1: The text contains multiple H1 tags. Rethink your heading structure!",
-    "none": "Single H1: The text contains no H1 tag. Add it!"
+    "_label": "Single H1",
+    "one": "The text contains a single H1 tag. Good job!",
+    "multiple": "The text contains multiple H1 tags. Rethink your heading structure!",
+    "none": "The text contains no H1 tag. Add it!"
   }
 }
