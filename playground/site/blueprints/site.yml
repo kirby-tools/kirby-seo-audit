@@ -8,16 +8,6 @@ options:
 columns:
   - width: 1/2
     sections:
-      leftContent:
-        type: fields
-        fields:
-          gettingStartedInfo:
-            label: Getting Started
-            type: info
-            theme: passive
-            text: |
-              To get an idea of what the Kirby SEO Audit can do for you, enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations.
-              The production version of this plugin will use the URL of the current page.
       seoAudit:
         type: seo-audit
         keyphraseField: metaKeyphrase
@@ -27,10 +17,11 @@ columns:
       configuration:
         type: fields
         fields:
-          configurationInfo:
+          gettingStartedInfo:
             type: info
-            label: Playground Configuration
-            text: For your projects, configuration will be done in the blueprints.
+            label: Getting Started
+            text: |
+              Enter the URL of a page you would like to analyze. The report will be generated based on the content of the page and provide you with a list of SEO recommendations. In your projects, the plugin will use the URL of the current page and read the configuration from the blueprint.
             theme: passive
           targetUrl:
             label: URL to Analyze
@@ -83,7 +74,7 @@ columns:
             help: Will use the user's Panel language in the production version.
             width: 1/2
           links:
-            label: Show Recommendation Links?
+            label: Recommendation Links?
             type: toggle
             width: 1/2
           lineFields:
@@ -92,7 +83,7 @@ columns:
             type: info
             label: Fields
             text: |
-              The following fields can be added to your blueprints for further context for the SEO anylysis:
+              The following fields can be added to your blueprints for further context for the SEO analysis:
               - Focus Keyphrase
               - Keyphrase Synonyms
           metaKeyphrase:

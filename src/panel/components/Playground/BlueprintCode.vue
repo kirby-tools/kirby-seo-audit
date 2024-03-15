@@ -17,13 +17,10 @@ const data = ref({});
 
 (async () => {
   const { load } = useSection();
-  Object.assign(
-    data.value,
-    await load({
-      parent: props.parent,
-      name: props.name,
-    }),
-  );
+  data.value = await load({
+    parent: props.parent,
+    name: props.name,
+  });
 })();
 
 const store = useStore();

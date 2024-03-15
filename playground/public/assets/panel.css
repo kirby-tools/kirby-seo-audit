@@ -33,3 +33,8 @@
 .k-box[data-theme="positive"] .k-text {
   --link-color: var(--color-green-900);
 }
+
+/* Fix Kirby section and fields alignment */
+.k-section-name-seoAudit {
+  margin-top: -0.125rem;
+}
