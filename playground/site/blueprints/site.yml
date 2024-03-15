@@ -83,9 +83,8 @@ columns:
             type: info
             label: Fields
             text: |
-              The following fields can be added to your blueprints for further context for the SEO analysis:
-              - Focus Keyphrase
-              - Keyphrase Synonyms
+              The following fields add further context for the SEO analysis. They are not required but can help to improve the report.
+            theme: passive
           metaKeyphrase:
             label: Focus Keyphrase
             type: text

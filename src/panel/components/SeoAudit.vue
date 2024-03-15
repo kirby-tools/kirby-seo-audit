@@ -10,7 +10,7 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import { LOG_LEVELS } from "../constants";
-import { useCompatibility, useLogger, useSeoReview } from "../composables";
+import { useLogger, useSeoReview } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareContent } from "../utils/seo-review";
@@ -29,7 +29,6 @@ export default {
 <script setup>
 const props = defineProps(propsDefinition);
 
-useCompatibility();
 const panel = usePanel();
 const api = useApi();
 const store = useStore();
