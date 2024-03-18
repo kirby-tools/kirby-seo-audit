@@ -70,7 +70,7 @@ watch(
   // Will be `null` in single language setups
   () => panel.language.code,
   async () => {
-    const data = await panel.api.get(panel.view.path, {
+    const data = await api.get(panel.view.path, {
       select: ["previewUrl"],
     });
     previewUrl = data.previewUrl;
