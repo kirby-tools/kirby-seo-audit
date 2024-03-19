@@ -1,15 +1,15 @@
 <?php
 
 use Kirby\Cms\App;
-use Kirby\Cms\Site;
+use Kirby\Cms\Event;
 use Kirby\Exception\Exception;
 use Kirby\Panel\Panel;
 
 App::plugin('johannschopplich/playground', [
     'hooks' => [
-        'site.update:before' => function (Site $site, array $values, array $strings) {
+        '*.update:before' => function (Event $event) {
             if (env('KIRBY_DEBUG', false) === false) {
-                throw new Exception('You cannot save changes to the playground content, you can only make local changes as a preview.');
+                throw new Exception('Saving changed content to the playground is not allowed. You can only make changes locally.');
             }
         },
 
