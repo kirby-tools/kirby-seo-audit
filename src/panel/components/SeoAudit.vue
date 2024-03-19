@@ -9,12 +9,12 @@ import {
   watch,
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
+import throttle from "throttleit";
 import { LOG_LEVELS } from "../constants";
 import { useLogger, useSeoReview } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareContent } from "../utils/seo-review";
-import { throttle } from "../utils/throttle";
 import SeoResultEntry from "./SeoResultEntry.vue";
 
 const propsDefinition = {

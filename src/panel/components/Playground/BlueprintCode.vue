@@ -51,12 +51,7 @@ seoAudit:
   <k-section :label="data.label" class="ksr-space-y-2">
     <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
     <k-code language="yaml">{{ code }}</k-code>
-    <k-text
-      v-if="data.help"
-      :style="{
-        color: 'var(--color-text-dimmed)',
-      }"
-    >
+    <k-text v-if="data.help" class="k-help">
       {{ data.help }}
     </k-text>
   </k-section>

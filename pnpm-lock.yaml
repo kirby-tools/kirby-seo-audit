@@ -50,6 +50,9 @@ devDependencies:
   tailwindcss:
     specifier: ^3.4.1
     version: 3.4.1
+  throttleit:
+    specifier: ^2.0.0
+    version: 2.0.0
   ufo:
     specifier: ^1.4.0
     version: 1.4.0
@@ -4946,6 +4949,11 @@ packages:
     resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
     dependencies:
       any-promise: 1.3.0
+    dev: true
+
+  /throttleit@2.0.0:
+    resolution: {integrity: sha512-9VImOCJfOMzgBNJIa8ifGnJbAY3XGkl+mGV/+N69+L07QXrg6B6FqPI+2MCqdO5Ojega5BsA94zKHh2rHsQW9Q==}
+    engines: {node: '>=18'}
     dev: true
 
   /through2@2.0.5:
