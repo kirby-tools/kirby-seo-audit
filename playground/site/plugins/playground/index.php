@@ -26,28 +26,26 @@ App::plugin('johannschopplich/playground', [
                     ]
                 ],
                 'areas' => [
-                    'login' => function (App $kirby) {
-                        return [
-                            'views' => [
-                                // Auto-login for the playground
-                                'login' => [
-                                    'pattern' => 'login',
-                                    'auth' => false,
-                                    'action' => function () use ($kirby) {
-                                        if ($kirby->user() === null) {
-                                            // $system = $kirby->system();
-                                            // $role = $system->isLocal() ? 'admin' : 'playground';
-                                            $isDebug = env('KIRBY_DEBUG', false);
-                                            $role = $isDebug ? 'admin' : 'playground';
-                                            $kirby->users()->role($role)->first()->loginPasswordless();
-                                        }
-
-                                        go(Panel::url('site'));
+                    'login' => fn (App $kirby) => [
+                        'views' => [
+                            // Auto-login for the playground
+                            'login' => [
+                                'pattern' => 'login',
+                                'auth' => false,
+                                'action' => function () use ($kirby) {
+                                    if ($kirby->user() === null) {
+                                        // $system = $kirby->system();
+                                        // $role = $system->isLocal() ? 'admin' : 'playground';
+                                        $isDebug = env('KIRBY_DEBUG', false);
+                                        $role = $isDebug ? 'admin' : 'playground';
+                                        $kirby->users()->role($role)->first()->loginPasswordless();
                                     }
-                                ]
+
+                                    go(Panel::url('site'));
+                                }
                             ]
-                        ];
-                    }
+                        ]
+                    ]
                 ]
             ], $kirby->plugin('johannschopplich/playground'));
         }
