@@ -26,6 +26,7 @@
 /.phpunit.result.cache
 /tests/coverage
 /tests/*/tmp
+/tools/**/vendor
 
 # Releases
 kirby-seo-audit-*.zip
