@@ -1,10 +1,11 @@
 <?php
 
+use Kirby\Cms\App;
 use Kirby\Http\Remote;
 use Kirby\Http\Response;
 
 return [
-    'routes' => fn (\Kirby\Cms\App $kirby) => [
+    'routes' => fn (App $kirby) => [
         [
             'pattern' => '__seo-audit__/proxy',
             'method' => 'POST',
