@@ -2,7 +2,6 @@
 
 use Kirby\Cms\App;
 use Kirby\Http\Remote;
-use Kirby\Http\Response;
 
 return [
     'routes' => fn (App $kirby) => [
@@ -20,12 +19,10 @@ return [
 
                 $response = Remote::request($url, $params);
 
-                return Response::json([
+                return [
                     'code' => $response->code(),
-                    'result' => [
-                        'html' => $response->content()
-                    ]
-                ], 200);
+                    'html' => $response->content()
+                ];
             }
         ],
     ]

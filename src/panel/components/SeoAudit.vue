@@ -41,6 +41,7 @@ let previewUrl;
 
 // Section props
 const label = ref();
+const keyphrase = ref();
 const keyphraseField = ref();
 const synonymsField = ref();
 const assessments = ref();
@@ -55,8 +56,8 @@ const isGenerating = ref(false);
 const report = ref();
 
 const currentContent = computed(() => store.getters["content/values"]());
-const focusKeyphrase = computed(() =>
-  keyphraseField.value ? currentContent.value[keyphraseField.value] || "" : "",
+const focusKeyphrase = computed(
+  () => keyphrase.value || currentContent.value[keyphraseField.value] || "",
 );
 const synonyms = computed(() => {
   if (!synonymsField.value) return [];
@@ -86,6 +87,7 @@ watch(
   });
   label.value =
     t(response.label) || panel.t("johannschopplich.seo-audit.label");
+  keyphrase.value = response.keyphrase;
   keyphraseField.value = response.keyphraseField;
   synonymsField.value = response.synonymsField;
   assessments.value = response.assessments;
@@ -135,7 +137,7 @@ if (__PLAYGROUND__) {
 }
 
 const { format } = new Intl.DateTimeFormat(
-  panel.translation.code ? panel.translation.code.replace("_", "-") : "en",
+  panel.translation.code.replace("_", "-"),
   {
     dateStyle: "short",
     timeStyle: "short",
@@ -235,7 +237,7 @@ async function fetchHtml(url) {
     return await response.text();
   }
 
-  const { code, result } = await api.post("__seo-audit__/proxy", {
+  const { code, html } = await api.post("__seo-audit__/proxy", {
     url,
   });
 
@@ -245,7 +247,7 @@ async function fetchHtml(url) {
     );
   }
 
-  return result.html;
+  return html;
 }
 </script>
 

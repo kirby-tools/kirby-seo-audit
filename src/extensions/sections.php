@@ -7,6 +7,7 @@ return [
     'seo-audit' => [
         'props' => [
             'label' => fn ($label = null) => I18n::translate($label, $label),
+            'keyphrase' => fn ($keyphrase = null) => $keyphrase,
             'keyphraseField' => fn ($keyphraseField = null) => is_string($keyphraseField) ? strtolower($keyphraseField) : null,
             'synonymsField' => fn ($synonymsField = null) => is_string($synonymsField) ? strtolower($synonymsField) : null,
             'assessments' => fn ($assessments = []) => is_array($assessments) ? $assessments : [],
@@ -15,6 +16,9 @@ return [
             'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : 'warn'
         ],
         'computed' => [
+            'keyphrase' => function () {
+                return $this->tryResolveQuery($this->keyphrase);
+            },
             'config' => function () {
                 /** @var \Kirby\Cms\App */
                 $kirby = $this->kirby();
@@ -47,6 +51,19 @@ return [
                         'url' => $asset->url()
                     ])
                     ->values();
+            }
+        ],
+        'methods' => [
+            'tryResolveQuery' => function ($value, $fallback = null) {
+                if (is_string($value)) {
+                    // Replace all matches of KQL parts with the query results
+                    $value = preg_replace_callback('!\{\{(.+?)\}\}!', function ($matches) {
+                        $result = $this->model()->query(trim($matches[1]));
+                        return $result ?? '';
+                    }, $value);
+                }
+
+                return $value ?? $fallback;
             }
         ]
     ]
