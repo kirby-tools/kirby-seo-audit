@@ -9,6 +9,7 @@ return [
             'label' => fn ($label = null) => I18n::translate($label, $label),
             'keyphrase' => fn ($keyphrase = null) => $keyphrase,
             'keyphraseField' => fn ($keyphraseField = null) => is_string($keyphraseField) ? strtolower($keyphraseField) : null,
+            'synonyms' => fn ($synonyms = null) => $synonyms,
             'synonymsField' => fn ($synonymsField = null) => is_string($synonymsField) ? strtolower($synonymsField) : null,
             'assessments' => fn ($assessments = []) => is_array($assessments) ? $assessments : [],
             'links' => fn ($links = true) => $links !== false,
@@ -18,6 +19,9 @@ return [
         'computed' => [
             'keyphrase' => function () {
                 return $this->tryResolveQuery($this->keyphrase);
+            },
+            'synonyms' => function () {
+                return $this->tryResolveQuery($this->synonyms);
             },
             'config' => function () {
                 /** @var \Kirby\Cms\App */

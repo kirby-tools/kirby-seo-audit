@@ -43,6 +43,7 @@ let previewUrl;
 const label = ref();
 const keyphrase = ref();
 const keyphraseField = ref();
+const synonyms = ref();
 const synonymsField = ref();
 const assessments = ref();
 const links = ref();
@@ -59,9 +60,9 @@ const currentContent = computed(() => store.getters["content/values"]());
 const resolvedKeyphrase = computed(
   () => keyphrase.value || currentContent.value[keyphraseField.value] || "",
 );
-const synonyms = computed(() => {
-  if (!synonymsField.value) return [];
-  const value = currentContent.value[synonymsField.value];
+const resolvedSynonyms = computed(() => {
+  if (!synonyms.value && !synonymsField.value) return [];
+  const value = synonyms.value || currentContent.value[synonymsField.value];
   if (Array.isArray(value)) return value;
   if (typeof value === "string") return value.split(",").map((i) => i.trim());
   return [];
@@ -70,43 +71,12 @@ const synonyms = computed(() => {
 watch(
   // Will be `null` in single language setups
   () => panel.language.code,
-  async () => {
-    const data = await api.get(panel.view.path, {
-      select: ["previewUrl"],
-    });
-    previewUrl = data.previewUrl;
+  () => {
+    updateSectionData();
   },
-  { immediate: true },
 );
 
-(async () => {
-  const { load } = useSection();
-  const response = await load({
-    parent: props.parent,
-    name: props.name,
-  });
-  label.value =
-    t(response.label) || panel.t("johannschopplich.seo-audit.label");
-  keyphrase.value = response.keyphrase;
-  keyphraseField.value = response.keyphraseField;
-  synonymsField.value = response.synonymsField;
-  assessments.value = response.assessments;
-  links.value = response.links;
-  persisted.value = response.persisted;
-  logLevel.value = LOG_LEVELS.indexOf(
-    response.config.logLevel ?? response.logLevel,
-  );
-  config.value = response.config;
-
-  registerPluginAssets(response.assets);
-
-  if (persisted.value) {
-    const persistedReport = JSON.parse(localStorage.getItem(storageKey));
-    if (persistedReport) report.value = persistedReport;
-  }
-
-  isInitialized.value = true;
-})();
+updateSectionData(true);
 
 // Watch for content changes on the same page
 // eslint-disable-next-line no-undef
@@ -143,6 +113,45 @@ const { format } = new Intl.DateTimeFormat(
     timeStyle: "short",
   },
 );
+
+async function updateSectionData(isInitializing = false) {
+  const { load } = useSection();
+  const response = await load({
+    parent: props.parent,
+    name: props.name,
+  });
+
+  // Set values once that don't need to be re-evaluated on the server
+  // when the language changes
+  if (isInitializing) {
+    label.value =
+      t(response.label) || panel.t("johannschopplich.seo-audit.label");
+    keyphraseField.value = response.keyphraseField;
+    synonymsField.value = response.synonymsField;
+    assessments.value = response.assessments;
+    links.value = response.links;
+    persisted.value = response.persisted;
+    logLevel.value = LOG_LEVELS.indexOf(
+      response.config.logLevel ?? response.logLevel,
+    );
+    config.value = response.config;
+    registerPluginAssets(response.assets);
+
+    if (persisted.value) {
+      const persistedReport = JSON.parse(localStorage.getItem(storageKey));
+      if (persistedReport) report.value = persistedReport;
+    }
+
+    isInitialized.value = true;
+  }
+
+  // These props are resolved Kirby queries
+  keyphrase.value = response.keyphrase;
+  synonyms.value = response.synonyms;
+
+  const data = await api.get(panel.view.path, { select: "previewUrl" });
+  previewUrl = data.previewUrl;
+}
 
 function t(value) {
   if (!value || typeof value === "string") return value;
@@ -187,7 +196,7 @@ async function analyze() {
       description,
       langCulture: locale,
       keyword: resolvedKeyphrase.value,
-      synonyms: synonyms.value,
+      synonyms: resolvedSynonyms.value,
     });
 
     for (const key of Object.keys(result)) {
