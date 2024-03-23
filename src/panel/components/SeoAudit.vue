@@ -56,7 +56,7 @@ const isGenerating = ref(false);
 const report = ref();
 
 const currentContent = computed(() => store.getters["content/values"]());
-const focusKeyphrase = computed(
+const resolvedKeyphrase = computed(
   () => keyphrase.value || currentContent.value[keyphraseField.value] || "",
 );
 const synonyms = computed(() => {
@@ -186,7 +186,7 @@ async function analyze() {
       title,
       description,
       langCulture: locale,
-      keyword: focusKeyphrase.value,
+      keyword: resolvedKeyphrase.value,
       synonyms: synonyms.value,
     });
 
