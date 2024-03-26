@@ -14,7 +14,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier \"src/panel/**\" --write",
     "archive": "pnpm run build && pnpm run build:assets && archive --format=zip --output=./kirby-seo-audit-$(git describe --tags).zip HEAD",
-    "release": "bumpp --all"
+    "release": "pnpm run archive && bumpp --all"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.9.0",
