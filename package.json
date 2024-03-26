@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier \"src/panel/**\" --write",
-    "archive": "pnpm run build && pnpm run build:assets && scripts/archive.sh",
+    "archive": "pnpm run build && pnpm run build:assets && archive --format=zip --output=./kirby-seo-audit-$(git describe --tags).zip HEAD",
     "release": "bumpp --all"
   },
   "devDependencies": {
