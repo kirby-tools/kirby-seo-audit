@@ -1,7 +1,7 @@
 {
   "name": "kirby-seo-audit",
   "type": "module",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "packageManager": "pnpm@8.15.5",
   "scripts": {
@@ -13,8 +13,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier \"src/panel/**\" --write",
-    "archive": "pnpm run build && pnpm run build:assets && archive --format=zip --output=./kirby-seo-audit-$(git describe --tags).zip HEAD",
-    "release": "pnpm run archive && bumpp --all"
+    "archive": "git archive --format=zip --output=./kirby-seo-audit-$(git describe --tags).zip HEAD",
+    "release": "pnpm run build && pnpm run build:assets && bumpp --all && pnpm run archive"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.9.0",
