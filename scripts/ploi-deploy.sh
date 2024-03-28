@@ -1,5 +1,8 @@
 cd {SITE_DIRECTORY}
 
+# Reset playground build
+git reset --hard
+
 # Pull changes
 git pull origin main
 
