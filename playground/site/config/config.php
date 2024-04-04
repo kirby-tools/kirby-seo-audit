@@ -9,7 +9,7 @@ return [
 
     'panel' => [
         'css' => 'assets/panel.css',
-        'favicon' => 'assets/favicon.ico',
+        'favicon' => 'favicon.ico',
         'frameAncestors' => ['https://kirbyseo.com']
     ]
 ];
