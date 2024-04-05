@@ -38,7 +38,9 @@ App::plugin('johannschopplich/playground', [
                                         // $role = $system->isLocal() ? 'admin' : 'playground';
                                         $isDebug = env('KIRBY_DEBUG', false);
                                         $role = $isDebug ? 'admin' : 'playground';
-                                        $kirby->users()->role($role)->first()->loginPasswordless();
+                                        $kirby->users()->role($role)->first()->loginPasswordless([
+                                            'long' => true
+                                        ]);
                                     }
 
                                     go(Panel::url('site'));
