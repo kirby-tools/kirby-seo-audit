@@ -46,6 +46,7 @@ const keyphraseField = ref();
 const synonyms = ref();
 const synonymsField = ref();
 const assessments = ref();
+const contentSelector = ref();
 const links = ref();
 const persisted = ref();
 const logLevel = ref();
@@ -129,6 +130,7 @@ async function updateSectionData(isInitializing = false) {
     keyphraseField.value = response.keyphraseField;
     synonymsField.value = response.synonymsField;
     assessments.value = response.assessments;
+    contentSelector.value = response.contentSelector;
     links.value = response.links;
     persisted.value = response.persisted;
     logLevel.value = LOG_LEVELS.indexOf(
@@ -181,11 +183,10 @@ async function analyze() {
 
   try {
     const html = await fetchHtml(url);
-    const contentSelector = "body";
     const { htmlDocument, locale, title, description } =
       await prepareContent(html);
 
-    const result = await generateReport(htmlDocument, contentSelector, {
+    const result = await generateReport(htmlDocument, contentSelector.value, {
       // eslint-disable-next-line no-undef
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments

@@ -12,6 +12,7 @@ return [
             'synonyms' => fn ($synonyms = null) => $synonyms,
             'synonymsField' => fn ($synonymsField = null) => is_string($synonymsField) ? strtolower($synonymsField) : null,
             'assessments' => fn ($assessments = []) => is_array($assessments) ? $assessments : [],
+            'contentSelector' => fn ($contentSelector = null) => is_string($contentSelector) ? $contentSelector : 'body',
             'links' => fn ($links = true) => $links !== false,
             'persisted' => fn ($persisted = true) => $persisted !== false,
             'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : 'warn'
