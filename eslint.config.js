@@ -4,6 +4,12 @@ export default await antfu(
   {
     stylistic: false,
     vue: {
+      // https://github.com/antfu/eslint-config/issues/367
+      sfcBlocks: {
+        blocks: {
+          styles: false,
+        },
+      },
       vueVersion: 2,
     },
     ignores: ["**/assets/**", "**/vendor/**", "index.js"],
@@ -13,7 +19,6 @@ export default await antfu(
     rules: {
       "vue/html-self-closing": "off",
       "vue/html-indent": "off",
-      "vue/no-v-text-v-html-on-component": "off",
     },
   },
 );
