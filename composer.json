@@ -9,7 +9,7 @@
     "seo",
     "yoast"
   ],
-  "license": "Kirby SEO Audit Plugin License Agreement",
+  "license": "proprietary",
   "homepage": "https://kirbyseo.com",
   "authors": [
     {
@@ -22,7 +22,7 @@
     "getkirby/composer-installer": "^1.2"
   },
   "require-dev": {
-    "getkirby/cms": "^4.1",
+    "getkirby/cms": "^4",
     "vlucas/phpdotenv": "^5.6"
   },
   "scripts": {
