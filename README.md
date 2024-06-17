@@ -1,8 +1,8 @@
+[![Kirby SEO Audit](./.github/social-card.png)](https://kirbyseo.com)
+
 # Kirby SEO Audit
 
-## Welcome!
-
-Thank you for purchasing Kirby SEO Audit. This document is intended to help you get started with Kirby SEO Audit as quickly and easily as possible, so you can improve your content to improve your rankings in search engines.
+Kirby SEO Audit offers the power of Yoast SEO in a Kirby Panel section. Improve your content and boost your rankings by checking your pages for SEO issues.
 
 ## Getting Started
 
@@ -13,6 +13,10 @@ Here are some quick links:
 - [Installation](https://kirbyseo.com/docs/getting-started/installation)
 - [Global Configuration](https://kirbyseo.com/docs/configuration/global)
 - [Section Configuration](https://kirbyseo.com/docs/configuration/section)
+
+## Licensing
+
+Kirby SEO Audit is a commercial plugin that requires a license. You can install and test the plugin locally without a license. However, production environments require a valid license. You can purchase a license from the [Kirby SEO Audit Website](https://kirbyseo.com/buy).
 
 ## Support and Questions
 
@@ -36,6 +40,6 @@ For the sake of reproducible bug reports, please include the following informati
 
 We value your feedback and ideas for improving Kirby SEO Audit. If you have any suggestions, please feel free to reach out to us via email or preferably by creating a new discussion on our [GitHub Discussions page](https://github.com/kirby-tools/community/discussions).
 
-## Thank You
+## License
 
-Once again, thank you for choosing Kirby SEO Audit. We hope it empowers you to improve the SEO of your Kirby projects and saves you time in the process.
+[Kirby SEO Audit Plugin License Agreement](./LICENSE.md) License © 2024-PRESENT [Johann Schopplich](https://github.com/johannschopplich)
