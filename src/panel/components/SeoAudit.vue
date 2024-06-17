@@ -37,7 +37,7 @@ const logger = useLogger();
 const { generateReport } = useSeoReview();
 const { openLicenseModal } = useLicense({
   label: "Kirby SEO Audit",
-  apiNamespace: "__live-preview__",
+  apiNamespace: "__seo-audit__",
 });
 
 // Non-reactive data
