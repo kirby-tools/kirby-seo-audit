@@ -2,7 +2,7 @@
 
 # Kirby SEO Audit
 
-Kirby SEO Audit offers the power of Yoast SEO in a Kirby Panel section. Improve your content and boost your rankings by checking your pages for SEO issues.
+Kirby SEO Audit is a plugin for [Kirby CMS](https://getkirby.com) that analyzes your pages and provides actionable insights to improve your website's search engine optimization (SEO). It works directly in the Panel and is compatible with every Kirby website.
 
 ## Getting Started
 
