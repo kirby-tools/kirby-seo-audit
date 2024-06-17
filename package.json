@@ -1,7 +1,7 @@
 {
   "name": "kirby-seo-audit",
   "type": "module",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": true,
   "packageManager": "pnpm@9.3.0",
   "scripts": {
