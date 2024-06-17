@@ -10,6 +10,7 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import throttle from "throttleit";
+import { useLicense } from "@kirby-tools/licensing";
 import { LOG_LEVELS } from "../constants";
 import { useLogger, useSeoReview } from "../composables";
 import { getHashedStorageKey } from "../utils/storage";
@@ -34,6 +35,10 @@ const api = useApi();
 const store = useStore();
 const logger = useLogger();
 const { generateReport } = useSeoReview();
+const { openLicenseModal } = useLicense({
+  label: "Kirby SEO Audit",
+  apiNamespace: "__live-preview__",
+});
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -52,6 +57,7 @@ const persisted = ref();
 const logLevel = ref();
 // Section computed
 const config = ref();
+const license = ref();
 // Local data
 const isInitialized = ref(false);
 const isGenerating = ref(false);
@@ -137,6 +143,12 @@ async function updateSectionData(isInitializing = false) {
       response.config.logLevel ?? response.logLevel,
     );
     config.value = response.config;
+    license.value =
+      // eslint-disable-next-line no-undef
+      __PLAYGROUND__ && window.location.hostname === "try.kirbyseo.com"
+        ? true
+        : response.license;
+
     registerPluginAssets(response.assets);
 
     if (persisted.value) {
@@ -259,6 +271,13 @@ async function fetchHtml(url) {
 
   return html;
 }
+
+async function handleRegistration() {
+  const { isRegistered } = await openLicenseModal();
+  if (isRegistered) {
+    license.value = true;
+  }
+}
 </script>
 
 <template>
@@ -274,6 +293,24 @@ async function fetchHtml(url) {
           :disabled="isGenerating"
           @click="analyze()"
         />
+        <template v-if="license === false">
+          <k-button
+            theme="love"
+            variant="filled"
+            size="sm"
+            link="https://kirbyseo.com/buy"
+            target="_blank"
+            :text="panel.t('johannschopplich.seo-audit.license.buy')"
+          />
+          <k-button
+            theme="love"
+            variant="filled"
+            size="sm"
+            icon="key"
+            :text="panel.t('johannschopplich.seo-audit.license.activate')"
+            @click="handleRegistration()"
+          />
+        </template>
       </k-button-group>
 
       <div v-if="report">

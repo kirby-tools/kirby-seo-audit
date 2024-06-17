@@ -1,5 +1,6 @@
 <?php
 
+use JohannSchopplich\Licensing\Licenses;
 use Kirby\Cms\PluginAsset;
 use Kirby\Toolkit\I18n;
 
@@ -56,6 +57,10 @@ return [
                         'url' => $asset->url()
                     ])
                     ->values();
+            },
+            'license' => function () {
+                $licenses = Licenses::read('johannschopplich/kirby-seo-audit');
+                return $licenses->isRegistered();
             }
         ],
         'methods' => [

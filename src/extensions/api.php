@@ -1,5 +1,6 @@
 <?php
 
+use JohannSchopplich\Licensing\Licenses;
 use Kirby\Cms\App;
 use Kirby\Http\Remote;
 
@@ -25,5 +26,13 @@ return [
                 ];
             }
         ],
+        [
+            'pattern' => '__seo-audit__/register',
+            'method' => 'POST',
+            'action' => function () {
+                $licenses = Licenses::read('johannschopplich/kirby-seo-audit');
+                return $licenses->registerFromRequest();
+            }
+        ]
     ]
 ];

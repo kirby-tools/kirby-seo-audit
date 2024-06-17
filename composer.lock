@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c82b0b30cda5c61a19f33de94e4ba305",
+    "content-hash": "3e118550e09fa4bd12cae71292360377",
     "packages": [
         {
             "name": "getkirby/composer-installer",
@@ -52,6 +52,51 @@
                 }
             ],
             "time": "2020-12-28T12:54:39+00:00"
+        },
+        {
+            "name": "johannschopplich/kirby-tools-licensing",
+            "version": "0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kirby-tools/licensing-backend.git",
+                "reference": "48238682c4e39b6cef2fe44c51bf57daa5b00776"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kirby-tools/licensing-backend/zipball/48238682c4e39b6cef2fe44c51bf57daa5b00776",
+                "reference": "48238682c4e39b6cef2fe44c51bf57daa5b00776",
+                "shasum": ""
+            },
+            "require-dev": {
+                "getkirby/cms": "^4"
+            },
+            "type": "library",
+            "extra": {
+                "kirby-cms-path": false
+            },
+            "autoload": {
+                "psr-4": {
+                    "JohannSchopplich\\Licensing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johann Schopplich",
+                    "email": "hello@johannschopplich.com",
+                    "homepage": "https://johannschopplich.com"
+                }
+            ],
+            "description": "Shared tooling for licensing server-side",
+            "homepage": "https://github.com/kirby-tools/licensing-backend#readme",
+            "support": {
+                "issues": "https://github.com/kirby-tools/licensing-backend/issues",
+                "source": "https://github.com/kirby-tools/licensing-backend/tree/v0.2.2"
+            },
+            "time": "2024-06-17T07:59:27+00:00"
         }
     ],
     "packages-dev": [
@@ -116,16 +161,16 @@
         },
         {
             "name": "claviska/simpleimage",
-            "version": "4.1.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/claviska/SimpleImage.git",
-                "reference": "1dcb9c785c44960890970d26e25c437a2a252bbf"
+                "reference": "dfbe53c01dae8467468ef2b817c09b786a7839d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/claviska/SimpleImage/zipball/1dcb9c785c44960890970d26e25c437a2a252bbf",
-                "reference": "1dcb9c785c44960890970d26e25c437a2a252bbf",
+                "url": "https://api.github.com/repos/claviska/SimpleImage/zipball/dfbe53c01dae8467468ef2b817c09b786a7839d2",
+                "reference": "dfbe53c01dae8467468ef2b817c09b786a7839d2",
                 "shasum": ""
             },
             "require": {
@@ -157,7 +202,7 @@
             "description": "A PHP class that makes working with images as simple as possible.",
             "support": {
                 "issues": "https://github.com/claviska/SimpleImage/issues",
-                "source": "https://github.com/claviska/SimpleImage/tree/4.1.0"
+                "source": "https://github.com/claviska/SimpleImage/tree/4.2.0"
             },
             "funding": [
                 {
@@ -165,7 +210,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-04T15:41:11+00:00"
+            "time": "2024-04-15T16:07:16+00:00"
         },
         {
             "name": "composer/semver",
@@ -321,21 +366,21 @@
         },
         {
             "name": "getkirby/cms",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getkirby/kirby.git",
-                "reference": "c1e6ff77b056774543f201035f5dab6a02bfdb3b"
+                "reference": "f9f00b16a22fe9dbbbddc2bfd4719ca3437cbee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getkirby/kirby/zipball/c1e6ff77b056774543f201035f5dab6a02bfdb3b",
-                "reference": "c1e6ff77b056774543f201035f5dab6a02bfdb3b",
+                "url": "https://api.github.com/repos/getkirby/kirby/zipball/f9f00b16a22fe9dbbbddc2bfd4719ca3437cbee9",
+                "reference": "f9f00b16a22fe9dbbbddc2bfd4719ca3437cbee9",
                 "shasum": ""
             },
             "require": {
                 "christian-riesen/base32": "1.6.0",
-                "claviska/simpleimage": "4.1.0",
+                "claviska/simpleimage": "4.2.0",
                 "composer/semver": "3.4.0",
                 "ext-ctype": "*",
                 "ext-curl": "*",
@@ -356,7 +401,7 @@
                 "phpmailer/phpmailer": "6.9.1",
                 "symfony/polyfill-intl-idn": "1.29.0",
                 "symfony/polyfill-mbstring": "1.29.0",
-                "symfony/yaml": "6.4.3"
+                "symfony/yaml": "6.4.8"
             },
             "replace": {
                 "symfony/polyfill-php72": "*"
@@ -420,7 +465,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-04-10T08:55:30+00:00"
+            "time": "2024-06-13T09:58:27+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -1340,16 +1385,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v6.4.3",
+            "version": "v6.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "d75715985f0f94f978e3a8fa42533e10db921b90"
+                "reference": "52903de178d542850f6f341ba92995d3d63e60c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d75715985f0f94f978e3a8fa42533e10db921b90",
-                "reference": "d75715985f0f94f978e3a8fa42533e10db921b90",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/52903de178d542850f6f341ba92995d3d63e60c9",
+                "reference": "52903de178d542850f6f341ba92995d3d63e60c9",
                 "shasum": ""
             },
             "require": {
@@ -1392,7 +1437,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v6.4.3"
+                "source": "https://github.com/symfony/yaml/tree/v6.4.8"
             },
             "funding": [
                 {
@@ -1408,7 +1453,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-23T14:51:35+00:00"
+            "time": "2024-05-31T14:49:08+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
