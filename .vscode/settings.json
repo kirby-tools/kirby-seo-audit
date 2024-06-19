@@ -1,6 +1,6 @@
 {
   // Enable ESLint flat config support
-  "eslint.experimental.useFlatConfig": true,
+  "eslint.useFlatConfig": true,
 
   // Use Pretter as the default formatter
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -24,8 +24,5 @@
     "json",
     "jsonc",
     "yaml"
-  ],
-  "yaml.schemas": {
-    "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file:///Users/johannschopplich/Git/kirby-seo-audit/playground/site/blueprints/site.yml"
-  }
+  ]
 }
