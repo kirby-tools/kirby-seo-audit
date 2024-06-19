@@ -33,5 +33,5 @@ return [
         'johannschopplich.seo-audit.error.missingPreviewUrl' => 'De "previewUrl" is uitgeschakeld in de blueprint, maar is nodig voor de SEO-analyse.',
         'johannschopplich.seo-audit.license.buy' => 'Licentie kopen',
         'johannschopplich.seo-audit.license.activate' => 'Activeren'
-    ],
+    ]
 ];
