@@ -1,0 +1,20 @@
+{
+  "AltAttributeAssessment": {
+    "_label": "Alt-tekst voor afbeeldingen",
+    "na": "De tekst bevat geen afbeeldingen.",
+    "none": "Geen van de {imagesWithoutAltAttribute} afbeeldingen bevat alt-tekst. Voeg ze toe!",
+    "some": "Sommige van de {imagesWithoutAltAttribute} afbeeldingen bevatten alt-tekst. Voeg ze toe!",
+    "every": "Alle afbeeldingen bevatten alt-tekst. Goed gedaan!"
+  },
+  "HeadingStructureOrderAssessment": {
+    "_label": "Kopstructuur volgorde",
+    "sequential": "De kopstructuur is in opeenvolgende volgorde. Goed gedaan!",
+    "nonSequential": "De kopstructuur is niet in opeenvolgende volgorde. Corrigeer je kopstructuur!"
+  },
+  "SingleH1Assessment": {
+    "_label": "Enkele H1",
+    "one": "De tekst bevat één H1-tag. Goed gedaan!",
+    "multiple": "De tekst bevat meerdere H1-tags. Herzie je kopstructuur!",
+    "none": "De tekst bevat geen H1-tag. Voeg er een toe!"
+  }
+}

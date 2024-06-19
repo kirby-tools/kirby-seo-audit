@@ -22,5 +22,16 @@ return [
         'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Die "previewUrl" ist im Blueprint deaktiviert, wird aber für die SEO-Analyse benötigt.',
         'johannschopplich.seo-audit.license.buy' => 'Lizenz kaufen',
         'johannschopplich.seo-audit.license.activate' => 'Aktivieren'
-    ]
+    ],
+    'nl' => [
+        'johannschopplich.seo-audit.label' => 'SEO-Audit',
+        'johannschopplich.seo-audit.analyze' => 'Analyseren',
+        'johannschopplich.seo-audit.readability' => 'Leesbaarheid',
+        'johannschopplich.seo-audit.issues' => 'Problemen',
+        'johannschopplich.seo-audit.analyze.success' => 'Analyse gegenereerd',
+        'johannschopplich.seo-audit.analyze.error' => 'Er liep iets mis. Bekijk de console logs.',
+        'johannschopplich.seo-audit.error.missingPreviewUrl' => 'De "previewUrl" is uitgeschakeld in de blueprint, maar is nodig voor de SEO-analyse.',
+        'johannschopplich.seo-audit.license.buy' => 'Licentie kopen',
+        'johannschopplich.seo-audit.license.activate' => 'Activeren'
+    ],
 ];
