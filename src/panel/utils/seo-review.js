@@ -7,6 +7,7 @@ import {
 } from "../constants";
 import de from "../translations/assessments/de.json";
 import en from "../translations/assessments/en.json";
+import nl from "../translations/assessments/nl.json";
 import { getModule, interopDefault } from "./assets";
 import { get } from "./safe-get";
 import { renderTemplate } from "./template";
@@ -15,6 +16,7 @@ import { altAttribute, headingStructureOrder, singleH1 } from "./assessments";
 const TRANSLATIONS = {
   de,
   en,
+  nl,
 };
 
 const ASSESSMENTS = {
