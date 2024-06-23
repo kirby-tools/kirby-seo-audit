@@ -35,7 +35,7 @@ const api = useApi();
 const store = useStore();
 const logger = useLogger();
 const { generateReport } = useSeoReview();
-const { openLicenseModal } = useLicense({
+const { openLicenseModal, assertActivationIntegrity } = useLicense({
   label: "Kirby SEO Audit",
   apiNamespace: "__seo-audit__",
 });
@@ -61,6 +61,7 @@ const license = ref();
 // Local data
 const isInitialized = ref(false);
 const isGenerating = ref(false);
+const licenseButtonGroup = ref();
 const report = ref();
 
 const currentContent = computed(() => store.getters["content/values"]());
@@ -156,6 +157,10 @@ async function updateSectionData(isInitializing = false) {
       if (persistedReport) report.value = persistedReport;
     }
 
+    assertActivationIntegrity({
+      component: licenseButtonGroup,
+      license: license.value,
+    });
     isInitialized.value = true;
   }
 
@@ -282,6 +287,30 @@ async function handleRegistration() {
 
 <template>
   <k-section v-if="isInitialized" :label="label">
+    <k-button-group
+      v-if="license === false"
+      ref="licenseButtonGroup"
+      slot="options"
+      layout="collapsed"
+    >
+      <k-button
+        theme="love"
+        variant="filled"
+        size="xs"
+        link="https://kirbyseo.com/buy"
+        target="_blank"
+        :text="panel.t('johannschopplich.seo-audit.license.buy')"
+      />
+      <k-button
+        theme="love"
+        variant="filled"
+        size="xs"
+        icon="key"
+        :text="panel.t('johannschopplich.seo-audit.license.activate')"
+        @click="handleRegistration()"
+      />
+    </k-button-group>
+
     <div class="ksr-space-y-4">
       <k-button-group layout="collapsed">
         <k-button
@@ -293,24 +322,6 @@ async function handleRegistration() {
           :disabled="isGenerating"
           @click="analyze()"
         />
-        <template v-if="license === false">
-          <k-button
-            theme="love"
-            variant="filled"
-            size="sm"
-            link="https://kirbyseo.com/buy"
-            target="_blank"
-            :text="panel.t('johannschopplich.seo-audit.license.buy')"
-          />
-          <k-button
-            theme="love"
-            variant="filled"
-            size="sm"
-            icon="key"
-            :text="panel.t('johannschopplich.seo-audit.license.activate')"
-            @click="handleRegistration()"
-          />
-        </template>
       </k-button-group>
 
       <div v-if="report">
