@@ -157,11 +157,11 @@ async function updateSectionData(isInitializing = false) {
       if (persistedReport) report.value = persistedReport;
     }
 
+    isInitialized.value = true;
     assertActivationIntegrity({
       component: licenseButtonGroup,
       license: license.value,
     });
-    isInitialized.value = true;
   }
 
   // These props are resolved Kirby queries
