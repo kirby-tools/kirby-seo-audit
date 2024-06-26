@@ -79,11 +79,13 @@ export function headingStructureOrder({ htmlDocument, contentSelector }) {
     translation: isSequential ? "sequential" : "nonSequential",
     ...(!isSequential && {
       details: {
-        text: `<ul>${issues.map(
-          (heading) =>
-            // eslint-disable-next-line unicorn/prefer-dom-node-text-content
-            `<li><strong>${heading.tagName}</strong>: ${heading.innerText}</li>`,
-        )}</ul>`,
+        text: `<ul>${issues
+          .map(
+            (heading) =>
+              // eslint-disable-next-line unicorn/prefer-dom-node-text-content
+              `<li><strong>${heading.tagName}</strong>: ${heading.innerText}</li>`,
+          )
+          .join("")}</ul>`,
       },
     }),
   };
