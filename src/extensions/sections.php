@@ -60,7 +60,7 @@ return [
             },
             'license' => function () {
                 $licenses = Licenses::read('johannschopplich/kirby-seo-audit');
-                return $licenses->isRegistered();
+                return $licenses->getStatus();
             }
         ],
         'methods' => [

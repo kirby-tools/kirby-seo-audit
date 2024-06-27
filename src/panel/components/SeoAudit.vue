@@ -147,7 +147,7 @@ async function updateSectionData(isInitializing = false) {
     license.value =
       // eslint-disable-next-line no-undef
       __PLAYGROUND__ && window.location.hostname === "try.kirbyseo.com"
-        ? true
+        ? "active"
         : response.license;
 
     registerPluginAssets(response.assets);
@@ -160,7 +160,7 @@ async function updateSectionData(isInitializing = false) {
     isInitialized.value = true;
     assertActivationIntegrity({
       component: licenseButtonGroup,
-      license: license.value,
+      licenseStatus: license.value,
     });
   }
 
@@ -280,7 +280,7 @@ async function fetchHtml(url) {
 async function handleRegistration() {
   const { isRegistered } = await openLicenseModal();
   if (isRegistered) {
-    license.value = true;
+    license.value = "active";
   }
 }
 </script>
@@ -288,7 +288,7 @@ async function handleRegistration() {
 <template>
   <k-section v-if="isInitialized" :label="label">
     <k-button-group
-      v-if="license === false"
+      v-if="license !== 'active'"
       ref="licenseButtonGroup"
       slot="options"
       layout="collapsed"
