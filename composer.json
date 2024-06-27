@@ -2,7 +2,7 @@
   "name": "johannschopplich/kirby-seo-audit",
   "description": "State-of-the-art SEO analysis for Kirby CMS",
   "type": "kirby-plugin",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "keywords": [
     "getkirby",
     "kirby",
