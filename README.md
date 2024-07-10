@@ -10,7 +10,7 @@ To get started, please refer to the [documentation](https://kirbyseo.com/docs/ge
 
 Here are some quick links:
 
-- [Installation](https://kirbyseo.com/docs/getting-started/installation)
+- [Installation](https://kirbyseo.com/docs/get-started)
 - [Global Configuration](https://kirbyseo.com/docs/configuration/global)
 - [Section Configuration](https://kirbyseo.com/docs/configuration/section)
 
