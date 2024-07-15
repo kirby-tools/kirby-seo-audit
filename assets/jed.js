@@ -188,8 +188,7 @@ var O = function() {
               );
             e = e[h[2][y]];
           }
-        else
-          h[1] ? e = i[h[1]] : e = i[s++];
+        else h[1] ? e = i[h[1]] : e = i[s++];
         if (/[^s]/.test(h[8]) && t(e) != "number")
           throw O(
             "[sprintf] expecting number but found %s",
