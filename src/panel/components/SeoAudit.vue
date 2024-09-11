@@ -1,4 +1,5 @@
 <script>
+import { useLicense } from "@kirby-tools/licensing";
 import {
   computed,
   ref,
@@ -10,12 +11,11 @@ import {
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import throttle from "throttleit";
-import { useLicense } from "@kirby-tools/licensing";
-import { LOG_LEVELS } from "../constants";
 import { useLogger, useSeoReview } from "../composables";
-import { getHashedStorageKey } from "../utils/storage";
+import { LOG_LEVELS } from "../constants";
 import { registerPluginAssets } from "../utils/assets";
 import { prepareContent } from "../utils/seo-review";
+import { getHashedStorageKey } from "../utils/storage";
 import SeoResultEntry from "./SeoResultEntry.vue";
 
 const propsDefinition = {

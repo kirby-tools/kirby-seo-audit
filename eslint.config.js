@@ -1,6 +1,6 @@
 import antfu from "@antfu/eslint-config";
 
-export default await antfu(
+export default antfu(
   {
     stylistic: false,
     vue: {
@@ -12,7 +12,12 @@ export default await antfu(
       },
       vueVersion: 2,
     },
-    ignores: ["**/assets/**", "**/vendor/**", "index.js"],
+    ignores: [
+      "**/assets/**",
+      "**/src/panel/**/*.d.ts",
+      "**/vendor/**",
+      "index.js",
+    ],
   },
   {
     files: ["**/*.vue"],
