@@ -1,16 +1,32 @@
 import { computed, usePanel, useStore } from "kirbyuse";
 import { getModule, interopDefault } from "../utils/assets";
 import { performSeoReview, performYoastSeoReview } from "../utils/seo-review";
+import { useLogger } from "./logger";
 
 export function useSeoReview() {
   const panel = usePanel();
   const store = useStore();
   const currentContent = computed(() => store.getters["content/values"]());
+  const logger = useLogger();
 
   const generateReport = async (htmlDocument, contentSelector, options) => {
+    if (import.meta.env.DEV) {
+      options.logLevel = 3;
+    }
+
     const YoastSEOTranslations = await interopDefault(
       getModule("yoastseo-translations"),
     );
+
+    if (options.logLevel > 1) {
+      if (contentSelector) {
+        logger.info("Content selector:", contentSelector);
+      }
+
+      const content =
+        htmlDocument.querySelector(contentSelector)?.innerHTML || "";
+      logger.info("Reviewing content:", content);
+    }
 
     // Resolve assessment names
     options.assessments = options.assessments.map((i) => {

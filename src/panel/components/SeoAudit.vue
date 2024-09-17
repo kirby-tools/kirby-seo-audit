@@ -208,6 +208,7 @@ async function analyze() {
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments
         : assessments.value,
+      logLevel: logLevel.value,
       // For Yoast SEO
       url,
       title,
