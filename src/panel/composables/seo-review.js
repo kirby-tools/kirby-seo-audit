@@ -24,7 +24,9 @@ export function useSeoReview() {
       }
 
       const elements = htmlDocument.querySelectorAll(contentSelector);
-      const content = elements?.innerHTML || "";
+      const content = Array.from(elements)
+        .map((element) => element.innerHTML)
+        .join("\n");
       logger.info("Selected elements:", elements);
       logger.info("Selected content:", content);
     }
