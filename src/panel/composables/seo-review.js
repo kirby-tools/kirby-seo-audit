@@ -24,8 +24,8 @@ export function useSeoReview() {
       }
 
       const content =
-        htmlDocument.querySelector(contentSelector)?.innerHTML || "";
-      logger.info("Reviewing content:", content);
+        htmlDocument.querySelectorAll(contentSelector)?.innerHTML || "";
+      logger.info("Selected content:", content);
     }
 
     // Resolve assessment names
