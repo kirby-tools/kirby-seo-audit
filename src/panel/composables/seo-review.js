@@ -23,8 +23,9 @@ export function useSeoReview() {
         logger.info("Content selector:", contentSelector);
       }
 
-      const content =
-        htmlDocument.querySelectorAll(contentSelector)?.innerHTML || "";
+      const elements = htmlDocument.querySelectorAll(contentSelector);
+      const content = elements?.innerHTML || "";
+      logger.info("Selected elements:", elements);
       logger.info("Selected content:", content);
     }
 
