@@ -1,6 +1,10 @@
 import { computed, usePanel, useStore } from "kirbyuse";
 import { getModule, interopDefault } from "../utils/assets";
-import { performSeoReview, performYoastSeoReview } from "../utils/seo-review";
+import {
+  extractContent,
+  performSeoReview,
+  performYoastSeoReview,
+} from "../utils/seo-review";
 import { useLogger } from "./logger";
 
 export function useSeoReview() {
@@ -24,9 +28,7 @@ export function useSeoReview() {
       }
 
       const elements = htmlDocument.querySelectorAll(contentSelector);
-      const content = Array.from(elements)
-        .map((element) => element.innerHTML)
-        .join("\n");
+      const content = extractContent(htmlDocument, contentSelector);
       logger.info("Selected elements:", elements);
       logger.info("Selected content:", content);
     }

@@ -98,10 +98,7 @@ export async function performYoastSeoReview({
   const { Jed } = await getModule("jed");
   const pixelWidth = await interopDefault(getModule("string-pixel-width"));
 
-  const elements = htmlDocument.querySelectorAll(contentSelector);
-  const content = Array.from(elements)
-    .map((element) => element.innerHTML)
-    .join("\n");
+  const content = extractContent(htmlDocument, contentSelector);
 
   const paper = new YoastSEO.Paper(content, {
     keyword: options.keyword,
@@ -240,4 +237,14 @@ export async function prepareContent(html) {
     title,
     description,
   };
+}
+
+/**
+ * Extracts the content from the given HTML document using the provided content selector.
+ */
+export function extractContent(htmlDocument, contentSelector) {
+  const elements = htmlDocument.querySelectorAll(contentSelector);
+  return Array.from(elements)
+    .map((element) => element.innerHTML)
+    .join("\n");
 }

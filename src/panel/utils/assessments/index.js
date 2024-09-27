@@ -2,7 +2,12 @@
  * Checks whether the content contains a H1 heading.
  */
 export function singleH1({ htmlDocument, contentSelector }) {
-  const h1s = queryAllWithin(`${contentSelector} h1`, htmlDocument);
+  const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
+  const h1s = contentElements.flatMap((element) =>
+    element.tagName.toLowerCase() === "h1"
+      ? [element]
+      : [...element.querySelectorAll("h1")],
+  );
 
   return {
     score: h1s.length === 1 ? 9 : 3,
@@ -15,7 +20,12 @@ export function singleH1({ htmlDocument, contentSelector }) {
  * Checks whether all images have an `alt` attribute.
  */
 export function altAttribute({ htmlDocument, contentSelector }) {
-  const images = queryAllWithin(`${contentSelector} img`, htmlDocument);
+  const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
+  const images = contentElements.flatMap((element) =>
+    element.tagName.toLowerCase() === "img"
+      ? [element]
+      : [...element.querySelectorAll("img")],
+  );
 
   if (images.length === 0) {
     return {
@@ -57,10 +67,13 @@ export function altAttribute({ htmlDocument, contentSelector }) {
  * Checks whether the headings (H1 to H6) follow a proper sequential order.
  */
 export function headingStructureOrder({ htmlDocument, contentSelector }) {
-  const headings = queryAllWithin(
-    `${contentSelector} h1, ${contentSelector} h2, ${contentSelector} h3, ${contentSelector} h4, ${contentSelector} h5, ${contentSelector} h6`,
-    htmlDocument,
+  const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
+  const headings = contentElements.flatMap((element) =>
+    ["h1", "h2", "h3", "h4", "h5", "h6"].includes(element.tagName.toLowerCase())
+      ? [element]
+      : [...element.querySelectorAll("h1, h2, h3, h4, h5, h6")],
   );
+
   let previousLevel = 0;
   const issues = [];
 
@@ -89,8 +102,4 @@ export function headingStructureOrder({ htmlDocument, contentSelector }) {
       },
     }),
   };
-}
-
-function queryAllWithin(selector, context) {
-  return Array.from(context.querySelectorAll(selector));
 }

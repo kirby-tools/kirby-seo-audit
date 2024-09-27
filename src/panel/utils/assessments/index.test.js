@@ -6,7 +6,7 @@ describe("singleH1", () => {
     const htmlDocument = createHtmlDocument("<div><h1>Title</h1></div>");
     const result = singleH1({
       htmlDocument,
-      contentSelector: "div",
+      contentSelector: "div > *",
     });
     expect(result).toMatchInlineSnapshot(`
       {
@@ -22,7 +22,7 @@ describe("singleH1", () => {
     );
     const result = singleH1({
       htmlDocument,
-      contentSelector: "div",
+      contentSelector: "div > *",
     });
     expect(result).toMatchInlineSnapshot(`
       {
@@ -36,7 +36,7 @@ describe("singleH1", () => {
     const htmlDocument = createHtmlDocument("<div></div>");
     const result = singleH1({
       htmlDocument,
-      contentSelector: "div",
+      contentSelector: "div > *",
     });
     expect(result).toMatchInlineSnapshot(`
       {
