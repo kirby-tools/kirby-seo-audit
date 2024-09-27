@@ -98,7 +98,10 @@ export async function performYoastSeoReview({
   const { Jed } = await getModule("jed");
   const pixelWidth = await interopDefault(getModule("string-pixel-width"));
 
-  const content = htmlDocument.querySelector(contentSelector)?.innerHTML || "";
+  const elements = htmlDocument.querySelectorAll(contentSelector);
+  const content = Array.from(elements)
+    .map((element) => element.innerHTML)
+    .join("\n");
 
   const paper = new YoastSEO.Paper(content, {
     keyword: options.keyword,
