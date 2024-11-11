@@ -4,6 +4,7 @@ import {
   IGNORED_ASSESSMENTS,
   KEYPHRASE_ASSESSMENTS,
   LANG_CULTURES,
+  SUPPORTED_ASSESSMENTS_PER_LOCALE,
 } from "../constants";
 import de from "../translations/assessments/de.json";
 import en from "../translations/assessments/en.json";
@@ -86,6 +87,45 @@ export function performSeoReview({
   }
 
   return results;
+}
+
+export async function validateYoastSeoLocaleCompatibility(locale, options) {
+  const YoastSEO = await getModule("yoastseo");
+
+  const assessmentLocaleMap = Object.fromEntries(
+    Object.entries(SUPPORTED_ASSESSMENTS_PER_LOCALE).map(([key, value]) => [
+      key.toLowerCase(),
+      value,
+    ]),
+  );
+
+  for (const assessments of Object.values(YoastSEO.assessments)) {
+    for (const key of Object.keys(assessments)) {
+      if (IGNORED_ASSESSMENTS.includes(key)) continue;
+
+      if (
+        !options.keyword &&
+        options.assessments.length === 0 &&
+        KEYPHRASE_ASSESSMENTS.includes(key)
+      )
+        continue;
+
+      if (
+        options.assessments.length > 0 &&
+        !options.assessments.includes(key.toLowerCase())
+      )
+        continue;
+
+      const compatibleLocales = assessmentLocaleMap[key.toLowerCase()];
+
+      if (!compatibleLocales || compatibleLocales.includes(locale)) continue;
+
+      return {
+        assessment: key,
+        compatibleLocales,
+      };
+    }
+  }
 }
 
 export async function performYoastSeoReview({

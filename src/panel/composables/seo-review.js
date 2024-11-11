@@ -1,9 +1,11 @@
 import { computed, usePanel, useStore } from "kirbyuse";
 import { getModule, interopDefault } from "../utils/assets";
+import { IncompatibleLocaleError } from "../utils/error";
 import {
   extractContent,
   performSeoReview,
   performYoastSeoReview,
+  validateYoastSeoLocaleCompatibility,
 } from "../utils/seo-review";
 import { useLogger } from "./logger";
 
@@ -59,6 +61,18 @@ export function useSeoReview() {
 
     for (const [category, assessments] of Object.entries(seoResult)) {
       result[category] = result[category].concat(assessments);
+    }
+
+    // Validate if the current locale is supported by the given Yoast SEO assessments
+    const localeCompatibilityResult = await validateYoastSeoLocaleCompatibility(
+      locale,
+      options,
+    );
+    if (localeCompatibilityResult) {
+      throw new IncompatibleLocaleError({
+        ...localeCompatibilityResult,
+        locale,
+      });
     }
 
     const yoastResult = await performYoastSeoReview({

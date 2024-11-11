@@ -14,6 +14,7 @@ import throttle from "throttleit";
 import { useLogger, useSeoReview } from "../composables";
 import { LOG_LEVELS } from "../constants";
 import { registerPluginAssets } from "../utils/assets";
+import { IncompatibleLocaleError } from "../utils/error";
 import { prepareContent } from "../utils/seo-review";
 import { getHashedStorageKey } from "../utils/storage";
 import SeoResultEntry from "./SeoResultEntry.vue";
@@ -232,9 +233,22 @@ async function analyze() {
     }
   } catch (error) {
     console.error(error);
-    panel.notification.error(
-      panel.t("johannschopplich.seo-audit.analyze.error"),
-    );
+
+    if (error instanceof IncompatibleLocaleError) {
+      panel.notification.error(
+        panel.t("johannschopplich.seo-audit.error.incompatibleLocale", {
+          locale: error.locale.toUpperCase(),
+          assessment: error.assessment,
+          compatibleLocales: error.compatibleLocales
+            .map((i) => i.toUpperCase())
+            .join(", "),
+        }),
+      );
+    } else {
+      panel.notification.error(
+        panel.t("johannschopplich.seo-audit.analyze.error"),
+      );
+    }
   }
 
   panel.isLoading = false;
