@@ -1,3 +1,4 @@
+import { loadPluginModule } from "kirbyuse";
 import yoastseoDefaultConfig from "yoastseo/src/config/content/default";
 import {
   ASSESSMENT_CONFIG_LOOKUP,
@@ -10,7 +11,7 @@ import de from "../translations/assessments/de.json";
 import en from "../translations/assessments/en.json";
 import nl from "../translations/assessments/nl.json";
 import { altAttribute, headingStructureOrder, singleH1 } from "./assessments";
-import { getModule, interopDefault } from "./assets";
+import { interopDefault } from "./assets";
 import { get } from "./safe-get";
 import { renderTemplate } from "./template";
 
@@ -90,7 +91,7 @@ export function performSeoReview({
 }
 
 export async function validateYoastSeoLocaleCompatibility(locale, options) {
-  const YoastSEO = await getModule("yoastseo");
+  const YoastSEO = await loadPluginModule("yoastseo");
 
   const assessmentLocaleMap = Object.fromEntries(
     Object.entries(SUPPORTED_ASSESSMENTS_PER_LOCALE).map(([key, value]) => [
@@ -134,9 +135,11 @@ export async function performYoastSeoReview({
   options,
   translations,
 }) {
-  const YoastSEO = await getModule("yoastseo");
-  const { Jed } = await getModule("jed");
-  const pixelWidth = await interopDefault(getModule("string-pixel-width"));
+  const YoastSEO = await loadPluginModule("yoastseo");
+  const { Jed } = await loadPluginModule("jed");
+  const pixelWidth = await interopDefault(
+    loadPluginModule("string-pixel-width"),
+  );
 
   const content = extractContent(htmlDocument, contentSelector);
 

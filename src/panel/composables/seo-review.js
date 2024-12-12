@@ -1,5 +1,5 @@
-import { computed, usePanel, useStore } from "kirbyuse";
-import { getModule, interopDefault } from "../utils/assets";
+import { loadPluginModule, useContent, usePanel } from "kirbyuse";
+import { interopDefault } from "../utils/assets";
 import { IncompatibleLocaleError } from "../utils/error";
 import {
   extractContent,
@@ -11,8 +11,7 @@ import { useLogger } from "./logger";
 
 export function useSeoReview() {
   const panel = usePanel();
-  const store = useStore();
-  const currentContent = computed(() => store.getters["content/values"]());
+  const { currentContent } = useContent();
   const logger = useLogger();
 
   const generateReport = async (htmlDocument, contentSelector, options) => {
@@ -21,7 +20,7 @@ export function useSeoReview() {
     }
 
     const YoastSEOTranslations = await interopDefault(
-      getModule("yoastseo-translations"),
+      loadPluginModule("yoastseo-translations"),
     );
 
     if (options.logLevel > 1) {

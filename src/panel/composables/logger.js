@@ -1,4 +1,4 @@
-import { createLogger } from "../utils/logger";
+import { createLogger } from "kirbyuse";
 
 let instance;
 

@@ -1,7 +1,5 @@
 <?php
 
-use JohannSchopplich\Licensing\Licenses;
-use Kirby\Cms\PluginAsset;
 use Kirby\Toolkit\I18n;
 
 return [
@@ -24,43 +22,6 @@ return [
             },
             'synonyms' => function () {
                 return $this->tryResolveQuery($this->synonyms);
-            },
-            'config' => function () {
-                /** @var \Kirby\Cms\App */
-                $kirby = $this->kirby();
-                $config = $kirby->option('johannschopplich.seo-audit', []);
-
-                $defaultConfig = [
-                    'proxy' => [
-                        'params' => []
-                    ]
-                ];
-
-                // Merge user configuration with defaults
-                $config = array_replace_recursive($defaultConfig, $config);
-
-                // Remove proxy API configuration for the client
-                unset($config['proxy']);
-
-                return $config;
-            },
-            'assets' => function () {
-                /** @var \Kirby\Cms\App */
-                $kirby = $this->kirby();
-                $plugin = $kirby->plugin('johannschopplich/seo-audit');
-
-                return $plugin
-                    ->assets()
-                    ->clone()
-                    ->map(fn (PluginAsset $asset) => [
-                        'filename' => $asset->filename(),
-                        'url' => $asset->url()
-                    ])
-                    ->values();
-            },
-            'license' => function () {
-                $licenses = Licenses::read('johannschopplich/kirby-seo-audit');
-                return $licenses->getStatus();
             }
         ],
         'methods' => [

@@ -1,19 +1,19 @@
 <script>
-import { useLicense } from "@kirby-tools/licensing";
+import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
   computed,
   ref,
+  registerPluginAssets,
   useApi,
+  useContent,
   usePanel,
   useSection,
-  useStore,
   watch,
 } from "kirbyuse";
 import { section } from "kirbyuse/props";
 import throttle from "throttleit";
-import { useLogger, useSeoReview } from "../composables";
+import { useLogger, usePluginContext, useSeoReview } from "../composables";
 import { LOG_LEVELS } from "../constants";
-import { registerPluginAssets } from "../utils/assets";
 import { IncompatibleLocaleError } from "../utils/error";
 import { prepareContent } from "../utils/seo-review";
 import { getHashedStorageKey } from "../utils/storage";
@@ -33,13 +33,8 @@ const props = defineProps(propsDefinition);
 
 const panel = usePanel();
 const api = useApi();
-const store = useStore();
 const logger = useLogger();
 const { generateReport } = useSeoReview();
-const { openLicenseModal, assertActivationIntegrity } = useLicense({
-  label: "Kirby SEO Audit",
-  apiNamespace: "__seo-audit__",
-});
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -56,16 +51,14 @@ const contentSelector = ref();
 const links = ref();
 const persisted = ref();
 const logLevel = ref();
-// Section computed
-const config = ref();
-const license = ref();
-// Local data
+
+// Generic data
 const isInitialized = ref(false);
 const isGenerating = ref(false);
-const licenseButtonGroup = ref();
+const licenseStatus = ref();
 const report = ref();
 
-const currentContent = computed(() => store.getters["content/values"]());
+const { currentContent } = useContent();
 const resolvedKeyphrase = computed(
   () => keyphrase.value || currentContent.value[keyphraseField.value] || "",
 );
@@ -125,10 +118,13 @@ const { format } = new Intl.DateTimeFormat(
 
 async function updateSectionData(isInitializing = false) {
   const { load } = useSection();
-  const response = await load({
-    parent: props.parent,
-    name: props.name,
-  });
+  const [context, response] = await Promise.all([
+    usePluginContext(),
+    load({
+      parent: props.parent,
+      name: props.name,
+    }),
+  ]);
 
   // Set values once that don't need to be re-evaluated on the server
   // when the language changes
@@ -142,16 +138,13 @@ async function updateSectionData(isInitializing = false) {
     links.value = response.links;
     persisted.value = response.persisted;
     logLevel.value = LOG_LEVELS.indexOf(
-      response.config.logLevel ?? response.logLevel,
+      context.config.logLevel ?? response.logLevel,
     );
-    config.value = response.config;
-    license.value =
+    licenseStatus.value =
       // eslint-disable-next-line no-undef
-      __PLAYGROUND__ && window.location.hostname === "try.kirbyseo.com"
-        ? "active"
-        : response.license;
+      __PLAYGROUND__ ? "active" : context.licenseStatus;
 
-    registerPluginAssets(response.assets);
+    registerPluginAssets(context.assets);
 
     if (persisted.value) {
       const persistedReport = JSON.parse(localStorage.getItem(storageKey));
@@ -159,10 +152,6 @@ async function updateSectionData(isInitializing = false) {
     }
 
     isInitialized.value = true;
-    assertActivationIntegrity({
-      component: licenseButtonGroup,
-      licenseStatus: license.value,
-    });
   }
 
   // These props are resolved Kirby queries
@@ -291,40 +280,18 @@ async function fetchHtml(url) {
 
   return html;
 }
-
-async function handleRegistration() {
-  const { isRegistered } = await openLicenseModal();
-  if (isRegistered) {
-    license.value = "active";
-  }
-}
 </script>
 
 <template>
   <k-section v-if="isInitialized" :label="label">
-    <k-button-group
-      v-if="license !== 'active'"
-      ref="licenseButtonGroup"
-      slot="options"
-      layout="collapsed"
-    >
-      <k-button
-        theme="love"
-        variant="filled"
-        size="xs"
-        link="https://kirbyseo.com/buy"
-        target="_blank"
-        :text="panel.t('johannschopplich.seo-audit.license.buy')"
+    <template v-if="licenseStatus !== undefined" slot="options">
+      <LicensingButtonGroup
+        label="Kirby SEO Audit"
+        api-namespace="__seo-audit__"
+        :license-status="licenseStatus"
+        pricing-url="https://kirbyseo.com/buy"
       />
-      <k-button
-        theme="love"
-        variant="filled"
-        size="xs"
-        icon="key"
-        :text="panel.t('johannschopplich.seo-audit.license.activate')"
-        @click="handleRegistration()"
-      />
-    </k-button-group>
+    </template>
 
     <div class="ksr-space-y-4">
       <k-button-group layout="collapsed">

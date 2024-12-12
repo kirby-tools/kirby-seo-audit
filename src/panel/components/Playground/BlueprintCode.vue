@@ -1,5 +1,5 @@
 <script>
-import { computed, ref, useSection, useStore } from "kirbyuse";
+import { computed, ref, useContent, useSection } from "kirbyuse";
 import { section } from "kirbyuse/props";
 
 const propsDefinition = {
@@ -23,8 +23,7 @@ const data = ref({});
   });
 })();
 
-const store = useStore();
-const currentContent = computed(() => store.getters["content/values"]());
+const { currentContent } = useContent();
 
 const code = computed(() =>
   `
