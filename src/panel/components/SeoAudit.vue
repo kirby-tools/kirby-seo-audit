@@ -3,7 +3,6 @@ import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
   computed,
   ref,
-  registerPluginAssets,
   useApi,
   useContent,
   usePanel,
@@ -143,8 +142,6 @@ async function updateSectionData(isInitializing = false) {
     licenseStatus.value =
       // eslint-disable-next-line no-undef
       __PLAYGROUND__ ? "active" : context.licenseStatus;
-
-    registerPluginAssets(context.assets);
 
     if (persisted.value) {
       const persistedReport = JSON.parse(localStorage.getItem(storageKey));
