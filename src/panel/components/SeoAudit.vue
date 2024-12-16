@@ -51,7 +51,7 @@ const links = ref();
 const persisted = ref();
 const logLevel = ref();
 
-// Generic data
+// Local data
 const isInitialized = ref(false);
 const isGenerating = ref(false);
 const licenseStatus = ref();
