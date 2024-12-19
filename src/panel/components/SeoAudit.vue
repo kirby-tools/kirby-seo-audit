@@ -2,6 +2,7 @@
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
   computed,
+  isKirby5,
   ref,
   useApi,
   useContent,
@@ -30,6 +31,7 @@ export default {
 <script setup>
 const props = defineProps(propsDefinition);
 
+const _isKirby5 = isKirby5();
 const panel = usePanel();
 const api = useApi();
 const logger = useLogger();
@@ -296,7 +298,6 @@ async function fetchHtml(url) {
           :icon="isGenerating ? 'loader' : 'seo-audit-analyze'"
           :text="panel.t('johannschopplich.seo-audit.analyze')"
           variant="filled"
-          size="sm"
           theme="positive"
           :disabled="isGenerating"
           @click="analyze()"
@@ -306,7 +307,16 @@ async function fetchHtml(url) {
       <div v-if="report">
         <k-box
           theme="passive"
-          style="--link-color: var(--color-text)"
+          :style="
+            _isKirby5
+              ? {
+                  '--box-color-text':
+                    'light-dark(var(--theme-color-900), var(--color-gray-200))',
+                  '--box-color-back':
+                    'light-dark(var(--theme-color-back), var(--color-gray-850))',
+                }
+              : undefined
+          "
           :class="[
             isGenerating &&
               'ksr-cusor-wait ksr-pointer-events-none ksr-animate-pulse',
@@ -315,6 +325,11 @@ async function fetchHtml(url) {
           <k-text
             class="ksr-space-y-4"
             :class="[isGenerating && 'ksr-opacity-50']"
+            :style="{
+              '--link-color': 'var(--color-text)',
+              '--link-color-hover':
+                'light-dark(var(--color-blue-800), var(--color-blue-500))',
+            }"
           >
             <div v-if="report.result.seo.length > 0">
               <div v-for="(item, index) in report.result.seo" :key="index">
