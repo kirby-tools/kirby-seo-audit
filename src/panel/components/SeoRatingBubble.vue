@@ -6,7 +6,7 @@ defineProps({
   },
 });
 
-const colorMap = {
+const COLOR_MAP = {
   good: "green",
   ok: "orange",
   bad: "red",
@@ -17,7 +17,7 @@ const colorMap = {
   <div
     class="ksr-mt-[0.375em] ksr-h-[12px] ksr-w-[12px] ksr-rounded-full"
     :style="{
-      backgroundColor: `var(--color-${colorMap[rating] ?? 'gray'}-600)`,
+      backgroundColor: `var(--color-${COLOR_MAP[rating] ?? 'gray'}-600)`,
     }"
   >
     <span class="ksr-sr-only">{{ rating }}</span>

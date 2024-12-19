@@ -1,5 +1,3 @@
-# yaml-language-server: $schema=../../../.vscode/schemas/kirby4-blueprints.schema.json
-blueprint: site
 title: Playground
 
 options:
