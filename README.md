@@ -6,7 +6,7 @@ Kirby SEO Audit is a plugin for [Kirby CMS](https://getkirby.com) that analyzes 
 
 ## Getting Started
 
-To get started, please refer to the [documentation](https://kirbyseo.com/docs/getting-started) for guidance on installation, configuration, and usage.
+To get started, please refer to the [documentation](https://kirbyseo.com/docs/get-started) for guidance on installation, configuration, and usage.
 
 Here are some quick links:
 
