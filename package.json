@@ -1,7 +1,7 @@
 {
   "name": "kirby-seo-audit",
   "type": "module",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "packageManager": "pnpm@9.15.0",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.12.0",
-    "@kirby-tools/licensing": "^0.4.1",
+    "@kirby-tools/licensing": "^0.4.2",
     "autoprefixer": "^10.4.20",
     "bumpp": "^9.9.1",
     "eslint": "^9.17.0",
