@@ -63,11 +63,11 @@ return [
             }
         ],
         [
-            'pattern' => '__seo-audit__/register',
+            'pattern' => '__seo-audit__/activate',
             'method' => 'POST',
             'action' => function () {
                 $licenses = Licenses::read('johannschopplich/kirby-seo-audit');
-                return $licenses->registerFromRequest();
+                return $licenses->activateFromRequest();
             }
         ]
     ]
