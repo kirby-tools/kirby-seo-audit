@@ -79,7 +79,7 @@ class Licenses
 
     public function getLicense(): array|bool
     {
-        if (!$this->isRegistered()) {
+        if (!$this->isActivated()) {
             return false;
         }
 
@@ -117,7 +117,7 @@ class Licenses
         return App::instance()->plugin($kirbyPackageName)?->version();
     }
 
-    public function isRegistered(): bool
+    public function isActivated(): bool
     {
         return $this->isValid($this->getLicenseKey()) && $this->isCompatible($this->getLicenseCompatibility());
     }
@@ -172,13 +172,13 @@ class Licenses
         return false;
     }
 
-    public function register(string $email, string|int $orderId): void
+    public function activate(string $email, string|int $orderId): void
     {
-        if ($this->isRegistered()) {
-            throw new LogicException('License key already registered');
+        if ($this->isActivated()) {
+            throw new LogicException('License key already activated');
         }
 
-        $response = $this->request('licenses', [
+        $response = $this->request('auth/activate', [
             'method' => 'POST',
             'data' => [
                 'email' => $email,
@@ -203,7 +203,7 @@ class Licenses
         $this->update($this->packageName, $response);
     }
 
-    public function registerFromRequest(): array
+    public function activateFromRequest(): array
     {
         $request = App::instance()->request();
         $email = $request->get('email');
@@ -213,12 +213,12 @@ class Licenses
             throw new LogicException('Missing license registration parameters "email" or "orderId"');
         }
 
-        $this->register($email, $orderId);
+        $this->activate($email, $orderId);
 
         return [
             'code' => 200,
             'status' => 'ok',
-            'message' => 'License key registered successfully'
+            'message' => 'License key successfully activated'
         ];
     }
 
