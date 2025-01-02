@@ -24,7 +24,7 @@
     "happy-dom": "^15.11.7",
     "jed": "^1.1.1",
     "kirbyup": "^3.2.0",
-    "kirbyuse": "^0.9.2",
+    "kirbyuse": "^0.10.0",
     "ohash": "^1.1.4",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
