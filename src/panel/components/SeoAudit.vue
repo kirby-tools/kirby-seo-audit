@@ -6,6 +6,7 @@ import {
   ref,
   useApi,
   useContent,
+  useI18n,
   usePanel,
   useSection,
   watch,
@@ -35,6 +36,7 @@ const _isKirby5 = isKirby5();
 const panel = usePanel();
 const api = useApi();
 const logger = useLogger();
+const { t } = useI18n();
 const { generateReport } = useSeoReview();
 
 // Non-reactive data
@@ -159,11 +161,6 @@ async function updateSectionData(isInitializing = false) {
 
   const data = await api.get(panel.view.path, { select: "previewUrl" });
   previewUrl = data.previewUrl;
-}
-
-function t(value) {
-  if (!value || typeof value === "string") return value;
-  return value[panel.translation.code] ?? Object.values(value)[0];
 }
 
 async function analyze() {
