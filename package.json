@@ -3,7 +3,7 @@
   "type": "module",
   "version": "2.0.2",
   "private": true,
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@10.5.2",
   "scripts": {
     "dev": "PLAYGROUND=true kirbyup serve src/panel/index.js",
     "build": "kirbyup src/panel/index.js",
@@ -16,32 +16,36 @@
     "release": "pnpm run build && pnpm run build:assets && bumpp --all --execute \"npx zx scripts/pre-release.mjs\" && zx scripts/post-release.mjs"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.12.1",
-    "@kirby-tools/licensing": "^0.5.0",
+    "@antfu/eslint-config": "^4.3.0",
+    "@kirby-tools/licensing": "^0.5.2",
     "autoprefixer": "^10.4.20",
-    "bumpp": "^9.9.2",
-    "eslint": "^9.17.0",
-    "happy-dom": "^15.11.7",
+    "bumpp": "^10.0.3",
+    "eslint": "^9.21.0",
+    "happy-dom": "^17.1.8",
     "jed": "^1.1.1",
     "kirbyup": "^3.2.0",
-    "kirbyuse": "^0.10.0",
+    "kirbyuse": "^0.11.3",
     "ohash": "^1.1.4",
-    "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.9",
-    "sass": "^1.83.0",
+    "prettier": "^3.5.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "sass": "^1.85.1",
     "string-pixel-width": "^1.11.0",
     "tailwindcss": "^3.4.17",
     "throttleit": "^2.1.0",
     "ufo": "^1.5.4",
-    "vite": "~5.4.11",
-    "vite-plugin-node-polyfills": "^0.22.0",
-    "vitest": "^2.1.8",
+    "vite": "~5.4.14",
+    "vite-plugin-node-polyfills": "^0.23.0",
+    "vitest": "^3.0.7",
     "yoastseo": "^1.91.2",
-    "zx": "^8.3.0"
+    "zx": "^8.3.2"
   },
   "pnpm": {
     "overrides": {
       "node-sass": "sass"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ]
   }
 }
