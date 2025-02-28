@@ -33,7 +33,7 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       kirbyup:
-        specifier: ^3.2.0
+        specifier: ^3.2.1
         version: 3.2.1(@types/node@22.13.5)(jiti@2.4.2)(rollup@4.34.8)(yaml@2.7.0)
       kirbyuse:
         specifier: ^0.11.3
