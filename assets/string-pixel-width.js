@@ -1,8 +1,8 @@
 var n = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function A(u) {
+function I(u) {
   return u && u.__esModule && Object.prototype.hasOwnProperty.call(u, "default") ? u.default : u;
 }
-var s = { exports: {} }, C = 1 / 0, M = "[object Symbol]", L = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g, U = "\\u0300-\\u036f\\ufe20-\\ufe23", N = "\\u20d0-\\u20f0", P = "[" + U + N + "]", R = RegExp(P, "g"), z = {
+var s = { exports: {} }, M = "[object Symbol]", T = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g, L = "\\u0300-\\u036f\\ufe20-\\ufe23", U = "\\u20d0-\\u20f0", P = "[" + L + U + "]", R = RegExp(P, "g"), z = {
   // Latin-1 Supplement block.
   À: "A",
   Á: "A",
@@ -195,34 +195,34 @@ var s = { exports: {} }, C = 1 / 0, M = "[object Symbol]", L = /[\xc0-\xd6\xd8-\
   œ: "oe",
   ŉ: "'n",
   ſ: "ss"
-}, D = typeof n == "object" && n && n.Object === Object && n, G = typeof self == "object" && self && self.Object === Object && self, k = D || G || Function("return this")();
-function F(u) {
+}, D = typeof n == "object" && n && n.Object === Object && n, G = typeof self == "object" && self && self.Object === Object && self, N = D || G || Function("return this")();
+function k(u) {
   return function(e) {
     return u == null ? void 0 : u[e];
   };
 }
-var W = F(z), Y = Object.prototype, Z = Y.toString, v = k.Symbol, y = v ? v.prototype : void 0, g = y ? y.toString : void 0;
-function q(u) {
+var W = k(z), F = Object.prototype, Y = F.toString, v = N.Symbol, y = v ? v.prototype : void 0, g = y ? y.toString : void 0;
+function Z(u) {
   if (typeof u == "string")
     return u;
-  if (J(u))
+  if (H(u))
     return g ? g.call(u) : "";
   var e = u + "";
-  return e == "0" && 1 / u == -C ? "-0" : e;
+  return e == "0" && 1 / u == -1 / 0 ? "-0" : e;
 }
-function H(u) {
+function q(u) {
   return !!u && typeof u == "object";
 }
+function H(u) {
+  return typeof u == "symbol" || q(u) && Y.call(u) == M;
+}
 function J(u) {
-  return typeof u == "symbol" || H(u) && Z.call(u) == M;
+  return u == null ? "" : Z(u);
 }
 function K(u) {
-  return u == null ? "" : q(u);
+  return u = J(u), u && u.replace(T, W).replace(R, "");
 }
-function $(u) {
-  return u = K(u), u && u.replace(L, W).replace(R, "");
-}
-var B = $, x = { exports: {} };
+var $ = K, x = { exports: {} };
 (function(u, e) {
   Object.defineProperty(e, "__esModule", {
     value: !0
@@ -1880,7 +1880,7 @@ var B = $, x = { exports: {} };
   };
   e.default = f, u.exports = e.default;
 })(x, x.exports);
-var Q = x.exports;
+var B = x.exports;
 (function(u, e) {
   Object.defineProperty(e, "__esModule", {
     value: !0
@@ -1892,7 +1892,7 @@ var Q = x.exports;
         Object.prototype.hasOwnProperty.call(o, t) && (r[t] = o[t]);
     }
     return r;
-  }, h = B, m = c(h), O = Q, w = c(O);
+  }, h = $, m = c(h), O = B, w = c(O);
   function c(r) {
     return r && r.__esModule ? r : { default: r };
   }
@@ -1904,14 +1904,14 @@ var Q = x.exports;
     return (0, m.default)(a).split("").forEach(function(p) {
       if (/[\x00-\x1F]/.test(p))
         return !0;
-      var I = d[i][p] || d[i].x, T = I[_];
-      return b += T, !0;
+      var A = d[i][p] || d[i].x, C = A[_];
+      return b += C, !0;
     }), b * (E / 100);
   };
   e.default = S, u.exports = e.default;
 })(s, s.exports);
-var V = s.exports;
-const X = /* @__PURE__ */ A(V);
+var Q = s.exports;
+const V = /* @__PURE__ */ I(Q);
 export {
-  X as default
+  V as default
 };
