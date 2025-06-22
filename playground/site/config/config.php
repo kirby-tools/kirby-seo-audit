@@ -13,6 +13,6 @@ return [
         'vue' => [
             'compiler' => false
         ],
-        'frameAncestors' => ['https://kirbyseo.com']
+        'frameAncestors' => ['https://kirby.tools', 'self']
     ]
 ];
