@@ -1,4 +1,4 @@
-[![Kirby SEO Audit](./.github/social-card.png)](https://kirbyseo.com)
+[![Kirby SEO Audit](./.github/social-card.png)](https://kirby.tools/seo-audit)
 
 # Kirby SEO Audit
 
@@ -6,24 +6,24 @@ Kirby SEO Audit is a plugin for [Kirby CMS](https://getkirby.com) that analyzes 
 
 ## Getting Started
 
-To get started, please refer to the [documentation](https://kirbyseo.com/docs/get-started) for guidance on installation, configuration, and usage.
+To get started, please refer to the [documentation](https://kirby.tools/docs/seo-audit/get-started) for guidance on installation, configuration, and usage.
 
 Here are some quick links:
 
-- [Installation](https://kirbyseo.com/docs/get-started)
-- [Global Configuration](https://kirbyseo.com/docs/configuration/global)
-- [Section Configuration](https://kirbyseo.com/docs/configuration/section)
+- [Installation](https://kirby.tools/docs/seo-audit/get-started)
+- [Global Configuration](https://kirby.tools/docs/seo-audit/configuration/global)
+- [Section Configuration](https://kirby.tools/docs/seo-audit/configuration/section)
 
 ## Licensing
 
-Kirby SEO Audit is a commercial plugin that requires a license. You can install and test the plugin locally without a license. However, production environments require a valid license. You can purchase a license from the [Kirby SEO Audit Website](https://kirbyseo.com/buy).
+Kirby SEO Audit is a commercial plugin that requires a license. You can install and test the plugin locally without a license. However, production environments require a valid license. You can purchase a license from the [Kirby SEO Audit Website](https://kirby.tools/seo-audit/buy).
 
 ## Support and Questions
 
 We are committed to support you if you have any questions or issues with Kirby SEO Audit. There are several ways to get support:
 
 - **GitHub Discussions**: Join the community and engage in discussions on our [GitHub Discussions page](https://github.com/kirby-tools/community/discussions).
-- **Email Support**: You can ask questions and seek assistance by emailing us at [hello@kirbyseo.com](mailto:hello@kirbyseo.com). Please use the GitHub discussions if you have a general question or comment about Kirby SEO Audit.
+- **Email Support**: You can ask questions and seek assistance by emailing us at [hello@kirby.tools](mailto:hello@kirby.tools). Please use the GitHub discussions if you have a general question or comment about Kirby Content Translator.
 - **GitHub Issues**: For reporting bugs or requesting new features, please use the [GitHub Issues page](https://github.com/kirby-tools/community/issues).
 
 We encourage you to use the resources above to connect with us and other users of Kirby SEO Audit.
@@ -42,4 +42,4 @@ We value your feedback and ideas for improving Kirby SEO Audit. If you have any 
 
 ## License
 
-[Kirby SEO Audit Plugin License Agreement](./LICENSE.md) License © 2024-PRESENT [Johann Schopplich](https://github.com/johannschopplich)
+[Kirby Tools License](./LICENSE.md) License © 2024-PRESENT [Johann Schopplich](https://github.com/johannschopplich)

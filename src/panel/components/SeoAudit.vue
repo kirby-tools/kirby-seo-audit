@@ -285,7 +285,7 @@ async function fetchHtml(url) {
         label="Kirby SEO Audit"
         api-namespace="__seo-audit__"
         :license-status="licenseStatus"
-        pricing-url="https://kirbyseo.com/buy"
+        pricing-url="https://kirby.tools/seo-audit/buy"
       />
     </template>
 
