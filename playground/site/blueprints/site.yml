@@ -1,7 +1,11 @@
 title: Playground
 
-options:
-  preview: https://kirby.tools/seo-audit
+buttons:
+  social:
+    icon: cart
+    text: Buy
+    link: https://kirby.tools/seo-audit
+    theme: love-icon
 
 columns:
   - width: 1/2
