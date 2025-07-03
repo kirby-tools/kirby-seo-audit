@@ -4,7 +4,7 @@ buttons:
   social:
     icon: cart
     text: Buy
-    link: https://kirby.tools/seo-audit
+    link: https://kirby.tools/seo-audit/buy
     theme: love-icon
 
 columns:
