@@ -1,10 +1,9 @@
 cd {SITE_DIRECTORY}
 
-# Create .env file if it doesn't exist
-if [ ! -f .env ] && [ -f .env.production.example ]; then
-  cp .env.production.example .env
-fi
+# Reset playground build
+git reset --hard
 
+# Pull latest changes
 git pull origin main
 
 # Install Composer dependencies
@@ -23,7 +22,7 @@ corepack enable
 if [ -f package-lock.json ]; then
   npm ci && npm run build
 elif [ -f pnpm-lock.yaml ]; then
-  pnpm i && pnpm run build
+  pnpm i && pnpm run build:playground
 fi
 
 # Clean Kirby cache
