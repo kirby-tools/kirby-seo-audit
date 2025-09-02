@@ -1,17 +1,17 @@
 {
-  "AltAttributeAssessment": {
+  "altAttribute": {
     "_label": "Alt-Attribut für Bilder",
     "na": "Der Text enthält keine Bilder.",
     "none": "Keines der {imagesWithoutAltAttribute} Bilder enthält ein Attribut für alternativen Text. Fügen Sie sie hinzu!",
     "some": "Einige der {imagesWithoutAltAttribute} Bilder enthalten ein Attribut für alternativen Text. Fügen Sie sie hinzu!",
     "every": "Alle Bilder enthalten ein Attribut für alternativen Text. Gute Arbeit!"
   },
-  "HeadingStructureOrderAssessment": {
+  "headingStructureOrder": {
     "_label": "Reihenfolge der Überschriften",
     "sequential": "Die Überschriftenstruktur ist in sequenzieller Reihenfolge. Gute Arbeit!",
     "nonSequential": "Die Überschriftenstruktur ist nicht in sequenzieller Reihenfolge. Korrigieren Sie Ihre Überschriftenstruktur!"
   },
-  "SingleH1Assessment": {
+  "singleH1": {
     "_label": "Einzelne H1",
     "one": "Der Text enthält einen H1-Tag. Gute Arbeit!",
     "multiple": "Der Text enthält mehrere H1-Tags. Überdenken Sie Ihre Überschriftenstruktur!",

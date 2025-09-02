@@ -7,6 +7,8 @@
 
 # Build files
 /index.dev.mjs
+/messages.pot
+/messages.json
 
 # Playground files
 .env

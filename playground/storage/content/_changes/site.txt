@@ -1,0 +1,25 @@
+Title: Kirby SEO Audit
+
+----
+
+Targeturl: https://getkirby.com/features/developers
+
+----
+
+Assessments: 
+
+----
+
+Language: nl
+
+----
+
+Links: true
+
+----
+
+Metakeyphrase: developers
+
+----
+
+Metasynonyms: plugins, flexibility

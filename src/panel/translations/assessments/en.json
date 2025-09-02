@@ -1,17 +1,17 @@
 {
-  "AltAttributeAssessment": {
+  "altAttribute": {
     "_label": "Image alt attribute",
     "na": "The text doesn't contain any images.",
     "none": "None of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
     "some": "Some of the {imagesWithoutAltAttribute} images contain an alternative text attribute. Add them!",
     "every": "All images contain an alternative text attribute. Good job!"
   },
-  "HeadingStructureOrderAssessment": {
+  "headingStructureOrder": {
     "_label": "Heading structure",
     "sequential": "The heading structure is in sequential order. Good job!",
     "nonSequential": "The heading structure is not in sequential order. Fix your heading structure!"
   },
-  "SingleH1Assessment": {
+  "singleH1": {
     "_label": "Single H1",
     "one": "The text contains a single H1 tag. Good job!",
     "multiple": "The text contains multiple H1 tags. Rethink your heading structure!",

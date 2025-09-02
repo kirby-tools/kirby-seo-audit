@@ -1,0 +1,20 @@
+{
+  "altAttribute": {
+    "_label": "Attribut alt des images",
+    "na": "Le texte ne contient aucune image.",
+    "none": "Aucune des {imagesWithoutAltAttribute} images ne contient un attribut de texte alternatif. Ajoutez-les !",
+    "some": "Certaines des {imagesWithoutAltAttribute} images contiennent un attribut de texte alternatif. Ajoutez-les !",
+    "every": "Toutes les images contiennent un attribut de texte alternatif. Bon travail !"
+  },
+  "headingStructureOrder": {
+    "_label": "Structure des titres",
+    "sequential": "La structure des titres est dans l'ordre séquentiel. Bon travail !",
+    "nonSequential": "La structure des titres n'est pas dans l'ordre séquentiel. Corrigez votre structure de titres !"
+  },
+  "singleH1": {
+    "_label": "H1 unique",
+    "one": "Le texte contient un seul tag H1. Bon travail !",
+    "multiple": "Le texte contient plusieurs tags H1. Repensez votre structure de titres !",
+    "none": "Le texte ne contient aucun tag H1. Ajoutez-le !"
+  }
+}

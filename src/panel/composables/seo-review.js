@@ -1,11 +1,8 @@
-import { loadPluginModule, useContent, usePanel } from "kirbyuse";
-import { interopDefault } from "../utils/assets";
-import { IncompatibleLocaleError } from "../utils/error";
+import { useContent, usePanel } from "kirbyuse";
 import {
   extractContent,
   performSeoReview,
   performYoastSeoReview,
-  validateYoastSeoLocaleCompatibility,
 } from "../utils/seo-review";
 import { useLogger } from "./logger";
 
@@ -18,10 +15,6 @@ export function useSeoReview() {
     if (import.meta.env.DEV) {
       options.logLevel = 3;
     }
-
-    const YoastSEOTranslations = await interopDefault(
-      loadPluginModule("yoastseo-translations"),
-    );
 
     if (options.logLevel > 1) {
       if (contentSelector) {
@@ -37,51 +30,40 @@ export function useSeoReview() {
     // Resolve assessment names
     options.assessments = options.assessments.map((i) => {
       let assessment = i.toLowerCase();
-      if (!assessment.endsWith("assessment")) assessment += "assessment";
+      // Trim trailing `assessment` suffix if present
+      if (assessment.endsWith("assessment"))
+        assessment = assessment.slice(0, -10);
       return assessment;
     });
 
     // eslint-disable-next-line no-undef
-    const locale = __PLAYGROUND__
+    const language = __PLAYGROUND__
       ? currentContent.value.language
       : panel.translation.code;
+
+    const kirbySeoResult = performSeoReview({
+      htmlDocument,
+      contentSelector,
+      assessments: options.assessments,
+      language,
+    });
+
+    const yoastSeoResult = await performYoastSeoReview({
+      htmlDocument,
+      contentSelector,
+      options,
+      language,
+    });
 
     const result = {
       seo: [],
       readability: [],
     };
 
-    const seoResult = performSeoReview({
-      htmlDocument,
-      contentSelector,
-      assessments: options.assessments,
-      locale,
-    });
-
-    for (const [category, assessments] of Object.entries(seoResult)) {
-      result[category] = result[category].concat(assessments);
-    }
-
-    // Validate if the current locale is supported by the given Yoast SEO assessments
-    const localeCompatibilityResult = await validateYoastSeoLocaleCompatibility(
-      locale,
-      options,
-    );
-    if (localeCompatibilityResult) {
-      throw new IncompatibleLocaleError({
-        ...localeCompatibilityResult,
-        locale,
-      });
-    }
-
-    const yoastResult = await performYoastSeoReview({
-      htmlDocument,
-      contentSelector,
-      options,
-      translations: YoastSEOTranslations[locale],
-    });
-
-    for (const [category, assessments] of Object.entries(yoastResult)) {
+    for (const [category, assessments] of Object.entries({
+      ...kirbySeoResult,
+      ...yoastSeoResult,
+    })) {
       result[category] = result[category].concat(assessments);
     }
 

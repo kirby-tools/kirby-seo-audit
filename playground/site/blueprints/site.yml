@@ -71,8 +71,10 @@ columns:
             type: select
             required: true
             options:
-              en: English
               de: German
+              en: English
+              es: Spanish
+              fr: French
               nl: Dutch
             help: Will use the user's Panel language in the production version.
             width: 1/2

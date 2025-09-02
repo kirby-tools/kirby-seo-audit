@@ -170,9 +170,7 @@ async function analyze() {
       panel.notification.error("Please enter a target URL to be analyzed.");
       return;
     }
-  }
-
-  if (!previewUrl) {
+  } else if (!previewUrl) {
     panel.notification.error(
       panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
     );
@@ -186,7 +184,7 @@ async function analyze() {
 
   try {
     const html = await fetchHtml(url);
-    const { htmlDocument, locale, title, description } =
+    const { htmlDocument, language, title, description } =
       await prepareContent(html);
 
     const result = await generateReport(htmlDocument, contentSelector.value, {
@@ -199,7 +197,7 @@ async function analyze() {
       url,
       title,
       description,
-      langCulture: locale,
+      language,
       keyword: resolvedKeyphrase.value,
       synonyms: resolvedSynonyms.value,
     });

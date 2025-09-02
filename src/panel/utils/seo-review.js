@@ -1,31 +1,33 @@
-import { loadPluginModule } from "kirbyuse";
-import yoastseoDefaultConfig from "yoastseo/src/config/content/default";
+import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
 import {
-  ASSESSMENT_CONFIG_LOOKUP,
+  ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
   IGNORED_ASSESSMENTS,
   KEYPHRASE_ASSESSMENTS,
-  LANG_CULTURES,
-  SUPPORTED_ASSESSMENTS_PER_LOCALE,
+  LANGUAGE_TO_LOCALE_MAP,
 } from "../constants";
 import de from "../translations/assessments/de.json";
 import en from "../translations/assessments/en.json";
+import es from "../translations/assessments/es.json";
+import fr from "../translations/assessments/fr.json";
 import nl from "../translations/assessments/nl.json";
 import { altAttribute, headingStructureOrder, singleH1 } from "./assessments";
-import { interopDefault } from "./assets";
+import { IncompatibleLocaleError } from "./error";
 import { get } from "./safe-get";
 import { renderTemplate } from "./template";
 
 const TRANSLATIONS = {
   de,
   en,
+  es,
+  fr,
   nl,
 };
 
 const ASSESSMENTS = {
   seo: {
-    AltAttributeAssessment: altAttribute,
-    HeadingStructureOrderAssessment: headingStructureOrder,
-    SingleH1Assessment: singleH1,
+    altAttribute,
+    headingStructureOrder,
+    singleH1,
   },
   // readability: {},
 };
@@ -34,9 +36,9 @@ export function performSeoReview({
   htmlDocument,
   contentSelector,
   assessments: selectedAssessments,
-  locale,
+  language,
 }) {
-  const translations = TRANSLATIONS[locale] || TRANSLATIONS.en;
+  const translations = TRANSLATIONS[language] ?? TRANSLATIONS.en;
   const results = {};
 
   for (const [category, assessments] of Object.entries(ASSESSMENTS)) {
@@ -90,149 +92,129 @@ export function performSeoReview({
   return results;
 }
 
-export async function validateYoastSeoLocaleCompatibility(locale, options) {
-  const YoastSEO = await loadPluginModule("yoastseo");
-
-  const assessmentLocaleMap = Object.fromEntries(
-    Object.entries(SUPPORTED_ASSESSMENTS_PER_LOCALE).map(([key, value]) => [
-      key.toLowerCase(),
-      value,
-    ]),
-  );
-
-  for (const assessments of Object.values(YoastSEO.assessments)) {
-    for (const key of Object.keys(assessments)) {
-      if (IGNORED_ASSESSMENTS.includes(key)) continue;
-
-      if (
-        !options.keyword &&
-        options.assessments.length === 0 &&
-        KEYPHRASE_ASSESSMENTS.includes(key)
-      )
-        continue;
-
-      if (
-        options.assessments.length > 0 &&
-        !options.assessments.includes(key.toLowerCase())
-      )
-        continue;
-
-      const compatibleLocales = assessmentLocaleMap[key.toLowerCase()];
-
-      if (!compatibleLocales || compatibleLocales.includes(locale)) continue;
-
-      return {
-        assessment: key,
-        compatibleLocales,
-      };
-    }
-  }
-}
-
 export async function performYoastSeoReview({
   htmlDocument,
   contentSelector,
   options,
-  translations,
+  language,
 }) {
-  const YoastSEO = await loadPluginModule("yoastseo");
-  const { Jed } = await loadPluginModule("jed");
-  const pixelWidth = await interopDefault(
-    loadPluginModule("string-pixel-width"),
-  );
+  const { Paper, helpers, AnalysisTranslations } =
+    await loadPluginModule("yoastseo");
 
-  const content = extractContent(htmlDocument, contentSelector);
+  const paperLocale = options.language.split("-")[0];
+  const worker = await loadYoastSeoAnalysisWebWorker(paperLocale);
 
-  const paper = new YoastSEO.Paper(content, {
+  await worker.initialize({
+    // https://github.com/pimterry/loglevel
+    logLevel: import.meta.env.DEV ? "trace" : "info",
+    translations: {
+      default: AnalysisTranslations[language] ?? {
+        domain: "wordpress-seo",
+        locale_data: {
+          "wordpress-seo": {
+            "": {},
+          },
+        },
+      },
+    },
+  });
+
+  const paperText = extractContent(htmlDocument, contentSelector);
+
+  const paper = new Paper(paperText, {
     keyword: options.keyword,
     synonyms: options.synonyms.join(","),
-    url: new URL(options.url).pathname,
+    slug: new URL(options.url).pathname,
     permalink: options.url,
     title: options.title,
-    titleWidth: options.title
-      ? pixelWidth(options.title, { font: "arial", size: 20 })
-      : undefined,
+    titleWidth: helpers.measureTextWidth(options.title),
     description: options.description,
-    locale: options.langCulture.replace("-", "_"),
-  });
-  const researcher = new YoastSEO.Researcher(paper);
-  const i18n = new Jed({
-    domain: "js-text-analysis",
-    locale_data: {
-      "js-text-analysis": translations || { "": {} },
-    },
+    locale: options.language.replace("-", "_"),
   });
 
-  const results = Object.entries(YoastSEO.assessments).reduce(
-    (resultsByCategory, [category, assessments]) => {
-      for (const [key, CurrentAssessment] of Object.entries(assessments)) {
-        // Some assessments have been deprecated or are not relevant
-        if (IGNORED_ASSESSMENTS.includes(key)) continue;
+  const { result: rawResult } = await worker.analyze(paper);
+  const analysisResults = [
+    ...rawResult.seo[""].results.map((i) => ({ ...i, _category: "seo" })),
+    ...rawResult.readability.results.map((i) => ({
+      ...i,
+      _category: "readability",
+    })),
+  ];
 
-        // Skip keyphrase assessments if keyword is empty
-        // and no assessments are selected
-        if (
-          !options.keyword &&
-          options.assessments.length === 0 &&
-          KEYPHRASE_ASSESSMENTS.includes(key)
-        )
-          continue;
-
-        // Process only selected assessments if any
-        if (
-          options.assessments.length > 0 &&
-          !options.assessments.includes(key.toLowerCase())
-        )
-          continue;
-
-        if (
-          typeof CurrentAssessment === "object" &&
-          Object.prototype.hasOwnProperty.call(CurrentAssessment, "getResult")
-        ) {
-          const result = CurrentAssessment.getResult(paper, researcher, i18n);
-          resultsByCategory[category].push(result);
-        } else if (typeof CurrentAssessment === "function") {
-          const configKey = ASSESSMENT_CONFIG_LOOKUP[key];
-          const config = yoastseoDefaultConfig?.[configKey] || {};
-          const result = new CurrentAssessment(config).getResult(
-            paper,
-            researcher,
-            i18n,
-          );
-          resultsByCategory[category].push(result);
-        }
-      }
-
-      return resultsByCategory;
-    },
-    {
-      seo: [],
-      readability: [],
-    },
-  );
-
-  for (const category of Object.keys(results)) {
-    results[category] = results[category]
-      .filter((result) => result.text)
-      // Map the result for yoast-component's `ContentAnalysis`
-      // See https://github.com/Yoast/wordpress-seo/blob/0742e9b6ba4c0d6ae9d65223267a106b92a6a4a1/js/src/components/contentAnalysis/mapResults.js
-      .map((result) => ({
-        // id: result.getIdentifier(),
-        score: result.score,
-        rating: scoreToRating(result.score),
-        text: result.text,
-      }));
+  if (import.meta.env.DEV) {
+    // eslint-disable-next-line no-console
+    console.log(analysisResults);
   }
 
-  return results;
+  const resultsByCategory = {
+    seo: [],
+    readability: [],
+  };
+
+  for (const result of analysisResults) {
+    if (!result.text) continue;
+
+    const id = result._identifier.toLowerCase();
+
+    // Some assessments have been deprecated or are not relevant
+    if (IGNORED_ASSESSMENTS.includes(id)) continue;
+
+    // Skip keyphrase assessments if keyword is empty and no assessments are selected
+    if (
+      !options.keyword &&
+      options.assessments.length === 0 &&
+      KEYPHRASE_ASSESSMENTS.includes(id)
+    )
+      continue;
+
+    // Process only selected assessments (if any)
+    if (options.assessments.length > 0 && !options.assessments.includes(id))
+      continue;
+
+    // Throw error if one of the selected assessments is not compatible with the document's language
+    if (options.assessments.length > 0) {
+      const compatibleLocales = Object.entries(
+        ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
+      ).find(([key]) => key.toLowerCase() === id)?.[1];
+
+      if (compatibleLocales && !compatibleLocales.includes(paperLocale)) {
+        throw new IncompatibleLocaleError({
+          locale: paperLocale,
+          assessment: result._identifier,
+          compatibleLocales,
+        });
+      }
+    }
+
+    resultsByCategory[result._category].push({
+      ...result,
+      rating: scoreToRating(result.score),
+    });
+  }
+
+  return resultsByCategory;
+}
+
+let analysisWorkerWrapper;
+
+/**
+ * Loads the web worker for Yoast SEO analysis.
+ */
+async function loadYoastSeoAnalysisWebWorker(language) {
+  if (analysisWorkerWrapper) return analysisWorkerWrapper;
+
+  const { url: workerSrc } = resolvePluginAsset("worker.js");
+  const { AnalysisWorkerWrapper } = await loadPluginModule("yoastseo");
+
+  const workerUnwrapped = new Worker(workerSrc);
+  workerUnwrapped.postMessage({ language });
+
+  analysisWorkerWrapper = new AnalysisWorkerWrapper(workerUnwrapped);
+  return analysisWorkerWrapper;
 }
 
 /**
  * Interpreters a score and gives it a particular rating.
- *
- * @param {number} score The score to interpreter.
- * @returns {string} The rating, given based on the score.
- * @see {@link https://github.com/Yoast/wordpress-seo/blob/7be56736334fa3630a353a4629aebf1d9b2935cc/packages/yoastseo/src/scoring/interpreters/scoreToRating.js Copied from Yoast SEO}
  */
 export function scoreToRating(score) {
   if (score === -1) return "error";
@@ -257,10 +239,12 @@ export async function prepareContent(html) {
     tag.remove();
   }
 
-  // Find the language and culture
-  let locale = htmlDocument.documentElement.lang ?? LANG_CULTURES.en;
-  if (!locale.includes("-")) {
-    locale = LANG_CULTURES?.[locale.toLowerCase()] ?? LANG_CULTURES.en;
+  // Find the language
+  let language = htmlDocument.documentElement.lang || LANGUAGE_TO_LOCALE_MAP.en;
+  if (!language.includes("-")) {
+    language =
+      LANGUAGE_TO_LOCALE_MAP[language.toLowerCase()] ||
+      LANGUAGE_TO_LOCALE_MAP.en;
   }
 
   // Extract the title, description and content
@@ -276,7 +260,7 @@ export async function prepareContent(html) {
 
   return {
     htmlDocument,
-    locale,
+    language,
     title,
     description,
   };

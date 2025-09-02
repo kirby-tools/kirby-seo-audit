@@ -1,0 +1,20 @@
+{
+  "altAttribute": {
+    "_label": "Atributo alt de imágenes",
+    "na": "El texto no contiene ninguna imagen.",
+    "none": "Ninguna de las {imagesWithoutAltAttribute} imágenes contiene un atributo de texto alternativo. ¡Añádelos!",
+    "some": "Algunas de las {imagesWithoutAltAttribute} imágenes contienen un atributo de texto alternativo. ¡Añádelos!",
+    "every": "Todas las imágenes contienen un atributo de texto alternativo. ¡Buen trabajo!"
+  },
+  "headingStructureOrder": {
+    "_label": "Estructura de encabezados",
+    "sequential": "La estructura de encabezados está en orden secuencial. ¡Buen trabajo!",
+    "nonSequential": "La estructura de encabezados no está en orden secuencial. ¡Corrige tu estructura de encabezados!"
+  },
+  "singleH1": {
+    "_label": "H1 único",
+    "one": "El texto contiene una sola etiqueta H1. ¡Buen trabajo!",
+    "multiple": "El texto contiene múltiples etiquetas H1. ¡Reconsider tu estructura de encabezados!",
+    "none": "El texto no contiene ninguna etiqueta H1. ¡Añádela!"
+  }
+}
