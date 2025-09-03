@@ -157,18 +157,22 @@ export async function createYoastSeoReport({
     const id = result._identifier.toLowerCase();
 
     // Some assessments have been deprecated or are not relevant
-    if (YOAST_IGNORED_ASSESSMENTS.includes(id)) continue;
+    if (YOAST_IGNORED_ASSESSMENTS.some((key) => key.toLowerCase() === id))
+      continue;
 
     // Skip keyphrase assessments if keyword is empty and no assessments are selected
     if (
       !options.keyword &&
       options.assessments.length === 0 &&
-      YOAST_KEYPHRASE_ASSESSMENTS.includes(id)
+      YOAST_KEYPHRASE_ASSESSMENTS.some((key) => key.toLowerCase() === id)
     )
       continue;
 
     // Process only selected assessments (if any)
-    if (options.assessments.length > 0 && !options.assessments.includes(id))
+    if (
+      options.assessments.length > 0 &&
+      !options.assessments.some((key) => key.toLowerCase() === id)
+    )
       continue;
 
     // Throw error if one of the selected assessments is not compatible with the document's language
