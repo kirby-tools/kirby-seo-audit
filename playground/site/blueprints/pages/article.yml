@@ -1,0 +1,85 @@
+title: Article
+
+buttons:
+  seo-audit: true
+  preview: true
+  settings: true
+  status: true
+
+tabs:
+  content:
+    label: Content
+    columns:
+      - width: 2/3
+        fields:
+          content:
+            label: Article Content
+            type: blocks
+            fieldsets:
+              - heading
+              - text
+              - quote
+              - image
+              - list
+              - code
+            help: Build your article content with structured blocks
+
+      - width: 1/3
+        fields:
+          author:
+            label: Author
+            type: text
+            help: The author's name
+
+          publishDate:
+            label: Publish Date
+            type: date
+            default: today
+            help: When this article was or will be published
+
+          excerpt:
+            label: Excerpt
+            type: textarea
+            maxlength: 300
+            buttons: false
+            help: A brief summary or teaser for the article
+
+  settings:
+    label: Settings
+    fields:
+      category:
+        label: Category
+        type: select
+        options:
+          - Technology
+          - Business
+          - Lifestyle
+          - Education
+          - News
+        width: 1/2
+
+      tags:
+        label: Tags
+        type: tags
+        width: 1/2
+        help: Add relevant keywords for better organization
+
+      featured:
+        label: Featured Article
+        type: toggle
+        width: 1/2
+        help: Mark as featured to highlight on your homepage
+
+      seo:
+        label: SEO Settings
+        type: structure
+        fields:
+          metaTitle:
+            label: Meta Title
+            type: text
+            help: Override the default title for search engines
+          metaDescription:
+            label: Meta Description
+            type: textarea
+            maxlength: 160
+            help: Brief description for search engine results

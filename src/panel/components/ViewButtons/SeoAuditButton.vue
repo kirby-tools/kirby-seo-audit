@@ -1,6 +1,7 @@
 <script setup>
 import { ref, useApi, useContent, usePanel } from "kirbyuse";
-import { useSeoReview } from "../../composables";
+import { usePluginContext, useSeoReview } from "../../composables";
+import { LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
 import { prepareContent } from "../../utils/seo-review";
 
@@ -52,12 +53,15 @@ async function analyze() {
     }
   }
 
+  panel.isLoading = true;
+  isAnalyzing.value = true;
+
+  const context = await usePluginContext();
+
   // eslint-disable-next-line no-undef
   const url = __PLAYGROUND__
     ? currentContent.value.targeturl
     : (await api.get(panel.view.path, { select: "previewUrl" })).previewUrl;
-  panel.isLoading = true;
-  isAnalyzing.value = true;
 
   const resolvedKeyphrase =
     props.keyphrase || currentContent.value[props.keyphraseField] || "";
@@ -83,7 +87,7 @@ async function analyze() {
         assessments: __PLAYGROUND__
           ? currentContent.value.assessments
           : props.assessments,
-        // logLevel: props.logLevel,
+        logLevel: LOG_LEVELS.indexOf(context.config.logLevel || "warn"),
         // For Yoast SEO
         url,
         title,
@@ -119,10 +123,10 @@ async function analyze() {
         panel.t("johannschopplich.seo-audit.analyze.error"),
       );
     }
+  } finally {
+    panel.isLoading = false;
+    isAnalyzing.value = false;
   }
-
-  panel.isLoading = false;
-  isAnalyzing.value = false;
 }
 </script>
 
