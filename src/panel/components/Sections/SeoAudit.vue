@@ -18,7 +18,7 @@ import { LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
 import { prepareContent } from "../../utils/seo-review";
 import { getHashedStorageKey } from "../../utils/storage";
-import ResultItem from "../Ui/ResultItem.vue";
+import AuditResult from "../Ui/AuditResult.vue";
 
 const propsDefinition = {
   ...sectionProps,
@@ -71,17 +71,6 @@ const resolvedSynonyms = computed(() => {
   if (typeof value === "string") return value.split(",").map((i) => i.trim());
   return [];
 });
-
-const REPORT_SECTIONS = [
-  {
-    category: "seo",
-    label: "SEO",
-  },
-  {
-    category: "readability",
-    label: panel.t("johannschopplich.seo-audit.category.readability"),
-  },
-];
 
 watch(
   // Will be `null` in single language setups
@@ -293,26 +282,7 @@ async function analyze() {
                 'light-dark(var(--color-blue-800), var(--color-blue-500))',
             }"
           >
-            <div v-for="section in REPORT_SECTIONS" :key="section.category">
-              <div v-if="report.result[section.category].length > 0">
-                <h3
-                  class="ksr-mb-1 !ksr-leading-[var(--text-line-height)]"
-                  style="
-                    color: var(--color-text);
-                    font-size: var(--text-font-size);
-                  "
-                >
-                  {{ section.label }}
-                </h3>
-
-                <ResultItem
-                  v-for="(item, index) in report.result[section.category]"
-                  :key="index"
-                  :result="item"
-                  :links="links"
-                />
-              </div>
-            </div>
+            <AuditResult :report="report.result" :links="links" />
           </k-text>
         </k-box>
 

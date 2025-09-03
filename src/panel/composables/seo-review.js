@@ -1,4 +1,4 @@
-import { useContent, usePanel } from "kirbyuse";
+import { toRaw, useContent, usePanel } from "kirbyuse";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -55,7 +55,7 @@ export function useSeoReview() {
       language,
     });
 
-    const result = {
+    const resultsByCategory = {
       seo: [],
       readability: [],
     };
@@ -64,18 +64,23 @@ export function useSeoReview() {
       ...kirbySeoResult,
       ...yoastSeoResult,
     })) {
-      result[category] = result[category].concat(assessments);
+      resultsByCategory[category] =
+        resultsByCategory[category].concat(assessments);
     }
 
-    for (const assessments of Object.values(result)) {
-      assessments.sort((a, b) => {
-        if (a.rating === "feedback") return -1;
-        if (b.rating === "feedback") return 1;
-        return a.score < b.score ? -1 : 1;
-      });
-    }
-
-    return result;
+    return Object.values(resultsByCategory)
+      .flat()
+      .reduce(
+        (acc, item) => {
+          acc[item.rating].push(toRaw(item));
+          return acc;
+        },
+        {
+          good: [],
+          ok: [],
+          bad: [],
+        },
+      );
   }
 
   async function fetchHtml(url) {

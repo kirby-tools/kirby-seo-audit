@@ -1,6 +1,6 @@
 <script setup>
 import { computed, usePanel } from "kirbyuse";
-import ResultRating from "./ResultRating.vue";
+import RatingStatus from "./RatingStatus.vue";
 
 const props = defineProps({
   result: {
@@ -29,7 +29,8 @@ function stripTags(html) {
 
 <template>
   <div class="ksr-flex ksr-items-start ksr-gap-2">
-    <ResultRating class="ksr-mx-1 ksr-shrink-0" :rating="result.rating" />
+    <RatingStatus :rating="result.rating" class="ksr-mt-1 ksr-size-3" />
+
     <div>
       <div v-html="parseText" />
       <details v-if="result.details">
