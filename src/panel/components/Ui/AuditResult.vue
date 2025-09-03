@@ -74,7 +74,7 @@ const panel = usePanel();
           :style="{
             background: isDialog
               ? undefined
-              : 'light-dark(var(--color-gray-400), var(--color-border))',
+              : 'light-dark(var(--color-gray-350), var(--color-border))',
           }"
         />
       </div>
