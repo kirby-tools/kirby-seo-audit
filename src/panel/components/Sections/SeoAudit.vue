@@ -263,8 +263,6 @@ async function analyze() {
               ? {
                   '--box-color-text':
                     'light-dark(var(--theme-color-900), var(--color-gray-200))',
-                  '--box-color-back':
-                    'light-dark(var(--theme-color-back), var(--color-gray-850))',
                 }
               : undefined
           "
