@@ -1,8 +1,16 @@
+import ReportDialog from "./components/Dialogs/Report.vue";
 import PlaygroundBlueprintCodeField from "./components/Playground/BlueprintCode.vue";
-import SeoAuditSection from "./components/SeoAudit.vue";
+import SeoAuditSection from "./components/Sections/SeoAudit.vue";
+import SeoAuditButton from "./components/ViewButtons/SeoAuditButton.vue";
 import "./index.css";
 
 window.panel.plugin("johannschopplich/seo-audit", {
+  viewButtons: {
+    "seo-audit": SeoAuditButton,
+  },
+  components: {
+    "k-seo-audit-report-dialog": ReportDialog,
+  },
   sections: {
     "seo-audit": SeoAuditSection,
     // eslint-disable-next-line no-undef

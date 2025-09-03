@@ -17,8 +17,9 @@
     "release": "pnpm run build && pnpm run build:assets && bumpp --all --execute \"npx zx scripts/pre-release.mjs\" && zx scripts/post-release.mjs"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.19.0",
+    "@antfu/eslint-config": "^5.2.1",
     "@kirby-tools/licensing": "^0.5.2",
+    "@mozilla/readability": "^0.6.0",
     "@wordpress/i18n": "^5.26.0",
     "autoprefixer": "^10.4.21",
     "bumpp": "^10.2.3",

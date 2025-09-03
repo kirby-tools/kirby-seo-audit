@@ -1,9 +1,10 @@
+import { Readability } from "@mozilla/readability";
 import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
 import {
-  ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
-  IGNORED_ASSESSMENTS,
-  KEYPHRASE_ASSESSMENTS,
   LANGUAGE_TO_LOCALE_MAP,
+  YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
+  YOAST_IGNORED_ASSESSMENTS,
+  YOAST_KEYPHRASE_ASSESSMENTS,
 } from "../constants";
 import de from "../translations/assessments/de.json";
 import en from "../translations/assessments/en.json";
@@ -29,10 +30,9 @@ const ASSESSMENTS = {
     headingStructureOrder,
     singleH1,
   },
-  // readability: {},
 };
 
-export function performSeoReview({
+export function createSeoReport({
   htmlDocument,
   contentSelector,
   assessments: selectedAssessments,
@@ -92,7 +92,7 @@ export function performSeoReview({
   return results;
 }
 
-export async function performYoastSeoReview({
+export async function createYoastSeoReport({
   htmlDocument,
   contentSelector,
   options,
@@ -157,13 +157,13 @@ export async function performYoastSeoReview({
     const id = result._identifier.toLowerCase();
 
     // Some assessments have been deprecated or are not relevant
-    if (IGNORED_ASSESSMENTS.includes(id)) continue;
+    if (YOAST_IGNORED_ASSESSMENTS.includes(id)) continue;
 
     // Skip keyphrase assessments if keyword is empty and no assessments are selected
     if (
       !options.keyword &&
       options.assessments.length === 0 &&
-      KEYPHRASE_ASSESSMENTS.includes(id)
+      YOAST_KEYPHRASE_ASSESSMENTS.includes(id)
     )
       continue;
 
@@ -174,7 +174,7 @@ export async function performYoastSeoReview({
     // Throw error if one of the selected assessments is not compatible with the document's language
     if (options.assessments.length > 0) {
       const compatibleLocales = Object.entries(
-        ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
+        YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
       ).find(([key]) => key.toLowerCase() === id)?.[1];
 
       if (compatibleLocales && !compatibleLocales.includes(paperLocale)) {
@@ -239,6 +239,9 @@ export async function prepareContent(html) {
     tag.remove();
   }
 
+  // Extract main article
+  const article = new Readability(htmlDocument).parse();
+
   // Find the language
   let language = htmlDocument.documentElement.lang || LANGUAGE_TO_LOCALE_MAP.en;
   if (!language.includes("-")) {
@@ -247,7 +250,7 @@ export async function prepareContent(html) {
       LANGUAGE_TO_LOCALE_MAP.en;
   }
 
-  // Extract the title, description and content
+  // Extract the title and description
   const title =
     htmlDocument.title ||
     // eslint-disable-next-line unicorn/prefer-dom-node-text-content
@@ -260,6 +263,7 @@ export async function prepareContent(html) {
 
   return {
     htmlDocument,
+    article,
     language,
     title,
     description,

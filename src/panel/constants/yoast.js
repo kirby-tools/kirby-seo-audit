@@ -1,11 +1,11 @@
 /// keep-sorted
-export const IGNORED_ASSESSMENTS = [
+export const YOAST_IGNORED_ASSESSMENTS = [
   // Produces incorrect results; replaced by custom assessment
   "singleH1",
 ];
 
 /// keep-sorted
-export const KEYPHRASE_ASSESSMENTS = [
+export const YOAST_KEYPHRASE_ASSESSMENTS = [
   "functionWordsInKeyphrase",
   "introductionKeyword",
   "keyphraseDensity",
@@ -18,7 +18,7 @@ export const KEYPHRASE_ASSESSMENTS = [
 ];
 
 // See: https://yoast.com/help/features-per-language/
-export const ASSESSMENTS_LOCALE_COMPATIBILITY_MAP = {
+export const YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP = {
   wordComplexity: ["de", "en", "es", "fr"],
   keyphraseDistribution: [
     "ar",

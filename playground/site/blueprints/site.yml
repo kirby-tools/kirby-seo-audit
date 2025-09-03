@@ -1,6 +1,9 @@
 title: Playground
 
 buttons:
+  seo-audit:
+    keyphraseField: metaKeyphrase
+    synonymsField: metaSynonyms
   social:
     icon: cart
     text: Buy
@@ -34,37 +37,35 @@ columns:
             type: multiselect
             options:
               # Plugin assessments
-              SingleH1: Single H1
-              HeadingStructureOrder: Heading Structure Order
-              AltAttribute: Alt Attribute
+              singleH1: Single H1
+              headingStructureOrder: Heading Structure Order
+              altAttribute: Alt Attribute
               # Yoast SEO assessments
-              FleschReadingEase: Flesch Reading Ease
-              ParagraphTooLong: Paragraph Too Long
-              PassiveVoice: Passive Voice
-              SentenceBeginnings: Sentence Beginnings
-              SentenceLengthInDescription: Sentence Length in Description
-              SentenceLengthInText: Sentence Length in Text
-              SubheadingDistributionTooLong: Subheading Distribution Too Long
-              TextPresence: Text Presence
-              TransitionWords: Transition Words
-              WordComplexity: Word Complexity
-              FunctionWordsInKeyphrase: Function Words in Keyphrase
-              InternalLinks: Internal Links
-              IntroductionKeyword: Introduction Keyword
-              KeyphraseLength: Keyphrase Length
-              KeywordDensity: Keyword Density
-              KeywordStopWords: Keyword Stop Words
-              KeyphraseDistribution: Keyphrase Distribution
-              MetaDescriptionKeyword: Meta Description Keyword
-              MetaDescriptionLength: Meta Description Length
-              OutboundLinks: Outbound Links
-              PageTitleWidth: Page Title Width
-              SubheadingsKeyword: Subheadings Keyword
-              TextCompetingLinks: Text Competing Links
-              TextImages: Text Images
-              TextLength: Text Length
-              TitleKeyword: Title Keyword
-              UrlKeyword: Url Keyword
+              introductionKeyword: Introduction Keyword
+              keyphraseLength: Keyphrase Length
+              keyphraseDensity: Keyword Density
+              metaDescriptionKeyword: Meta Description Keyword
+              metaDescriptionLength: Meta Description Length
+              subheadingsKeyword: Subheadings Keyword
+              textCompetingLinks: Text Competing Links
+              imageKeyphrase: Image Keyphrase
+              images: Text Images
+              textLength: Text Length
+              externalLinks: Outbound Links
+              keyphraseInSEOTitle: Title Keyword
+              internalLinks: Internal Links
+              titleWidth: Page Title Width
+              slugKeyword: Url Keyword
+              functionWordsInKeyphrase: Function Words in Keyphrase
+              keyphraseDistribution: Keyphrase Distribution
+              subheadingsTooLong: Subheading Distribution Too Long
+              textParagraphTooLong: Paragraph Too Long
+              textSentenceLength: Sentence Length in Text
+              textTransitionWords: Transition Words
+              passiveVoice: Passive Voice
+              textPresence: Text Presence
+              sentenceBeginnings: Sentence Beginnings
+              wordComplexity: Word Complexity
             help: By default, all assessments are included. Customize the report to your needs.
           language:
             label: Language

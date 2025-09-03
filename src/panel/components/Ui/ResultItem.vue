@@ -1,6 +1,6 @@
 <script setup>
 import { computed, usePanel } from "kirbyuse";
-import SeoRatingBubble from "./SeoRatingBubble.vue";
+import ResultRating from "./ResultRating.vue";
 
 const props = defineProps({
   result: {
@@ -29,7 +29,7 @@ function stripTags(html) {
 
 <template>
   <div class="ksr-flex ksr-items-start ksr-gap-2">
-    <SeoRatingBubble class="ksr-mx-1 ksr-shrink-0" :rating="result.rating" />
+    <ResultRating class="ksr-mx-1 ksr-shrink-0" :rating="result.rating" />
     <div>
       <div v-html="parseText" />
       <details v-if="result.details">

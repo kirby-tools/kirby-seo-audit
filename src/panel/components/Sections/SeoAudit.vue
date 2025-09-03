@@ -11,17 +11,17 @@ import {
   useSection,
   watch,
 } from "kirbyuse";
-import { section } from "kirbyuse/props";
+import { section as sectionProps } from "kirbyuse/props";
 import throttle from "throttleit";
-import { useLogger, usePluginContext, useSeoReview } from "../composables";
-import { LOG_LEVELS } from "../constants";
-import { IncompatibleLocaleError } from "../utils/error";
-import { prepareContent } from "../utils/seo-review";
-import { getHashedStorageKey } from "../utils/storage";
-import SeoResultEntry from "./SeoResultEntry.vue";
+import { usePluginContext, useSeoReview } from "../../composables";
+import { LOG_LEVELS } from "../../constants";
+import { IncompatibleLocaleError } from "../../utils/error";
+import { prepareContent } from "../../utils/seo-review";
+import { getHashedStorageKey } from "../../utils/storage";
+import ResultItem from "../Ui/ResultItem.vue";
 
 const propsDefinition = {
-  ...section,
+  ...sectionProps,
 };
 
 export default {
@@ -35,9 +35,8 @@ const props = defineProps(propsDefinition);
 const _isKirby5 = isKirby5();
 const panel = usePanel();
 const api = useApi();
-const logger = useLogger();
 const { t } = useI18n();
-const { generateReport } = useSeoReview();
+const { generateReport, fetchHtml } = useSeoReview();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -72,6 +71,17 @@ const resolvedSynonyms = computed(() => {
   if (typeof value === "string") return value.split(",").map((i) => i.trim());
   return [];
 });
+
+const REPORT_SECTIONS = [
+  {
+    category: "seo",
+    label: "SEO",
+  },
+  {
+    category: "readability",
+    label: panel.t("johannschopplich.seo-audit.category.readability"),
+  },
+];
 
 watch(
   // Will be `null` in single language setups
@@ -129,8 +139,7 @@ async function updateSectionData(isInitializing = false) {
     }),
   ]);
 
-  // Set values once that don't need to be re-evaluated on the server
-  // when the language changes
+  // Set values once that don't need to be re-evaluated on the server when the language changes
   if (isInitializing) {
     label.value =
       t(response.label) || panel.t("johannschopplich.seo-audit.label");
@@ -148,8 +157,8 @@ async function updateSectionData(isInitializing = false) {
       __PLAYGROUND__ ? "active" : context.licenseStatus;
 
     if (persisted.value) {
-      const persistedReport = JSON.parse(localStorage.getItem(storageKey));
-      if (persistedReport) report.value = persistedReport;
+      const lastReport = JSON.parse(localStorage.getItem(storageKey));
+      if (lastReport) report.value = lastReport;
     }
 
     isInitialized.value = true;
@@ -170,11 +179,6 @@ async function analyze() {
       panel.notification.error("Please enter a target URL to be analyzed.");
       return;
     }
-  } else if (!previewUrl) {
-    panel.notification.error(
-      panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
-    );
-    return;
   }
 
   // eslint-disable-next-line no-undef
@@ -201,10 +205,6 @@ async function analyze() {
       keyword: resolvedKeyphrase.value,
       synonyms: resolvedSynonyms.value,
     });
-
-    for (const key of Object.keys(result)) {
-      result[key] = sortResults(result[key]);
-    }
 
     report.value = {
       result,
@@ -240,39 +240,6 @@ async function analyze() {
     icon: "check",
     message: panel.t("johannschopplich.seo-audit.analyze.success"),
   });
-}
-
-function sortResults(results) {
-  return results.toSorted((a, b) => {
-    if (a.rating === "feedback") return -1;
-    if (b.rating === "feedback") return 1;
-    return a.score < b.score ? -1 : 1;
-  });
-}
-
-async function fetchHtml(url) {
-  // Check if the current location has the same origin as the target URL
-  if (location.origin === new URL(url).origin) {
-    const response = await fetch(url);
-    if (!response.ok) {
-      logger.warn(
-        `Response status code ${response.status} for URL ${url} is an indication that the error page is being analyzed.`,
-      );
-    }
-    return await response.text();
-  }
-
-  const { code, html } = await api.post("__seo-audit__/proxy", {
-    url,
-  });
-
-  if (code !== 200) {
-    logger.warn(
-      `Response status code ${code} for URL ${url} is an indication that the error page is being analyzed.`,
-    );
-  }
-
-  return html;
 }
 </script>
 
@@ -326,26 +293,24 @@ async function fetchHtml(url) {
                 'light-dark(var(--color-blue-800), var(--color-blue-500))',
             }"
           >
-            <div v-if="report.result.seo.length > 0">
-              <div v-for="(item, index) in report.result.seo" :key="index">
-                <SeoResultEntry :result="item" :links="links" />
-              </div>
-            </div>
+            <div v-for="section in REPORT_SECTIONS" :key="section.category">
+              <div v-if="report.result[section.category].length > 0">
+                <h3
+                  class="ksr-mb-1 !ksr-leading-[var(--text-line-height)]"
+                  style="
+                    color: var(--color-text);
+                    font-size: var(--text-font-size);
+                  "
+                >
+                  {{ section.label }}
+                </h3>
 
-            <div v-if="report.result.readability.length > 0">
-              <k-label
-                class="ksr-mb-1"
-                :style="{
-                  color: 'var(--color-text)',
-                }"
-              >
-                {{ panel.t("johannschopplich.seo-audit.readability") }}
-              </k-label>
-              <div
-                v-for="(item, index) in report.result.readability"
-                :key="index"
-              >
-                <SeoResultEntry :result="item" :links="links" />
+                <ResultItem
+                  v-for="(item, index) in report.result[section.category]"
+                  :key="index"
+                  :result="item"
+                  :links="links"
+                />
               </div>
             </div>
           </k-text>

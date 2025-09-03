@@ -1,8 +1,8 @@
 import { useContent, usePanel } from "kirbyuse";
 import {
+  createSeoReport,
+  createYoastSeoReport,
   extractContent,
-  performSeoReview,
-  performYoastSeoReview,
 } from "../utils/seo-review";
 import { useLogger } from "./logger";
 
@@ -11,7 +11,7 @@ export function useSeoReview() {
   const { currentContent } = useContent();
   const logger = useLogger();
 
-  const generateReport = async (htmlDocument, contentSelector, options) => {
+  async function generateReport(htmlDocument, contentSelector, options) {
     if (import.meta.env.DEV) {
       options.logLevel = 3;
     }
@@ -41,14 +41,14 @@ export function useSeoReview() {
       ? currentContent.value.language
       : panel.translation.code;
 
-    const kirbySeoResult = performSeoReview({
+    const kirbySeoResult = createSeoReport({
       htmlDocument,
       contentSelector,
       assessments: options.assessments,
       language,
     });
 
-    const yoastSeoResult = await performYoastSeoReview({
+    const yoastSeoResult = await createYoastSeoReport({
       htmlDocument,
       contentSelector,
       options,
@@ -67,10 +67,44 @@ export function useSeoReview() {
       result[category] = result[category].concat(assessments);
     }
 
+    for (const assessments of Object.values(result)) {
+      assessments.sort((a, b) => {
+        if (a.rating === "feedback") return -1;
+        if (b.rating === "feedback") return 1;
+        return a.score < b.score ? -1 : 1;
+      });
+    }
+
     return result;
-  };
+  }
+
+  async function fetchHtml(url) {
+    // Check if the current location has the same origin as the target URL
+    if (location.origin === new URL(url).origin) {
+      const response = await fetch(url);
+      if (!response.ok) {
+        logger.warn(
+          `Response status code ${response.status} for ${url} indicates the page contains an error`,
+        );
+      }
+      return await response.text();
+    }
+
+    const { code, html } = await panel.api.post("__seo-audit__/proxy", {
+      url,
+    });
+
+    if (code !== 200) {
+      logger.warn(
+        `Response status code ${code} for ${url} indicates the page contains an error`,
+      );
+    }
+
+    return html;
+  }
 
   return {
     generateReport,
+    fetchHtml,
   };
 }
