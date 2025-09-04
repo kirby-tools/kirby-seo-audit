@@ -17,7 +17,6 @@ const props = defineProps({
   },
 });
 
-const RATINGS = ["good", "ok", "bad"];
 const RATING_BADGE_COLOR_MAP = {
   good: "green",
   ok: "orange",
@@ -29,17 +28,11 @@ const panel = usePanel();
 const categorizedReport = computed(() =>
   Object.values(props.report)
     .flat()
-    .reduce(
-      (acc, item) => {
-        acc[item.rating].push(toRaw(item));
-        return acc;
-      },
-      {
-        good: [],
-        ok: [],
-        bad: [],
-      },
-    ),
+    .reduce((acc, item) => {
+      acc[item.rating] ||= [];
+      acc[item.rating].push(toRaw(item));
+      return acc;
+    }, {}),
 );
 </script>
 
@@ -56,47 +49,43 @@ const categorizedReport = computed(() =>
       }"
     >
       <div
-        v-for="(ratingCategory, ratingCategoryIndex) in RATINGS"
+        v-for="(ratingCategory, ratingCategoryIndex) in Object.keys(
+          categorizedReport,
+        )"
         :key="ratingCategory"
       >
-        <div v-if="categorizedReport[ratingCategory].length > 0">
-          <div class="ksr-mb-2 ksr-inline-flex ksr-items-center">
-            <h3
-              class="ksr-mr-1.5 !ksr-leading-[var(--text-line-height)]"
-              style="color: var(--color-text); font-size: var(--text-font-size)"
-            >
-              {{
-                panel.t(`johannschopplich.seo-audit.rating.${ratingCategory}`)
-              }}
-            </h3>
+        <div class="ksr-mb-2 ksr-inline-flex ksr-items-center">
+          <h3
+            class="ksr-mr-1.5 !ksr-leading-[var(--text-line-height)]"
+            style="color: var(--color-text); font-size: var(--text-font-size)"
+          >
+            {{ panel.t(`johannschopplich.seo-audit.rating.${ratingCategory}`) }}
+          </h3>
 
-            <span
-              class="k-seo-audit-badge"
-              :data-theme="RATING_BADGE_COLOR_MAP[ratingCategory]"
-            >
-              {{ categorizedReport[ratingCategory].length }}
-            </span>
-          </div>
-
-          <AuditResultItem
-            v-for="(resultItem, resultIndex) in categorizedReport[
-              ratingCategory
-            ]"
-            :key="resultIndex"
-            :result="resultItem"
-            :links="links"
-          />
-
-          <hr
-            v-if="ratingCategoryIndex < categorizedReport.length - 1"
-            class="ksr-my-4"
-            :style="{
-              background: isDialog
-                ? undefined
-                : 'light-dark(var(--color-gray-350), var(--color-border))',
-            }"
-          />
+          <span
+            class="k-seo-audit-badge"
+            :data-theme="RATING_BADGE_COLOR_MAP[ratingCategory]"
+          >
+            {{ categorizedReport[ratingCategory].length }}
+          </span>
         </div>
+
+        <AuditResultItem
+          v-for="(resultItem, resultIndex) in categorizedReport[ratingCategory]"
+          :key="resultIndex"
+          :result="resultItem"
+          :links="links"
+        />
+
+        <hr
+          v-if="ratingCategoryIndex < Object.keys(categorizedReport).length - 1"
+          class="ksr-my-4"
+          :style="{
+            background: isDialog
+              ? undefined
+              : 'light-dark(var(--color-gray-350), var(--color-border))',
+          }"
+        />
       </div>
     </k-text>
   </div>
