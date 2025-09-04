@@ -96,10 +96,3 @@ export function useSeoReview() {
     fetchHtml,
   };
 }
-  }
-
-  return {
-    generateReport,
-    fetchHtml,
-  };
-}
