@@ -25,15 +25,26 @@ const RATING_BADGE_COLOR_MAP = {
 
 const panel = usePanel();
 
-const categorizedReport = computed(() =>
-  Object.values(props.report)
+const categorizedReport = computed(() => {
+  const grouped = Object.values(props.report)
     .flat()
-    .reduce((acc, item) => {
-      acc[item.rating] ||= [];
-      acc[item.rating].push(toRaw(item));
-      return acc;
-    }, {}),
-);
+    .reduce(
+      (acc, item) => {
+        acc[item.rating].push(toRaw(item));
+        return acc;
+      },
+      {
+        good: [],
+        ok: [],
+        bad: [],
+        feedback: [],
+      },
+    );
+
+  return Object.fromEntries(
+    Object.entries(grouped).filter(([, items]) => items.length > 0),
+  );
+});
 </script>
 
 <template>
