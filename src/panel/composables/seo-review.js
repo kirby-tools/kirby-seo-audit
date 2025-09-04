@@ -60,10 +60,12 @@ export function useSeoReview() {
       readability: [],
     };
 
-    for (const [category, assessments] of Object.entries({
-      ...kirbySeoResult,
-      ...yoastSeoResult,
-    })) {
+    for (const [category, assessments] of Object.entries(kirbySeoResult)) {
+      resultsByCategory[category] =
+        resultsByCategory[category].concat(assessments);
+    }
+
+    for (const [category, assessments] of Object.entries(yoastSeoResult)) {
       resultsByCategory[category] =
         resultsByCategory[category].concat(assessments);
     }

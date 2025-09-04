@@ -34,10 +34,14 @@ function stripTags(html) {
     <div>
       <div v-html="parseText" />
       <details v-if="result.details">
-        <summary>{{ panel.t("johannschopplich.seo-audit.issues") }}</summary>
-        <div
-          class="ksr-mb-1 ksr-rounded-[var(--rounded)] ksr-bg-[var(--color-border)] ksr-py-0.5"
-          v-html="result.details.text"
+        <summary class="ksr-font-[var(--font-semi)]">
+          {{ panel.t("johannschopplich.seo-audit.issues") }}
+        </summary>
+        <k-box
+          data-theme="passive"
+          :text="result.details.text"
+          html
+          class="ksr-my-1"
         />
       </details>
     </div>

@@ -6,7 +6,7 @@ Content: [{"content":{"level":"h1","text":"Kirby CMS: The Flexible Flat-File Pow
 
 ----
 
-Author: 
+Metakeyphrase: developers
 
 ----
 
@@ -31,6 +31,10 @@ Featured: false
 ----
 
 Seo: 
+
+----
+
+Author: 
 
 ----
 
