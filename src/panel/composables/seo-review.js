@@ -1,9 +1,5 @@
 import { useContent, usePanel } from "kirbyuse";
-import {
-  createSeoReport,
-  createYoastSeoReport,
-  extractContent,
-} from "../utils/seo-review";
+import { createSeoReport, createYoastSeoReport } from "../utils/seo-review";
 import { useLogger } from "./logger";
 
 export function useSeoReview() {
@@ -14,17 +10,6 @@ export function useSeoReview() {
   async function generateReport(htmlDocument, contentSelector, options) {
     if (import.meta.env.DEV) {
       options.logLevel = 3;
-    }
-
-    if (options.logLevel > 1) {
-      if (contentSelector) {
-        logger.info("Content selector:", contentSelector);
-      }
-
-      const elements = htmlDocument.querySelectorAll(contentSelector);
-      const content = extractContent(htmlDocument, contentSelector);
-      logger.info("Selected elements:", elements);
-      logger.info("Selected content:", content);
     }
 
     // Resolve assessment names
@@ -46,6 +31,7 @@ export function useSeoReview() {
       contentSelector,
       assessments: options.assessments,
       language,
+      logger,
     });
 
     const yoastSeoResult = await createYoastSeoReport({
@@ -53,6 +39,7 @@ export function useSeoReview() {
       contentSelector,
       options,
       language,
+      logger,
     });
 
     const resultsByCategory = {

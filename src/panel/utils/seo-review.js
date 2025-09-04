@@ -97,6 +97,7 @@ export async function createYoastSeoReport({
   contentSelector,
   options,
   language,
+  logger,
 }) {
   const { Paper, helpers, AnalysisTranslations } =
     await loadPluginModule("yoastseo");
@@ -123,6 +124,16 @@ export async function createYoastSeoReport({
 
   const paperText = extractContent(htmlDocument, contentSelector);
 
+  if (options.logLevel > 1) {
+    if (contentSelector) {
+      logger?.info("Content selector:", contentSelector);
+    }
+
+    const elements = htmlDocument.querySelectorAll(contentSelector);
+    logger?.info("Elements by content selector:", elements);
+    logger?.info("Analyzing content:", paperText);
+  }
+
   const paper = new Paper(paperText, {
     keyword: options.keyword,
     synonyms: options.synonyms.join(","),
@@ -143,9 +154,8 @@ export async function createYoastSeoReport({
     })),
   ];
 
-  if (import.meta.env.DEV) {
-    // eslint-disable-next-line no-console
-    console.log(analysisResults);
+  if (options.logLevel > 1) {
+    logger?.info("Yoast SEO analysis results:", analysisResults);
   }
 
   const resultsByCategory = {
