@@ -139,7 +139,7 @@ async function updateSectionData(isInitializing = false) {
     links.value = response.links;
     persisted.value = response.persisted;
     logLevel.value = LOG_LEVELS.indexOf(
-      context.config.logLevel ?? response.logLevel,
+      context.config.logLevel || response.logLevel,
     );
     licenseStatus.value =
       // eslint-disable-next-line no-undef

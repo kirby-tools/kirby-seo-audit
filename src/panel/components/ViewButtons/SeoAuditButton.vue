@@ -34,6 +34,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  logLevel: {
+    type: String,
+    default: "warn",
+    validator: (value) => LOG_LEVELS.includes(value),
+  },
 });
 
 const panel = usePanel();
@@ -87,7 +92,9 @@ async function analyze() {
         assessments: __PLAYGROUND__
           ? currentContent.value.assessments
           : props.assessments,
-        logLevel: LOG_LEVELS.indexOf(context.config.logLevel || "warn"),
+        logLevel: LOG_LEVELS.indexOf(
+          context.config.logLevel || props.logLevel || "warn",
+        ),
         // For Yoast SEO
         url,
         title,
