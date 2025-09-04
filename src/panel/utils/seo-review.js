@@ -2,6 +2,7 @@ import { Readability } from "@mozilla/readability";
 import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
 import {
   LANGUAGE_TO_LOCALE_MAP,
+  LOG_LEVELS,
   YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
   YOAST_IGNORED_ASSESSMENTS,
   YOAST_KEYPHRASE_ASSESSMENTS,
@@ -106,7 +107,9 @@ export async function createYoastSeoReport({
 
   await worker.initialize({
     // https://github.com/pimterry/loglevel
-    logLevel: import.meta.env.DEV ? "trace" : "info",
+    logLevel: import.meta.env.DEV
+      ? "trace"
+      : (LOG_LEVELS[options.logLevel] ?? "info"),
     translations: {
       default: AnalysisTranslations[language] ?? {
         domain: "wordpress-seo",
