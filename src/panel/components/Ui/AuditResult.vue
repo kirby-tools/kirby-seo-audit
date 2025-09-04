@@ -88,7 +88,7 @@ const categorizedReport = computed(() =>
           />
 
           <hr
-            v-if="ratingCategoryIndex < RATINGS.length - 1"
+            v-if="ratingCategoryIndex < categorizedReport.length - 1"
             class="ksr-my-4"
             :style="{
               background: isDialog
