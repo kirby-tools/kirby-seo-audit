@@ -10,6 +10,7 @@ const RATING_COLOR_MAP = {
   good: "green",
   ok: "orange",
   bad: "red",
+  feedback: "gray",
 };
 </script>
 

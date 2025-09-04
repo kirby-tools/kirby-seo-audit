@@ -4,6 +4,7 @@ buttons:
   seo-audit:
     keyphraseField: metaKeyphrase
     synonymsField: metaSynonyms
+    logLevel: debug
   social:
     icon: cart
     text: Buy
@@ -17,6 +18,7 @@ columns:
         type: seo-audit
         keyphraseField: metaKeyphrase
         synonymsField: metaSynonyms
+        logLevel: debug
   - width: 1/2
     sections:
       configuration:
