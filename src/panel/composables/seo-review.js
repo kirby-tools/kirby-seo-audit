@@ -56,19 +56,12 @@ export function useSeoReview() {
     });
 
     const resultsByCategory = {
-      seo: [],
-      readability: [],
+      seo: [...(kirbySeoResult.seo ?? []), ...(yoastSeoResult.seo ?? [])],
+      readability: [
+        ...(kirbySeoResult.readability ?? []),
+        ...(yoastSeoResult.readability ?? []),
+      ],
     };
-
-    for (const [category, assessments] of Object.entries(kirbySeoResult)) {
-      resultsByCategory[category] =
-        resultsByCategory[category].concat(assessments);
-    }
-
-    for (const [category, assessments] of Object.entries(yoastSeoResult)) {
-      resultsByCategory[category] =
-        resultsByCategory[category].concat(assessments);
-    }
 
     return resultsByCategory;
   }
@@ -96,6 +89,13 @@ export function useSeoReview() {
     }
 
     return html;
+  }
+
+  return {
+    generateReport,
+    fetchHtml,
+  };
+}
   }
 
   return {
