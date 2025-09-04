@@ -1,4 +1,3 @@
-// import { Readability } from "@mozilla/readability";
 import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
 import {
   LANGUAGE_TO_LOCALE_MAP,
@@ -242,9 +241,6 @@ export async function prepareContent(html) {
   )) {
     tag.remove();
   }
-
-  // Extract main article
-  // const article = new Readability(htmlDocument).parse();
 
   // Find the language
   let language = htmlDocument.documentElement.lang || LANGUAGE_TO_LOCALE_MAP.en;

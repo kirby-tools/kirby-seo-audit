@@ -14,9 +14,6 @@ importers:
       '@kirby-tools/licensing':
         specifier: ^0.5.2
         version: 0.5.2(kirbyuse@0.12.1)
-      '@mozilla/readability':
-        specifier: ^0.6.0
-        version: 0.6.0
       '@wordpress/i18n':
         specifier: ^5.26.0
         version: 5.26.0
@@ -533,10 +530,6 @@ packages:
     resolution: {integrity: sha512-wkaxTCxUvZ1KBY8UQmCuizke321+yFsg60lEtyI95W/g+GznQWUPGDmo16x5pYOZNFH58KRFzrSDsMZJbYPO+g==}
     peerDependencies:
       kirbyuse: '*'
-
-  '@mozilla/readability@0.6.0':
-    resolution: {integrity: sha512-juG5VWh4qAivzTAeMzvY9xs9HY5rAcr2E4I7tiSSCokRFi7XIZCAu92ZkSTsIj1OPceCifL3cpfteP3pDT9/QQ==}
-    engines: {node: '>=14.0.0'}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -3633,8 +3626,6 @@ snapshots:
     dependencies:
       kirbyuse: 0.12.1
       vue: 2.7.16
-
-  '@mozilla/readability@0.6.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
