@@ -1,4 +1,4 @@
-import { toRaw, useContent, usePanel } from "kirbyuse";
+import { useContent, usePanel } from "kirbyuse";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -68,19 +68,7 @@ export function useSeoReview() {
         resultsByCategory[category].concat(assessments);
     }
 
-    return Object.values(resultsByCategory)
-      .flat()
-      .reduce(
-        (acc, item) => {
-          acc[item.rating].push(toRaw(item));
-          return acc;
-        },
-        {
-          good: [],
-          ok: [],
-          bad: [],
-        },
-      );
+    return resultsByCategory;
   }
 
   async function fetchHtml(url) {

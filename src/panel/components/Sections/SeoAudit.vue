@@ -56,7 +56,7 @@ const logLevel = ref();
 
 // Local data
 const isInitialized = ref(false);
-const isGenerating = ref(false);
+const isAnalyzing = ref(false);
 const licenseStatus = ref();
 const report = ref();
 
@@ -173,7 +173,7 @@ async function analyze() {
   // eslint-disable-next-line no-undef
   const url = __PLAYGROUND__ ? currentContent.value.targeturl : previewUrl;
   panel.isLoading = true;
-  isGenerating.value = true;
+  isAnalyzing.value = true;
 
   try {
     const html = await fetchHtml(url);
@@ -224,7 +224,7 @@ async function analyze() {
   }
 
   panel.isLoading = false;
-  isGenerating.value = false;
+  isAnalyzing.value = false;
   panel.notification.success({
     icon: "check",
     message: panel.t("johannschopplich.seo-audit.analyze.success"),
@@ -246,11 +246,11 @@ async function analyze() {
     <div class="ksr-space-y-4">
       <k-button-group layout="collapsed">
         <k-button
-          :icon="isGenerating ? 'loader' : 'seo-audit-analyze'"
+          :icon="isAnalyzing ? 'loader' : 'seo-audit-analyze'"
           :text="panel.t('johannschopplich.seo-audit.analyze')"
           variant="filled"
           theme="positive"
-          :disabled="isGenerating"
+          :disabled="isAnalyzing"
           @click="analyze()"
         />
       </k-button-group>
@@ -269,21 +269,15 @@ async function analyze() {
               : undefined
           "
           :class="[
-            isGenerating &&
+            isAnalyzing &&
               'ksr-cusor-wait ksr-pointer-events-none ksr-animate-pulse',
           ]"
         >
-          <k-text
-            class="ksr-space-y-4"
-            :class="[isGenerating && 'ksr-opacity-50']"
-            :style="{
-              '--link-color': 'var(--color-text)',
-              '--link-color-hover':
-                'light-dark(var(--color-blue-800), var(--color-blue-500))',
-            }"
-          >
-            <AuditResult :report="report.result" :links="links" />
-          </k-text>
+          <AuditResult
+            :report="report.result"
+            :links="links"
+            :class="[isAnalyzing && 'ksr-opacity-50']"
+          />
         </k-box>
 
         <k-box theme="empty" icon="clock" class="ksr-border-transparent">

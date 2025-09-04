@@ -38,29 +38,31 @@ const licenseStatus = ref();
     class="k-seo-audit-report-dialog"
     @cancel="emit('cancel')"
   >
-    <LicensingButtonGroup
-      v-if="licenseStatus !== undefined"
-      label="Kirby SEO Audit"
-      api-namespace="__seo-audit__"
-      :license-status="licenseStatus"
-      pricing-url="https://kirby.tools/seo-audit/buy"
-      :class="[
-        licenseStatus !== undefined &&
-          currentLicenseStatus !== 'active' &&
-          'ksr-mb-4',
-      ]"
-    />
-
     <AuditResult :report="report" :links="links" is-dialog>
       <template #header>
-        <h2>{{ panel.t("johannschopplich.seo-audit.results") }}</h2>
+        <div class="ksr-mb-4 ksr-flex ksr-items-center ksr-justify-between">
+          <k-text>
+            <h2>
+              {{
+                report.seo.length > 0 && report.readability.length > 0
+                  ? panel.t("johannschopplich.seo-audit.results")
+                  : report.seo.length > 0
+                    ? panel.t("johannschopplich.seo-audit.results.seo")
+                    : panel.t("johannschopplich.seo-audit.results.readability")
+              }}
+            </h2>
+          </k-text>
+          <div>
+            <LicensingButtonGroup
+              v-if="licenseStatus !== undefined"
+              label="Kirby SEO Audit"
+              api-namespace="__seo-audit__"
+              :license-status="licenseStatus"
+              pricing-url="https://kirby.tools/seo-audit/buy"
+            />
+          </div>
+        </div>
       </template>
     </AuditResult>
   </k-dialog>
 </template>
-
-<style>
-.k-seo-audit-report-dialog .k-button-group > .k-button {
-  flex-grow: 1;
-}
-</style>
