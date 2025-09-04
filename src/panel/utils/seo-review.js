@@ -1,4 +1,4 @@
-import { Readability } from "@mozilla/readability";
+// import { Readability } from "@mozilla/readability";
 import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
 import {
   LANGUAGE_TO_LOCALE_MAP,
@@ -172,10 +172,7 @@ export async function createYoastSeoReport({
       continue;
 
     // Process only selected assessments (if any)
-    if (
-      options.assessments.length > 0 &&
-      !options.assessments.some((key) => key.toLowerCase() === id)
-    )
+    if (options.assessments.length > 0 && !options.assessments.includes(id))
       continue;
 
     // Throw error if one of the selected assessments is not compatible with the document's language
@@ -247,7 +244,7 @@ export async function prepareContent(html) {
   }
 
   // Extract main article
-  const article = new Readability(htmlDocument).parse();
+  // const article = new Readability(htmlDocument).parse();
 
   // Find the language
   let language = htmlDocument.documentElement.lang || LANGUAGE_TO_LOCALE_MAP.en;
@@ -270,7 +267,6 @@ export async function prepareContent(html) {
 
   return {
     htmlDocument,
-    article,
     language,
     title,
     description,
