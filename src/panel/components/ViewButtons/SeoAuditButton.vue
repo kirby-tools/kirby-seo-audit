@@ -75,7 +75,7 @@ async function analyze() {
   if (props.synonyms || props.synonymsField) {
     const value = props.synonyms || currentContent.value[props.synonymsField];
     if (Array.isArray(value)) resolvedSynonyms = value;
-    if (typeof value === "string")
+    else if (typeof value === "string")
       resolvedSynonyms = value.split(",").map((i) => i.trim());
   }
 
