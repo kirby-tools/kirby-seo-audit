@@ -1,5 +1,9 @@
 import { useContent, usePanel } from "kirbyuse";
-import { createSeoReport, createYoastSeoReport } from "../utils/seo-review";
+import {
+  createSeoReport,
+  createYoastSeoReport,
+  prepareContent,
+} from "../utils/seo-review";
 import { useLogger } from "./logger";
 
 export function useSeoReview() {
@@ -7,10 +11,16 @@ export function useSeoReview() {
   const { currentContent } = useContent();
   const logger = useLogger();
 
-  async function generateReport(htmlDocument, contentSelector, options) {
+  async function generateReport(url, contentSelector, options) {
+    logger.info("Starting SEO analysis for", url);
+
     if (import.meta.env.DEV) {
       options.logLevel = 3;
     }
+
+    const html = await fetchHtml(url);
+    const { htmlDocument, language, title, description } =
+      await prepareContent(html);
 
     // Resolve assessment names
     options.assessments = options.assessments.map((i) => {
@@ -22,7 +32,7 @@ export function useSeoReview() {
     });
 
     // eslint-disable-next-line no-undef
-    const language = __PLAYGROUND__
+    const panelLanguage = __PLAYGROUND__
       ? currentContent.value.language
       : panel.translation.code;
 
@@ -30,15 +40,21 @@ export function useSeoReview() {
       htmlDocument,
       contentSelector,
       assessments: options.assessments,
-      language,
+      language: panelLanguage,
       logger,
     });
 
     const yoastSeoResult = await createYoastSeoReport({
       htmlDocument,
       contentSelector,
-      options,
-      language,
+      options: {
+        ...options,
+        url,
+        title,
+        description,
+        language,
+      },
+      language: panelLanguage,
       logger,
     });
 

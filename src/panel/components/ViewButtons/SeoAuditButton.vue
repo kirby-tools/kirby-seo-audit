@@ -3,7 +3,6 @@ import { ref, useApi, useContent, usePanel } from "kirbyuse";
 import { usePluginContext, useSeoReview } from "../../composables";
 import { LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
-import { prepareContent } from "../../utils/seo-review";
 
 const props = defineProps({
   keyphrase: {
@@ -43,7 +42,7 @@ const props = defineProps({
 
 const panel = usePanel();
 const api = useApi();
-const { generateReport, fetchHtml } = useSeoReview();
+const { generateReport } = useSeoReview();
 
 const isAnalyzing = ref(false);
 
@@ -80,30 +79,18 @@ async function analyze() {
   }
 
   try {
-    const html = await fetchHtml(url);
-    const { htmlDocument, language, title, description } =
-      await prepareContent(html);
-
-    const result = await generateReport(
-      htmlDocument,
-      props.contentSelector || "body",
-      {
-        // eslint-disable-next-line no-undef
-        assessments: __PLAYGROUND__
-          ? currentContent.value.assessments
-          : props.assessments,
-        logLevel: LOG_LEVELS.indexOf(
-          context.config.logLevel || props.logLevel || "warn",
-        ),
-        // For Yoast SEO
-        url,
-        title,
-        description,
-        language,
-        keyword: resolvedKeyphrase,
-        synonyms: resolvedSynonyms,
-      },
-    );
+    const result = await generateReport(url, props.contentSelector || "body", {
+      // eslint-disable-next-line no-undef
+      assessments: __PLAYGROUND__
+        ? currentContent.value.assessments
+        : props.assessments,
+      logLevel: LOG_LEVELS.indexOf(
+        context.config.logLevel || props.logLevel || "warn",
+      ),
+      // For Yoast SEO
+      keyword: resolvedKeyphrase,
+      synonyms: resolvedSynonyms,
+    });
 
     panel.dialog.open({
       component: "k-seo-audit-report-dialog",

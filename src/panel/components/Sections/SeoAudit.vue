@@ -16,7 +16,6 @@ import throttle from "throttleit";
 import { usePluginContext, useSeoReview } from "../../composables";
 import { LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
-import { prepareContent } from "../../utils/seo-review";
 import { getHashedStorageKey } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
 
@@ -36,7 +35,7 @@ const _isKirby5 = isKirby5();
 const panel = usePanel();
 const api = useApi();
 const { t } = useI18n();
-const { generateReport, fetchHtml } = useSeoReview();
+const { generateReport } = useSeoReview();
 
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
@@ -176,21 +175,13 @@ async function analyze() {
   isAnalyzing.value = true;
 
   try {
-    const html = await fetchHtml(url);
-    const { htmlDocument, language, title, description } =
-      await prepareContent(html);
-
-    const result = await generateReport(htmlDocument, contentSelector.value, {
+    const result = await generateReport(url, contentSelector.value, {
       // eslint-disable-next-line no-undef
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments
         : assessments.value,
       logLevel: logLevel.value,
       // For Yoast SEO
-      url,
-      title,
-      description,
-      language,
       keyword: resolvedKeyphrase.value,
       synonyms: resolvedSynonyms.value,
     });
