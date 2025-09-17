@@ -3,7 +3,7 @@
   "type": "module",
   "version": "3.0.1",
   "private": true,
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.17.0",
   "scripts": {
     "dev": "PLAYGROUND=true kirbyup serve src/panel/index.js",
     "build": "kirbyup src/panel/index.js",
@@ -26,7 +26,7 @@
     "gettext-extractor": "^4.0.1",
     "gettext-parser": "^8.0.0",
     "happy-dom": "^18.0.1",
-    "kirbyup": "^3.4.0",
+    "kirbyup": "^3.4.1",
     "kirbyuse": "^0.12.1",
     "ohash": "^2.0.11",
     "prettier": "^3.6.2",
