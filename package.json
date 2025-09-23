@@ -3,7 +3,7 @@
   "type": "module",
   "version": "3.0.1",
   "private": true,
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "pnpm@10.17.1",
   "scripts": {
     "dev": "PLAYGROUND=true kirbyup serve src/panel/index.js",
     "build": "kirbyup src/panel/index.js",
@@ -17,12 +17,12 @@
     "release": "pnpm run build && pnpm run build:assets && bumpp --all --execute \"npx zx scripts/pre-release.mjs\" && zx scripts/post-release.mjs"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.3.0",
+    "@antfu/eslint-config": "^5.4.1",
     "@kirby-tools/licensing": "^0.5.2",
     "@wordpress/i18n": "^5.26.0",
     "autoprefixer": "^10.4.21",
     "bumpp": "^10.2.3",
-    "eslint": "^9.35.0",
+    "eslint": "^9.36.0",
     "gettext-extractor": "^4.0.1",
     "gettext-parser": "^8.0.0",
     "happy-dom": "^18.0.1",
@@ -39,9 +39,12 @@
     "vite-plugin-node-polyfills": "^0.24.0",
     "vitest": "^3.2.4",
     "yoastseo": "^3.3.0",
-    "zx": "^8.8.1"
+    "zx": "^8.8.3"
   },
   "pnpm": {
+    "overrides": {
+      "c12": "3.2.0"
+    },
     "onlyBuiltDependencies": [
       "@parcel/watcher",
       "esbuild",
