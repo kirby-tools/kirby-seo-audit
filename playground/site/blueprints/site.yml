@@ -2,8 +2,8 @@ title: Playground
 
 buttons:
   seo-audit:
-    keyphraseField: metaKeyphrase
-    synonymsField: metaSynonyms
+    keyphraseField: metakeyphrase
+    synonymsField: metasynonyms
     logLevel: debug
   social:
     icon: cart
@@ -16,8 +16,8 @@ columns:
     sections:
       seoAudit:
         type: seo-audit
-        keyphraseField: metaKeyphrase
-        synonymsField: metaSynonyms
+        keyphraseField: metakeyphrase
+        synonymsField: metasynonyms
         logLevel: debug
   - width: 1/2
     sections:
