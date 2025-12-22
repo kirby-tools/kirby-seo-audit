@@ -20,6 +20,7 @@ await fs.writeJson(`${distDir}/kirby-seo-audit/composer.json`, composer, {
   spaces: 2,
 });
 await fs.remove(`${distDir}/kirby-seo-audit/composer.lock`);
+await fs.remove(`${distDir}/kirby-seo-audit/vendor`);
 
 // Copy build artifacts
 await fs.copy("./index.js", `${distDir}/kirby-seo-audit/index.js`);
