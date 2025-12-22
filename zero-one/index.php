@@ -3,7 +3,6 @@
 use Kirby\Cms\App as Kirby;
 use Kirby\Plugin\License as KirbyLicense;
 use Kirby\Plugin\LicenseStatus as KirbyLicenseStatus;
-use Kirby\Plugin\Plugin;
 
 @include_once __DIR__ . '/vendor/autoload.php';
 
