@@ -17,7 +17,7 @@ use Kirby\Plugin\Plugin;
  */
 class PluginLicense extends KirbyLicense
 {
-    public const LICENSE_NAME = 'Kirby Tools License';
+    public const LICENSE_NAME = 'Kirby Tools Plugin License';
     public const LICENSE_URL = 'https://kirby.tools/license';
 
     public function __construct(

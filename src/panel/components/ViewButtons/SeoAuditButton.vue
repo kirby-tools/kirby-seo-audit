@@ -1,6 +1,10 @@
 <script setup>
 import { ref, useApi, useContent, usePanel } from "kirbyuse";
-import { usePluginContext, useSeoReview } from "../../composables";
+import {
+  isZeroOneValid,
+  usePluginContext,
+  useSeoReview,
+} from "../../composables";
 import { LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
 
@@ -49,6 +53,11 @@ const isAnalyzing = ref(false);
 const { currentContent } = useContent();
 
 async function analyze() {
+  // eslint-disable-next-line no-undef
+  if (__ZERO_ONE__ && !isZeroOneValid()) {
+    return;
+  }
+
   // eslint-disable-next-line no-undef
   if (__PLAYGROUND__) {
     if (!currentContent.value.targeturl) {

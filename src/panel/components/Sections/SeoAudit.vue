@@ -13,7 +13,11 @@ import {
 } from "kirbyuse";
 import { section as sectionProps } from "kirbyuse/props";
 import throttle from "throttleit";
-import { usePluginContext, useSeoReview } from "../../composables";
+import {
+  isZeroOneValid,
+  usePluginContext,
+  useSeoReview,
+} from "../../composables";
 import { LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
 import { getHashedStorageKey } from "../../utils/storage";
@@ -40,6 +44,9 @@ const { generateReport } = useSeoReview();
 // Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
 let previewUrl;
+
+// eslint-disable-next-line no-undef
+const isZeroOneBuild = __ZERO_ONE__;
 
 // Section props
 const label = ref();
@@ -140,9 +147,10 @@ async function updateSectionData(isInitializing = false) {
     logLevel.value = LOG_LEVELS.indexOf(
       context.config.logLevel || response.logLevel,
     );
+
     licenseStatus.value =
       // eslint-disable-next-line no-undef
-      __PLAYGROUND__ ? "active" : context.licenseStatus;
+      __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
 
     if (persisted.value) {
       const lastReport = JSON.parse(localStorage.getItem(storageKey));
@@ -161,6 +169,11 @@ async function updateSectionData(isInitializing = false) {
 }
 
 async function analyze() {
+  // eslint-disable-next-line no-undef
+  if (__ZERO_ONE__ && !isZeroOneValid()) {
+    return;
+  }
+
   // eslint-disable-next-line no-undef
   if (__PLAYGROUND__) {
     if (!currentContent.value.targeturl) {
@@ -225,7 +238,10 @@ async function analyze() {
 
 <template>
   <k-section v-if="isInitialized" :label="label">
-    <template v-if="licenseStatus !== undefined" slot="options">
+    <template
+      v-if="licenseStatus !== undefined && !isZeroOneBuild"
+      slot="options"
+    >
       <LicensingButtonGroup
         label="Kirby SEO Audit"
         api-namespace="__seo-audit__"

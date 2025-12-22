@@ -5,6 +5,7 @@ export default defineConfig({
   vite: {
     define: {
       __PLAYGROUND__: JSON.stringify(process.env.PLAYGROUND === "true"),
+      __ZERO_ONE__: JSON.stringify(process.env.ZERO_ONE === "true"),
     },
   },
 });

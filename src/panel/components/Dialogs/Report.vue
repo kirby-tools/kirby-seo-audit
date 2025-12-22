@@ -20,12 +20,14 @@ const emit = defineEmits(["cancel", "close", "input", "submit", "success"]);
 const panel = usePanel();
 
 const licenseStatus = ref();
+// eslint-disable-next-line no-undef
+const isZeroOneBuild = __ZERO_ONE__;
 
 (async () => {
   const context = await usePluginContext();
   licenseStatus.value =
     // eslint-disable-next-line no-undef
-    __PLAYGROUND__ ? "active" : context.licenseStatus;
+    __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
 })();
 </script>
 
@@ -52,9 +54,8 @@ const licenseStatus = ref();
               }}
             </h2>
           </k-text>
-          <div>
+          <div v-if="licenseStatus !== undefined && !isZeroOneBuild">
             <LicensingButtonGroup
-              v-if="licenseStatus !== undefined"
               label="Kirby SEO Audit"
               api-namespace="__seo-audit__"
               :license-status="licenseStatus"
