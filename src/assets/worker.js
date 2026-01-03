@@ -4,30 +4,30 @@ import {
   assessments,
   helpers,
   languageProcessing,
-} from "yoastseo";
-import DefaultResearcher from "yoastseo/build/languageProcessing/languages/_default/Researcher";
-import ArabicResearcher from "yoastseo/build/languageProcessing/languages/ar/Researcher";
-import CatalanResearcher from "yoastseo/build/languageProcessing/languages/ca/Researcher";
-import CzechResearcher from "yoastseo/build/languageProcessing/languages/cs/Researcher";
-import GermanResearcher from "yoastseo/build/languageProcessing/languages/de/Researcher";
-import GreekResearcher from "yoastseo/build/languageProcessing/languages/el/Researcher";
-import EnglishResearcher from "yoastseo/build/languageProcessing/languages/en/Researcher";
-import SpanishResearcher from "yoastseo/build/languageProcessing/languages/es/Researcher";
-import FarsiResearcher from "yoastseo/build/languageProcessing/languages/fa/Researcher";
-import FrenchResearcher from "yoastseo/build/languageProcessing/languages/fr/Researcher";
-import HebrewResearcher from "yoastseo/build/languageProcessing/languages/he/Researcher";
-import HungarianResearcher from "yoastseo/build/languageProcessing/languages/hu/Researcher";
-import IndonesianResearcher from "yoastseo/build/languageProcessing/languages/id/Researcher";
-import ItalianResearcher from "yoastseo/build/languageProcessing/languages/it/Researcher";
-import JapaneseResearcher from "yoastseo/build/languageProcessing/languages/ja/Researcher";
-import NorwegianResearcher from "yoastseo/build/languageProcessing/languages/nb/Researcher";
-import DutchResearcher from "yoastseo/build/languageProcessing/languages/nl/Researcher";
-import PolishResearcher from "yoastseo/build/languageProcessing/languages/pl/Researcher";
-import PortugueseResearcher from "yoastseo/build/languageProcessing/languages/pt/Researcher";
-import RussianResearcher from "yoastseo/build/languageProcessing/languages/ru/Researcher";
-import SlovakResearcher from "yoastseo/build/languageProcessing/languages/sk/Researcher";
-import SwedishResearcher from "yoastseo/build/languageProcessing/languages/sv/Researcher";
-import TurkishResearcher from "yoastseo/build/languageProcessing/languages/tr/Researcher";
+} from "./yoastseo-repo/packages/yoastseo/src/index.js";
+import DefaultResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/_default/Researcher";
+import ArabicResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/ar/Researcher";
+import CatalanResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/ca/Researcher";
+import CzechResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/cs/Researcher";
+import GermanResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/de/Researcher";
+import GreekResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/el/Researcher";
+import EnglishResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/en/Researcher";
+import SpanishResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/es/Researcher";
+import FarsiResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/fa/Researcher";
+import FrenchResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/fr/Researcher";
+import HebrewResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/he/Researcher";
+import HungarianResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/hu/Researcher";
+import IndonesianResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/id/Researcher";
+import ItalianResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/it/Researcher";
+import JapaneseResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/ja/Researcher";
+import NorwegianResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/nb/Researcher";
+import DutchResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/nl/Researcher";
+import PolishResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/pl/Researcher";
+import PortugueseResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/pt/Researcher";
+import RussianResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/ru/Researcher";
+import SlovakResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/sk/Researcher";
+import SwedishResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/sv/Researcher";
+import TurkishResearcher from "./yoastseo-repo/packages/yoastseo/src/languageProcessing/languages/tr/Researcher";
 
 /// keep-sorted
 const researchers = {

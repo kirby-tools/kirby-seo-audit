@@ -7,10 +7,11 @@
   "scripts": {
     "dev": "PLAYGROUND=true kirbyup serve src/panel/index.js",
     "build": "kirbyup src/panel/index.js",
-    "build:assets": "rm -rf assets && vite build --config src/assets/yoastseo/vite.config.js && vite build --config src/assets/worker/vite.config.js",
+    "build:assets": "rm -rf assets && pnpm -C src/assets build",
     "build:playground": "PLAYGROUND=true pnpm run build && pnpm run build:assets",
     "build:zero-one": "ZERO_ONE=true pnpm run build && pnpm run build:assets && node scripts/build-zero-one.mjs",
     "extract:messages": "node scripts/extract-translations.mjs && npx po2json messages.pot messages.json --format jed1.x --domain wordpress-seo && sed -i '' 's/\"wordpress-seo\\\\u0004/\"/g' messages.json",
+    "prepare:yoastseo": "node scripts/prepare-yoastseo.mjs 26.6",
     "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -20,7 +21,6 @@
   "devDependencies": {
     "@antfu/eslint-config": "^6.7.3",
     "@kirby-tools/licensing": "^0.5.2",
-    "@wordpress/i18n": "^5.26.0",
     "autoprefixer": "^10.4.23",
     "bumpp": "^10.3.2",
     "eslint": "^9.39.2",
@@ -36,9 +36,7 @@
     "tinyglobby": "^0.2.15",
     "ufo": "^1.6.1",
     "vite": "~6.3.7",
-    "vite-plugin-node-polyfills": "^0.24.0",
     "vitest": "^4.0.16",
-    "yoastseo": "~3.5.0",
     "zx": "^8.8.5"
   },
   "pnpm": {

@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import * as fsp from "node:fs/promises";
 import { GettextExtractor, JsExtractors } from "gettext-extractor";
 import { glob } from "tinyglobby";
 
@@ -43,7 +43,7 @@ extractor.printStats();
 
 // Preprocess files to transform Babel patterns
 async function preprocessFile(filePath) {
-  let content = await readFile(filePath, "utf8");
+  let content = await fsp.readFile(filePath, "utf8");
 
   // Transform Babel patterns `(0, _i18n.function)` to `_i18n.function`
   const i18nFunctions = ["__", "sprintf", "_n"];
