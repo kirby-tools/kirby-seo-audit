@@ -4,6 +4,19 @@
     "wordpress-seo": {
       "": { "domain": "wordpress-seo" },
       "%1$sLearn more.%2$s": [""],
+      "%1$s Good job!": [""],
+      "%1$s That's less than the recommended minimum of %2$d time for a text of this length. %3$sFocus on your keyphrase%4$s!": [
+        "",
+        "%1$s That's less than the recommended minimum of %2$d times for a text of this length. %3$sFocus on your keyphrase%4$s!"
+      ],
+      "%1$s That's more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!": [
+        "",
+        "%1$s That's more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!"
+      ],
+      "%1$s That's way more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!": [
+        "",
+        "%1$s That's way more than the recommended maximum of %2$d times for a text of this length. %3$sDon't overoptimize%4$s!"
+      ],
       "%1$s: %2$sPlease add both a keyphrase and an SEO title beginning with the keyphrase%3$s.": [
         ""
       ],
@@ -25,6 +38,12 @@
       "%1$s: Title does not begin with the focus keyphrase. %2$sMove your focus keyphrase to the beginning of the title%3$s.": [
         ""
       ],
+      "%1$sCompeting links%2$s: There are no links which use your keyphrase or synonym as their anchor text. Nice!": [
+        ""
+      ],
+      "%1$sCompeting links%3$s: You have a link which uses your keyphrase or synonym as its anchor text. %2$sFix that%3$s!": [
+        ""
+      ],
       "%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word. %5$sTry to mix things up%2$s!": [
         "",
         "%1$sConsecutive sentences%2$s: The text contains %4$d instances where %3$d or more consecutive sentences start with the same word. %5$sTry to mix things up%2$s!"
@@ -33,16 +52,6 @@
         ""
       ],
       "%1$sFunction words in keyphrase%3$s: Your keyphrase \"%4$s\" contains function words only. %2$sLearn more about what makes a good keyphrase.%3$s": [
-        ""
-      ],
-      "%1$sImage Keyphrase%2$s: Good job!": [""],
-      "%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes that reflect the topic of your text. %2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!": [
-        ""
-      ],
-      "%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes with at least half of the words from your keyphrase. %2$sFix that%3$s!": [
-        ""
-      ],
-      "%1$sImage Keyphrase%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!": [
         ""
       ],
       "%1$sImages and videos%2$s: Good job!": [""],
@@ -61,23 +70,29 @@
       "%1$sInternal links%3$s: The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s.": [
         ""
       ],
+      "%1$sKeyphrase density%2$s: The keyphrase was found %3$d time.": [
+        "",
+        "%1$sKeyphrase density%2$s: The keyphrase was found %3$d times."
+      ],
       "%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. This is great!": [
         "",
         "%1$sKeyphrase density%2$s: The keyphrase was found %3$d times. This is great!"
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!": [
+      "%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d time for a text of this length. %4$sFocus on your keyphrase%2$s!": [
         "",
-        "%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!"
+        "%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!"
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!": [
-        "",
-        "%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!"
+      "%1$sKeyphrase density%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase%3$s.": [
+        ""
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!": [
-        "",
-        "%1$sKeyphrase density%2$s: The keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!"
+      "%1$sKeyphrase in image alt attributes%2$s: Good job!": [""],
+      "%1$sKeyphrase in image alt attributes%3$s: Images on this page do not have alt attributes that reflect the topic of your text. %2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!": [
+        ""
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!": [
+      "%1$sKeyphrase in image alt attributes%3$s: Images on this page do not have alt attributes with at least half of the words from your keyphrase. %2$sFix that%3$s!": [
+        ""
+      ],
+      "%1$sKeyphrase in image alt attributes%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!": [
         ""
       ],
       "%1$sKeyphrase in introduction%2$s: Well done!": [""],
@@ -116,7 +131,13 @@
         "",
         "%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflect the topic of your copy. Good job!"
       ],
+      "%1$sKeyphrase in subheading%2$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.": [
+        ""
+      ],
       "%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!": [
+        ""
+      ],
+      "%1$sKeyphrase in subheading%3$s: %2$sPlease add both a keyphrase and some text to receive relevant feedback%3$s.": [
         ""
       ],
       "%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!": [
@@ -125,14 +146,14 @@
       "%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. %2$sDon't over-optimize%3$s!": [
         ""
       ],
+      "%1$sKeyphrase in subheading%3$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms. %2$sFix that%3$s!": [
+        ""
+      ],
       "%1$sKeyphrase length%2$s: Good job!": [""],
       "%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.": [
         ""
       ],
       "%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.": [
-        ""
-      ],
-      "%1$sLink keyphrase%3$s: You're linking to another page with the words you want this page to rank for. %2$sDon't do that%3$s!": [
         ""
       ],
       "%1$sMeta description length%2$s: Well done!": [""],
@@ -196,6 +217,9 @@
         ""
       ],
       "%1$sSEO title width%3$s: The SEO title is wider than the viewable limit. %2$sTry to make it shorter%3$s.": [
+        ""
+      ],
+      "%1$sSingle title%2$s: You don't have multiple H1 headings, well done!": [
         ""
       ],
       "%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text that aren't your main title and %2$schange them to a lower heading level%3$s!": [
@@ -283,6 +307,30 @@
         "",
         "%2$s That's way more than the recommended maximum of %1$d words. %3$sMake it shorter%4$s!"
       ],
+      "%2$s This is below the recommended minimum of %1$d character. %3$sAdd more content%4$s.": [
+        "",
+        "%2$s This is below the recommended minimum of %1$d characters. %3$sAdd more content%4$s."
+      ],
+      "%2$s This is below the recommended minimum of %1$d word. %3$sAdd more content%4$s.": [
+        "",
+        "%2$s This is below the recommended minimum of %1$d words. %3$sAdd more content%4$s."
+      ],
+      "%2$s This is far below the recommended minimum of %1$d character. %3$sAdd more content%4$s.": [
+        "",
+        "%2$s This is far below the recommended minimum of %1$d characters. %3$sAdd more content%4$s."
+      ],
+      "%2$s This is far below the recommended minimum of %1$d word. %3$sAdd more content%4$s.": [
+        "",
+        "%2$s This is far below the recommended minimum of %1$d words. %3$sAdd more content%4$s."
+      ],
+      "%2$s This is slightly below the recommended minimum of %1$d character. %3$sAdd more content%4$s.": [
+        "",
+        "%2$s This is slightly below the recommended minimum of %1$d characters. %3$sAdd more content%4$s."
+      ],
+      "%2$s This is slightly below the recommended minimum of %1$d word. %3$sAdd more content%4$s.": [
+        "",
+        "%2$s This is slightly below the recommended minimum of %1$d words. %3$sAdd more content%4$s."
+      ],
       "%2$sKeyphrase length%3$s: The keyphrase contains %1$d character.": [
         "",
         "%2$sKeyphrase length%3$s: The keyphrase contains %1$d characters."
@@ -295,30 +343,13 @@
         "",
         "%2$sKeyphrase length%3$s: The keyphrase contains %1$d words."
       ],
-      "%2$sText length%3$s: The text contains %1$d %4$s. Good job!": [""],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.": [
-        ""
-      ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.": [
+      "%2$sText length%3$s: The text contains %1$d character.": [
         "",
-        "%2$sText length%4$s: The text contains %1$d %7$s. This is below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s."
+        "%2$sText length%3$s: The text contains %1$d characters."
       ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.": [
+      "%2$sText length%3$s: The text contains %1$d word.": [
         "",
-        "%2$sText length%4$s: The text contains %1$d %7$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s."
-      ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd a bit more copy%4$s.": [
-        ""
-      ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.": [
-        ""
-      ],
-      "%3$sImage Keyphrase%5$s: Out of %2$d images on this page, %1$d have alt attributes with words from your keyphrase or synonyms. That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.": [
-        ""
-      ],
-      "%3$sImage Keyphrase%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that reflects the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!": [
-        "",
-        "%3$sImage Keyphrase%5$s: Out of %2$d images on this page, only %1$d have alt attributes that reflect the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!"
+        "%2$sText length%3$s: The text contains %1$d words."
       ],
       "%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!": [
         "",
@@ -328,6 +359,13 @@
         "",
         "%3$sImages%5$s: Only %1$d images appear on this page. We recommend at least %2$d. %4$sAdd more relevant images%5$s!"
       ],
+      "%3$sKeyphrase in image alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with words from your keyphrase or synonyms. That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.": [
+        ""
+      ],
+      "%3$sKeyphrase in image alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that reflects the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!": [
+        "",
+        "%3$sKeyphrase in image alt attributes%5$s: Out of %2$d images on this page, only %1$d have alt attributes that reflect the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!"
+      ],
       "%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$smultiple times before%2$s. %4$sDo not use your keyphrase more than once%2$s.": [
         ""
       ],
@@ -335,9 +373,11 @@
         ""
       ],
       "An error occurred in the '%1$s' assessment": [""],
-      "character": [""],
-      "characters": [""],
       "Content optimization:": [""],
+      "Edit your keyphrase": [""],
+      "Edit your meta description": [""],
+      "Edit your SEO title": [""],
+      "Edit your slug": [""],
       "Feedback": [""],
       "For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title": [
         ""
@@ -348,16 +388,10 @@
       "Good": [""],
       "Good SEO score": [""],
       "Has feedback": [""],
-      "keyphrase": [""],
       "Keyphrase in SEO title": [""],
-      "meta description": [""],
       "Needs improvement": [""],
       "OK": [""],
-      "OK SEO score": [""],
-      "SEO title": [""],
-      "slug": [""],
-      "word": [""],
-      "words": [""]
+      "OK SEO score": [""]
     }
   }
 }

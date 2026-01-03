@@ -3,393 +3,427 @@
   "locale_data": {
     "wordpress-seo": {
       "": { "domain": "wordpress-seo" },
-      "%1$sLearn more.%2$s": ["Aprende más."],
+      "%1$sLearn more.%2$s": ["%1$sMás información.%2$s"],
+      "%1$s Good job!": ["%1$s ¡Buen trabajo!"],
+      "%1$s That's less than the recommended minimum of %2$d time for a text of this length. %3$sFocus on your keyphrase%4$s!": [
+        "%1$s Eso es menos que el mínimo recomendado de %2$d vez para un texto de esta longitud. %3$s¡Céntrate en tu keyphrase%4$s!",
+        "%1$s Eso es menos que el mínimo recomendado de %2$d veces para un texto de esta longitud. %3$s¡Céntrate en tu keyphrase%4$s!"
+      ],
+      "%1$s That's more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!": [
+        "%1$s Eso es más que el máximo recomendado de %2$d vez para un texto de esta longitud. %3$s¡No sobreoptimices%4$s!",
+        "%1$s Eso es más que el máximo recomendado de %2$d veces para un texto de esta longitud. %3$s¡No sobreoptimices%4$s!"
+      ],
+      "%1$s That's way more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!": [
+        "%1$s Eso es mucho más que el máximo recomendado de %2$d vez para un texto de esta longitud. %3$s¡No sobreoptimices%4$s!",
+        "%1$s Eso es mucho más que el máximo recomendado de %2$d veces para un texto de esta longitud. %3$s¡No sobreoptimices%4$s!"
+      ],
       "%1$s: %2$sPlease add both a keyphrase and an SEO title beginning with the keyphrase%3$s.": [
-        "%1$s: %2$sPor favor añade tanto una palabra clave como un título SEO que comience con la palabra clave%3$s."
+        "%1$s: %2$sPor favor, añade tanto una keyphrase como un título SEO que comience con la keyphrase%3$s."
       ],
       "%1$s: Does not contain the exact match. %2$sTry to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title%3$s.": [
-        "%1$s: No contiene la coincidencia exacta. %2$sIntenta escribir la coincidencia exacta de tu palabra clave en el título SEO y ponla al principio del título%3$s."
+        "%1$s: No contiene la coincidencia exacta. %2$sIntenta escribir la coincidencia exacta de tu keyphrase en el título SEO y ponla al principio del título%3$s."
       ],
       "%1$s: Not all the words from your keyphrase \"%4$s\" appear in the SEO title. %2$s%5$s%3$s.": [
-        "%1$s: No todas las palabras de tu palabra clave \"%4$s\" aparecen en el título SEO. %2$s%5$s%3$s."
+        "%1$s: No todas las palabras de tu keyphrase «%4$s» aparecen en el título SEO. %2$s%5$s%3$s."
       ],
       "%1$s: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!": [
-        "%1$s: La coincidencia exacta de la palabra clave principal aparece al principio del título SEO. ¡Buen trabajo!"
+        "%1$s: La coincidencia exacta dla keyphrase de enfoque aparece al principio del título SEO. ¡Buen trabajo!"
       ],
       "%1$s: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. %2$sMove it to the beginning for the best results%3$s.": [
-        "%1$s: La coincidencia exacta de la palabra clave principal aparece en el título SEO, pero no al principio. %2$sMuévela al principio para mejores resultados%3$s."
+        "%1$s: La coincidencia exacta dla keyphrase de enfoque aparece en el título SEO, pero no al principio. %2$sMuévela al principio para obtener los mejores resultados%3$s."
       ],
       "%1$s: The focus keyphrase appears at the beginning of the SEO title. Good job!": [
-        "%1$s: La palabra clave principal aparece al principio del título SEO. ¡Buen trabajo!"
+        "%1$s: La keyphrase de enfoque aparece al principio del título SEO. ¡Buen trabajo!"
       ],
       "%1$s: Title does not begin with the focus keyphrase. %2$sMove your focus keyphrase to the beginning of the title%3$s.": [
-        "%1$s: El título no comienza con la palabra clave principal. %2$sMueve tu palabra clave principal al principio del título%3$s."
+        "%1$s: El título no comienza con la keyphrase de enfoque. %2$sMueve tu keyphrase de enfoque al principio del título%3$s."
+      ],
+      "%1$sCompeting links%2$s: There are no links which use your keyphrase or synonym as their anchor text. Nice!": [
+        "%1$sEnlaces competidores%2$s: No hay enlaces que usen tu keyphrase o sinónimo como texto ancla. ¡Muy bien!"
+      ],
+      "%1$sCompeting links%3$s: You have a link which uses your keyphrase or synonym as its anchor text. %2$sFix that%3$s!": [
+        "%1$sEnlaces competidores%3$s: Tienes un enlace que usa tu keyphrase o sinónimo como texto ancla. %2$s¡Corrígelo%3$s!"
       ],
       "%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word. %5$sTry to mix things up%2$s!": [
-        "%1$sOraciones consecutivas%2$s: El texto contiene %3$d oraciones consecutivas que comienzan con la misma palabra. %5$sIntenta variar%2$s!",
-        "%1$sOraciones consecutivas%2$s: El texto contiene %4$d casos donde %3$d o más oraciones consecutivas comienzan con la misma palabra. %5$sIntenta variar%2$s!"
+        "%1$sOraciones consecutivas%2$s: El texto contiene %3$d oraciones consecutivas que comienzan con la misma palabra. %5$s¡Intenta variar%2$s!",
+        "%1$sOraciones consecutivas%2$s: El texto contiene %4$d instancias donde %3$d o más oraciones consecutivas comienzan con la misma palabra. %5$s¡Intenta variar%2$s!"
       ],
       "%1$sConsecutive sentences%2$s: There are no repetitive sentence beginnings. That's great!": [
-        "%1$sOraciones consecutivas%2$s: No hay comienzos de oraciones repetitivos. ¡Eso es genial!"
+        "%1$sOraciones consecutivas%2$s: No hay inicios de oración repetitivos. ¡Genial!"
       ],
       "%1$sFunction words in keyphrase%3$s: Your keyphrase \"%4$s\" contains function words only. %2$sLearn more about what makes a good keyphrase.%3$s": [
-        "%1$sPalabras funcionales en la palabra clave%3$s: Tu palabra clave \"%4$s\" contiene solo palabras funcionales. %2$sAprende más sobre qué hace una buena palabra clave.%3$s"
-      ],
-      "%1$sImage Keyphrase%2$s: Good job!": [
-        "Palabra clave de imagen: ¡Buen trabajo!"
-      ],
-      "%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes that reflect the topic of your text. %2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!": [
-        "%1$sPalabra clave de imagen%3$s: Las imágenes en esta página no tienen atributos alt que reflejen el tema de tu texto. %2$sAñade tu palabra clave o sinónimos a las etiquetas alt de imágenes relevantes%3$s!"
-      ],
-      "%1$sImage Keyphrase%3$s: Images on this page do not have alt attributes with at least half of the words from your keyphrase. %2$sFix that%3$s!": [
-        "%1$sPalabra clave de imagen%3$s: Las imágenes en esta página no tienen atributos alt con al menos la mitad de las palabras de tu palabra clave. %2$sArregla eso%3$s!"
-      ],
-      "%1$sImage Keyphrase%3$s: Images on this page have alt attributes, but you have not set your keyphrase. %2$sFix that%3$s!": [
-        "%1$sPalabra clave de imagen%3$s: Las imágenes en esta página tienen atributos alt, pero no has establecido tu palabra clave. %2$sArregla eso%3$s!"
+        "%1$sPalabras funcionales en keyphrase%3$s: Tu keyphrase «%4$s» contiene solo palabras funcionales. %2$sAprende más sobre qué hace un buen keyphrase.%3$s"
       ],
       "%1$sImages and videos%2$s: Good job!": [
-        "Imágenes y videos: ¡Buen trabajo!"
+        "%1$sImágenes y vídeos%2$s: ¡Buen trabajo!"
       ],
       "%1$sImages and videos%3$s: No images or videos appear on this page. %2$sAdd some%3$s!": [
-        "%1$sImágenes y videos%3$s: No aparecen imágenes o videos en esta página. %2$sAñade algunos%3$s!"
+        "%1$sImágenes y vídeos%3$s: No aparecen imágenes ni vídeos en esta página. %2$s¡Añade algunos%3$s!"
       ],
-      "%1$sImages%2$s: Good job!": ["Imágenes: ¡Buen trabajo!"],
+      "%1$sImages%2$s: Good job!": ["%1$sImágenes%2$s: ¡Buen trabajo!"],
       "%1$sImages%3$s: No images appear on this page. %2$sAdd some%3$s!": [
-        "Imágenes: No aparecen imágenes en esta página. ¡Añade algunas!"
+        "%1$sImágenes%3$s: No aparecen imágenes en esta página. %2$s¡Añade algunas%3$s!"
       ],
       "%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!": [
-        "%1$sEnlaces internos%2$s: Hay tanto enlaces internos nofollow como normales en esta página. ¡Buen trabajo!"
+        "%1$sEnlaces internos%2$s: Hay enlaces internos tanto nofollow como normales en esta página. ¡Buen trabajo!"
       ],
       "%1$sInternal links%2$s: You have enough internal links. Good job!": [
-        "Enlaces internos: Tienes suficientes enlaces internos. ¡Buen trabajo!"
+        "%1$sEnlaces internos%2$s: Tienes suficientes enlaces internos. ¡Buen trabajo!"
       ],
       "%1$sInternal links%3$s: No internal links appear in this page, %2$smake sure to add some%3$s!": [
-        "%1$sEnlaces internos%3$s: No aparecen enlaces internos en esta página, %2$sasegúrate de añadir algunos%3$s!"
+        "%1$sEnlaces internos%3$s: No aparecen enlaces internos en esta página, %2$s¡asegúrate de añadir algunos%3$s!"
       ],
       "%1$sInternal links%3$s: The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s.": [
         "%1$sEnlaces internos%3$s: Los enlaces internos en esta página son todos nofollow. %2$sAñade algunos buenos enlaces internos%3$s."
       ],
+      "%1$sKeyphrase density%2$s: The keyphrase was found %3$d time.": [
+        "%1$sDensidad de keyphrase%2$s: La keyphrase se encontró %3$d vez.",
+        "%1$sDensidad de keyphrase%2$s: La keyphrase se encontró %3$d veces."
+      ],
       "%1$sKeyphrase density%2$s: The keyphrase was found %3$d time. This is great!": [
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %3$d vez. ¡Esto es genial!",
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %3$d veces. ¡Esto es genial!"
+        "%1$sDensidad de keyphrase%2$s: La keyphrase se encontró %3$d vez. ¡Genial!",
+        "%1$sDensidad de keyphrase%2$s: La keyphrase se encontró %3$d veces. ¡Genial!"
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!": [
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %5$d vez. Eso es menos que el mínimo recomendado de %3$d veces para un texto de esta longitud. %4$sEnfócate en tu palabra clave%2$s!",
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %5$d veces. Eso es menos que el mínimo recomendado de %3$d veces para un texto de esta longitud. %4$sEnfócate en tu palabra clave%2$s!"
+      "%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d time for a text of this length. %4$sFocus on your keyphrase%2$s!": [
+        "%1$sDensidad de keyphrase%2$s: La keyphrase se encontró 0 veces. Eso es menos que el mínimo recomendado de %3$d vez para un texto de esta longitud. %4$s¡Céntrate en tu keyphrase%2$s!",
+        "%1$sDensidad de keyphrase%2$s: La keyphrase se encontró 0 veces. Eso es menos que el mínimo recomendado de %3$d veces para un texto de esta longitud. %4$s¡Céntrate en tu keyphrase%2$s!"
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!": [
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %5$d vez. Eso es más que el máximo recomendado de %3$d veces para un texto de esta longitud. %4$sNo sobre-optimices%2$s!",
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %5$d veces. Eso es más que el máximo recomendado de %3$d veces para un texto de esta longitud. %4$sNo sobre-optimices%2$s!"
+      "%1$sKeyphrase density%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase%3$s.": [
+        "%1$sDensidad de keyphrase%3$s: %2$sPor favor, añade tanto una keyphrase como algo de texto que contenga la keyphrase%3$s."
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!": [
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %5$d vez. Eso es mucho más que el máximo recomendado de %3$d veces para un texto de esta longitud. %4$sNo sobre-optimices%2$s!",
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró %5$d veces. Eso es mucho más que el máximo recomendado de %3$d veces para un texto de esta longitud. %4$sNo sobre-optimices%2$s!"
+      "%1$sKeyphrase in image alt attributes%2$s: Good job!": [
+        "%1$sKeyphrase en atributos alt de imágenes%2$s: ¡Buen trabajo!"
       ],
-      "%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!": [
-        "%1$sDensidad de palabra clave%2$s: La palabra clave se encontró 0 veces. Eso es menos que el mínimo recomendado de %3$d veces para un texto de esta longitud. %4$sEnfócate en tu palabra clave%2$s!"
+      "%1$sKeyphrase in image alt attributes%3$s: Images on this page do not have alt attributes that reflect the topic of your text. %2$sAdd your keyphrase or synonyms to the alt tags of relevant images%3$s!": [
+        "%1$sKeyphrase en atributos alt de imágenes%3$s: Las imágenes de esta página no tienen atributos alt que reflejen el tema de tu texto. %2$s¡Añade tu keyphrase o sinónimos a las etiquetas alt de las imágenes relevantes%3$s!"
+      ],
+      "%1$sKeyphrase in image alt attributes%3$s: Images on this page do not have alt attributes with at least half of the words from your keyphrase. %2$sFix that%3$s!": [
+        "%1$sKeyphrase en atributos alt de imágenes%3$s: Las imágenes de esta página no tienen atributos alt con al menos la mitad de las palabras de tu keyphrase. %2$s¡Corrígelo%3$s!"
+      ],
+      "%1$sKeyphrase in image alt attributes%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!": [
+        "%1$sKeyphrase en atributos alt de imágenes%3$s: Esta página no tiene imágenes, keyphrase, o ambos. %2$s¡Añade algunas imágenes con atributos alt que incluyan la keyphrase o sinónimos%3$s!"
       ],
       "%1$sKeyphrase in introduction%2$s: Well done!": [
-        "Palabra clave en la introducción: ¡Bien hecho!"
+        "%1$sKeyphrase en la introducción%2$s: ¡Bien hecho!"
       ],
       "%1$sKeyphrase in introduction%3$s: %2$sPlease add both a keyphrase and an introduction containing the keyphrase%3$s.": [
-        "%1$sPalabra clave en la introducción%3$s: %2$sPor favor añade tanto una palabra clave como una introducción que contenga la palabra clave%3$s."
+        "%1$sKeyphrase en la introducción%3$s: %2$sPor favor, añade tanto una keyphrase como una introducción que contenga la keyphrase%3$s."
       ],
       "%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!": [
-        "%1$sPalabra clave en la introducción%3$s: Tu palabra clave o sus sinónimos aparecen en el primer párrafo del texto, pero no dentro de una oración. %2$sArregla eso%3$s!"
+        "%1$sKeyphrase en la introducción%3$s: Tu keyphrase o sus sinónimos aparecen en el primer párrafo del texto, pero no dentro de una oración. %2$s¡Corrígelo%3$s!"
       ],
       "%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. %2$sMake sure the topic is clear immediately%3$s.": [
-        "%1$sPalabra clave en la introducción%3$s: Tu palabra clave o sus sinónimos no aparecen en el primer párrafo. %2$sAsegúrate de que el tema sea claro inmediatamente%3$s."
+        "%1$sKeyphrase en la introducción%3$s: Tu keyphrase o sus sinónimos no aparecen en el primer párrafo. %2$sAsegúrate de que el tema quede claro de inmediato%3$s."
       ],
       "%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!": [
-        "%1$sPalabra clave en meta descripción%2$s: La palabra clave o sinónimo aparece en la meta descripción. ¡Bien hecho!"
+        "%1$sKeyphrase en la meta descripción%2$s: La keyphrase o sinónimo aparecen en la meta descripción. ¡Bien hecho!"
       ],
       "%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, which is over the advised maximum of 2 times. %4$sLimit that%5$s!": [
-        "%1$sPalabra clave en meta descripción%2$s: La meta descripción contiene la palabra clave %3$s veces, lo cual está por encima del máximo aconsejado de 2 veces. %4$sLimita eso%5$s!"
+        "%1$sKeyphrase en la meta descripción%2$s: La meta descripción contiene la keyphrase %3$s veces, lo cual supera el máximo recomendado de 2 veces. %4$s¡Limítalo%5$s!"
       ],
       "%1$sKeyphrase in meta description%2$s: The meta description has been specified, but it does not contain the keyphrase. %3$sFix that%4$s!": [
-        "%1$sPalabra clave en meta descripción%2$s: La meta descripción ha sido especificada, pero no contiene la palabra clave. %3$sArregla eso%4$s!"
+        "%1$sKeyphrase en la meta descripción%2$s: La meta descripción ha sido especificada, pero no contiene la keyphrase. %3$s¡Corrígelo%4$s!"
       ],
       "%1$sKeyphrase in meta description%3$s: %2$sPlease add both a keyphrase and a meta description containing the keyphrase%3$s.": [
-        "%1$sPalabra clave en meta descripción%3$s: %2$sPor favor añade tanto una palabra clave como una meta descripción que contenga la palabra clave%3$s."
+        "%1$sKeyphrase en la meta descripción%3$s: %2$sPor favor, añade tanto una keyphrase como una meta descripción que contenga la keyphrase%3$s."
       ],
       "%1$sKeyphrase in slug%2$s: Great work!": [
-        "Palabra clave en slug: ¡Excelente trabajo!"
+        "%1$sKeyphrase en el slug%2$s: ¡Excelente trabajo!"
       ],
       "%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!": [
-        "%1$sPalabra clave en slug%2$s: Más de la mitad de tu palabra clave aparece en el slug. ¡Eso es genial!"
+        "%1$sKeyphrase en el slug%2$s: Más de la mitad de tu keyphrase aparece en el slug. ¡Genial!"
       ],
       "%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!": [
-        "%1$sPalabra clave en slug%3$s: (Parte de) tu palabra clave no aparece en el slug. %2$sCambia eso%3$s!"
+        "%1$sKeyphrase en el slug%3$s: (Parte de) tu keyphrase no aparece en el slug. %2$s¡Cámbialo%3$s!"
       ],
       "%1$sKeyphrase in slug%3$s: %2$sPlease add both a keyphrase and a slug containing the keyphrase%3$s.": [
-        "%1$sPalabra clave en slug%3$s: %2$sPor favor añade tanto una palabra clave como un slug que contenga la palabra clave%3$s."
+        "%1$sKeyphrase en el slug%3$s: %2$sPor favor, añade tanto una keyphrase como un slug que contenga la keyphrase%3$s."
       ],
       "%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!": [
-        "%1$sPalabra clave en subtítulos%2$s: %3$s de tus subtítulos H2 y H3 refleja el tema de tu texto. ¡Buen trabajo!",
-        "%1$sPalabra clave en subtítulos%2$s: %3$s de tus subtítulos H2 y H3 reflejan el tema de tu texto. ¡Buen trabajo!"
+        "%1$sKeyphrase en subtítulo%2$s: %3$s de tus subtítulos H2 y H3 refleja el tema de tu texto. ¡Buen trabajo!",
+        "%1$sKeyphrase en subtítulo%2$s: %3$s de tus subtítulos H2 y H3 reflejan el tema de tu texto. ¡Buen trabajo!"
+      ],
+      "%1$sKeyphrase in subheading%2$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.": [
+        "%1$sKeyphrase en subtítulo%2$s: No estás usando ningún subtítulo de nivel superior que contenga la keyphrase o sus sinónimos, pero tu texto es lo suficientemente corto y probablemente no los necesita."
       ],
       "%1$sKeyphrase in subheading%2$s: Your H2 or H3 subheading reflects the topic of your copy. Good job!": [
-        "%1$sPalabra clave en subtítulos%2$s: Tu subtítulo H2 o H3 refleja el tema de tu texto. ¡Buen trabajo!"
+        "%1$sKeyphrase en subtítulo%2$s: Tu subtítulo H2 o H3 refleja el tema de tu texto. ¡Buen trabajo!"
+      ],
+      "%1$sKeyphrase in subheading%3$s: %2$sPlease add both a keyphrase and some text to receive relevant feedback%3$s.": [
+        "%1$sKeyphrase en subtítulo%3$s: %2$sPor favor, añade tanto una keyphrase como algo de texto para recibir comentarios relevantes%3$s."
       ],
       "%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!": [
-        "%1$sPalabra clave en subtítulos%3$s: %2$sUsa más palabras clave o sinónimos en tus subtítulos H2 y H3%3$s!"
+        "%1$sKeyphrase en subtítulo%3$s: %2$s¡Usa más keyphrases o sinónimos en tus subtítulos H2 y H3%3$s!"
       ],
       "%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. %2$sDon't over-optimize%3$s!": [
-        "%1$sPalabra clave en subtítulos%3$s: Más del 75%% de tus subtítulos H2 y H3 reflejan el tema de tu texto. Eso es demasiado. %2$sNo sobre-optimices%3$s!"
+        "%1$sKeyphrase en subtítulo%3$s: Más del 75%% de tus subtítulos H2 y H3 reflejan el tema de tu texto. Eso es demasiado. %2$s¡No sobreoptimices%3$s!"
+      ],
+      "%1$sKeyphrase in subheading%3$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms. %2$sFix that%3$s!": [
+        "%1$sKeyphrase en subtítulo%3$s: No estás usando ningún subtítulo de nivel superior que contenga la keyphrase o sus sinónimos. %2$s¡Corrígelo%3$s!"
       ],
       "%1$sKeyphrase length%2$s: Good job!": [
-        "Longitud de palabra clave: ¡Buen trabajo!"
+        "%1$sLongitud dla keyphrase%2$s: ¡Buen trabajo!"
       ],
       "%1$sKeyphrase length%3$s: %2$sSet a keyphrase in order to calculate your SEO score%3$s.": [
-        "%1$sLongitud de palabra clave%3$s: %2$sEstablece una palabra clave para calcular tu puntuación SEO%3$s."
+        "%1$sLongitud dla keyphrase%3$s: %2$sEstablece una keyphrase para calcular tu puntuación SEO%3$s."
       ],
       "%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.": [
-        "%1$sLongitud de palabra clave%3$s: No se estableció una palabra clave principal para esta página. %2$sEstablece una palabra clave para calcular tu puntuación SEO%3$s."
-      ],
-      "%1$sLink keyphrase%3$s: You're linking to another page with the words you want this page to rank for. %2$sDon't do that%3$s!": [
-        "%1$sEnlace palabra clave%3$s: Estás enlazando a otra página con las palabras por las que quieres que esta página se posicione. %2$sNo hagas eso%3$s!"
+        "%1$sLongitud dla keyphrase%3$s: No se estableció una keyphrase de enfoque para esta página. %2$sEstablece una keyphrase para calcular tu puntuación SEO%3$s."
       ],
       "%1$sMeta description length%2$s: Well done!": [
-        "Longitud de meta descripción: ¡Bien hecho!"
+        "%1$sLongitud de la meta descripción%2$s: ¡Bien hecho!"
       ],
       "%1$sMeta description length%3$s: No meta description has been specified. Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!": [
-        "%1$sLongitud de meta descripción%3$s: No se ha especificado una meta descripción. Los motores de búsqueda mostrarán texto de la página en su lugar. %2$sAsegúrate de escribir una%3$s!"
+        "%1$sLongitud de la meta descripción%3$s: No se ha especificado una meta descripción. Los motores de búsqueda mostrarán texto de la página en su lugar. %2$s¡Asegúrate de escribir una%3$s!"
       ],
       "%1$sMeta description length%3$s: The meta description is over %4$d characters. To ensure the entire description will be visible, %2$syou should reduce the length%3$s!": [
-        "%1$sLongitud de meta descripción%3$s: La meta descripción tiene más de %4$d caracteres. Para asegurar que toda la descripción sea visible, %2$sdeberías reducir la longitud%3$s!"
+        "%1$sLongitud de la meta descripción%3$s: La meta descripción tiene más de %4$d caracteres. Para asegurar que toda la descripción sea visible, %2$s¡deberías reducir la longitud%3$s!"
       ],
       "%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). Up to %5$d characters are available. %2$sUse the space%3$s!": [
-        "%1$sLongitud de meta descripción%3$s: La meta descripción es demasiado corta (menos de %4$d caracteres). Hasta %5$d caracteres están disponibles. %2$sUsa el espacio%3$s!"
+        "%1$sLongitud de la meta descripción%3$s: La meta descripción es demasiado corta (menos de %4$d caracteres). Hay disponibles hasta %5$d caracteres. %2$s¡Aprovecha el espacio%3$s!"
       ],
       "%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.": [
-        "%1$sNo hay suficiente contenido%2$s: %3$sPor favor añade algo de contenido para permitir un buen análisis%2$s."
+        "%1$sContenido insuficiente%2$s: %3$sPor favor, añade algo de contenido para permitir un buen análisis%2$s."
       ],
       "%1$sOutbound links%2$s: Good job!": [
-        "Enlaces salientes: ¡Buen trabajo!"
+        "%1$sEnlaces salientes%2$s: ¡Buen trabajo!"
       ],
       "%1$sOutbound links%2$s: There are both nofollowed and normal outbound links on this page. Good job!": [
-        "%1$sEnlaces salientes%2$s: Hay tanto enlaces salientes nofollow como normales en esta página. ¡Buen trabajo!"
+        "%1$sEnlaces salientes%2$s: Hay enlaces salientes tanto nofollow como normales en esta página. ¡Buen trabajo!"
       ],
       "%1$sOutbound links%3$s: All outbound links on this page are nofollowed. %2$sAdd some normal links%3$s.": [
         "%1$sEnlaces salientes%3$s: Todos los enlaces salientes en esta página son nofollow. %2$sAñade algunos enlaces normales%3$s."
       ],
       "%1$sOutbound links%3$s: No outbound links appear in this page. %2$sAdd some%3$s!": [
-        "%1$sEnlaces salientes%3$s: No aparecen enlaces salientes en esta página. %2$sAñade algunos%3$s!"
+        "%1$sEnlaces salientes%3$s: No aparecen enlaces salientes en esta página. %2$s¡Añade algunos%3$s!"
       ],
       "%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!": [
-        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contiene más que el número máximo recomendado de caracteres (%4$d). %5$sAcorta tus párrafos%2$s!",
-        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contienen más que el número máximo recomendado de caracteres (%4$d). %5$sAcorta tus párrafos%2$s!"
+        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contiene más del número máximo recomendado de caracteres (%4$d). %5$s¡Acorta tus párrafos%2$s!",
+        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contienen más del número máximo recomendado de caracteres (%4$d). %5$s¡Acorta tus párrafos%2$s!"
       ],
       "%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of words (%4$d). %5$sShorten your paragraphs%2$s!": [
-        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contiene más que el número máximo recomendado de palabras (%4$d). %5$sAcorta tus párrafos%2$s!",
-        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contienen más que el número máximo recomendado de palabras (%4$d). %5$sAcorta tus párrafos%2$s!"
+        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contiene más del número máximo recomendado de palabras (%4$d). %5$s¡Acorta tus párrafos%2$s!",
+        "%1$sLongitud de párrafo%2$s: %3$d de los párrafos contienen más del número máximo recomendado de palabras (%4$d). %5$s¡Acorta tus párrafos%2$s!"
       ],
       "%1$sParagraph length%2$s: There are no paragraphs that are too long. Great job!": [
-        "%1$sLongitud de párrafo%2$s: No hay párrafos que sean demasiado largos. ¡Excelente trabajo!"
+        "%1$sLongitud de párrafo%2$s: No hay párrafos demasiado largos. ¡Excelente!"
       ],
       "%1$sPassive voice%2$s: %3$s of the sentences contain passive voice, which is more than the recommended maximum of %4$s. %5$sTry to use their active counterparts%2$s.": [
         "%1$sVoz pasiva%2$s: %3$s de las oraciones contienen voz pasiva, lo cual es más que el máximo recomendado de %4$s. %5$sIntenta usar sus equivalentes activos%2$s."
       ],
       "%1$sPassive voice%2$s: You are not using too much passive voice. That's great!": [
-        "%1$sVoz pasiva%2$s: No estás usando demasiada voz pasiva. ¡Eso es genial!"
+        "%1$sVoz pasiva%2$s: No estás usando demasiada voz pasiva. ¡Genial!"
       ],
       "%1$sPreviously used keyphrase%2$s: You've not used this keyphrase before, very good.": [
-        "%1$sPalabra clave usada previamente%2$s: No has usado esta palabra clave antes, muy bien."
+        "%1$sKeyphrase usado anteriormente%2$s: No has usado esta keyphrase antes, muy bien."
       ],
       "%1$sPreviously used keyphrase%3$s: No focus keyphrase was set for this page. %2$sPlease add a focus keyphrase you haven't used before on other content%3$s.": [
-        "%1$sPalabra clave usada previamente%3$s: No se estableció una palabra clave principal para esta página. %2$sPor favor añade una palabra clave principal que no hayas usado antes en otro contenido%3$s."
+        "%1$sKeyphrase usado anteriormente%3$s: No se estableció una keyphrase de enfoque para esta página. %2$sPor favor, añade una keyphrase de enfoque que no hayas usado antes en otro contenido%3$s."
       ],
       "%1$sSentence length%2$s: %3$s of the sentences contain more than %4$d character, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.": [
-        "%1$sLongitud de oración%2$s: %3$s de las oraciones contienen más de %4$d carácter, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s.",
-        "%1$sLongitud de oración%2$s: %3$s de las oraciones contienen más de %4$d caracteres, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s."
+        "%1$sLongitud de oraciones%2$s: %3$s de las oraciones contienen más de %4$d carácter, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s.",
+        "%1$sLongitud de oraciones%2$s: %3$s de las oraciones contienen más de %4$d caracteres, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s."
       ],
       "%1$sSentence length%2$s: %3$s of the sentences contain more than %4$d word, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.": [
-        "%1$sLongitud de oración%2$s: %3$s de las oraciones contienen más de %4$d palabra, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s.",
-        "%1$sLongitud de oración%2$s: %3$s de las oraciones contienen más de %4$d palabras, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s."
+        "%1$sLongitud de oraciones%2$s: %3$s de las oraciones contienen más de %4$d palabra, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s.",
+        "%1$sLongitud de oraciones%2$s: %3$s de las oraciones contienen más de %4$d palabras, lo cual es más que el máximo recomendado de %5$s. %6$sIntenta acortar las oraciones%2$s."
       ],
-      "%1$sSentence length%2$s: Great!": ["Longitud de oración: ¡Genial!"],
+      "%1$sSentence length%2$s: Great!": [
+        "%1$sLongitud de oraciones%2$s: ¡Excelente!"
+      ],
       "%1$sSEO title width%2$s: Good job!": [
-        "Ancho del título SEO: ¡Buen trabajo!"
+        "%1$sAncho del título SEO%2$s: ¡Buen trabajo!"
       ],
       "%1$sSEO title width%3$s: %2$sPlease create an SEO title%3$s.": [
-        "Ancho del título SEO: Por favor crea un título SEO."
+        "%1$sAncho del título SEO%3$s: %2$sPor favor, crea un título SEO%3$s."
       ],
       "%1$sSEO title width%3$s: The SEO title is too short. %2$sUse the space to add keyphrase variations or create compelling call-to-action copy%3$s.": [
-        "%1$sAncho del título SEO%3$s: El título SEO es demasiado corto. %2$sUsa el espacio para añadir variaciones de palabras clave o crear texto de llamada a la acción atractivo%3$s."
+        "%1$sAncho del título SEO%3$s: El título SEO es demasiado corto. %2$sAprovecha el espacio para añadir variaciones dla keyphrase o crear un texto de llamada a la acción convincente%3$s."
       ],
       "%1$sSEO title width%3$s: The SEO title is wider than the viewable limit. %2$sTry to make it shorter%3$s.": [
         "%1$sAncho del título SEO%3$s: El título SEO es más ancho que el límite visible. %2$sIntenta hacerlo más corto%3$s."
       ],
+      "%1$sSingle title%2$s: You don't have multiple H1 headings, well done!": [
+        "%1$sTítulo único%2$s: No tienes múltiples encabezados H1, ¡bien hecho!"
+      ],
       "%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text that aren't your main title and %2$schange them to a lower heading level%3$s!": [
-        "%1$sTítulo único%3$s: Los H1 solo deberían usarse como tu título principal. Encuentra todos los H1 en tu texto que no sean tu título principal y %2$scámbialos a un nivel de encabezado más bajo%3$s!"
+        "%1$sTítulo único%3$s: Los H1 solo deben usarse como tu título principal. Encuentra todos los H1 en tu texto que no sean tu título principal y %2$s¡cámbialos a un nivel de encabezado inferior%3$s!"
       ],
       "%1$sSubheading distribution%2$s: %3$d section of your text is longer than the recommended number of characters (%4$d) and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.": [
-        "%1$sDistribución de subtítulos%2$s: %3$d sección de tu texto es más larga que el número recomendado de caracteres (%4$d) y no está separada por subtítulos. %5$sAñade subtítulos para mejorar la legibilidad%2$s.",
-        "%1$sDistribución de subtítulos%2$s: %3$d secciones de tu texto son más largas que el número recomendado de caracteres (%4$d) y no están separadas por subtítulos. %5$sAñade subtítulos para mejorar la legibilidad%2$s."
+        "%1$sDistribución de subtítulos%2$s: %3$d sección de tu texto es más larga que el número recomendado de caracteres (%4$d) y no está separada por ningún subtítulo. %5$sAñade subtítulos para mejorar la legibilidad%2$s.",
+        "%1$sDistribución de subtítulos%2$s: %3$d secciones de tu texto son más largas que el número recomendado de caracteres (%4$d) y no están separadas por ningún subtítulo. %5$sAñade subtítulos para mejorar la legibilidad%2$s."
       ],
       "%1$sSubheading distribution%2$s: %3$d section of your text is longer than the recommended number of words (%4$d) and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.": [
-        "%1$sDistribución de subtítulos%2$s: %3$d sección de tu texto es más larga que el número recomendado de palabras (%4$d) y no está separada por subtítulos. %5$sAñade subtítulos para mejorar la legibilidad%2$s.",
-        "%1$sDistribución de subtítulos%2$s: %3$d secciones de tu texto son más largas que el número recomendado de palabras (%4$d) y no están separadas por subtítulos. %5$sAñade subtítulos para mejorar la legibilidad%2$s."
+        "%1$sDistribución de subtítulos%2$s: %3$d sección de tu texto es más larga que el número recomendado de palabras (%4$d) y no está separada por ningún subtítulo. %5$sAñade subtítulos para mejorar la legibilidad%2$s.",
+        "%1$sDistribución de subtítulos%2$s: %3$d secciones de tu texto son más largas que el número recomendado de palabras (%4$d) y no están separadas por ningún subtítulo. %5$sAñade subtítulos para mejorar la legibilidad%2$s."
       ],
       "%1$sSubheading distribution%2$s: Great job!": [
-        "Distribución de subtítulos: ¡Excelente trabajo!"
+        "%1$sDistribución de subtítulos%2$s: ¡Excelente!"
       ],
       "%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$d character and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s": [
-        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d carácter y no está separado por subtítulos. %3$sAñade subtítulos para mejorar la legibilidad.%2$s",
-        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d caracteres y no está separado por subtítulos. %3$sAñade subtítulos para mejorar la legibilidad.%2$s"
+        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d carácter y no está separado por ningún subtítulo. %3$sAñade subtítulos para mejorar la legibilidad.%2$s",
+        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d caracteres y no está separado por ningún subtítulo. %3$sAñade subtítulos para mejorar la legibilidad.%2$s"
       ],
       "%1$sSubheading distribution%2$s: The beginning of your text is longer than %4$d word and is not separated by any subheadings. %3$sAdd subheadings to improve readability.%2$s": [
-        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d palabra y no está separado por subtítulos. %3$sAñade subtítulos para mejorar la legibilidad.%2$s",
-        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d palabras y no está separado por subtítulos. %3$sAñade subtítulos para mejorar la legibilidad.%2$s"
+        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d palabra y no está separado por ningún subtítulo. %3$sAñade subtítulos para mejorar la legibilidad.%2$s",
+        "%1$sDistribución de subtítulos%2$s: El comienzo de tu texto es más largo que %4$d palabras y no está separado por ningún subtítulo. %3$sAñade subtítulos para mejorar la legibilidad.%2$s"
       ],
       "%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.": [
-        "%1$sDistribución de subtítulos%2$s: No estás usando subtítulos, aunque tu texto es bastante largo. %3$sIntenta añadir algunos subtítulos%2$s."
+        "%1$sDistribución de subtítulos%2$s: No estás usando ningún subtítulo, aunque tu texto es bastante largo. %3$sIntenta añadir algunos subtítulos%2$s."
       ],
       "%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough and probably doesn't need them.": [
-        "%1$sDistribución de subtítulos%2$s: No estás usando subtítulos, pero tu texto es lo suficientemente corto y probablemente no los necesite."
+        "%1$sDistribución de subtítulos%2$s: No estás usando ningún subtítulo, pero tu texto es lo suficientemente corto y probablemente no los necesita."
       ],
       "%1$sText length%3$s: %2$sPlease add some content%3$s.": [
-        "Longitud del texto: Por favor añade algo de contenido."
+        "%1$sLongitud del texto%3$s: %2$sPor favor, añade algo de contenido%3$s."
       ],
       "%1$sTransition words%2$s: None of the sentences contain transition words. %3$sUse some%2$s.": [
         "%1$sPalabras de transición%2$s: Ninguna de las oraciones contiene palabras de transición. %3$sUsa algunas%2$s."
       ],
       "%1$sTransition words%2$s: Only %3$s of the sentences contain transition words, which is not enough. %4$sUse more of them%2$s.": [
-        "%1$sPalabras de transición%2$s: Solo %3$s de las oraciones contienen palabras de transición, lo cual no es suficiente. %4$sUsa más de ellas%2$s."
+        "%1$sPalabras de transición%2$s: Solo %3$s de las oraciones contienen palabras de transición, lo cual no es suficiente. %4$sUsa más%2$s."
       ],
       "%1$sTransition words%2$s: Well done!": [
-        "Palabras de transición: ¡Bien hecho!"
+        "%1$sPalabras de transición%2$s: ¡Bien hecho!"
       ],
       "%1$sTransition words%2$s: You are not using any transition words, but your text is short enough and probably doesn't need them.": [
-        "%1$sPalabras de transición%2$s: No estás usando palabras de transición, pero tu texto es lo suficientemente corto y probablemente no las necesite."
+        "%1$sPalabras de transición%2$s: No estás usando ninguna palabra de transición, pero tu texto es lo suficientemente corto y probablemente no las necesita."
       ],
       "%2$s That's less than the recommended minimum of %1$d character. %3$sMake it longer%4$s!": [
-        "%2$s Eso es menos que el mínimo recomendado de %1$d carácter. %3$sHazlo más largo%4$s!",
-        "%2$s Eso es menos que el mínimo recomendado de %1$d caracteres. %3$sHazlo más largo%4$s!"
+        "%2$s Eso es menos que el mínimo recomendado de %1$d carácter. %3$s¡Hazlo más largo%4$s!",
+        "%2$s Eso es menos que el mínimo recomendado de %1$d caracteres. %3$s¡Hazlo más largo%4$s!"
       ],
       "%2$s That's less than the recommended minimum of %1$d content word. %3$sMake it longer%4$s!": [
-        "%2$s Eso es menos que el mínimo recomendado de %1$d palabra de contenido. %3$sHazlo más largo%4$s!",
-        "%2$s Eso es menos que el mínimo recomendado de %1$d palabras de contenido. %3$sHazlo más largo%4$s!"
+        "%2$s Eso es menos que el mínimo recomendado de %1$d palabra de contenido. %3$s¡Hazlo más largo%4$s!",
+        "%2$s Eso es menos que el mínimo recomendado de %1$d palabras de contenido. %3$s¡Hazlo más largo%4$s!"
       ],
       "%2$s That's less than the recommended minimum of %1$d word. %3$sMake it longer%4$s!": [
-        "%2$s Eso es menos que el mínimo recomendado de %1$d palabra. %3$sHazlo más largo%4$s!",
-        "%2$s Eso es menos que el mínimo recomendado de %1$d palabras. %3$sHazlo más largo%4$s!"
+        "%2$s Eso es menos que el mínimo recomendado de %1$d palabra. %3$s¡Hazlo más largo%4$s!",
+        "%2$s Eso es menos que el mínimo recomendado de %1$d palabras. %3$s¡Hazlo más largo%4$s!"
       ],
       "%2$s That's more than the recommended maximum of %1$d character. %3$sMake it shorter%4$s!": [
-        "%2$s Eso es más que el máximo recomendado de %1$d carácter. %3$sHazlo más corto%4$s!",
-        "%2$s Eso es más que el máximo recomendado de %1$d caracteres. %3$sHazlo más corto%4$s!"
+        "%2$s Eso es más que el máximo recomendado de %1$d carácter. %3$s¡Hazlo más corto%4$s!",
+        "%2$s Eso es más que el máximo recomendado de %1$d caracteres. %3$s¡Hazlo más corto%4$s!"
       ],
       "%2$s That's more than the recommended maximum of %1$d content word. %3$sMake it shorter%4$s!": [
-        "%2$s Eso es más que el máximo recomendado de %1$d palabra de contenido. %3$sHazlo más corto%4$s!",
-        "%2$s Eso es más que el máximo recomendado de %1$d palabras de contenido. %3$sHazlo más corto%4$s!"
+        "%2$s Eso es más que el máximo recomendado de %1$d palabra de contenido. %3$s¡Hazlo más corto%4$s!",
+        "%2$s Eso es más que el máximo recomendado de %1$d palabras de contenido. %3$s¡Hazlo más corto%4$s!"
       ],
       "%2$s That's more than the recommended maximum of %1$d word. %3$sMake it shorter%4$s!": [
-        "%2$s Eso es más que el máximo recomendado de %1$d palabra. %3$sHazlo más corto%4$s!",
-        "%2$s Eso es más que el máximo recomendado de %1$d palabras. %3$sHazlo más corto%4$s!"
+        "%2$s Eso es más que el máximo recomendado de %1$d palabra. %3$s¡Hazlo más corto%4$s!",
+        "%2$s Eso es más que el máximo recomendado de %1$d palabras. %3$s¡Hazlo más corto%4$s!"
       ],
       "%2$s That's way less than the recommended minimum of %1$d character. %3$sMake it longer%4$s!": [
-        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d carácter. %3$sHazlo más largo%4$s!",
-        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d caracteres. %3$sHazlo más largo%4$s!"
+        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d carácter. %3$s¡Hazlo más largo%4$s!",
+        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d caracteres. %3$s¡Hazlo más largo%4$s!"
       ],
       "%2$s That's way less than the recommended minimum of %1$d content word. %3$sMake it longer%4$s!": [
-        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabra de contenido. %3$sHazlo más largo%4$s!",
-        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabras de contenido. %3$sHazlo más largo%4$s!"
+        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabra de contenido. %3$s¡Hazlo más largo%4$s!",
+        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabras de contenido. %3$s¡Hazlo más largo%4$s!"
       ],
       "%2$s That's way less than the recommended minimum of %1$d word. %3$sMake it longer%4$s!": [
-        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabra. %3$sHazlo más largo%4$s!",
-        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabras. %3$sHazlo más largo%4$s!"
+        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabra. %3$s¡Hazlo más largo%4$s!",
+        "%2$s Eso es mucho menos que el mínimo recomendado de %1$d palabras. %3$s¡Hazlo más largo%4$s!"
       ],
       "%2$s That's way more than the recommended maximum of %1$d character. %3$sMake it shorter%4$s!": [
-        "%2$s Eso es mucho más que el máximo recomendado de %1$d carácter. %3$sHazlo más corto%4$s!",
-        "%2$s Eso es mucho más que el máximo recomendado de %1$d caracteres. %3$sHazlo más corto%4$s!"
+        "%2$s Eso es mucho más que el máximo recomendado de %1$d carácter. %3$s¡Hazlo más corto%4$s!",
+        "%2$s Eso es mucho más que el máximo recomendado de %1$d caracteres. %3$s¡Hazlo más corto%4$s!"
       ],
       "%2$s That's way more than the recommended maximum of %1$d content word. %3$sMake it shorter%4$s!": [
-        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabra de contenido. %3$sHazlo más corto%4$s!",
-        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabras de contenido. %3$sHazlo más corto%4$s!"
+        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabra de contenido. %3$s¡Hazlo más corto%4$s!",
+        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabras de contenido. %3$s¡Hazlo más corto%4$s!"
       ],
       "%2$s That's way more than the recommended maximum of %1$d word. %3$sMake it shorter%4$s!": [
-        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabra. %3$sHazlo más corto%4$s!",
-        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabras. %3$sHazlo más corto%4$s!"
+        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabra. %3$s¡Hazlo más corto%4$s!",
+        "%2$s Eso es mucho más que el máximo recomendado de %1$d palabras. %3$s¡Hazlo más corto%4$s!"
+      ],
+      "%2$s This is below the recommended minimum of %1$d character. %3$sAdd more content%4$s.": [
+        "%2$s Esto está por debajo del mínimo recomendado de %1$d carácter. %3$sAñade más contenido%4$s.",
+        "%2$s Esto está por debajo del mínimo recomendado de %1$d caracteres. %3$sAñade más contenido%4$s."
+      ],
+      "%2$s This is below the recommended minimum of %1$d word. %3$sAdd more content%4$s.": [
+        "%2$s Esto está por debajo del mínimo recomendado de %1$d palabra. %3$sAñade más contenido%4$s.",
+        "%2$s Esto está por debajo del mínimo recomendado de %1$d palabras. %3$sAñade más contenido%4$s."
+      ],
+      "%2$s This is far below the recommended minimum of %1$d character. %3$sAdd more content%4$s.": [
+        "%2$s Esto está muy por debajo del mínimo recomendado de %1$d carácter. %3$sAñade más contenido%4$s.",
+        "%2$s Esto está muy por debajo del mínimo recomendado de %1$d caracteres. %3$sAñade más contenido%4$s."
+      ],
+      "%2$s This is far below the recommended minimum of %1$d word. %3$sAdd more content%4$s.": [
+        "%2$s Esto está muy por debajo del mínimo recomendado de %1$d palabra. %3$sAñade más contenido%4$s.",
+        "%2$s Esto está muy por debajo del mínimo recomendado de %1$d palabras. %3$sAñade más contenido%4$s."
+      ],
+      "%2$s This is slightly below the recommended minimum of %1$d character. %3$sAdd more content%4$s.": [
+        "%2$s Esto está ligeramente por debajo del mínimo recomendado de %1$d carácter. %3$sAñade más contenido%4$s.",
+        "%2$s Esto está ligeramente por debajo del mínimo recomendado de %1$d caracteres. %3$sAñade más contenido%4$s."
+      ],
+      "%2$s This is slightly below the recommended minimum of %1$d word. %3$sAdd more content%4$s.": [
+        "%2$s Esto está ligeramente por debajo del mínimo recomendado de %1$d palabra. %3$sAñade más contenido%4$s.",
+        "%2$s Esto está ligeramente por debajo del mínimo recomendado de %1$d palabras. %3$sAñade más contenido%4$s."
       ],
       "%2$sKeyphrase length%3$s: The keyphrase contains %1$d character.": [
-        "%2$sLongitud de palabra clave%3$s: La palabra clave contiene %1$d carácter.",
-        "%2$sLongitud de palabra clave%3$s: La palabra clave contiene %1$d caracteres."
+        "%2$sLongitud dla keyphrase%3$s: La keyphrase contiene %1$d carácter.",
+        "%2$sLongitud dla keyphrase%3$s: La keyphrase contiene %1$d caracteres."
       ],
       "%2$sKeyphrase length%3$s: The keyphrase contains %1$d content word.": [
-        "%2$sLongitud de palabra clave%3$s: La palabra clave contiene %1$d palabra de contenido.",
-        "%2$sLongitud de palabra clave%3$s: La palabra clave contiene %1$d palabras de contenido."
+        "%2$sLongitud dla keyphrase%3$s: La keyphrase contiene %1$d palabra de contenido.",
+        "%2$sLongitud dla keyphrase%3$s: La keyphrase contiene %1$d palabras de contenido."
       ],
       "%2$sKeyphrase length%3$s: The keyphrase contains %1$d word.": [
-        "%2$sLongitud de palabra clave%3$s: La palabra clave contiene %1$d palabra.",
-        "%2$sLongitud de palabra clave%3$s: La palabra clave contiene %1$d palabras."
+        "%2$sLongitud dla keyphrase%3$s: La keyphrase contiene %1$d palabra.",
+        "%2$sLongitud dla keyphrase%3$s: La keyphrase contiene %1$d palabras."
       ],
-      "%2$sText length%3$s: The text contains %1$d %4$s. Good job!": [
-        "%2$sLongitud del texto%3$s: El texto contiene %1$d %4$s. ¡Buen trabajo!"
+      "%2$sText length%3$s: The text contains %1$d character.": [
+        "%2$sLongitud del texto%3$s: El texto contiene %1$d carácter.",
+        "%2$sLongitud del texto%3$s: El texto contiene %1$d caracteres."
       ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.": [
-        "%2$sLongitud del texto%4$s: El texto contiene %1$d %6$s. Esto está por debajo del mínimo recomendado de %5$d %6$s. %3$sAñade más contenido%4$s."
-      ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.": [
-        "%2$sLongitud del texto%4$s: El texto contiene %1$d %6$s. Esto está por debajo del mínimo recomendado de %5$d %7$s. %3$sAñade más contenido%4$s.",
-        "%2$sLongitud del texto%4$s: El texto contiene %1$d %7$s. Esto está por debajo del mínimo recomendado de %5$d %7$s. %3$sAñade más contenido%4$s."
-      ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.": [
-        "%2$sLongitud del texto%4$s: El texto contiene %1$d %6$s. Esto está muy por debajo del mínimo recomendado de %5$d %7$s. %3$sAñade más contenido%4$s.",
-        "%2$sLongitud del texto%4$s: El texto contiene %1$d %7$s. Esto está muy por debajo del mínimo recomendado de %5$d %7$s. %3$sAñade más contenido%4$s."
-      ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd a bit more copy%4$s.": [
-        "%2$sLongitud del texto%4$s: El texto contiene %1$d %6$s. Esto está ligeramente por debajo del mínimo recomendado de %5$d %6$s. %3$sAñade un poco más de texto%4$s."
-      ],
-      "%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.": [
-        "%2$sLongitud del texto%4$s: El texto contiene %1$d %6$s. Esto está ligeramente por debajo del mínimo recomendado de %5$d %6$s. %3$sAñade más contenido%4$s."
-      ],
-      "%3$sImage Keyphrase%5$s: Out of %2$d images on this page, %1$d have alt attributes with words from your keyphrase or synonyms. That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.": [
-        "%3$sPalabra clave de imagen%5$s: De %2$d imágenes en esta página, %1$d tienen atributos alt con palabras de tu palabra clave o sinónimos. Eso es un poco mucho. %4$sSolo incluye la palabra clave o sus sinónimos cuando realmente encaje con la imagen%5$s."
-      ],
-      "%3$sImage Keyphrase%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that reflects the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!": [
-        "%3$sPalabra clave de imagen%5$s: De %2$d imágenes en esta página, solo %1$d tiene un atributo alt que refleja el tema de tu texto. %4$sAñade tu palabra clave o sinónimos a las etiquetas alt de imágenes más relevantes%5$s!",
-        "%3$sPalabra clave de imagen%5$s: De %2$d imágenes en esta página, solo %1$d tienen atributos alt que reflejan el tema de tu texto. %4$sAñade tu palabra clave o sinónimos a las etiquetas alt de imágenes más relevantes%5$s!"
+      "%2$sText length%3$s: The text contains %1$d word.": [
+        "%2$sLongitud del texto%3$s: El texto contiene %1$d palabra.",
+        "%2$sLongitud del texto%3$s: El texto contiene %1$d palabras."
       ],
       "%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!": [
-        "%3$sImágenes y videos%5$s: Solo %1$d imagen o video aparece en esta página. Recomendamos al menos %2$d. %4$sAñade más imágenes o videos relevantes%5$s!",
-        "%3$sImágenes y videos%5$s: Solo %1$d imágenes o videos aparecen en esta página. Recomendamos al menos %2$d. %4$sAñade más imágenes o videos relevantes%5$s!"
+        "%3$sImágenes y vídeos%5$s: Solo aparece %1$d imagen o vídeo en esta página. Recomendamos al menos %2$d. %4$s¡Añade más imágenes o vídeos relevantes%5$s!",
+        "%3$sImágenes y vídeos%5$s: Solo aparecen %1$d imágenes o vídeos en esta página. Recomendamos al menos %2$d. %4$s¡Añade más imágenes o vídeos relevantes%5$s!"
       ],
       "%3$sImages%5$s: Only %1$d image appears on this page. We recommend at least %2$d. %4$sAdd more relevant images%5$s!": [
-        "%3$sImágenes%5$s: Solo %1$d imagen aparece en esta página. Recomendamos al menos %2$d. %4$sAñade más imágenes relevantes%5$s!",
-        "%3$sImágenes%5$s: Solo %1$d imágenes aparecen en esta página. Recomendamos al menos %2$d. %4$sAñade más imágenes relevantes%5$s!"
+        "%3$sImágenes%5$s: Solo aparece %1$d imagen en esta página. Recomendamos al menos %2$d. %4$s¡Añade más imágenes relevantes%5$s!",
+        "%3$sImágenes%5$s: Solo aparecen %1$d imágenes en esta página. Recomendamos al menos %2$d. %4$s¡Añade más imágenes relevantes%5$s!"
+      ],
+      "%3$sKeyphrase in image alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with words from your keyphrase or synonyms. That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.": [
+        "%3$sKeyphrase en atributos alt de imágenes%5$s: De %2$d imágenes en esta página, %1$d tienen atributos alt con palabras de tu keyphrase o sinónimos. Es un poco excesivo. %4$sSolo incluye la keyphrase o sus sinónimos cuando realmente encajen con la imagen%5$s."
+      ],
+      "%3$sKeyphrase in image alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that reflects the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!": [
+        "%3$sKeyphrase en atributos alt de imágenes%5$s: De %2$d imágenes en esta página, solo %1$d tiene un atributo alt que refleja el tema de tu texto. %4$s¡Añade tu keyphrase o sinónimos a las etiquetas alt de imágenes más relevantes%5$s!",
+        "%3$sKeyphrase en atributos alt de imágenes%5$s: De %2$d imágenes en esta página, solo %1$d tienen atributos alt que reflejan el tema de tu texto. %4$s¡Añade tu keyphrase o sinónimos a las etiquetas alt de imágenes más relevantes%5$s!"
       ],
       "%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$smultiple times before%2$s. %4$sDo not use your keyphrase more than once%2$s.": [
-        "%3$sPalabra clave usada previamente%2$s: Has usado esta palabra clave %1$smúltiples veces antes%2$s. %4$sNo uses tu palabra clave más de una vez%2$s."
+        "%3$sKeyphrase usado anteriormente%2$s: Has usado esta keyphrase %1$svarias veces antes%2$s. %4$sNo uses tu keyphrase más de una vez%2$s."
       ],
       "%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$sonce before%2$s. %4$sDo not use your keyphrase more than once%2$s.": [
-        "%3$sPalabra clave usada previamente%2$s: Has usado esta palabra clave %1$suna vez antes%2$s. %4$sNo uses tu palabra clave más de una vez%2$s."
+        "%3$sKeyphrase usado anteriormente%2$s: Has usado esta keyphrase %1$suna vez antes%2$s. %4$sNo uses tu keyphrase más de una vez%2$s."
       ],
       "An error occurred in the '%1$s' assessment": [
-        "Ocurrió un error en la evaluación '%1$s'"
+        "Ha ocurrido un error en la evaluación «%1$s»"
       ],
-      "character": ["carácter"],
-      "characters": ["caracteres"],
       "Content optimization:": ["Optimización de contenido:"],
+      "Edit your keyphrase": ["Edita tu keyphrase"],
+      "Edit your meta description": ["Edita tu meta descripción"],
+      "Edit your SEO title": ["Edita tu título SEO"],
+      "Edit your slug": ["Edita tu slug"],
       "Feedback": ["Comentarios"],
       "For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title": [
-        "Para mejores resultados SEO incluye todas las palabras de tu palabra clave en el título SEO, y pon la palabra clave al principio del título"
+        "Para los mejores resultados SEO, incluye todas las palabras de tu keyphrase en el título SEO y pon la keyphrase al principio del título"
       ],
       "For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title": [
-        "Para mejores resultados SEO escribe la coincidencia exacta de tu palabra clave en el título SEO, y pon la palabra clave al principio del título"
+        "Para los mejores resultados SEO, escribe la coincidencia exacta de tu keyphrase en el título SEO y pon la keyphrase al principio del título"
       ],
-      "Good": ["Bueno"],
+      "Good": ["Bien"],
       "Good SEO score": ["Buena puntuación SEO"],
       "Has feedback": ["Tiene comentarios"],
-      "keyphrase": ["palabra clave"],
-      "Keyphrase in SEO title": ["Palabra clave en título SEO"],
-      "meta description": ["meta descripción"],
-      "Needs improvement": ["Necesita mejora"],
+      "Keyphrase in SEO title": ["Keyphrase en el título SEO"],
+      "Needs improvement": ["Necesita mejorar"],
       "OK": ["OK"],
-      "OK SEO score": ["Puntuación SEO OK"],
-      "SEO title": ["Título SEO"],
-      "slug": ["slug"],
-      "word": ["palabra"],
-      "words": ["palabras"]
+      "OK SEO score": ["Puntuación SEO aceptable"]
     }
   }
 }

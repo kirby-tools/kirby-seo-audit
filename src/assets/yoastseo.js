@@ -7,7 +7,7 @@ export {
   AnalysisWorkerWrapper,
   helpers,
   Paper,
-} from "./yoastseo-repo/packages/yoastseo/src";
+} from "./yoastseo-repo/packages/yoastseo/src/index.js";
 
 /// keep-sorted
 export const AnalysisTranslations = {

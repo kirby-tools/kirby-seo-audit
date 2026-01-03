@@ -10,8 +10,8 @@
     "build:assets": "rm -rf assets && pnpm -C src/assets build",
     "build:playground": "PLAYGROUND=true pnpm run build && pnpm run build:assets",
     "build:zero-one": "ZERO_ONE=true pnpm run build && pnpm run build:assets && node scripts/build-zero-one.mjs",
-    "extract:messages": "node scripts/extract-translations.mjs && npx po2json messages.pot messages.json --format jed1.x --domain wordpress-seo && sed -i '' 's/\"wordpress-seo\\\\u0004/\"/g' messages.json",
     "prepare:yoastseo": "node scripts/prepare-yoastseo.mjs 26.6",
+    "prepare:messages": "node scripts/extract-translations.mjs && npx po2json messages.pot messages.json --format jed1.x --domain wordpress-seo && sed -i '' 's/\"wordpress-seo\\\\u0004/\"/g' messages.json",
     "test": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -37,6 +37,7 @@
     "ufo": "^1.6.1",
     "vite": "~6.3.7",
     "vitest": "^4.0.16",
+    "yoastseo": "^3.5.0",
     "zx": "^8.8.5"
   },
   "pnpm": {

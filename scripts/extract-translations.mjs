@@ -30,7 +30,7 @@ const parser = extractor.createJsParser([
 
 const files = await glob("node_modules/yoastseo/build/**/*.js");
 
-console.log(`Processing ${files.length} files...`);
+console.log(`Processing ${files.length} files…`);
 
 for (const file of files) {
   const preprocessedContent = await preprocessFile(file);

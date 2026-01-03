@@ -3,6 +3,7 @@
 
 # Vendor files
 /node_modules
+/src/assets/yoastseo-repo
 /src/assets/node_modules
 # /vendor
 
@@ -10,7 +11,6 @@
 /index.dev.mjs
 /messages.pot
 /messages.json
-/src/assets/yoastseo-repo
 
 # Playground files
 .env
