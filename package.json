@@ -8,7 +8,7 @@
     "dev": "PLAYGROUND=true kirbyup serve src/panel/index.js",
     "build": "kirbyup src/panel/index.js",
     "build:assets": "rm -rf assets && pnpm -C src/assets build",
-    "build:playground": "PLAYGROUND=true pnpm run build && pnpm run build:assets",
+    "build:playground": "PLAYGROUND=true pnpm run build",
     "build:zero-one": "ZERO_ONE=true pnpm run build && pnpm run build:assets && node scripts/build-zero-one.mjs",
     "prepare:yoastseo": "node scripts/prepare-yoastseo.mjs 26.6",
     "prepare:messages": "node scripts/extract-translations.mjs && npx po2json messages.pot messages.json --format jed1.x --domain wordpress-seo && sed -i '' 's/\"wordpress-seo\\\\u0004/\"/g' messages.json",
