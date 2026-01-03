@@ -4,6 +4,7 @@ return [
     'debug' => env('KIRBY_DEBUG', false),
 
     'content' => [
+        'changes' => false,
         'locking' => false
     ],
 
@@ -12,7 +13,6 @@ return [
         'favicon' => 'favicon.ico',
         'vue' => [
             'compiler' => false
-        ],
-        'frameAncestors' => ['https://kirby.tools', 'self']
+        ]
     ]
 ];
