@@ -4,6 +4,7 @@ use Kirby\Cms\App as Kirby;
 
 @include_once __DIR__ . '/vendor/autoload.php';
 
+$packageName = 'johannschopplich/kirby-seo-audit';
 $pluginConfig = [
     'name' => 'johannschopplich/seo-audit',
     'extends' => [
@@ -13,13 +14,16 @@ $pluginConfig = [
     ]
 ];
 
-if (class_exists('\Kirby\Plugin\License')) {
+if (class_exists('Kirby\Plugin\License')) {
+    $pluginConfig['extends']['areas'] = [
+        'system' => fn () => [
+            'dialogs' => \JohannSchopplich\Licensing\PluginLicenseExtensions::dialogs($packageName, 'Kirby SEO Audit')
+        ]
+    ];
+
     Kirby::plugin(
         ...$pluginConfig,
-        license: fn ($plugin) => new \JohannSchopplich\Licensing\PluginLicense(
-            plugin: $plugin,
-            packageName: 'johannschopplich/kirby-seo-audit'
-        )
+        license: fn ($plugin) => new \JohannSchopplich\Licensing\PluginLicense($plugin, $packageName)
     );
 } else {
     Kirby::plugin(...$pluginConfig);

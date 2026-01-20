@@ -2,11 +2,13 @@
 
 use Closure;
 use JohannSchopplich\Licensing\Licenses;
+use JohannSchopplich\Licensing\PluginLicenseExtensions;
 use Kirby\Cms\App;
 use Kirby\Http\Remote;
 
 return [
     'routes' => fn (App $kirby) => [
+        ...PluginLicenseExtensions::api('johannschopplich/kirby-seo-audit'),
         [
             'pattern' => '__seo-audit__/context',
             'method' => 'GET',
@@ -61,14 +63,6 @@ return [
                     'code' => $response->code(),
                     'html' => $response->content()
                 ];
-            }
-        ],
-        [
-            'pattern' => '__seo-audit__/activate',
-            'method' => 'POST',
-            'action' => function () {
-                $licenses = Licenses::read('johannschopplich/kirby-seo-audit');
-                return $licenses->activateFromRequest();
             }
         ]
     ]
