@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'johannschopplich/kirby-seo-audit',
-        'pretty_version' => '3.1.0',
-        'version' => '3.1.0.0',
+        'pretty_version' => '3.2.0',
+        'version' => '3.2.0.0',
         'reference' => null,
         'type' => 'kirby-plugin',
         'install_path' => __DIR__ . '/../../',
@@ -20,8 +20,8 @@
             'dev_requirement' => false,
         ),
         'johannschopplich/kirby-seo-audit' => array(
-            'pretty_version' => '3.1.0',
-            'version' => '3.1.0.0',
+            'pretty_version' => '3.2.0',
+            'version' => '3.2.0.0',
             'reference' => null,
             'type' => 'kirby-plugin',
             'install_path' => __DIR__ . '/../../',
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'johannschopplich/kirby-tools-licensing' => array(
-            'pretty_version' => '0.7.5',
-            'version' => '0.7.5.0',
-            'reference' => 'bf7f5e5d540e44d3c86798d583821d88464a4c50',
+            'pretty_version' => '0.8.0',
+            'version' => '0.8.0.0',
+            'reference' => '264afecb5c72e86ea52f6e7c792a5d611eb325f1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../johannschopplich/kirby-tools-licensing',
             'aliases' => array(),
