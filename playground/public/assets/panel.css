@@ -8,28 +8,6 @@
   display: none;
 }
 
-/* Limit frame to parent website */
-.k-panel-main {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  max-width: 80rem;
-  margin: 0 auto;
-}
-
-@media (min-width: 640px) {
-  .k-panel-main {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .k-panel-main {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
 .k-section-name-seoAudit {
   margin-top: -0.125rem;
 }
