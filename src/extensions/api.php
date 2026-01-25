@@ -1,6 +1,5 @@
 <?php
 
-use Closure;
 use JohannSchopplich\Licensing\Licenses;
 use JohannSchopplich\Licensing\PluginLicenseExtensions;
 use Kirby\Cms\App;
