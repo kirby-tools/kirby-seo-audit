@@ -56,7 +56,7 @@ return [
                 $urlResolver = $kirby->option('johannschopplich.seo-audit.proxy.urlResolver');
                 $params = $kirby->option('johannschopplich.seo-audit.proxy.params', []);
 
-                if (is_callable($urlResolver)) {
+                if ($urlResolver instanceof Closure) {
                     $url = $urlResolver($url);
                 }
 

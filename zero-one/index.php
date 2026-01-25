@@ -3,6 +3,7 @@
 use Kirby\Cms\App as Kirby;
 use Kirby\Plugin\License as KirbyLicense;
 use Kirby\Plugin\LicenseStatus as KirbyLicenseStatus;
+use Kirby\Toolkit\I18n;
 
 @include_once __DIR__ . '/vendor/autoload.php';
 
@@ -24,7 +25,7 @@ if (class_exists('\Kirby\Plugin\License')) {
             link: 'https://kirby.tools/license/zero-one-edition',
             status: new KirbyLicenseStatus(
                 value: 'active',
-                label: 'Licensed',
+                label: I18n::translate('license.status.active.label'),
                 icon: 'check',
                 theme: 'positive'
             )
