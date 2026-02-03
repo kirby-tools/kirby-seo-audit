@@ -1,6 +1,6 @@
 {
   "name": "johannschopplich/kirby-seo-audit",
-  "description": "State-of-the-art SEO analysis for Kirby CMS",
+  "description": "SEO analysis powered by Yoast for Kirby CMS",
   "type": "kirby-plugin",
   "version": "3.2.1",
   "keywords": [
