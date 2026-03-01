@@ -25,11 +25,12 @@ export default defineConfig(
     },
     outDir: `${rootDir}/assets`,
     outputOptions: {
-      inlineDynamicImports: true,
+      codeSplitting: false,
     },
     platform: "browser",
     // Inline external dependencies
     noExternal: [/.*/],
+    inlineOnly: false,
     minify: true,
   })),
 );
