@@ -17,7 +17,6 @@ const panel = usePanel();
 
 const parseText = computed(() => {
   // Remove aggressive exclamation mark at the end of the text
-  // eslint-disable-next-line e18e/prefer-static-regex
   const text = props.result.text.replace(/!$/, ".");
   return props.links ? text : stripTags(text);
 });
