@@ -1,13 +1,13 @@
 <?php
 
 use JohannSchopplich\Licensing\Licenses;
-use JohannSchopplich\Licensing\PluginLicenseExtensions;
+use JohannSchopplich\Licensing\LicensePanel;
 use Kirby\Cms\App;
 use Kirby\Http\Remote;
 
 return [
     'routes' => fn (App $kirby) => [
-        ...PluginLicenseExtensions::api('johannschopplich/kirby-seo-audit'),
+        ...LicensePanel::api('johannschopplich/kirby-seo-audit'),
         [
             'pattern' => '__seo-audit__/context',
             'method' => 'GET',
