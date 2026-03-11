@@ -246,9 +246,7 @@ export async function prepareContent(html) {
   const htmlDocument = parser.parseFromString(html, "text/html");
 
   // Remove all script and style tags
-  for (const tag of Array.from(
-    htmlDocument.body.querySelectorAll("script, style"),
-  )) {
+  for (const tag of [...htmlDocument.body.querySelectorAll("script, style")]) {
     tag.remove();
   }
 
@@ -284,7 +282,5 @@ export async function prepareContent(html) {
  */
 export function extractContent(htmlDocument, contentSelector) {
   const elements = htmlDocument.querySelectorAll(contentSelector);
-  return Array.from(elements)
-    .map((element) => element.innerHTML)
-    .join("\n");
+  return Array.from(elements, (element) => element.innerHTML).join("\n");
 }

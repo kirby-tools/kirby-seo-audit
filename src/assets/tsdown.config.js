@@ -29,6 +29,7 @@ export default defineConfig(
     },
     platform: "browser",
     // Inline external dependencies
+    // eslint-disable-next-line e18e/prefer-static-regex
     noExternal: [/.*/],
     inlineOnly: false,
     minify: true,

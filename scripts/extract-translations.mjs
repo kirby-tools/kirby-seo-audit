@@ -49,6 +49,7 @@ async function preprocessFile(filePath) {
   const i18nFunctions = ["__", "sprintf", "_n"];
 
   for (const fn of i18nFunctions) {
+    // eslint-disable-next-line e18e/prefer-static-regex
     const escapedFn = fn.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     content = content.replace(
       new RegExp(`\\(0,\\s*(_i18n\\.${escapedFn})\\)`, "g"),
