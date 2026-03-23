@@ -2,7 +2,6 @@
 
 use JohannSchopplich\Playground\PlaygroundStorage;
 use Kirby\Cms\App;
-use Kirby\Cms\Event;
 use Kirby\Cms\ModelWithContent;
 use Kirby\Content\PlainTextStorage;
 use Kirby\Exception\Exception;
@@ -15,16 +14,16 @@ load([
 App::plugin('johannschopplich/playground', [
     'components' => [
         'storage' => function (App $kirby, ModelWithContent $model) {
-            if (env('KIRBY_DEBUG', false) === false) {
-                return new PlaygroundStorage(model: $model);
+            if ($kirby->option('debug') === true) {
+                return new PlainTextStorage(model: $model);
             }
 
-            return new PlainTextStorage(model: $model);
+            return new PlaygroundStorage(model: $model);
         }
     ],
     'hooks' => [
-        '*.update:before' => function (Event $event) {
-            if (env('KIRBY_DEBUG', false) === false) {
+        '*.update:before' => function () {
+            if (option('debug') !== true) {
                 throw new Exception('Saving changed content to the playground is not allowed. You can only make changes locally.');
             }
         },
@@ -52,8 +51,7 @@ App::plugin('johannschopplich/playground', [
                                     if ($kirby->user() === null) {
                                         // $system = $kirby->system();
                                         // $role = $system->isLocal() ? 'admin' : 'playground';
-                                        $isDebug = env('KIRBY_DEBUG', false);
-                                        $role = $isDebug ? 'admin' : 'playground';
+                                        $role = $kirby->option('debug') === true ? 'admin' : 'playground';
                                         $kirby->users()->role($role)->first()->loginPasswordless([
                                             'long' => true
                                         ]);
