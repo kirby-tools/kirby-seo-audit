@@ -1,11 +1,27 @@
 <?php
 
+use JohannSchopplich\Playground\PlaygroundStorage;
 use Kirby\Cms\App;
 use Kirby\Cms\Event;
+use Kirby\Cms\ModelWithContent;
+use Kirby\Content\PlainTextStorage;
 use Kirby\Exception\Exception;
 use Kirby\Panel\Panel;
 
+load([
+    'JohannSchopplich\\Playground\\PlaygroundStorage' => __DIR__ . '/PlaygroundStorage.php'
+]);
+
 App::plugin('johannschopplich/playground', [
+    'components' => [
+        'storage' => function (App $kirby, ModelWithContent $model) {
+            if (env('KIRBY_DEBUG', false) === false) {
+                return new PlaygroundStorage(model: $model);
+            }
+
+            return new PlainTextStorage(model: $model);
+        }
+    ],
     'hooks' => [
         '*.update:before' => function (Event $event) {
             if (env('KIRBY_DEBUG', false) === false) {
