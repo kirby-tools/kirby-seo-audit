@@ -5,7 +5,7 @@
 /node_modules
 /src/assets/yoastseo-repo
 /src/assets/node_modules
-# /vendor
+/vendor
 
 # Build files
 /index.dev.mjs
