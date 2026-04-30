@@ -2,7 +2,7 @@ import ReportDialog from "./components/Dialogs/Report.vue";
 import PlaygroundBlueprintCodeField from "./components/Playground/BlueprintCode.vue";
 import SeoAuditSection from "./components/Sections/SeoAudit.vue";
 import SeoAuditButton from "./components/ViewButtons/SeoAuditButton.vue";
-import "./index.css";
+import "virtual:uno.css";
 
 window.panel.plugin("johannschopplich/seo-audit", {
   viewButtons: {

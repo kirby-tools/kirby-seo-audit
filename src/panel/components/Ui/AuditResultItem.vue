@@ -34,7 +34,7 @@ function stripTags(html) {
     <div>
       <div v-html="parseText" />
       <details v-if="result.details">
-        <summary class="ksr-font-[var(--font-semi)]">
+        <summary class="ksr-[font-weight:var(--font-semi)]">
           {{ panel.t("johannschopplich.seo-audit.issues") }}
         </summary>
         <k-box
