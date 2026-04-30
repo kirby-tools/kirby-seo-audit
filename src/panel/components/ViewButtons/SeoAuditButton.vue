@@ -76,6 +76,16 @@ async function analyze() {
     ? currentContent.value.targeturl
     : (await api.get(panel.view.path, { select: "previewUrl" })).previewUrl;
 
+  // eslint-disable-next-line no-undef
+  if (!__PLAYGROUND__ && !url) {
+    panel.notification.error(
+      panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
+    );
+    panel.isLoading = false;
+    isAnalyzing.value = false;
+    return;
+  }
+
   const resolvedKeyphrase =
     props.keyphrase || currentContent.value[props.keyphraseField] || "";
   let resolvedSynonyms = [];
@@ -123,7 +133,7 @@ async function analyze() {
       );
     } else {
       panel.notification.error(
-        panel.t("johannschopplich.seo-audit.analyze.error"),
+        panel.t("johannschopplich.seo-audit.notification.analyzeError"),
       );
     }
   } finally {

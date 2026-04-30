@@ -180,6 +180,11 @@ async function analyze() {
       panel.notification.error("Please enter a target URL to be analyzed.");
       return;
     }
+  } else if (!previewUrl) {
+    panel.notification.error(
+      panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
+    );
+    return;
   }
 
   // eslint-disable-next-line no-undef
@@ -222,7 +227,7 @@ async function analyze() {
       );
     } else {
       panel.notification.error(
-        panel.t("johannschopplich.seo-audit.analyze.error"),
+        panel.t("johannschopplich.seo-audit.notification.analyzeError"),
       );
     }
   }
@@ -231,7 +236,7 @@ async function analyze() {
   isAnalyzing.value = false;
   panel.notification.success({
     icon: "check",
-    message: panel.t("johannschopplich.seo-audit.analyze.success"),
+    message: panel.t("johannschopplich.seo-audit.notification.analyzeSuccess"),
   });
 }
 </script>
