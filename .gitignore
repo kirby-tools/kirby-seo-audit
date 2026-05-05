@@ -1,6 +1,9 @@
 # OS files
 .DS_Store
 
+# Log files
+*.log
+
 # Vendor files
 /node_modules
 /src/assets/yoastseo-repo
@@ -15,6 +18,7 @@
 # Playground files
 .env
 .license
+.kirby-tools-licenses
 /playground/public/media/*
 /playground/storage/accounts/*
 !/playground/storage/accounts/playgrnd
@@ -24,11 +28,11 @@
 # Cache and temporary files
 /.cache
 /.php-cs-fixer.cache
-/.phpunit.result.cache
+/.phpunit.*
+/index.dev.mjs
 /tests/coverage
 /tests/*/tmp
 /tools/**/vendor
 
 # Releases
-kirby-seo-audit-*.zip
 /dist-zero-one
