@@ -60,6 +60,11 @@ final class Proxy
      * host of its own choosing. `Find::parent` enforces the model's own
      * access permissions on the way.
      *
+     * A blueprint may still set `options.preview` to a query, which resolves
+     * against the model's own content. The proxy then reaches wherever the
+     * site chose to point its preview button, which is the site's call to
+     * make, not a target the request picked.
+     *
      * @throws InvalidArgumentException When the model cannot carry a preview URL
      * @throws NotFoundException When the model is inaccessible or has no preview URL
      */
