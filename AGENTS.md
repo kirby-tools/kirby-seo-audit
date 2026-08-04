@@ -25,7 +25,7 @@ Three consequences:
 - The proxy takes a Panel path and derives the URL from the model itself. It never accepts a URL, or any Panel account could aim it at the server's internal network. A blueprint's own `options.preview` query can still steer where the preview points, which is the site's call to make.
 - The Panel receives an explicit allow-list from `PanelContext`, never the raw option tree. `proxy` in particular holds closures and whatever credentials its `params` carry.
 - `__PLAYGROUND__` and `__ZERO_ONE__` are build-time constants from `kirbyup.config.js`, declared to ESLint in `eslint.config.mjs` because the Panel source is plain JavaScript.
-- Test methods are snake_case and named after the behavior they pin; data providers are camelCase.
+- Test methods are snake_case with no `test` prefix, marked `#[Test]`; data providers are camelCase.
 
 ## Search Hints
 
