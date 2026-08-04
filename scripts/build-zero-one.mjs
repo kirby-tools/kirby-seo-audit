@@ -22,6 +22,10 @@ await fs.writeJson(`${distDir}/kirby-seo-audit/composer.json`, composer, {
 await fs.remove(`${distDir}/kirby-seo-audit/composer.lock`);
 await fs.remove(`${distDir}/kirby-seo-audit/vendor`);
 
+// This edition ships without Composer dependencies, but the plugin's own
+// classes are still PSR-4 autoloaded, so the autoloader has to be rebuilt
+await $`composer dump-autoload --optimize --no-interaction --working-dir=${distDir}/kirby-seo-audit`;
+
 // Copy build artifacts
 await fs.copy("./index.js", `${distDir}/kirby-seo-audit/index.js`);
 await fs.copy("./index.css", `${distDir}/kirby-seo-audit/index.css`);

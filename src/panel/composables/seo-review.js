@@ -1,4 +1,5 @@
 import { useContent, usePanel } from "kirbyuse";
+import { PLUGIN_PROXY_API_ROUTE } from "../constants";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -11,14 +12,14 @@ export function useSeoReview() {
   const { currentContent } = useContent();
   const logger = useLogger();
 
-  async function generateReport(url, contentSelector, options) {
-    logger.info("Starting SEO analysis for", url);
+  async function generateReport(target, contentSelector, options) {
+    logger.info("Starting SEO analysis for", target.url);
 
     if (import.meta.env.DEV) {
       options.logLevel = 3;
     }
 
-    const html = await fetchHtml(url);
+    const html = await fetchHtml(target);
     const { htmlDocument, language, title, description } =
       await prepareContent(html);
 
@@ -31,7 +32,6 @@ export function useSeoReview() {
       return assessment;
     });
 
-    // eslint-disable-next-line no-undef
     const panelLanguage = __PLAYGROUND__
       ? currentContent.value.language
       : panel.translation.code;
@@ -49,7 +49,7 @@ export function useSeoReview() {
       contentSelector,
       options: {
         ...options,
-        url,
+        url: target.url,
         title,
         description,
         language,
@@ -69,9 +69,12 @@ export function useSeoReview() {
     return resultsByCategory;
   }
 
-  async function fetchHtml(url) {
-    // Check if the current location has the same origin as the target URL
-    if (location.origin === new URL(url).origin) {
+  async function fetchHtml({ url, path }) {
+    const isSameOrigin = location.origin === new URL(url).origin;
+
+    // The playground analyzes arbitrary URLs, which the proxy deliberately no
+    // longer accepts, so it reads them directly and lives with CORS
+    if (isSameOrigin || __PLAYGROUND__) {
       const response = await fetch(url);
       if (!response.ok) {
         logger.warn(
@@ -81,8 +84,10 @@ export function useSeoReview() {
       return await response.text();
     }
 
-    const { code, html } = await panel.api.post("__seo-audit__/proxy", {
-      url,
+    // The proxy derives the URL from the model itself, so it takes the Panel
+    // path rather than a URL the browser could choose
+    const { code, html } = await panel.api.post(PLUGIN_PROXY_API_ROUTE, {
+      path,
     });
 
     if (code !== 200) {

@@ -2,8 +2,9 @@
 
 use JohannSchopplich\Licensing\LicensePanel;
 use JohannSchopplich\Licensing\Licenses;
+use JohannSchopplich\SeoAudit\PanelContext;
+use JohannSchopplich\SeoAudit\Proxy;
 use Kirby\Cms\App;
-use Kirby\Http\Remote;
 
 return [
     'routes' => fn (App $kirby) => [
@@ -13,19 +14,6 @@ return [
             'method' => 'GET',
             'action' => function () use ($kirby) {
                 $licenses = Licenses::read('johannschopplich/kirby-seo-audit');
-                $config = $kirby->option('johannschopplich.seo-audit', []);
-
-                $defaultConfig = [
-                    'proxy' => [
-                        'params' => []
-                    ]
-                ];
-
-                // Merge user configuration with defaults
-                $config = array_replace_recursive($defaultConfig, $config);
-
-                // Remove proxy API configuration for the client
-                unset($config['proxy']);
 
                 $assets = $kirby
                     ->plugin('johannschopplich/seo-audit')
@@ -38,7 +26,7 @@ return [
                     ->values();
 
                 return [
-                    'config' => $config,
+                    'config' => PanelContext::config(),
                     'assets' => $assets,
                     'licenseStatus' => $licenses->getStatus()
                 ];
@@ -47,22 +35,7 @@ return [
         [
             'pattern' => '__seo-audit__/proxy',
             'method' => 'POST',
-            'action' => function () use ($kirby) {
-                $url = $kirby->request()->get('url');
-                $urlResolver = $kirby->option('johannschopplich.seo-audit.proxy.urlResolver');
-                $params = $kirby->option('johannschopplich.seo-audit.proxy.params', []);
-
-                if ($urlResolver instanceof Closure) {
-                    $url = $urlResolver($url);
-                }
-
-                $response = Remote::request($url, $params);
-
-                return [
-                    'code' => $response->code(),
-                    'html' => $response->content()
-                ];
-            }
+            'action' => fn () => (new Proxy($kirby))->handle()
         ]
     ]
 ];

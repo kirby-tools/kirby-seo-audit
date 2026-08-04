@@ -45,7 +45,6 @@ const { generateReport } = useSeoReview();
 const storageKey = getHashedStorageKey(panel.view.path);
 let previewUrl;
 
-// eslint-disable-next-line no-undef
 const isZeroOneBuild = __ZERO_ONE__;
 
 // Section props
@@ -89,7 +88,6 @@ watch(
 updateSectionData(true);
 
 // Watch for content changes on the same page
-// eslint-disable-next-line no-undef
 if (__PLAYGROUND__) {
   const throttledAnalyze = throttle(analyze, 1000);
   watch(
@@ -149,7 +147,6 @@ async function updateSectionData(isInitializing = false) {
     );
 
     licenseStatus.value =
-      // eslint-disable-next-line no-undef
       __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
 
     if (persisted.value) {
@@ -169,12 +166,10 @@ async function updateSectionData(isInitializing = false) {
 }
 
 async function analyze() {
-  // eslint-disable-next-line no-undef
   if (__ZERO_ONE__ && !isZeroOneValid()) {
     return;
   }
 
-  // eslint-disable-next-line no-undef
   if (__PLAYGROUND__) {
     if (!currentContent.value.targeturl) {
       panel.notification.error("Please enter a target URL to be analyzed.");
@@ -187,14 +182,14 @@ async function analyze() {
     return;
   }
 
-  // eslint-disable-next-line no-undef
-  const url = __PLAYGROUND__ ? currentContent.value.targeturl : previewUrl;
+  const target = __PLAYGROUND__
+    ? { url: currentContent.value.targeturl }
+    : { url: previewUrl, path: panel.view.path };
   panel.isLoading = true;
   isAnalyzing.value = true;
 
   try {
-    const result = await generateReport(url, contentSelector.value, {
-      // eslint-disable-next-line no-undef
+    const result = await generateReport(target, contentSelector.value, {
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments
         : assessments.value,

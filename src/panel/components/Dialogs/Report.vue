@@ -20,13 +20,11 @@ const emit = defineEmits(["cancel", "close", "input", "submit", "success"]);
 const panel = usePanel();
 
 const licenseStatus = ref();
-// eslint-disable-next-line no-undef
 const isZeroOneBuild = __ZERO_ONE__;
 
 (async () => {
   const context = await usePluginContext();
   licenseStatus.value =
-    // eslint-disable-next-line no-undef
     __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
 })();
 </script>

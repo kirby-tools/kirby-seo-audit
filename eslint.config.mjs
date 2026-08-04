@@ -15,6 +15,13 @@ export default antfu({
   ignores: ["**/vendor/**", "index.js"],
 })
   .append({
+    languageOptions: {
+      // Build-time constants injected by `kirbyup.config.js`
+      globals: {
+        __PLAYGROUND__: "readonly",
+        __ZERO_ONE__: "readonly",
+      },
+    },
     rules: {
       "e18e/prefer-static-regex": "off",
     },

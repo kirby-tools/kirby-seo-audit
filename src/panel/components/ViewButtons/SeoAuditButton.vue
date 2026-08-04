@@ -53,12 +53,10 @@ const isAnalyzing = ref(false);
 const { currentContent } = useContent();
 
 async function analyze() {
-  // eslint-disable-next-line no-undef
   if (__ZERO_ONE__ && !isZeroOneValid()) {
     return;
   }
 
-  // eslint-disable-next-line no-undef
   if (__PLAYGROUND__) {
     if (!currentContent.value.targeturl) {
       panel.notification.error("Please enter a target URL to be analyzed.");
@@ -71,13 +69,15 @@ async function analyze() {
 
   const context = await usePluginContext();
 
-  // eslint-disable-next-line no-undef
-  const url = __PLAYGROUND__
-    ? currentContent.value.targeturl
-    : (await api.get(panel.view.path, { select: "previewUrl" })).previewUrl;
+  const target = __PLAYGROUND__
+    ? { url: currentContent.value.targeturl }
+    : {
+        url: (await api.get(panel.view.path, { select: "previewUrl" }))
+          .previewUrl,
+        path: panel.view.path,
+      };
 
-  // eslint-disable-next-line no-undef
-  if (!__PLAYGROUND__ && !url) {
+  if (!__PLAYGROUND__ && !target.url) {
     panel.notification.error(
       panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
     );
@@ -98,18 +98,21 @@ async function analyze() {
   }
 
   try {
-    const result = await generateReport(url, props.contentSelector || "body", {
-      // eslint-disable-next-line no-undef
-      assessments: __PLAYGROUND__
-        ? currentContent.value.assessments
-        : props.assessments,
-      logLevel: LOG_LEVELS.indexOf(
-        context.config.logLevel || props.logLevel || "warn",
-      ),
-      // For Yoast SEO
-      keyword: resolvedKeyphrase,
-      synonyms: resolvedSynonyms,
-    });
+    const result = await generateReport(
+      target,
+      props.contentSelector || "body",
+      {
+        assessments: __PLAYGROUND__
+          ? currentContent.value.assessments
+          : props.assessments,
+        logLevel: LOG_LEVELS.indexOf(
+          context.config.logLevel || props.logLevel || "warn",
+        ),
+        // For Yoast SEO
+        keyword: resolvedKeyphrase,
+        synonyms: resolvedSynonyms,
+      },
+    );
 
     panel.dialog.open({
       component: "k-seo-audit-report-dialog",

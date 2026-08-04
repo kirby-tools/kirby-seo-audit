@@ -13,7 +13,6 @@ window.panel.plugin("johannschopplich/seo-audit", {
   },
   sections: {
     "seo-audit": SeoAuditSection,
-    // eslint-disable-next-line no-undef
     ...(__PLAYGROUND__ && {
       "playground-blueprint-code": PlaygroundBlueprintCodeField,
     }),
