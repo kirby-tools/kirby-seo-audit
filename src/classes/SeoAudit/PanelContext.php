@@ -11,9 +11,9 @@ final class PanelContext
     /**
      * Builds the plugin configuration the Panel receives.
      *
-     * Every key is listed explicitly, so an option never reaches the browser
-     * unless the Panel reads it. The `proxy` option in particular carries
-     * closures and whatever credentials its `params` were given.
+     * The `proxy` option carries closures and whatever credentials its
+     * `params` were given, so the return lists the one key the Panel reads
+     * rather than stripping the keys it must not see.
      *
      * @return array<string, mixed>
      */

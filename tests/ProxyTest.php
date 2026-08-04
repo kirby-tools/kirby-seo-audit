@@ -66,7 +66,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_a_model_that_has_no_preview(): void
+    public function throws_for_a_model_type_that_cannot_be_previewed(): void
     {
         $kirby = self::bootApp();
 
@@ -77,7 +77,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function throws_when_the_model_has_no_preview_url(): void
+    public function throws_when_the_preview_url_resolves_to_null(): void
     {
         // A model whose preview is unavailable yields `null`, which would
         // otherwise reach `Remote` as the URL to fetch
@@ -155,7 +155,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function ignores_a_url_supplied_by_the_request(): void
+    public function throws_for_a_request_that_carries_a_url_but_no_model_path(): void
     {
         // The route used to fetch whatever `url` the request carried, which
         // turned any Panel account into an open proxy onto the server's network

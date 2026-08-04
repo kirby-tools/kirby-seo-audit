@@ -24,23 +24,14 @@ final class ContextRouteTest extends ApiRouteTestCase
     {
         $response = $this->callContextRoute([
             'logLevel' => 'debug',
-            'proxy' => ['params' => ['basicAuth' => 'user:hunter2']]
-        ]);
-
-        $this->assertSame(['logLevel' => 'debug'], $response['config']);
-    }
-
-    #[Test]
-    public function omits_options_the_panel_never_reads(): void
-    {
-        // Any Panel user of any role can read this response, so the guard
-        // covers the whole envelope rather than the `config` key alone
-        $response = $this->callContextRoute([
-            'logLevel' => 'debug',
             'proxy' => ['params' => ['basicAuth' => 'user:hunter2']],
             'someFutureOption' => 'test-secret'
         ]);
 
+        $this->assertSame(['logLevel' => 'debug'], $response['config']);
+
+        // Any Panel user of any role can read this response, so the guard
+        // covers the whole envelope rather than the `config` key alone
         $payload = json_encode($response);
 
         $this->assertStringNotContainsString('hunter2', $payload);

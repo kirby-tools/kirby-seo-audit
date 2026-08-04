@@ -84,8 +84,7 @@ export function useSeoReview() {
       return await response.text();
     }
 
-    // The proxy derives the URL from the model itself, so it takes the Panel
-    // path rather than a URL the browser could choose
+    // The proxy derives the URL server-side; the browser cannot choose the target
     const { code, html } = await panel.api.post(PLUGIN_PROXY_API_ROUTE, {
       path,
     });
