@@ -16,7 +16,7 @@ const props = defineProps({
 const panel = usePanel();
 
 const parseText = computed(() => {
-  // Remove aggressive exclamation mark at the end of the text
+  // Remove aggressive exclamation mark at the end of the text.
   const text = props.result.text.replace(/!$/, ".");
   return props.links ? text : stripTags(text);
 });
