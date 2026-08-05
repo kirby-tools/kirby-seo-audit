@@ -48,12 +48,12 @@ export function altAttribute({ htmlDocument, contentSelector }) {
           : 9,
     translation:
       imagesWithoutAltAttributeCount === images.length
-        ? // None of the images have an alt attribute
+        ? // None of the images have an `alt` attribute.
           "none"
         : imagesWithoutAltAttributeCount > 0
-          ? // Not all images have an alt attribute
+          ? // Not all images have an `alt` attribute.
             "some"
-          : // All images have an alt attribute
+          : // All images have an `alt` attribute.
             "every",
     ...(imagesWithoutAltAttributeCount > 0 && {
       context: {

@@ -4,7 +4,6 @@ import { glob } from "tinyglobby";
 
 const extractor = new GettextExtractor();
 
-// Create the parser once
 const parser = extractor.createJsParser([
   JsExtractors.callExpression("_i18n.__", {
     arguments: {
@@ -41,11 +40,11 @@ extractor.savePotFile("./messages.pot");
 
 extractor.printStats();
 
-// Preprocess files to transform Babel patterns
+// Preprocesses a file so the extractor recognizes Babel-wrapped i18n calls.
 async function preprocessFile(filePath) {
   let content = await fsp.readFile(filePath, "utf8");
 
-  // Transform Babel patterns `(0, _i18n.function)` to `_i18n.function`
+  // Transform Babel patterns `(0, _i18n.function)` to `_i18n.function`.
   const i18nFunctions = ["__", "sprintf", "_n"];
 
   for (const fn of i18nFunctions) {

@@ -41,13 +41,12 @@ const api = useApi();
 const { t } = useI18n();
 const { generateReport } = useSeoReview();
 
-// Non-reactive data
 const storageKey = getHashedStorageKey(panel.view.path);
 let previewUrl;
 
 const isZeroOneBuild = __ZERO_ONE__;
 
-// Section props
+// #region Section props
 const label = ref();
 const keyphrase = ref();
 const keyphraseField = ref();
@@ -58,8 +57,8 @@ const contentSelector = ref();
 const links = ref();
 const persisted = ref();
 const logLevel = ref();
+// #endregion
 
-// Local data
 const isInitialized = ref(false);
 const isAnalyzing = ref(false);
 const licenseStatus = ref();
@@ -78,7 +77,7 @@ const resolvedSynonyms = computed(() => {
 });
 
 watch(
-  // Will be `null` in single language setups
+  // Will be `null` in single language setups.
   () => panel.language.code,
   () => {
     updateSectionData();
@@ -87,7 +86,7 @@ watch(
 
 updateSectionData(true);
 
-// Watch for content changes on the same page
+// The playground re-runs the analysis whenever its own fields change.
 if (__PLAYGROUND__) {
   const throttledAnalyze = throttle(analyze, 1000);
   watch(
@@ -132,7 +131,7 @@ async function updateSectionData(isInitializing = false) {
     }),
   ]);
 
-  // Set values once that don't need to be re-evaluated on the server when the language changes
+  // Set values once that don't need to be re-evaluated on the server when the language changes.
   if (isInitializing) {
     label.value =
       t(response.label) || panel.t("johannschopplich.seo-audit.label");
@@ -159,7 +158,7 @@ async function updateSectionData(isInitializing = false) {
     isInitialized.value = true;
   }
 
-  // These props are resolved Kirby queries
+  // These props are resolved Kirby queries.
   keyphrase.value = response.keyphrase;
   synonyms.value = response.synonyms;
 
@@ -196,7 +195,7 @@ async function analyze() {
         ? currentContent.value.assessments
         : assessments.value,
       logLevel: logLevel.value,
-      // For Yoast SEO
+      // Option names expected by Yoast SEO.
       keyword: resolvedKeyphrase.value,
       synonyms: resolvedSynonyms.value,
     });

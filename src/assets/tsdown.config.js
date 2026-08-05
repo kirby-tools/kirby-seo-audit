@@ -28,7 +28,7 @@ export default defineConfig(
       codeSplitting: false,
     },
     platform: "browser",
-    // Inline external dependencies
+    // Inline external dependencies.
     noExternal: [/.*/],
     inlineOnly: false,
     minify: true,

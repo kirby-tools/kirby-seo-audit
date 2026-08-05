@@ -28,7 +28,7 @@ final class ProxyTest extends TestCase
             'urls' => ['index' => 'https://example.com'],
             'site' => [
                 'children' => [
-                    // The site previews its home page, so it needs one
+                    // The site previews its home page, so it needs one.
                     ['slug' => 'home', 'num' => 1],
                     ['slug' => 'test', 'num' => 1]
                 ]
@@ -80,7 +80,7 @@ final class ProxyTest extends TestCase
     public function throws_when_the_preview_url_resolves_to_null(): void
     {
         // A model whose preview is unavailable yields `null`, which would
-        // otherwise reach `Remote` as the URL to fetch
+        // otherwise reach `Remote` as the URL to fetch.
         $kirby = new App([
             'roots' => ['index' => __DIR__ . '/tmp'],
             'urls' => ['index' => 'https://example.com']
@@ -157,8 +157,8 @@ final class ProxyTest extends TestCase
     #[Test]
     public function throws_for_a_request_that_carries_a_url_but_no_model_path(): void
     {
-        // The route used to fetch whatever `url` the request carried, which
-        // turned any Panel account into an open proxy onto the server's network
+        // Honoring a request-supplied `url` would turn any Panel account into
+        // an open proxy onto the server's network.
         $kirby = self::bootApp([
             'request' => [
                 'method' => 'POST',

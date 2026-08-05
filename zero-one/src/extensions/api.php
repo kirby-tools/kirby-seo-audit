@@ -11,7 +11,6 @@ return [
             'pattern' => '__seo-audit__/context',
             'method' => 'GET',
             'action' => function () use ($kirby) {
-                // Ensure the Zero One Theme plugin is installed
                 if ($kirby->plugin('zero/zero-one') === null) {
                     throw new PermissionException(
                         'This edition of Kirby SEO Audit is bundled exclusively with the Zero One Theme. For standalone use, please visit https://kirby.tools/seo-audit/buy'

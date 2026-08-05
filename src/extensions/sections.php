@@ -27,7 +27,7 @@ return [
         'methods' => [
             'tryResolveQuery' => function ($value, $fallback = null) {
                 if (is_string($value)) {
-                    // Replace all matches of KQL parts with the query results
+                    // Replace each `{{ ... }}` placeholder with the result of its KQL query.
                     $value = preg_replace_callback('!\{\{(.+?)\}\}!', function ($matches) {
                         $result = $this->model()->query(trim($matches[1]));
                         return $result ?? '';

@@ -45,7 +45,7 @@ export function createSeoReport({
     const categoryResults = [];
 
     for (const [key, assessmentFn] of Object.entries(assessments)) {
-      // Skip assessment if it's not part of the selected assessments
+      // Skip assessment if it's not part of the selected assessments.
       if (
         selectedAssessments.length > 0 &&
         !selectedAssessments.includes(key.toLowerCase())
@@ -65,12 +65,11 @@ export function createSeoReport({
 
       const template = get(translations, `${key}.${translation}`);
 
-      // Ensure translations is available
       if (!template) continue;
 
       const label = get(translations, `${key}._label`, key);
 
-      // Lowercase all keys in context for the template renderer
+      // Lowercase all keys in context for the template renderer.
       const _context = Object.fromEntries(
         Object.entries(context).map(([key, value]) => [
           key.toLowerCase(),
@@ -168,11 +167,11 @@ export async function createYoastSeoReport({
 
     const id = result._identifier.toLowerCase();
 
-    // Some assessments have been deprecated or are not relevant
+    // Some assessments have been deprecated or are not relevant.
     if (YOAST_IGNORED_ASSESSMENTS.some((key) => key.toLowerCase() === id))
       continue;
 
-    // Skip keyphrase assessments if keyword is empty and no assessments are selected
+    // Skip keyphrase assessments if keyword is empty and no assessments are selected.
     if (
       !options.keyword &&
       options.assessments.length === 0 &&
@@ -180,11 +179,11 @@ export async function createYoastSeoReport({
     )
       continue;
 
-    // Process only selected assessments (if any)
+    // Process only selected assessments (if any).
     if (options.assessments.length > 0 && !options.assessments.includes(id))
       continue;
 
-    // Throw error if one of the selected assessments is not compatible with the document's language
+    // Throw error if one of the selected assessments is not compatible with the document's language.
     if (options.assessments.length > 0) {
       const compatibleLocales = Object.entries(
         YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
@@ -211,7 +210,8 @@ export async function createYoastSeoReport({
 let analysisWorkerWrapper;
 
 /**
- * Loads the web worker for Yoast SEO analysis.
+ * Creates the Yoast SEO analysis worker on first use and returns the cached
+ * wrapper afterwards.
  */
 async function loadYoastSeoAnalysisWebWorker(language) {
   if (analysisWorkerWrapper) return analysisWorkerWrapper;
@@ -226,9 +226,6 @@ async function loadYoastSeoAnalysisWebWorker(language) {
   return analysisWorkerWrapper;
 }
 
-/**
- * Interpreters a score and gives it a particular rating.
- */
 export function scoreToRating(score) {
   if (score === -1) return "error";
   if (score === 0) return "feedback";
@@ -239,18 +236,18 @@ export function scoreToRating(score) {
 }
 
 /**
- * Processes a given HTML string for content analysis.
+ * Parses the HTML into a document and pulls out its locale, title and
+ * description.
  */
 export async function prepareContent(html) {
   const parser = new DOMParser();
   const htmlDocument = parser.parseFromString(html, "text/html");
 
-  // Remove all script and style tags
   for (const tag of [...htmlDocument.body.querySelectorAll("script, style")]) {
     tag.remove();
   }
 
-  // Find the language
+  // A `lang` without a region, like `de`, expands to a full locale.
   let language = htmlDocument.documentElement.lang || LANGUAGE_TO_LOCALE_MAP.en;
   if (!language.includes("-")) {
     language =
@@ -258,7 +255,6 @@ export async function prepareContent(html) {
       LANGUAGE_TO_LOCALE_MAP.en;
   }
 
-  // Extract the title and description
   const title =
     htmlDocument.title ||
     // eslint-disable-next-line unicorn/prefer-dom-node-text-content
@@ -277,9 +273,6 @@ export async function prepareContent(html) {
   };
 }
 
-/**
- * Extracts the content from the given HTML document using the provided content selector.
- */
 export function extractContent(htmlDocument, contentSelector) {
   const elements = htmlDocument.querySelectorAll(contentSelector);
   return Array.from(elements, (element) => element.innerHTML).join("\n");

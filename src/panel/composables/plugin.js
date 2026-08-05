@@ -13,7 +13,7 @@ export function usePluginContext() {
       PLUGIN_CONTEXT_API_ROUTE,
       undefined,
       undefined,
-      // Avoid showing Panel loading indicator
+      // Avoid showing Panel loading indicator.
       true,
     )
     .then((response) => {
@@ -21,7 +21,7 @@ export function usePluginContext() {
       context = response;
       return context;
     })
-    // Without this a failing request stays cached as a rejection and no later view recovers without a full reload
+    // Without this a failing request stays cached as a rejection and no later view recovers without a full reload.
     .finally(() => {
       pendingPromise = undefined;
     });

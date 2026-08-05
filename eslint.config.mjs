@@ -16,7 +16,7 @@ export default antfu({
 })
   .append({
     languageOptions: {
-      // Build-time constants injected by `kirbyup.config.js`
+      // Build-time constants injected by `kirbyup.config.js`.
       globals: {
         __PLAYGROUND__: "readonly",
         __ZERO_ONE__: "readonly",
@@ -29,7 +29,7 @@ export default antfu({
   .append({
     files: ["**/*.vue"],
     rules: {
-      // Ignore rules clashing with Prettier
+      // Ignore rules clashing with Prettier.
       "vue/html-closing-bracket-newline": "off",
       "vue/html-indent": "off",
       "vue/html-self-closing": "off",

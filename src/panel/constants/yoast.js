@@ -1,6 +1,6 @@
 /// keep-sorted
 export const YOAST_IGNORED_ASSESSMENTS = [
-  // Produces incorrect results; replaced by custom assessment
+  // Produces incorrect results; replaced by custom assessment.
   "singleH1",
 ];
 
@@ -180,7 +180,6 @@ export const YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP = {
     "sv",
     "tr",
   ],
-  // fleschReadingEase: ["de", "en", "es", "fr", "it", "nl", "pt", "ru"],
 };
 
 /// keep-sorted

@@ -23,10 +23,9 @@ export function useSeoReview() {
     const { htmlDocument, language, title, description } =
       await prepareContent(html);
 
-    // Resolve assessment names
     options.assessments = options.assessments.map((i) => {
       let assessment = i.toLowerCase();
-      // Trim trailing `assessment` suffix if present
+      // Trim trailing `assessment` suffix if present.
       if (assessment.endsWith("assessment"))
         assessment = assessment.slice(0, -10);
       return assessment;

@@ -106,7 +106,7 @@ async function analyze() {
             ? props.logLevel
             : (context.config.logLevel ?? DEFAULT_LOG_LEVEL),
         ),
-        // For Yoast SEO
+        // Option names expected by Yoast SEO.
         keyword: resolvedKeyphrase,
         synonyms: resolvedSynonyms,
       },
