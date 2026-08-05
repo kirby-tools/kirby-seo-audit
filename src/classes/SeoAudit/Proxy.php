@@ -16,8 +16,6 @@ use Kirby\Http\Remote;
 
 /**
  * Fetches the HTML behind a model's preview URL for analysis.
- *
- * @internal
  */
 final class Proxy
 {
@@ -35,14 +33,8 @@ final class Proxy
      */
     public function handle(): array
     {
-        $path = $this->kirby->request()->get('path');
-
-        if (!is_string($path) || $path === '') {
-            throw new InvalidArgumentException('Missing model path');
-        }
-
         $response = Remote::request(
-            $this->resolveUrl($path),
+            $this->resolveTarget(),
             $this->kirby->option(self::OPTION_PREFIX . 'params', [])
         );
 
@@ -53,12 +45,44 @@ final class Proxy
     }
 
     /**
+     * Resolves the URL the request asks the proxy to fetch.
+     *
+     * `allowArbitraryUrls` hands the target back to the caller, which is the
+     * whole thing this class exists to prevent, so it stays off by default and
+     * undocumented. The playground needs it: it analyzes a URL typed into a
+     * field, which belongs to no model, and a browser-side fetch would hit CORS.
+     *
+     * @throws InvalidArgumentException When the request names no model
+     */
+    public function resolveTarget(): string
+    {
+        $request = $this->kirby->request();
+        $url = $request->get('url');
+
+        if (
+            $this->kirby->option(self::OPTION_PREFIX . 'allowArbitraryUrls') === true &&
+            is_string($url) &&
+            $url !== ''
+        ) {
+            return $this->applyUrlResolver($url);
+        }
+
+        $path = $request->get('path');
+
+        if (!is_string($path) || $path === '') {
+            throw new InvalidArgumentException('Missing model path');
+        }
+
+        return $this->resolveUrl($path);
+    }
+
+    /**
      * Resolves a Panel path to the preview URL of the model behind it.
      *
-     * The URL never comes from the request: the caller names a model and the
-     * server derives its preview URL, so no request can aim the proxy at a
-     * host of its own choosing. `Find::parent` enforces the model's own
-     * access permissions on the way.
+     * On this path the URL never comes from the request: the caller names a
+     * model and the server derives its preview URL, so no request can aim the
+     * proxy at a host of its own choosing. `Find::parent` enforces the model's
+     * own access permissions on the way.
      *
      * A blueprint may still set `options.preview` to a query, which resolves
      * against the model's own content. The proxy then reaches wherever the
@@ -85,6 +109,11 @@ final class Proxy
             throw new NotFoundException('Model has no preview URL: ' . $path);
         }
 
+        return $this->applyUrlResolver($url);
+    }
+
+    private function applyUrlResolver(string $url): string
+    {
         $urlResolver = $this->kirby->option(self::OPTION_PREFIX . 'urlResolver');
 
         if (!$urlResolver instanceof Closure) {

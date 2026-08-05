@@ -70,11 +70,8 @@ export function useSeoReview() {
   }
 
   async function fetchHtml({ url, path }) {
-    const isSameOrigin = location.origin === new URL(url).origin;
-
-    // The playground analyzes arbitrary URLs, which the proxy deliberately no
-    // longer accepts, so it reads them directly and lives with CORS
-    if (isSameOrigin || __PLAYGROUND__) {
+    // Same-origin pages raise no CORS question, so the browser reads them itself.
+    if (location.origin === new URL(url).origin) {
       const response = await fetch(url);
       if (!response.ok) {
         logger.warn(
@@ -84,10 +81,13 @@ export function useSeoReview() {
       return await response.text();
     }
 
-    // The proxy derives the URL server-side; the browser cannot choose the target
-    const { code, html } = await panel.api.post(PLUGIN_PROXY_API_ROUTE, {
-      path,
-    });
+    // The proxy derives the URL from the model, so it takes the Panel path. Only
+    // the playground analyzes a URL with no model behind it, and its own install
+    // opts into that with `proxy.allowArbitraryUrls`.
+    const { code, html } = await panel.api.post(
+      PLUGIN_PROXY_API_ROUTE,
+      path ? { path } : { url },
+    );
 
     if (code !== 200) {
       logger.warn(

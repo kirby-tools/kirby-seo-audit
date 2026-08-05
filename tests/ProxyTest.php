@@ -171,4 +171,89 @@ final class ProxyTest extends TestCase
 
         (new Proxy($kirby))->handle();
     }
+
+    #[Test]
+    public function resolves_the_model_preview_url_when_the_request_also_carries_a_url(): void
+    {
+        $kirby = self::bootApp([
+            'request' => [
+                'method' => 'POST',
+                'body' => [
+                    'path' => 'pages/test',
+                    'url' => 'http://169.254.169.254/latest/meta-data/'
+                ]
+            ]
+        ]);
+
+        $this->assertSame(
+            'https://example.com/test',
+            (new Proxy($kirby))->resolveTarget()
+        );
+    }
+
+    #[Test]
+    public function returns_the_request_url_with_allowArbitraryUrls_enabled(): void
+    {
+        $kirby = self::bootApp([
+            'options' => [
+                'johannschopplich.seo-audit' => [
+                    'proxy' => ['allowArbitraryUrls' => true]
+                ]
+            ],
+            'request' => [
+                'method' => 'POST',
+                'body' => ['url' => 'https://elsewhere.example/page']
+            ]
+        ]);
+
+        $this->assertSame(
+            'https://elsewhere.example/page',
+            (new Proxy($kirby))->resolveTarget()
+        );
+    }
+
+    #[Test]
+    public function applies_the_url_resolver_to_a_request_url(): void
+    {
+        $kirby = self::bootApp([
+            'options' => [
+                'johannschopplich.seo-audit' => [
+                    'proxy' => [
+                        'allowArbitraryUrls' => true,
+                        'urlResolver' => fn (string $url) => $url . '?resolved'
+                    ]
+                ]
+            ],
+            'request' => [
+                'method' => 'POST',
+                'body' => ['url' => 'https://elsewhere.example/page']
+            ]
+        ]);
+
+        $this->assertSame(
+            'https://elsewhere.example/page?resolved',
+            (new Proxy($kirby))->resolveTarget()
+        );
+    }
+
+    #[Test]
+    public function falls_back_to_the_model_path_with_allowArbitraryUrls_but_no_request_url(): void
+    {
+        $kirby = self::bootApp([
+            'options' => [
+                'johannschopplich.seo-audit' => [
+                    'proxy' => ['allowArbitraryUrls' => true]
+                ]
+            ],
+            'request' => [
+                'method' => 'POST',
+                'body' => ['path' => 'pages/test']
+            ]
+        ]);
+
+        $this->assertSame(
+            'https://example.com/test',
+            (new Proxy($kirby))->resolveTarget()
+        );
+    }
 }
