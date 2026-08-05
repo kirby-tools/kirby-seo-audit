@@ -17,13 +17,13 @@ The Kirby SEO Audit plugin provides comprehensive SEO analysis directly within t
 
 ## Getting Started
 
-To get started, please refer to the [documentation](https://kirby.tools/docs/seo-audit/get-started) for guidance on installation, configuration, and usage.
+To get started, please refer to the [documentation](https://kirby.tools/docs/seo-audit/getting-started/installation) for guidance on installation, configuration, and usage.
 
 Here are some quick links:
 
-- [Installation](https://kirby.tools/docs/seo-audit/get-started)
+- [Installation](https://kirby.tools/docs/seo-audit/getting-started/installation)
 - [Global Configuration](https://kirby.tools/docs/seo-audit/configuration/global)
-- [Section Configuration](https://kirby.tools/docs/seo-audit/configuration/section)
+- [View Button & Section Configuration](https://kirby.tools/docs/seo-audit/configuration/local)
 
 ## Licensing
 
