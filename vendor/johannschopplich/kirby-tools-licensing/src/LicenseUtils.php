@@ -7,26 +7,22 @@ namespace JohannSchopplich\Licensing;
 use Kirby\Cms\App;
 
 /**
- * Utility functions for license-related string operations.
- *
  * @link      https://kirby.tools
  * @copyright Johann Schopplich
  * @license   AGPL-3.0
  */
-class LicenseUtils
+final class LicenseUtils
 {
-    /**
-     * Gets the current plugin version for a package.
-     */
     public static function getPluginVersion(string $packageName): string|null
     {
+        // Kirby registers plugins without the `kirby-` prefix the Composer package name carries
         $kirbyPluginName = str_replace('/kirby-', '/', $packageName);
 
         return App::instance()->plugin($kirbyPluginName)?->version();
     }
 
     /**
-     * Converts package name to slug (e.g., `johannschopplich/kirby-copilot` → `johannschopplich-kirby-copilot`)
+     * Converts package name to slug (e.g., `johannschopplich/kirby-copilot` → `johannschopplich-kirby-copilot`).
      */
     public static function toPackageSlug(string $packageName): string
     {
@@ -34,7 +30,7 @@ class LicenseUtils
     }
 
     /**
-     * Extracts plugin ID from package name (e.g., `johannschopplich/kirby-copilot` → `copilot`)
+     * Extracts plugin ID from package name (e.g., `johannschopplich/kirby-copilot` → `copilot`).
      */
     public static function toPluginId(string $packageName): string
     {
@@ -42,11 +38,11 @@ class LicenseUtils
     }
 
     /**
-     * Converts package name to API prefix (e.g., `johannschopplich/kirby-copilot` → `__copilot__`)
+     * Converts package name to API prefix (e.g., `johannschopplich/kirby-copilot` → `__copilot__`).
      */
     public static function toApiPrefix(string $packageName): string
     {
-        return '__' . static::toPluginId($packageName) . '__';
+        return '__' . self::toPluginId($packageName) . '__';
     }
 
     /**
@@ -54,8 +50,10 @@ class LicenseUtils
      */
     public static function formatCompatibility(string $compatibility): string
     {
+        // Only the leading major of each alternative counts, so tilde and exact
+        // constraints like `~1.2` must not collapse into their digits
         $versions = array_map(
-            fn ($part) => (int)preg_replace('/\D/', '', trim($part)),
+            fn ($part) => preg_match('/^[\^~]?(\d+)/', trim($part), $matches) ? (int)$matches[1] : 0,
             explode('||', $compatibility)
         );
 

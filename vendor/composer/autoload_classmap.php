@@ -18,6 +18,8 @@ return array(
     'JohannSchopplich\\Licensing\\Licenses' => $vendorDir . '/johannschopplich/kirby-tools-licensing/src/Licenses.php',
     'JohannSchopplich\\Licensing\\PluginLicense' => $vendorDir . '/johannschopplich/kirby-tools-licensing/src/PluginLicense.php',
     'JohannSchopplich\\Licensing\\PluginLicenseExtensions' => $vendorDir . '/johannschopplich/kirby-tools-licensing/src/PluginLicenseExtensions.php',
+    'JohannSchopplich\\SeoAudit\\PanelContext' => $baseDir . '/src/classes/SeoAudit/PanelContext.php',
+    'JohannSchopplich\\SeoAudit\\Proxy' => $baseDir . '/src/classes/SeoAudit/Proxy.php',
     'Kirby\\ComposerInstaller\\CmsInstaller' => $vendorDir . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
     'Kirby\\ComposerInstaller\\Installer' => $vendorDir . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
     'Kirby\\ComposerInstaller\\Plugin' => $vendorDir . '/getkirby/composer-installer/src/ComposerInstaller/Plugin.php',

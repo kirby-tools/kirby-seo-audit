@@ -9,10 +9,7 @@ use Kirby\Exception\LogicException;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\A;
 
-/**
- * HTTP client implementation using Kirby's `Remote` class.
- */
-class KirbyHttpClient implements HttpClientInterface
+final class KirbyHttpClient implements HttpClientInterface
 {
     public function request(string $url, array $options = []): array
     {

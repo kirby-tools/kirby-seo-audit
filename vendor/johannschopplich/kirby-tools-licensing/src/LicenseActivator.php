@@ -11,29 +11,30 @@ use Kirby\Exception\LogicException;
 use Kirby\Http\Request;
 
 /**
- * Handles license activation for Kirby Tools plugins.
- *
  * @link      https://kirby.tools
  * @copyright Johann Schopplich
  * @license   AGPL-3.0
  */
-class LicenseActivator
+final class LicenseActivator
 {
-    protected const API_URL = 'https://repo.kirby.tools/api';
+    private const API_URL = 'https://repo.kirby.tools/api';
 
-    protected HttpClientInterface $httpClient;
+    private readonly HttpClientInterface $httpClient;
 
     public function __construct(
-        protected string $packageName,
-        protected LicenseRepository $repository,
-        protected LicenseValidator $validator,
+        private readonly string $packageName,
+        private readonly LicenseRepository $repository,
+        private readonly LicenseValidator $validator,
         HttpClientInterface|null $httpClient = null
     ) {
         $this->httpClient = $httpClient ?? new KirbyHttpClient();
     }
 
     /**
-     * Activates a license with the given credentials.
+     * Thrown messages are matched verbatim by `LicensePanel::ACTIVATION_ERROR_KEYS`
+     * to resolve a translation, so they cannot be reworded on their own.
+     *
+     * @throws LogicException When the license is already activated, belongs to another plugin, does not cover the installed version, or when the licensing API rejects the request (message taken verbatim from the response).
      */
     public function activate(string $email, string $licenseKey): void
     {
@@ -71,19 +72,20 @@ class LicenseActivator
     }
 
     /**
-     * Activates a license from a Kirby request.
+     * @throws LogicException When `email` or `licenseKey` is missing, or when activation fails.
      */
     public function activateFromRequest(Request|null $request = null): array
     {
         $request ??= App::instance()->request();
         $email = $request->get('email');
-        $licenseKey = $request->get('licenseKey');
+        // TODO: Remove `orderId` fallback once all plugins ship with licensing-backend >=0.9
+        $licenseKey = $request->get('licenseKey') ?? $request->get('orderId');
 
         if (!$email || !$licenseKey) {
             throw new LogicException('Missing license registration parameters "email" or "licenseKey"');
         }
 
-        $this->activate($email, $licenseKey);
+        $this->activate($email, (string)$licenseKey);
 
         return [
             'code' => 200,
@@ -93,7 +95,8 @@ class LicenseActivator
     }
 
     /**
-     * Refreshes the license data if the plugin version has changed.
+     * Refetches the license data when the installed plugin version differs from
+     * the one it was last stored for.
      */
     public function refresh(): void
     {
@@ -101,7 +104,6 @@ class LicenseActivator
         $storedVersion = $this->repository->getPluginVersion($this->packageName);
         $currentVersion = $this->validator->getPluginVersion();
 
-        // If the plugin version has changed, refresh the license data for the package
         if (
             $this->validator->isValid($licenseKey) &&
             $currentVersion !== $storedVersion
@@ -112,7 +114,7 @@ class LicenseActivator
     }
 
     /**
-     * Checks if the license is already activated and compatible.
+     * Checks whether a valid license is stored and covers the installed version.
      */
     public function isActivated(): bool
     {
@@ -123,10 +125,7 @@ class LicenseActivator
             $this->validator->isCompatible($compatibility);
     }
 
-    /**
-     * Makes an API request.
-     */
-    protected function request(string $path, array $options = []): array
+    private function request(string $path, array $options = []): array
     {
         $headers = $options['headers'] ?? [];
 
@@ -140,6 +139,6 @@ class LicenseActivator
 
         $options['headers'] = $headers;
 
-        return $this->httpClient->request(static::API_URL . '/' . $path, $options);
+        return $this->httpClient->request(self::API_URL . '/' . $path, $options);
     }
 }
