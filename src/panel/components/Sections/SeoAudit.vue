@@ -18,7 +18,7 @@ import {
   usePluginContext,
   useSeoReview,
 } from "../../composables";
-import { LOG_LEVELS } from "../../constants";
+import { DEFAULT_LOG_LEVEL, LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
 import { getHashedStorageKey } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
@@ -143,7 +143,9 @@ async function updateSectionData(isInitializing = false) {
     links.value = response.links;
     persisted.value = response.persisted;
     logLevel.value = LOG_LEVELS.indexOf(
-      context.config.logLevel || response.logLevel,
+      response.logLevel && LOG_LEVELS.includes(response.logLevel)
+        ? response.logLevel
+        : (context.config.logLevel ?? DEFAULT_LOG_LEVEL),
     );
 
     licenseStatus.value =

@@ -14,7 +14,7 @@ return [
             'contentSelector' => fn ($contentSelector = null) => is_string($contentSelector) ? $contentSelector : 'body',
             'links' => fn ($links = true) => $links !== false,
             'persisted' => fn ($persisted = true) => $persisted !== false,
-            'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : 'warn'
+            'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : null
         ],
         'computed' => [
             'keyphrase' => function () {

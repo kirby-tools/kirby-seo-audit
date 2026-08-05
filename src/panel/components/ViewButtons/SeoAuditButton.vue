@@ -5,7 +5,7 @@ import {
   usePluginContext,
   useSeoReview,
 } from "../../composables";
-import { LOG_LEVELS } from "../../constants";
+import { DEFAULT_LOG_LEVEL, LOG_LEVELS } from "../../constants";
 import { IncompatibleLocaleError } from "../../utils/error";
 
 const props = defineProps({
@@ -18,7 +18,7 @@ const props = defineProps({
     default: "",
   },
   synonyms: {
-    type: String,
+    type: [String, Array],
     default: "",
   },
   synonymsField: {
@@ -37,11 +37,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  logLevel: {
-    type: String,
-    default: "warn",
-    validator: (value) => LOG_LEVELS.includes(value),
-  },
+  logLevel: String,
 });
 
 const panel = usePanel();
@@ -106,7 +102,9 @@ async function analyze() {
           ? currentContent.value.assessments
           : props.assessments,
         logLevel: LOG_LEVELS.indexOf(
-          context.config.logLevel || props.logLevel || "warn",
+          props.logLevel && LOG_LEVELS.includes(props.logLevel)
+            ? props.logLevel
+            : (context.config.logLevel ?? DEFAULT_LOG_LEVEL),
         ),
         // For Yoast SEO
         keyword: resolvedKeyphrase,
