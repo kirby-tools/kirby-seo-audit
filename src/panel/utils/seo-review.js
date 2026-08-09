@@ -210,9 +210,8 @@ export async function createYoastSeoReport({
 let analysisWorker;
 
 /**
- * Creates the Yoast SEO analysis worker on first use and returns the cached
- * wrapper afterwards. The worker picks its researcher from the language it is
- * handed at construction, so another language needs another worker.
+ * Creates the analysis worker, cached per language – the worker picks its
+ * researcher from the language it is handed at construction.
  */
 async function loadYoastSeoAnalysisWebWorker(language) {
   if (analysisWorker?.language === language) {

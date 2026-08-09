@@ -1,8 +1,7 @@
 import { LANGUAGE_TO_LOCALE_MAP } from "../constants";
 
-// Yoast keys its researchers by the codes it ships, which are not always the
-// codes a browser reports. Norwegian is the only mismatch: both `no` and `nn`
-// have to reach the Bokmål researcher.
+// Yoast keys its researchers by the codes it ships. Norwegian is the only
+// mismatch: `no` and `nn` both have to reach the Bokmål researcher.
 const LANGUAGE_ALIASES = Object.freeze({
   nn: "nb",
   no: "nb",
