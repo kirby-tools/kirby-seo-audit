@@ -1,14 +1,9 @@
-import process from "node:process";
 import { parseArgs } from "node:util";
 import { $, fs } from "zx";
+import { YOASTSEO_TAG } from "./yoastseo.mjs";
 
 const { positionals } = parseArgs({ allowPositionals: true });
-const tag = positionals[0];
-
-if (!tag) {
-  console.error("Usage: node scripts/prepare-yoastseo.mjs <tag>");
-  process.exit(1);
-}
+const tag = positionals[0] ?? YOASTSEO_TAG;
 
 const targetDir = "./src/assets/yoastseo-repo";
 const repoUrl = "git@github.com:Yoast/wordpress-seo.git";
