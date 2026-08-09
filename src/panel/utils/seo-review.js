@@ -1,6 +1,5 @@
 import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
 import {
-  LANGUAGE_TO_LOCALE_MAP,
   LOG_LEVELS,
   YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
   YOAST_IGNORED_ASSESSMENTS,
@@ -13,6 +12,7 @@ import fr from "../translations/assessments/fr.json";
 import nl from "../translations/assessments/nl.json";
 import { altAttribute, headingStructureOrder, singleH1 } from "./assessments";
 import { IncompatibleLocaleError } from "./error";
+import { resolveDocumentLocale } from "./locale";
 import { get } from "./safe-get";
 import { renderTemplate } from "./template";
 
@@ -207,23 +207,33 @@ export async function createYoastSeoReport({
   return resultsByCategory;
 }
 
-let analysisWorkerWrapper;
+let analysisWorker;
 
 /**
  * Creates the Yoast SEO analysis worker on first use and returns the cached
- * wrapper afterwards.
+ * wrapper afterwards. The worker picks its researcher from the language it is
+ * handed at construction, so another language needs another worker.
  */
 async function loadYoastSeoAnalysisWebWorker(language) {
-  if (analysisWorkerWrapper) return analysisWorkerWrapper;
+  if (analysisWorker?.language === language) {
+    return analysisWorker.wrapper;
+  }
+
+  analysisWorker?.worker.terminate();
 
   const { url: workerSrc } = resolvePluginAsset("worker.js");
   const { AnalysisWorkerWrapper } = await loadPluginModule("yoastseo");
 
-  const workerUnwrapped = new Worker(workerSrc);
-  workerUnwrapped.postMessage({ language });
+  const worker = new Worker(workerSrc);
+  worker.postMessage({ language });
 
-  analysisWorkerWrapper = new AnalysisWorkerWrapper(workerUnwrapped);
-  return analysisWorkerWrapper;
+  analysisWorker = {
+    language,
+    worker,
+    wrapper: new AnalysisWorkerWrapper(worker),
+  };
+
+  return analysisWorker.wrapper;
 }
 
 export function scoreToRating(score) {
@@ -247,13 +257,7 @@ export async function prepareContent(html) {
     tag.remove();
   }
 
-  // A `lang` without a region, like `de`, expands to a full locale.
-  let language = htmlDocument.documentElement.lang || LANGUAGE_TO_LOCALE_MAP.en;
-  if (!language.includes("-")) {
-    language =
-      LANGUAGE_TO_LOCALE_MAP[language.toLowerCase()] ||
-      LANGUAGE_TO_LOCALE_MAP.en;
-  }
+  const language = resolveDocumentLocale(htmlDocument.documentElement.lang);
 
   const title =
     htmlDocument.title ||
