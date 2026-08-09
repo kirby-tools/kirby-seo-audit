@@ -10,8 +10,6 @@ const currentDir = fileURLToPath(new URL(".", import.meta.url));
 const rootDir = path.resolve(currentDir, "../..");
 const yoastseoDir = path.resolve(currentDir, "yoastseo-repo");
 
-// The checkout is gitignored and only `prepare:yoastseo` refreshes it, so a
-// release would otherwise bundle whichever tag happens to be lying around.
 assertYoastseoCheckout();
 
 const entries = fs
