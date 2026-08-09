@@ -1,5 +1,6 @@
 import { useContent, usePanel } from "kirbyuse";
 import { PLUGIN_PROXY_API_ROUTE } from "../constants";
+import { IncompatibleLocaleError } from "../utils/error";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -40,7 +41,6 @@ export function useSeoReview() {
       contentSelector,
       assessments: options.assessments,
       language: panelLanguage,
-      logger,
     });
 
     const yoastSeoResult = await createYoastSeoReport({
@@ -97,8 +97,52 @@ export function useSeoReview() {
     return html;
   }
 
+  // Kirby stores blueprint field keys lowercase, so a `keyphraseField` spelled
+  // in camelCase still has to find its value.
+  function resolveKeyphrase(keyphrase, keyphraseField) {
+    return (
+      keyphrase || currentContent.value[keyphraseField?.toLowerCase()] || ""
+    );
+  }
+
+  function resolveSynonyms(synonyms, synonymsField) {
+    if (!synonyms && !synonymsField) return [];
+
+    const value =
+      synonyms || currentContent.value[synonymsField?.toLowerCase()];
+
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string") return value.split(",").map((i) => i.trim());
+
+    return [];
+  }
+
+  function notifyReportError(error) {
+    logger.error(error);
+
+    if (error instanceof IncompatibleLocaleError) {
+      panel.notification.error(
+        panel.t("johannschopplich.seo-audit.error.incompatibleLocale", {
+          locale: error.locale.toUpperCase(),
+          assessment: error.assessment,
+          compatibleLocales: error.compatibleLocales
+            .map((i) => i.toUpperCase())
+            .join(", "),
+        }),
+      );
+      return;
+    }
+
+    panel.notification.error(
+      panel.t("johannschopplich.seo-audit.notification.analyzeError"),
+    );
+  }
+
   return {
     generateReport,
     fetchHtml,
+    resolveKeyphrase,
+    resolveSynonyms,
+    notifyReportError,
   };
 }

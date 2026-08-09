@@ -19,7 +19,6 @@ import {
   useSeoReview,
 } from "../../composables";
 import { DEFAULT_LOG_LEVEL, LOG_LEVELS } from "../../constants";
-import { IncompatibleLocaleError } from "../../utils/error";
 import { getHashedStorageKey } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
 
@@ -39,7 +38,12 @@ const _isKirby5 = isKirby5();
 const panel = usePanel();
 const api = useApi();
 const { t } = useI18n();
-const { generateReport } = useSeoReview();
+const {
+  generateReport,
+  notifyReportError,
+  resolveKeyphrase,
+  resolveSynonyms,
+} = useSeoReview();
 
 const storageKey = getHashedStorageKey(panel.view.path);
 let previewUrl;
@@ -65,16 +69,12 @@ const licenseStatus = ref();
 const report = ref();
 
 const { currentContent } = useContent();
-const resolvedKeyphrase = computed(
-  () => keyphrase.value || currentContent.value[keyphraseField.value] || "",
+const resolvedKeyphrase = computed(() =>
+  resolveKeyphrase(keyphrase.value, keyphraseField.value),
 );
-const resolvedSynonyms = computed(() => {
-  if (!synonyms.value && !synonymsField.value) return [];
-  const value = synonyms.value || currentContent.value[synonymsField.value];
-  if (Array.isArray(value)) return value;
-  if (typeof value === "string") return value.split(",").map((i) => i.trim());
-  return [];
-});
+const resolvedSynonyms = computed(() =>
+  resolveSynonyms(synonyms.value, synonymsField.value),
+);
 
 watch(
   // Will be `null` in single language setups.
@@ -208,32 +208,17 @@ async function analyze() {
     if (persisted.value) {
       localStorage.setItem(storageKey, JSON.stringify(report.value));
     }
+
+    panel.notification.success({
+      icon: "check",
+      message: panel.t("johannschopplich.seo-audit.notification.analyzeSuccess"),
+    });
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof IncompatibleLocaleError) {
-      panel.notification.error(
-        panel.t("johannschopplich.seo-audit.error.incompatibleLocale", {
-          locale: error.locale.toUpperCase(),
-          assessment: error.assessment,
-          compatibleLocales: error.compatibleLocales
-            .map((i) => i.toUpperCase())
-            .join(", "),
-        }),
-      );
-    } else {
-      panel.notification.error(
-        panel.t("johannschopplich.seo-audit.notification.analyzeError"),
-      );
-    }
+    notifyReportError(error);
+  } finally {
+    panel.isLoading = false;
+    isAnalyzing.value = false;
   }
-
-  panel.isLoading = false;
-  isAnalyzing.value = false;
-  panel.notification.success({
-    icon: "check",
-    message: panel.t("johannschopplich.seo-audit.notification.analyzeSuccess"),
-  });
 }
 </script>
 

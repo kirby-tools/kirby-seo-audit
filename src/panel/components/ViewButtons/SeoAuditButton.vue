@@ -6,7 +6,6 @@ import {
   useSeoReview,
 } from "../../composables";
 import { DEFAULT_LOG_LEVEL, LOG_LEVELS } from "../../constants";
-import { IncompatibleLocaleError } from "../../utils/error";
 
 const props = defineProps({
   keyphrase: {
@@ -42,7 +41,12 @@ const props = defineProps({
 
 const panel = usePanel();
 const api = useApi();
-const { generateReport } = useSeoReview();
+const {
+  generateReport,
+  notifyReportError,
+  resolveKeyphrase,
+  resolveSynonyms,
+} = useSeoReview();
 
 const isAnalyzing = ref(false);
 
@@ -82,16 +86,11 @@ async function analyze() {
     return;
   }
 
-  const resolvedKeyphrase =
-    props.keyphrase || currentContent.value[props.keyphraseField] || "";
-  let resolvedSynonyms = [];
-
-  if (props.synonyms || props.synonymsField) {
-    const value = props.synonyms || currentContent.value[props.synonymsField];
-    if (Array.isArray(value)) resolvedSynonyms = value;
-    else if (typeof value === "string")
-      resolvedSynonyms = value.split(",").map((i) => i.trim());
-  }
+  const resolvedKeyphrase = resolveKeyphrase(
+    props.keyphrase,
+    props.keyphraseField,
+  );
+  const resolvedSynonyms = resolveSynonyms(props.synonyms, props.synonymsField);
 
   try {
     const result = await generateReport(
@@ -120,23 +119,7 @@ async function analyze() {
       },
     });
   } catch (error) {
-    console.error(error);
-
-    if (error instanceof IncompatibleLocaleError) {
-      panel.notification.error(
-        panel.t("johannschopplich.seo-audit.error.incompatibleLocale", {
-          locale: error.locale.toUpperCase(),
-          assessment: error.assessment,
-          compatibleLocales: error.compatibleLocales
-            .map((i) => i.toUpperCase())
-            .join(", "),
-        }),
-      );
-    } else {
-      panel.notification.error(
-        panel.t("johannschopplich.seo-audit.notification.analyzeError"),
-      );
-    }
+    notifyReportError(error);
   } finally {
     panel.isLoading = false;
     isAnalyzing.value = false;
