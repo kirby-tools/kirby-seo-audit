@@ -97,8 +97,6 @@ export function useSeoReview() {
     return html;
   }
 
-  // Kirby stores blueprint field keys lowercase, so a `keyphraseField` spelled
-  // in camelCase still has to find its value.
   function resolveKeyphrase(keyphrase, keyphraseField) {
     return (
       keyphrase || currentContent.value[keyphraseField?.toLowerCase()] || ""
