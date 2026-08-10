@@ -154,7 +154,8 @@ async function updateSectionData(isInitializing = false) {
     isInitialized.value = true;
   }
 
-  // These props are resolved Kirby queries.
+  // The server resolves these queries against the current language, so they
+  // are re-read whenever it changes.
   keyphrase.value = response.keyphrase;
   synonyms.value = response.synonyms;
 

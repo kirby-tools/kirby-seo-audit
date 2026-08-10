@@ -181,10 +181,6 @@ async function loadYoastSeoAnalysisWebWorker(language) {
   return analysisWorker.wrapper;
 }
 
-/**
- * Parses the HTML into a document and pulls out its locale, title and
- * description.
- */
 export async function prepareContent(html) {
   const parser = new DOMParser();
   const htmlDocument = parser.parseFromString(html, "text/html");
