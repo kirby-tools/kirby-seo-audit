@@ -1,19 +1,17 @@
 import { execFileSync } from "node:child_process";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { fileURLToPath } from "node:url";
 import { defineConfig } from "tsdown/config";
 import { defineEnv } from "unenv";
 import { YOASTSEO_TAG } from "../../scripts/yoastseo.mjs";
 
-const currentDir = fileURLToPath(new URL(".", import.meta.url));
-const rootDir = path.resolve(currentDir, "../..");
-const yoastseoDir = path.resolve(currentDir, "yoastseo-repo");
+const rootDir = path.resolve(import.meta.dirname, "../..");
+const yoastseoDir = path.resolve(import.meta.dirname, "yoastseo-repo");
 
 assertYoastseoCheckout();
 
 const entries = fs
-  .readdirSync(currentDir)
+  .readdirSync(import.meta.dirname)
   .filter((file) => file.endsWith(".js") && !file.endsWith(".config.js"));
 
 const { env } = defineEnv({ nodeCompat: true });
@@ -24,7 +22,7 @@ export default defineConfig(
     alias: {
       ...env.alias,
       yoastseo: path.resolve(
-        currentDir,
+        import.meta.dirname,
         "yoastseo-repo/packages/yoastseo/src/index.js",
       ),
     },
