@@ -1,8 +1,11 @@
 <?php
 
+use JohannSchopplich\SeoAudit\BlueprintOptions;
 use JohannSchopplich\SeoAudit\PanelContext;
 use JohannSchopplich\SeoAudit\Proxy;
 use Kirby\Cms\App;
+use Kirby\Cms\Find;
+use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\PermissionException;
 
 return [
@@ -32,6 +35,20 @@ return [
                     'assets' => $assets,
                     'licenseStatus' => 'active'
                 ];
+            }
+        ],
+        [
+            'pattern' => '__seo-audit__/button-options',
+            'method' => 'GET',
+            'action' => function () use ($kirby) {
+                $path = $kirby->request()->get('path');
+
+                if (!is_string($path) || $path === '') {
+                    throw new InvalidArgumentException('Missing model path');
+                }
+
+                // `Find::parent` enforces the model's own access permissions.
+                return BlueprintOptions::forViewButton(Find::parent($path));
             }
         ],
         [

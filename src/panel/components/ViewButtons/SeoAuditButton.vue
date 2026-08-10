@@ -1,6 +1,7 @@
 <script setup>
 import { ref, useApi, useContent, usePanel } from "kirbyuse";
 import { isZeroOneValid, useSeoReview } from "../../composables";
+import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
 
 const props = defineProps({
   keyphrase: {
@@ -65,13 +66,19 @@ async function analyze() {
 
   const logLevel = await resolveLogLevelIndex(props.logLevel);
 
-  const target = __PLAYGROUND__
-    ? { url: currentContent.value.targeturl }
-    : {
-        url: (await api.get(panel.view.path, { select: "previewUrl" }))
-          .previewUrl,
-        path: panel.view.path,
-      };
+  // A view button's props reach the Panel unresolved, so the server hands back
+  // the ones that carry a Kirby query.
+  const [target, queriedProps] = __PLAYGROUND__
+    ? [{ url: currentContent.value.targeturl }, props]
+    : await Promise.all([
+        api
+          .get(panel.view.path, { select: "previewUrl" })
+          .then(({ previewUrl }) => ({
+            url: previewUrl,
+            path: panel.view.path,
+          })),
+        api.get(PLUGIN_BUTTON_OPTIONS_API_ROUTE, { path: panel.view.path }),
+      ]);
 
   if (!__PLAYGROUND__ && !target.url) {
     panel.notification.error(
@@ -83,10 +90,13 @@ async function analyze() {
   }
 
   const resolvedKeyphrase = resolveKeyphrase(
-    props.keyphrase,
+    queriedProps.keyphrase,
     props.keyphraseField,
   );
-  const resolvedSynonyms = resolveSynonyms(props.synonyms, props.synonymsField);
+  const resolvedSynonyms = resolveSynonyms(
+    queriedProps.synonyms,
+    props.synonymsField,
+  );
 
   try {
     const result = await generateReport(

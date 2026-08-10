@@ -1,5 +1,6 @@
 <?php
 
+use JohannSchopplich\SeoAudit\BlueprintOptions;
 use Kirby\Toolkit\I18n;
 
 return [
@@ -26,15 +27,7 @@ return [
         ],
         'methods' => [
             'tryResolveQuery' => function ($value, $fallback = null) {
-                if (is_string($value)) {
-                    // Replace each `{{ ... }}` placeholder with the result of its KQL query.
-                    $value = preg_replace_callback('!\{\{(.+?)\}\}!', function ($matches) {
-                        $result = $this->model()->query(trim($matches[1]));
-                        return $result ?? '';
-                    }, $value);
-                }
-
-                return $value ?? $fallback;
+                return BlueprintOptions::resolveQuery($this->model(), $value, $fallback);
             }
         ]
     ]

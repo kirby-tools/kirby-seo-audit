@@ -1,6 +1,7 @@
 export * from "./yoast";
 
 export const PLUGIN_CONTEXT_API_ROUTE = "__seo-audit__/context";
+export const PLUGIN_BUTTON_OPTIONS_API_ROUTE = "__seo-audit__/button-options";
 export const PLUGIN_PROXY_API_ROUTE = "__seo-audit__/proxy";
 
 export const LOG_LEVELS = ["error", "warn", "info", "debug"];
