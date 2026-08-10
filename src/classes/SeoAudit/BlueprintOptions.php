@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace JohannSchopplich\SeoAudit;
 
+use JohannSchopplich\KirbyTools\QueryResolver;
 use Kirby\Cms\ModelWithContent;
 
 /**
@@ -12,26 +13,6 @@ use Kirby\Cms\ModelWithContent;
 final class BlueprintOptions
 {
     private const BUTTON_NAME = 'seo-audit';
-
-    /**
-     * Replaces each `{{ ... }}` placeholder with the result of its Kirby query
-     * against the model.
-     */
-    public static function resolveQuery(
-        ModelWithContent $model,
-        mixed $value,
-        mixed $fallback = null
-    ): mixed {
-        if (is_string($value)) {
-            $value = preg_replace_callback(
-                '!\{\{(.+?)\}\}!',
-                fn ($matches) => $model->query(trim($matches[1])) ?? '',
-                $value
-            );
-        }
-
-        return $value ?? $fallback;
-    }
 
     /**
      * Resolves the queries in the view button's blueprint props.
@@ -48,8 +29,8 @@ final class BlueprintOptions
         $props = self::viewButtonProps($model);
 
         return [
-            'keyphrase' => self::resolveQuery($model, $props['keyphrase'] ?? null),
-            'synonyms' => self::resolveQuery($model, $props['synonyms'] ?? null)
+            'keyphrase' => QueryResolver::resolve($model, $props['keyphrase'] ?? null),
+            'synonyms' => QueryResolver::resolve($model, $props['synonyms'] ?? null)
         ];
     }
 

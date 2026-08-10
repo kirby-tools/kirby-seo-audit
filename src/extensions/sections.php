@@ -1,6 +1,6 @@
 <?php
 
-use JohannSchopplich\SeoAudit\BlueprintOptions;
+use JohannSchopplich\KirbyTools\QueryResolver;
 use Kirby\Toolkit\I18n;
 
 return [
@@ -27,7 +27,7 @@ return [
         ],
         'methods' => [
             'tryResolveQuery' => function ($value, $fallback = null) {
-                return BlueprintOptions::resolveQuery($this->model(), $value, $fallback);
+                return QueryResolver::resolve($this->model(), $value, $fallback);
             }
         ]
     ]
