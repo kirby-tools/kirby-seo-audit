@@ -102,10 +102,6 @@ export function useSeoReview() {
     return html;
   }
 
-  /**
-   * Turns a blueprint's log level into the index the analysis expects, falling
-   * back to the plugin's own option and then to the default.
-   */
   async function resolveLogLevel(logLevel) {
     const context = await usePluginContext();
 

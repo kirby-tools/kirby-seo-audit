@@ -6,9 +6,6 @@ import {
 import { IncompatibleLocaleError } from "./error";
 
 /**
- * Sorts the raw Yoast analysis into the report's two categories, dropping the
- * assessments the report does not show.
- *
  * @throws {IncompatibleLocaleError} When a selected assessment cannot score the document's locale
  */
 export function filterYoastSeoResults(rawResult, options, locale) {
@@ -30,11 +27,11 @@ export function filterYoastSeoResults(rawResult, options, locale) {
 
     const id = result._identifier.toLowerCase();
 
-    // Some assessments have been deprecated or are not relevant.
     if (YOAST_IGNORED_ASSESSMENTS.some((key) => key.toLowerCase() === id))
       continue;
 
-    // Skip keyphrase assessments if keyword is empty and no assessments are selected.
+    // Without a keyphrase these can only fail, so they stay out unless the
+    // blueprint asks for them by name.
     if (
       !options.keyword &&
       options.assessments.length === 0 &&
@@ -42,11 +39,9 @@ export function filterYoastSeoResults(rawResult, options, locale) {
     )
       continue;
 
-    // Process only selected assessments (if any).
     if (options.assessments.length > 0 && !options.assessments.includes(id))
       continue;
 
-    // Throw error if one of the selected assessments is not compatible with the document's language.
     if (options.assessments.length > 0) {
       const compatibleLocales = Object.entries(
         YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,

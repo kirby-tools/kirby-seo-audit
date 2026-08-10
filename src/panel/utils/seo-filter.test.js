@@ -13,7 +13,7 @@ describe("filterYoastSeoResults", () => {
     );
   });
 
-  it("drops singleH1, which the plugin assesses itself", () => {
+  it("drops singleH1 (the plugin assesses it itself)", () => {
     const rawResult = createRawResult({ seo: [createResult("singleH1")] });
 
     expect(filterYoastSeoResults(rawResult, createOptions(), "en").seo).toEqual(
@@ -145,8 +145,8 @@ describe("scoreToRating", () => {
   });
 });
 
-// The shape the analysis worker hands back: SEO results sit under an empty
-// keyphrase key, readability results one level higher.
+// Builds the shape the analysis worker returns, where SEO results sit under an
+// empty keyphrase key and readability results directly under their category.
 function createRawResult({ seo = [], readability = [] } = {}) {
   return {
     seo: { "": { results: seo } },
