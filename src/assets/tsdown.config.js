@@ -30,10 +30,11 @@ export default defineConfig(
     outputOptions: {
       codeSplitting: false,
     },
+    deps: {
+      alwaysBundle: [/.*/],
+      onlyBundle: false,
+    },
     platform: "browser",
-    // Inline external dependencies.
-    noExternal: [/.*/],
-    inlineOnly: false,
     minify: true,
   })),
 );
