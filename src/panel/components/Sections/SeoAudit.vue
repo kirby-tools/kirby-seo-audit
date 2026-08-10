@@ -18,7 +18,6 @@ import {
   usePluginContext,
   useSeoReview,
 } from "../../composables";
-import { DEFAULT_LOG_LEVEL, LOG_LEVELS } from "../../constants";
 import { getHashedStorageKey } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
 
@@ -42,6 +41,7 @@ const {
   generateReport,
   notifyReportError,
   resolveKeyphrase,
+  resolveLogLevel,
   resolveSynonyms,
 } = useSeoReview();
 
@@ -141,11 +141,7 @@ async function updateSectionData(isInitializing = false) {
     contentSelector.value = response.contentSelector;
     links.value = response.links;
     persisted.value = response.persisted;
-    logLevel.value = LOG_LEVELS.indexOf(
-      response.logLevel && LOG_LEVELS.includes(response.logLevel)
-        ? response.logLevel
-        : (context.config.logLevel ?? DEFAULT_LOG_LEVEL),
-    );
+    logLevel.value = await resolveLogLevel(response.logLevel);
 
     licenseStatus.value =
       __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;

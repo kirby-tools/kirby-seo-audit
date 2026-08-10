@@ -1,11 +1,6 @@
 <script setup>
 import { ref, useApi, useContent, usePanel } from "kirbyuse";
-import {
-  isZeroOneValid,
-  usePluginContext,
-  useSeoReview,
-} from "../../composables";
-import { DEFAULT_LOG_LEVEL, LOG_LEVELS } from "../../constants";
+import { isZeroOneValid, useSeoReview } from "../../composables";
 
 const props = defineProps({
   keyphrase: {
@@ -45,6 +40,7 @@ const {
   generateReport,
   notifyReportError,
   resolveKeyphrase,
+  resolveLogLevel,
   resolveSynonyms,
 } = useSeoReview();
 
@@ -67,7 +63,7 @@ async function analyze() {
   panel.isLoading = true;
   isAnalyzing.value = true;
 
-  const context = await usePluginContext();
+  const logLevel = await resolveLogLevel(props.logLevel);
 
   const target = __PLAYGROUND__
     ? { url: currentContent.value.targeturl }
@@ -100,11 +96,7 @@ async function analyze() {
         assessments: __PLAYGROUND__
           ? currentContent.value.assessments
           : props.assessments,
-        logLevel: LOG_LEVELS.indexOf(
-          props.logLevel && LOG_LEVELS.includes(props.logLevel)
-            ? props.logLevel
-            : (context.config.logLevel ?? DEFAULT_LOG_LEVEL),
-        ),
+        logLevel,
         // Option names expected by Yoast SEO.
         keyword: resolvedKeyphrase,
         synonyms: resolvedSynonyms,

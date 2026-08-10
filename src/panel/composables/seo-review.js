@@ -1,5 +1,9 @@
 import { useContent, usePanel } from "kirbyuse";
-import { PLUGIN_PROXY_API_ROUTE } from "../constants";
+import {
+  DEFAULT_LOG_LEVEL,
+  LOG_LEVELS,
+  PLUGIN_PROXY_API_ROUTE,
+} from "../constants";
 import { IncompatibleLocaleError } from "../utils/error";
 import {
   createSeoReport,
@@ -7,6 +11,7 @@ import {
   prepareContent,
 } from "../utils/seo-review";
 import { useLogger } from "./logger";
+import { usePluginContext } from "./plugin";
 
 export function useSeoReview() {
   const panel = usePanel();
@@ -97,6 +102,20 @@ export function useSeoReview() {
     return html;
   }
 
+  /**
+   * Turns a blueprint's log level into the index the analysis expects, falling
+   * back to the plugin's own option and then to the default.
+   */
+  async function resolveLogLevel(logLevel) {
+    const context = await usePluginContext();
+
+    return LOG_LEVELS.indexOf(
+      logLevel && LOG_LEVELS.includes(logLevel)
+        ? logLevel
+        : (context.config.logLevel ?? DEFAULT_LOG_LEVEL),
+    );
+  }
+
   function resolveKeyphrase(keyphrase, keyphraseField) {
     return (
       keyphrase || currentContent.value[keyphraseField?.toLowerCase()] || ""
@@ -139,6 +158,7 @@ export function useSeoReview() {
   return {
     generateReport,
     fetchHtml,
+    resolveLogLevel,
     resolveKeyphrase,
     resolveSynonyms,
     notifyReportError,
