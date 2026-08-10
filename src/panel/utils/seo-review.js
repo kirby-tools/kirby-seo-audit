@@ -1,19 +1,14 @@
 import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
-import {
-  LOG_LEVELS,
-  YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
-  YOAST_IGNORED_ASSESSMENTS,
-  YOAST_KEYPHRASE_ASSESSMENTS,
-} from "../constants";
+import { LOG_LEVELS } from "../constants";
 import de from "../translations/assessments/de.json";
 import en from "../translations/assessments/en.json";
 import es from "../translations/assessments/es.json";
 import fr from "../translations/assessments/fr.json";
 import nl from "../translations/assessments/nl.json";
 import { altAttribute, headingStructureOrder, singleH1 } from "./assessments";
-import { IncompatibleLocaleError } from "./error";
 import { resolveDocumentLocale } from "./locale";
 import { get } from "./safe-get";
+import { filterYoastSeoResults, scoreToRating } from "./seo-filter";
 import { renderTemplate } from "./template";
 
 const TRANSLATIONS = {
@@ -145,66 +140,12 @@ export async function createYoastSeoReport({
   });
 
   const { result: rawResult } = await worker.analyze(paper);
-  const analysisResults = [
-    ...rawResult.seo[""].results.map((i) => ({ ...i, _category: "seo" })),
-    ...rawResult.readability.results.map((i) => ({
-      ...i,
-      _category: "readability",
-    })),
-  ];
 
   if (options.logLevel > 1) {
-    logger?.info("Yoast SEO analysis results:", analysisResults);
+    logger?.info("Yoast SEO analysis results:", rawResult);
   }
 
-  const resultsByCategory = {
-    seo: [],
-    readability: [],
-  };
-
-  for (const result of analysisResults) {
-    if (!result.text) continue;
-
-    const id = result._identifier.toLowerCase();
-
-    // Some assessments have been deprecated or are not relevant.
-    if (YOAST_IGNORED_ASSESSMENTS.some((key) => key.toLowerCase() === id))
-      continue;
-
-    // Skip keyphrase assessments if keyword is empty and no assessments are selected.
-    if (
-      !options.keyword &&
-      options.assessments.length === 0 &&
-      YOAST_KEYPHRASE_ASSESSMENTS.some((key) => key.toLowerCase() === id)
-    )
-      continue;
-
-    // Process only selected assessments (if any).
-    if (options.assessments.length > 0 && !options.assessments.includes(id))
-      continue;
-
-    // Throw error if one of the selected assessments is not compatible with the document's language.
-    if (options.assessments.length > 0) {
-      const compatibleLocales = Object.entries(
-        YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
-      ).find(([key]) => key.toLowerCase() === id)?.[1];
-
-      if (compatibleLocales && !compatibleLocales.includes(paperLocale)) {
-        throw new IncompatibleLocaleError({
-          locale: paperLocale,
-          assessment: result._identifier,
-          compatibleLocales,
-        });
-      }
-    }
-
-    resultsByCategory[result._category].push({
-      ...result,
-      rating: scoreToRating(result.score),
-    });
-  }
-
-  return resultsByCategory;
+  return filterYoastSeoResults(rawResult, options, paperLocale);
 }
 
 let analysisWorker;
@@ -233,15 +174,6 @@ async function loadYoastSeoAnalysisWebWorker(language) {
   };
 
   return analysisWorker.wrapper;
-}
-
-export function scoreToRating(score) {
-  if (score === -1) return "error";
-  if (score === 0) return "feedback";
-  if (score <= 4) return "bad";
-  if (score <= 7) return "ok";
-  if (score > 7) return "good";
-  return "";
 }
 
 /**

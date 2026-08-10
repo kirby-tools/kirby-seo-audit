@@ -6,7 +6,7 @@ Commercial Kirby CMS plugin that runs SEO and readability analysis on a page's r
 
 - `composer test` – PHPUnit
 - `composer csfix` – php-cs-fixer, which lives in `tools/phpcs/vendor/bin/`, not `vendor/bin/`
-- `pnpm test` – Vitest, for the assessment utilities
+- `pnpm test` – Vitest, for the Panel utilities
 - `pnpm run lint` – ESLint
 - `pnpm run build:zero-one` – build the Zero One edition
 
