@@ -1,8 +1,13 @@
 shellEmulator: true
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - semver@6.3.1
+  - vite@6.3.7
 
 packages:
   - src/assets
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - esbuild
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: true

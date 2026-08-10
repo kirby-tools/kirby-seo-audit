@@ -17,6 +17,6 @@
     "unenv": "^2.0.0-rc.24"
   },
   "devDependencies": {
-    "tsdown": "^0.20.3"
+    "tsdown": "^0.22.14"
   }
 }
