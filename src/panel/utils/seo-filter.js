@@ -6,17 +6,23 @@ import {
 import { IncompatibleLocaleError } from "./error";
 
 /**
- * @throws {IncompatibleLocaleError} When a selected assessment cannot score the document's locale
+ * Flattens the worker's envelope, where SEO results sit under an empty
+ * keyphrase key and readability results directly under their category.
  */
-export function filterYoastSeoResults(rawResult, options, locale) {
-  const analysisResults = [
+export function flattenYoastSeoResults(rawResult) {
+  return [
     ...rawResult.seo[""].results.map((i) => ({ ...i, _category: "seo" })),
     ...rawResult.readability.results.map((i) => ({
       ...i,
       _category: "readability",
     })),
   ];
+}
 
+/**
+ * @throws {IncompatibleLocaleError} When a selected assessment cannot score the document's locale
+ */
+export function filterYoastSeoResults(analysisResults, options, locale) {
   const resultsByCategory = {
     seo: [],
     readability: [],
@@ -30,8 +36,8 @@ export function filterYoastSeoResults(rawResult, options, locale) {
     if (YOAST_IGNORED_ASSESSMENTS.some((key) => key.toLowerCase() === id))
       continue;
 
-    // Without a keyphrase these can only fail, so they stay out unless the
-    // blueprint asks for them by name.
+    // Without a keyphrase, every `YOAST_KEYPHRASE_ASSESSMENTS` entry can only
+    // fail, so they stay out unless the blueprint asks for them by name.
     if (
       !options.keyword &&
       options.assessments.length === 0 &&
@@ -39,10 +45,9 @@ export function filterYoastSeoResults(rawResult, options, locale) {
     )
       continue;
 
-    if (options.assessments.length > 0 && !options.assessments.includes(id))
-      continue;
-
     if (options.assessments.length > 0) {
+      if (!options.assessments.includes(id)) continue;
+
       const compatibleLocales = Object.entries(
         YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
       ).find(([key]) => key.toLowerCase() === id)?.[1];

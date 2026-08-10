@@ -8,7 +8,11 @@ import nl from "../translations/assessments/nl.json";
 import { altAttribute, headingStructureOrder, singleH1 } from "./assessments";
 import { resolveDocumentLocale } from "./locale";
 import { get } from "./safe-get";
-import { filterYoastSeoResults, scoreToRating } from "./seo-filter";
+import {
+  filterYoastSeoResults,
+  flattenYoastSeoResults,
+  scoreToRating,
+} from "./seo-filter";
 import { renderTemplate } from "./template";
 
 const TRANSLATIONS = {
@@ -140,12 +144,13 @@ export async function createYoastSeoReport({
   });
 
   const { result: rawResult } = await worker.analyze(paper);
+  const analysisResults = flattenYoastSeoResults(rawResult);
 
   if (options.logLevel > 1) {
-    logger?.info("Yoast SEO analysis results:", rawResult);
+    logger?.info("Yoast SEO analysis results:", analysisResults);
   }
 
-  return filterYoastSeoResults(rawResult, options, paperLocale);
+  return filterYoastSeoResults(analysisResults, options, paperLocale);
 }
 
 let analysisWorker;

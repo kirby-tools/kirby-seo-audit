@@ -102,7 +102,7 @@ export function useSeoReview() {
     return html;
   }
 
-  async function resolveLogLevel(logLevel) {
+  async function resolveLogLevelIndex(logLevel) {
     const context = await usePluginContext();
 
     return LOG_LEVELS.indexOf(
@@ -154,7 +154,7 @@ export function useSeoReview() {
   return {
     generateReport,
     fetchHtml,
-    resolveLogLevel,
+    resolveLogLevelIndex,
     resolveKeyphrase,
     resolveSynonyms,
     notifyReportError,

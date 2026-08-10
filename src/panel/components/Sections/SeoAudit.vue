@@ -41,7 +41,7 @@ const {
   generateReport,
   notifyReportError,
   resolveKeyphrase,
-  resolveLogLevel,
+  resolveLogLevelIndex,
   resolveSynonyms,
 } = useSeoReview();
 
@@ -141,7 +141,7 @@ async function updateSectionData(isInitializing = false) {
     contentSelector.value = response.contentSelector;
     links.value = response.links;
     persisted.value = response.persisted;
-    logLevel.value = await resolveLogLevel(response.logLevel);
+    logLevel.value = await resolveLogLevelIndex(response.logLevel);
 
     licenseStatus.value =
       __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;

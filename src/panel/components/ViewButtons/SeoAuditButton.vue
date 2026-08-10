@@ -40,7 +40,7 @@ const {
   generateReport,
   notifyReportError,
   resolveKeyphrase,
-  resolveLogLevel,
+  resolveLogLevelIndex,
   resolveSynonyms,
 } = useSeoReview();
 
@@ -63,7 +63,7 @@ async function analyze() {
   panel.isLoading = true;
   isAnalyzing.value = true;
 
-  const logLevel = await resolveLogLevel(props.logLevel);
+  const logLevel = await resolveLogLevelIndex(props.logLevel);
 
   const target = __PLAYGROUND__
     ? { url: currentContent.value.targeturl }
