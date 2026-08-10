@@ -48,7 +48,10 @@ final class BlueprintOptions
             return [];
         }
 
-        // Kirby takes props either at the top level or nested under `props`.
-        return $button['props'] ?? $button;
+        $nested = $button['props'] ?? null;
+
+        // Mirrors `ViewButton::normalize`, which accepts props nested under
+        // `props` as well as at the top level, and lets the top level win.
+        return is_array($nested) ? [...$nested, ...$button] : $button;
     }
 }

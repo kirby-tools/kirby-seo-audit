@@ -90,6 +90,22 @@ final class BlueprintOptionsTest extends TestCase
     }
 
     #[Test]
+    public function for_view_button_prefers_a_top_level_prop_over_the_same_key_under_props(): void
+    {
+        $page = self::articlePage([
+            'seo-audit' => [
+                'keyphrase' => 'developers',
+                'props' => ['keyphrase' => '{{ page.title }}']
+            ]
+        ]);
+
+        $this->assertSame(
+            'developers',
+            BlueprintOptions::forViewButton($page)['keyphrase']
+        );
+    }
+
+    #[Test]
     public function for_view_button_returns_null_for_a_button_listed_without_props(): void
     {
         $page = self::articlePage(['preview', 'seo-audit']);
