@@ -116,7 +116,7 @@ final class ViewButtonOptionsTest extends TestCase
     }
 
     #[Test]
-    public function returns_null_for_a_button_switched_off_by_name(): void
+    public function returns_null_for_a_button_set_to_false(): void
     {
         $page = $this->appWithButtons(['seo-audit' => false])->page('test');
 
@@ -138,7 +138,7 @@ final class ViewButtonOptionsTest extends TestCase
     }
 
     #[Test]
-    public function returns_null_when_the_buttons_are_switched_off(): void
+    public function returns_null_when_buttons_is_false(): void
     {
         $page = $this->appWithButtons(false)->page('test');
 

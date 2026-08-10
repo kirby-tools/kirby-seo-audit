@@ -155,7 +155,7 @@ describe("scoreToRating", () => {
     expect(scoreToRating(score)).toBe(rating);
   });
 
-  it("maps a missing score to the empty rating", () => {
+  it("maps a missing score to the empty string", () => {
     expect(scoreToRating(undefined)).toBe("");
   });
 });

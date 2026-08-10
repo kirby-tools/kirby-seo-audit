@@ -79,8 +79,8 @@ async function analyze() {
             url: previewUrl,
             path: panel.view.path,
           })),
-        // A view button's props reach the Panel unresolved, so the server hands
-        // back the ones that carry a Kirby query – and is spared the rest.
+        // A view button's props reach the Panel unresolved, so the server
+        // resolves the ones carrying a Kirby query.
         hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
           ? api.get(PLUGIN_BUTTON_OPTIONS_API_ROUTE, { path: panel.view.path })
           : props,
