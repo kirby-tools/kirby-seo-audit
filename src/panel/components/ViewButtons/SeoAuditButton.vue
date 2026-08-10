@@ -49,6 +49,10 @@ const isAnalyzing = ref(false);
 
 const { currentContent } = useContent();
 
+function hasKirbyQuery(value) {
+  return typeof value === "string" && value.includes("{{");
+}
+
 async function analyze() {
   if (__ZERO_ONE__ && !isZeroOneValid()) {
     return;
@@ -66,8 +70,6 @@ async function analyze() {
 
   const logLevel = await resolveLogLevelIndex(props.logLevel);
 
-  // A view button's props reach the Panel unresolved, so the server hands back
-  // the ones that carry a Kirby query.
   const [target, queriedProps] = __PLAYGROUND__
     ? [{ url: currentContent.value.targeturl }, props]
     : await Promise.all([
@@ -77,7 +79,11 @@ async function analyze() {
             url: previewUrl,
             path: panel.view.path,
           })),
-        api.get(PLUGIN_BUTTON_OPTIONS_API_ROUTE, { path: panel.view.path }),
+        // A view button's props reach the Panel unresolved, so the server hands
+        // back the ones that carry a Kirby query – and is spared the rest.
+        hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
+          ? api.get(PLUGIN_BUTTON_OPTIONS_API_ROUTE, { path: panel.view.path })
+          : props,
       ]);
 
   if (!__PLAYGROUND__ && !target.url) {
