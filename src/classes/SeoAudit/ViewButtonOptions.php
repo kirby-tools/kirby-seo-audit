@@ -8,25 +8,21 @@ use JohannSchopplich\KirbyTools\QueryResolver;
 use Kirby\Cms\ModelWithContent;
 
 /**
- * Resolves the blueprint options that need the model behind them.
+ * A section computes its props on the server, a view button does not:
+ * `Kirby\Panel\Ui\Component::props()` hands custom attributes to the Panel
+ * verbatim. The button therefore asks for its own props by model, and the
+ * query never travels through the request.
  */
-final class BlueprintOptions
+final class ViewButtonOptions
 {
     private const BUTTON_NAME = 'seo-audit';
 
     /**
-     * Resolves the queries in the view button's blueprint props.
-     *
-     * A section computes its props on the server, a view button does not:
-     * `Kirby\Panel\Ui\Component::props()` hands custom attributes to the Panel
-     * verbatim. The button therefore asks for its own props by model, and the
-     * query never travels through the request.
-     *
      * @return array{keyphrase: mixed, synonyms: mixed}
      */
-    public static function forViewButton(ModelWithContent $model): array
+    public static function resolve(ModelWithContent $model): array
     {
-        $props = self::viewButtonProps($model);
+        $props = self::props($model);
 
         return [
             'keyphrase' => QueryResolver::resolve($model, $props['keyphrase'] ?? null),
@@ -34,7 +30,7 @@ final class BlueprintOptions
         ];
     }
 
-    private static function viewButtonProps(ModelWithContent $model): array
+    private static function props(ModelWithContent $model): array
     {
         $buttons = $model->blueprint()->buttons();
 

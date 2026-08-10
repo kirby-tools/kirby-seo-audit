@@ -13,8 +13,10 @@ use PHPUnit\Framework\Attributes\Test;
 #[PreserveGlobalState(false)]
 final class ButtonOptionsRouteTest extends ApiRouteTestCase
 {
-    private function callButtonOptionsRoute(array $query, string $role = 'admin'): mixed
-    {
+    private function callButtonOptionsRoute(
+        array $query,
+        string $user = 'admin@example.com'
+    ): mixed {
         $app = new App([
             'roots' => ['index' => __DIR__ . '/tmp'],
             'blueprints' => [
@@ -54,7 +56,7 @@ final class ButtonOptionsRouteTest extends ApiRouteTestCase
             'request' => ['query' => $query]
         ]);
 
-        $app->impersonate($role === 'admin' ? 'admin@example.com' : 'editor@example.com');
+        $app->impersonate($user);
 
         return $this->callRoute($app, '__seo-audit__/button-options');
     }
@@ -91,6 +93,6 @@ final class ButtonOptionsRouteTest extends ApiRouteTestCase
     {
         $this->expectException(NotFoundException::class);
 
-        $this->callButtonOptionsRoute(['path' => 'pages/test'], role: 'editor');
+        $this->callButtonOptionsRoute(['path' => 'pages/test'], user: 'editor@example.com');
     }
 }

@@ -2,9 +2,9 @@
 
 use JohannSchopplich\Licensing\LicensePanel;
 use JohannSchopplich\Licensing\Licenses;
-use JohannSchopplich\SeoAudit\BlueprintOptions;
 use JohannSchopplich\SeoAudit\PanelContext;
 use JohannSchopplich\SeoAudit\Proxy;
+use JohannSchopplich\SeoAudit\ViewButtonOptions;
 use Kirby\Cms\App;
 use Kirby\Cms\Find;
 use Kirby\Exception\InvalidArgumentException;
@@ -46,7 +46,7 @@ return [
                 }
 
                 // `Find::parent` enforces the model's own access permissions.
-                return BlueprintOptions::forViewButton(Find::parent($path));
+                return ViewButtonOptions::resolve(Find::parent($path));
             }
         ],
         [
