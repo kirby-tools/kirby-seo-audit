@@ -30,9 +30,9 @@ const code = computed(() =>
 seoAudit:
   type: seo-audit
   # Optional property for keyphrase assessments
-  keyphraseField: metakeyphrase
+  keyphraseField: metaKeyphrase
   # Optional property to add keyword/keyphrase synonyms
-  synonymsField: metasynonyms
+  synonymsField: metaSynonyms
   links: ${currentContent.value.links}
   ${
     Array.isArray(currentContent.value.assessments) &&
