@@ -8,9 +8,9 @@ return [
         'props' => [
             'label' => fn ($label = null) => I18n::translate($label, $label),
             'keyphrase' => fn ($keyphrase = null) => $keyphrase,
-            'keyphraseField' => fn ($keyphraseField = null) => is_string($keyphraseField) ? strtolower($keyphraseField) : null,
+            'keyphraseField' => fn ($keyphraseField = null) => is_string($keyphraseField) ? $keyphraseField : null,
             'synonyms' => fn ($synonyms = null) => $synonyms,
-            'synonymsField' => fn ($synonymsField = null) => is_string($synonymsField) ? strtolower($synonymsField) : null,
+            'synonymsField' => fn ($synonymsField = null) => is_string($synonymsField) ? $synonymsField : null,
             'assessments' => fn ($assessments = []) => is_array($assessments) ? $assessments : [],
             'contentSelector' => fn ($contentSelector = null) => is_string($contentSelector) ? $contentSelector : 'body',
             'links' => fn ($links = true) => $links !== false,
