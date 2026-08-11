@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77
+class ComposerStaticInitf86bf3170269425c5186391c5549b828
 {
     public static $prefixLengthsPsr4 = array (
         'K' =>
@@ -14,6 +14,7 @@ class ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77
         'J' =>
         array (
             'JohannSchopplich\\Licensing\\' => 27,
+            'JohannSchopplich\\KirbyTools\\' => 28,
             'JohannSchopplich\\' => 17,
         ),
     );
@@ -27,6 +28,10 @@ class ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77
         array (
             0 => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src',
         ),
+        'JohannSchopplich\\KirbyTools\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src',
+        ),
         'JohannSchopplich\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src/classes',
@@ -35,6 +40,10 @@ class ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'JohannSchopplich\\KirbyTools\\FieldNormalizer' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/FieldNormalizer.php',
+        'JohannSchopplich\\KirbyTools\\FieldResolver' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/FieldResolver.php',
+        'JohannSchopplich\\KirbyTools\\ModelResolver' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/ModelResolver.php',
+        'JohannSchopplich\\KirbyTools\\QueryResolver' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/QueryResolver.php',
         'JohannSchopplich\\Licensing\\Http\\HttpClientInterface' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Http/HttpClientInterface.php',
         'JohannSchopplich\\Licensing\\Http\\KirbyHttpClient' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Http/KirbyHttpClient.php',
         'JohannSchopplich\\Licensing\\LicenseActivator' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseActivator.php',
@@ -48,6 +57,7 @@ class ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77
         'JohannSchopplich\\Licensing\\PluginLicenseExtensions' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/PluginLicenseExtensions.php',
         'JohannSchopplich\\SeoAudit\\PanelContext' => __DIR__ . '/../..' . '/src/classes/SeoAudit/PanelContext.php',
         'JohannSchopplich\\SeoAudit\\Proxy' => __DIR__ . '/../..' . '/src/classes/SeoAudit/Proxy.php',
+        'JohannSchopplich\\SeoAudit\\ViewButtonOptions' => __DIR__ . '/../..' . '/src/classes/SeoAudit/ViewButtonOptions.php',
         'Kirby\\ComposerInstaller\\CmsInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
         'Kirby\\ComposerInstaller\\Installer' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
         'Kirby\\ComposerInstaller\\Plugin' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Plugin.php',
@@ -57,9 +67,9 @@ class ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7b3605b3ab8282f9f99b78a7a9608c77::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf86bf3170269425c5186391c5549b828::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf86bf3170269425c5186391c5549b828::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf86bf3170269425c5186391c5549b828::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -7,6 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'JohannSchopplich\\KirbyTools\\FieldNormalizer' => $vendorDir . '/johannschopplich/kirby-tools-utils/src/FieldNormalizer.php',
+    'JohannSchopplich\\KirbyTools\\FieldResolver' => $vendorDir . '/johannschopplich/kirby-tools-utils/src/FieldResolver.php',
+    'JohannSchopplich\\KirbyTools\\ModelResolver' => $vendorDir . '/johannschopplich/kirby-tools-utils/src/ModelResolver.php',
+    'JohannSchopplich\\KirbyTools\\QueryResolver' => $vendorDir . '/johannschopplich/kirby-tools-utils/src/QueryResolver.php',
     'JohannSchopplich\\Licensing\\Http\\HttpClientInterface' => $vendorDir . '/johannschopplich/kirby-tools-licensing/src/Http/HttpClientInterface.php',
     'JohannSchopplich\\Licensing\\Http\\KirbyHttpClient' => $vendorDir . '/johannschopplich/kirby-tools-licensing/src/Http/KirbyHttpClient.php',
     'JohannSchopplich\\Licensing\\LicenseActivator' => $vendorDir . '/johannschopplich/kirby-tools-licensing/src/LicenseActivator.php',
@@ -20,6 +24,7 @@ return array(
     'JohannSchopplich\\Licensing\\PluginLicenseExtensions' => $vendorDir . '/johannschopplich/kirby-tools-licensing/src/PluginLicenseExtensions.php',
     'JohannSchopplich\\SeoAudit\\PanelContext' => $baseDir . '/src/classes/SeoAudit/PanelContext.php',
     'JohannSchopplich\\SeoAudit\\Proxy' => $baseDir . '/src/classes/SeoAudit/Proxy.php',
+    'JohannSchopplich\\SeoAudit\\ViewButtonOptions' => $baseDir . '/src/classes/SeoAudit/ViewButtonOptions.php',
     'Kirby\\ComposerInstaller\\CmsInstaller' => $vendorDir . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
     'Kirby\\ComposerInstaller\\Installer' => $vendorDir . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
     'Kirby\\ComposerInstaller\\Plugin' => $vendorDir . '/getkirby/composer-installer/src/ComposerInstaller/Plugin.php',
