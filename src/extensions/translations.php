@@ -87,6 +87,7 @@ return array_replace_recursive(
             'johannschopplich.seo-audit.error.missingPreviewUrl' => 'De "previewUrl" is uitgeschakeld in de blueprint, maar is nodig voor de SEO-analyse.',
             'johannschopplich.seo-audit.error.incompatibleLocale' => 'De taal {locale} wordt niet ondersteund door de Yoast SEO-beoordeling {assessment}. Alleen {compatibleLocales} zijn compatibel.'
         ],
+        'es' => $spanish,
         'es_ES' => $spanish,
         'es_419' => $spanish
     ]
