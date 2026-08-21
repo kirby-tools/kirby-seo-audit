@@ -2,8 +2,7 @@
 
 use JohannSchopplich\Licensing\LicensePanel;
 
-// Kirby ships Spanish only with a country code, so a bare `es` never
-// matches the locale the Panel reports.
+// Kirby ships no bare `es` translation.
 $spanish = [
     'johannschopplich.seo-audit.label' => 'Auditoría SEO',
     'johannschopplich.seo-audit.analyze' => 'Analizar',
