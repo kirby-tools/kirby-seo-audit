@@ -2,6 +2,25 @@
 
 use JohannSchopplich\Licensing\LicensePanel;
 
+// Kirby ships Spanish only with a country code, so a bare `es` never
+// matches the locale the Panel reports.
+$spanish = [
+    'johannschopplich.seo-audit.label' => 'Auditoría SEO',
+    'johannschopplich.seo-audit.analyze' => 'Analizar',
+    'johannschopplich.seo-audit.results' => 'Puntuaciones SEO y Legibilidad',
+    'johannschopplich.seo-audit.results.seo' => 'Puntuaciones SEO',
+    'johannschopplich.seo-audit.results.readability' => 'Puntuaciones de Legibilidad',
+    'johannschopplich.seo-audit.issues' => 'Problemas',
+    'johannschopplich.seo-audit.rating.good' => 'Bueno',
+    'johannschopplich.seo-audit.rating.ok' => 'OK',
+    'johannschopplich.seo-audit.rating.bad' => 'Necesita mejora',
+    'johannschopplich.seo-audit.rating.feedback' => 'Comentarios',
+    'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Informe generado',
+    'johannschopplich.seo-audit.notification.analyzeError' => 'No se pudo generar el informe. Por favor, revise los registros de la consola.',
+    'johannschopplich.seo-audit.error.missingPreviewUrl' => 'La "previewUrl" está deshabilitada en el blueprint, pero es requerida para el análisis SEO.',
+    'johannschopplich.seo-audit.error.incompatibleLocale' => 'El idioma {locale} no es compatible con la evaluación Yoast SEO {assessment}. Solo {compatibleLocales} son compatibles.'
+];
+
 return array_replace_recursive(
     LicensePanel::translations(),
     [
@@ -69,21 +88,7 @@ return array_replace_recursive(
             'johannschopplich.seo-audit.error.missingPreviewUrl' => 'De "previewUrl" is uitgeschakeld in de blueprint, maar is nodig voor de SEO-analyse.',
             'johannschopplich.seo-audit.error.incompatibleLocale' => 'De taal {locale} wordt niet ondersteund door de Yoast SEO-beoordeling {assessment}. Alleen {compatibleLocales} zijn compatibel.'
         ],
-        'es' => [
-            'johannschopplich.seo-audit.label' => 'Auditoría SEO',
-            'johannschopplich.seo-audit.analyze' => 'Analizar',
-            'johannschopplich.seo-audit.results' => 'Puntuaciones SEO y Legibilidad',
-            'johannschopplich.seo-audit.results.seo' => 'Puntuaciones SEO',
-            'johannschopplich.seo-audit.results.readability' => 'Puntuaciones de Legibilidad',
-            'johannschopplich.seo-audit.issues' => 'Problemas',
-            'johannschopplich.seo-audit.rating.good' => 'Bueno',
-            'johannschopplich.seo-audit.rating.ok' => 'OK',
-            'johannschopplich.seo-audit.rating.bad' => 'Necesita mejora',
-            'johannschopplich.seo-audit.rating.feedback' => 'Comentarios',
-            'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Informe generado',
-            'johannschopplich.seo-audit.notification.analyzeError' => 'No se pudo generar el informe. Por favor, revise los registros de la consola.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'La "previewUrl" está deshabilitada en el blueprint, pero es requerida para el análisis SEO.',
-            'johannschopplich.seo-audit.error.incompatibleLocale' => 'El idioma {locale} no es compatible con la evaluación Yoast SEO {assessment}. Solo {compatibleLocales} son compatibles.'
-        ]
+        'es_ES' => $spanish,
+        'es_419' => $spanish
     ]
 );
