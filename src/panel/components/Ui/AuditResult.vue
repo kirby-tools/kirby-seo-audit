@@ -65,9 +65,9 @@ const categorizedReport = computed(() => {
         )"
         :key="ratingCategory"
       >
-        <div class="ksr-mb-2 ksr-inline-flex ksr-items-center">
+        <div class="ksr-mb-2 ksr-inline-flex ksr-items-center ksr-gap-1.5">
           <h3
-            class="ksr-mr-1.5 !ksr-leading-[var(--text-line-height)]"
+            class="!ksr-leading-[var(--text-line-height)]"
             style="color: var(--color-text); font-size: var(--text-font-size)"
           >
             {{ panel.t(`johannschopplich.seo-audit.rating.${ratingCategory}`) }}
