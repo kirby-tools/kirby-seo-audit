@@ -74,7 +74,7 @@ const categorizedReport = computed(() => {
           </h3>
 
           <span
-            class="k-button-badge ksr-[box-shadow:none] ksr-[font-weight:var(--font-semi)] ksr-static ksr-transform-none"
+            class="k-button-badge ksr-[font-weight:var(--font-semi)] ksr-static ksr-transform-none ksr-shadow-none"
             :data-theme="RATING_BADGE_COLOR_MAP[ratingCategory]"
           >
             {{ categorizedReport[ratingCategory].length }}
@@ -88,10 +88,12 @@ const categorizedReport = computed(() => {
           :links="links"
         />
 
-        <!-- TODO: Fold `isKirby5()` into this condition when migrating to
-             Kirby 6. The section darkens the rule because Kirby 5's `passive`
-             box sits on grey, which swallows the default; Kirby 6 renders that
-             box plain, the way the dialog already does. -->
+        <!-- TODO: Drop the darkening when migrating to Kirby 6. The section
+             darkens the rule because Kirby 5's `passive` box sits on grey,
+             which swallows the default; Kirby 6 renders that box plain, the way
+             the dialog already does. `isKirby5()` cannot carry the branch: it
+             reads `window.panel.plugins.viewButtons`, which Kirby 6 still
+             seeds, so it is a "Kirby >= 5" probe. -->
         <hr
           v-if="ratingCategoryIndex < Object.keys(categorizedReport).length - 1"
           class="ksr-my-4"
