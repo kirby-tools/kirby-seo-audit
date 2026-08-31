@@ -12,7 +12,6 @@ export default antfu({
     },
     vueVersion: 2,
   },
-  // Build output: `assets` comes from `build:assets`, `index.js` from kirbyup.
   ignores: ["**/vendor/**", "assets/**", "index.js"],
 })
   .append({
