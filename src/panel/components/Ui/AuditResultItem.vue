@@ -15,11 +15,14 @@ const props = defineProps({
 
 const panel = usePanel();
 
-const parseText = computed(() => {
-  // Remove aggressive exclamation mark at the end of the text.
-  const text = props.result.text.replace(/!$/, ".");
+const displayText = computed(() => {
+  const text = replaceTrailingExclamation(props.result.text);
   return props.links ? text : stripTags(text);
 });
+
+function replaceTrailingExclamation(text) {
+  return text.replace(/!$/, ".");
+}
 
 function stripTags(html) {
   const doc = new DOMParser().parseFromString(html, "text/html");
@@ -32,7 +35,7 @@ function stripTags(html) {
     <RatingStatus :rating="result.rating" class="ksr-mt-1 ksr-size-3" />
 
     <div>
-      <div v-html="parseText" />
+      <div v-html="displayText" />
       <details v-if="result.details">
         <summary class="ksr-[font-weight:var(--font-semi)]">
           {{ panel.t("johannschopplich.seo-audit.issues") }}
