@@ -52,7 +52,7 @@ const categorizedReport = computed(() => {
     <slot name="header" />
 
     <k-text
-      class="ksr-pb-2 ksr-space-y-4"
+      class="ksr-pb-2 [&>div+div]:ksr-mt-[var(--spacing-4)]"
       :style="{
         '--link-color': 'var(--color-text)',
         '--link-color-hover':
