@@ -88,6 +88,10 @@ const categorizedReport = computed(() => {
           :links="links"
         />
 
+        <!-- TODO: Fold `isKirby5()` into this condition when migrating to
+             Kirby 6. The section darkens the rule because Kirby 5's `passive`
+             box sits on grey, which swallows the default; Kirby 6 renders that
+             box plain, the way the dialog already does. -->
         <hr
           v-if="ratingCategoryIndex < Object.keys(categorizedReport).length - 1"
           class="ksr-my-4"
