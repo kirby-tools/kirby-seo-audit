@@ -74,7 +74,7 @@ const categorizedReport = computed(() => {
           </h3>
 
           <span
-            class="k-seo-audit-badge"
+            class="k-button-badge ksr-[box-shadow:none] ksr-[font-weight:var(--font-semi)] ksr-static ksr-transform-none"
             :data-theme="RATING_BADGE_COLOR_MAP[ratingCategory]"
           >
             {{ categorizedReport[ratingCategory].length }}
@@ -101,21 +101,3 @@ const categorizedReport = computed(() => {
     </k-text>
   </div>
 </template>
-
-<style>
-.k-seo-audit-badge {
-  min-width: 1em;
-  min-height: 1em;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.5;
-  padding: 0 var(--spacing-1);
-  border-radius: 1em;
-  text-align: center;
-  font-size: 0.6rem;
-  font-weight: var(--font-semi);
-  background: var(--theme-color-back);
-  border: 1px solid light-dark(var(--theme-color-500), var(--color-black));
-  color: var(--theme-color-text-highlight);
-  z-index: 1;
-}
-</style>
