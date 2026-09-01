@@ -33,6 +33,11 @@ const props = defineProps({
     default: true,
   },
   logLevel: String,
+  label: String,
+  theme: {
+    type: String,
+    default: "positive",
+  },
 });
 
 const panel = usePanel();
@@ -138,8 +143,8 @@ async function analyze() {
 <template>
   <k-button
     :icon="isAnalyzing ? 'loader' : 'seo-audit-analyze'"
-    :text="panel.t('johannschopplich.seo-audit.label')"
-    theme="positive"
+    :text="label || panel.t('johannschopplich.seo-audit.label')"
+    :theme="theme"
     variant="filled"
     size="sm"
     responsive
