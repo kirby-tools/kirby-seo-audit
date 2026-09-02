@@ -6,14 +6,12 @@ The Kirby SEO Audit plugin provides comprehensive SEO analysis directly within t
 
 ## Features
 
-- 🎛️ **One-Click Analysis**: Run audits from the view button or section.
-- 🔍 **28 SEO & Readability Assessments**: Powered by Yoast SEO v3 – improved performance, updated metrics.
-- 🔒 **Local Analysis**: The analysis runs entirely in the browser – no external services involved.
-- 📊 **Categorized Results**: Results organized into Good, OK, Needs improvement, and Feedback categories for clear prioritization.
-- 🎯 **Keyphrase Analysis**: Advanced keyword density, distribution, and optimization insights.
-- 🖼️ **Image SEO**: Automated checks for alt attributes, image optimization, and keyphrase usage.
-- 🌐 **Multi-language Support**: Language-specific assessments and region-aware SEO recommendations.
-- 🔧 **Flexible Configuration**: Customizable assessments, content selectors, and per-blueprint settings.
+- 🎛️ **View Button & Section**: Run the audit from the page header or inline in a section.
+- 🔍 **28 SEO & Readability Assessments**: Powered by the Yoast SEO v3 engine.
+- 📊 **SEO & Readability Scores**: Every check graded into Good, OK, Needs improvement, and Feedback.
+- 🎯 **Keyphrase Field**: Nine more checks against the page's focus keyword.
+- 🌐 **Language-Specific Features**: 22 rule sets, picked from the page's `lang` attribute.
+- 🔒 **Local Analysis**: Runs in the editor's browser, no external service involved.
 
 ## Getting Started
 
