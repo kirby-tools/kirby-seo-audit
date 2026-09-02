@@ -208,7 +208,9 @@ async function analyze() {
 
     panel.notification.success({
       icon: "check",
-      message: panel.t("johannschopplich.seo-audit.notification.analyzeSuccess"),
+      message: panel.t(
+        "johannschopplich.seo-audit.notification.analyzeSuccess",
+      ),
     });
   } catch (error) {
     notifyReportError(error);
@@ -233,7 +235,7 @@ async function analyze() {
       />
     </template>
 
-    <div class="ksr-space-y-4">
+    <div class="[&>*+*]:ksr-mt-[var(--spacing-4)]">
       <k-button-group layout="collapsed">
         <k-button
           :icon="isAnalyzing ? 'loader' : 'seo-audit-analyze'"
