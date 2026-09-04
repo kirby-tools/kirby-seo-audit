@@ -2,12 +2,12 @@
 
 # Kirby SEO Audit
 
-The Kirby SEO Audit plugin provides comprehensive SEO analysis directly within the Kirby Panel. It helps you, your clients, and editors optimize content for search engines with real-time analysis and actionable recommendations. Built on the Yoast SEO v3 engine, the plugin lets you improve your website's SEO the way millions of Yoast WordPress users do.
+Kirby SEO Audit is a plugin for [Kirby CMS](https://getkirby.com) that brings the Yoast SEO v3 analysis engine – the one millions of WordPress users rely on – into the Panel. The analysis runs in the editor's browser; no external services, no data sent to third parties.
 
 ## Features
 
 - 🎛️ **View Button & Section**: Run the audit from the page header or inline in a section.
-- 🔍 **28 SEO & Readability Assessments**: Powered by the Yoast SEO v3 engine.
+- 🔍 **SEO & Readability Assessments**: Powered by the Yoast SEO v3 engine, plus checks of our own.
 - 📊 **SEO & Readability Scores**: Every check graded into Good, OK, Needs improvement, and Feedback.
 - 🎯 **Keyphrase Field**: Nine more checks against the page's focus keyword.
 - 🌐 **Language-Specific Features**: 22 rule sets, picked from the page's `lang` attribute.
