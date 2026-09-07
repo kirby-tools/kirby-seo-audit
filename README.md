@@ -13,19 +13,29 @@ Kirby SEO Audit is a plugin for [Kirby CMS](https://getkirby.com) that brings th
 - 🌐 **Language-Specific Features**: 22 rule sets, picked from the page's `lang` attribute.
 - 🔒 **Local Analysis**: Runs in the editor's browser, no external service involved.
 
-## Getting Started
-
-To get started, please refer to the [documentation](https://kirby.tools/docs/seo-audit/getting-started/installation) for guidance on installation, configuration, and usage.
-
-Here are some quick links:
-
-- [Installation](https://kirby.tools/docs/seo-audit/getting-started/installation)
-- [Global Configuration](https://kirby.tools/docs/seo-audit/configuration/global)
-- [View Button & Section Configuration](https://kirby.tools/docs/seo-audit/configuration/local)
-
 ## Licensing
 
 Kirby SEO Audit is a commercial plugin that requires a license. You can install and test the plugin locally without a license. However, production environments require a valid license. You can purchase a license from the [Kirby SEO Audit Website](https://kirby.tools/seo-audit/buy).
+
+## Requirements
+
+- Kirby 4 or Kirby 5
+
+## Installation
+
+### Composer (Recommended)
+
+```bash
+composer require johannschopplich/kirby-seo-audit
+```
+
+### Manual Installation
+
+Download and copy this repository to `/site/plugins/kirby-seo-audit`.
+
+## Documentation
+
+For installation, configuration, and usage, see the [Kirby SEO Audit documentation](https://kirby.tools/docs/seo-audit).
 
 ## Support and Questions
 
@@ -51,4 +61,4 @@ We value your feedback and ideas for improving Kirby SEO Audit. If you have any 
 
 ## License
 
-[Kirby Tools License](./LICENSE.md) License © 2024-PRESENT [Johann Schopplich](https://github.com/johannschopplich)
+[Kirby Tools License](./LICENSE.md) © 2024-PRESENT [Johann Schopplich](https://github.com/johannschopplich)
