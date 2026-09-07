@@ -1,4 +1,4 @@
-[![Kirby SEO Audit](./.github/social-card.png)](https://kirby.tools/seo-audit)
+[![Kirby SEO Audit](https://kirby.tools/social-card/seo-audit.png)](https://kirby.tools/seo-audit)
 
 # Kirby SEO Audit
 
