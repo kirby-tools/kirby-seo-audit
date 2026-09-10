@@ -256,4 +256,33 @@ final class ProxyTest extends TestCase
             (new Proxy($kirby))->resolveTarget()
         );
     }
+
+    #[Test]
+    public function returns_the_url_it_fetched_after_urlResolver(): void
+    {
+        $kirby = self::bootApp([
+            'options' => [
+                'johannschopplich.seo-audit' => [
+                    'proxy' => [
+                        // `Remote` builds the request without sending it.
+                        'params' => ['test' => true],
+                        'urlResolver' => fn (string $url) => str_replace(
+                            'example.com',
+                            'host.docker.internal:3000',
+                            $url
+                        )
+                    ]
+                ]
+            ],
+            'request' => [
+                'method' => 'POST',
+                'body' => ['path' => 'pages/test']
+            ]
+        ]);
+
+        $this->assertSame(
+            'https://host.docker.internal:3000/test',
+            (new Proxy($kirby))->handle()['url']
+        );
+    }
 }

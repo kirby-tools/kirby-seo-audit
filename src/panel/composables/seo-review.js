@@ -7,6 +7,7 @@ import {
 import {
   IncompatibleLocaleError,
   MissingPreviewUrlError,
+  PreviewResponseError,
 } from "../utils/error";
 import {
   createSeoReport,
@@ -81,9 +82,7 @@ export function useSeoReview() {
     if (location.origin === new URL(url).origin) {
       const response = await fetch(url);
       if (!response.ok) {
-        logger.warn(
-          `Response status code ${response.status} for ${url} indicates the page contains an error`,
-        );
+        throw new PreviewResponseError({ url, status: response.status });
       }
       return await response.text();
     }
@@ -91,15 +90,18 @@ export function useSeoReview() {
     // The proxy derives the URL from the model, so it takes the Panel path. Only
     // the playground analyzes a URL with no model behind it, and its own install
     // opts into that with `proxy.allowArbitraryUrls`.
-    const { code, html } = await panel.api.post(
-      PLUGIN_PROXY_API_ROUTE,
-      path ? { path } : { url },
-    );
+    const {
+      code,
+      html,
+      url: fetchedUrl,
+    } = await panel.api.post(PLUGIN_PROXY_API_ROUTE, path ? { path } : { url });
 
-    if (code !== 200) {
-      logger.warn(
-        `Response status code ${code} for ${url} indicates the page contains an error`,
-      );
+    if (!(code >= 200 && code < 300)) {
+      throw new PreviewResponseError({
+        url: fetchedUrl,
+        status: code,
+        isProxied: true,
+      });
     }
 
     return html;
@@ -150,6 +152,19 @@ export function useSeoReview() {
 
   function notifyReportError(error) {
     logger.error(error);
+
+    if (error instanceof PreviewResponseError) {
+      panel.notification.error(
+        panel.t(
+          // Only the proxy can send credentials the editor's browser lacks.
+          error.status === 401 && error.isProxied
+            ? "johannschopplich.seo-audit.error.previewUnauthorized"
+            : "johannschopplich.seo-audit.error.previewResponse",
+          { url: error.url, status: error.status },
+        ),
+      );
+      return;
+    }
 
     if (error instanceof MissingPreviewUrlError) {
       panel.notification.error(

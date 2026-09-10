@@ -17,3 +17,13 @@ export class MissingPreviewUrlError extends Error {
     this.path = path;
   }
 }
+
+export class PreviewResponseError extends Error {
+  constructor({ url, status, isProxied = false }) {
+    super(`Preview URL ${url} responded with status ${status}`);
+
+    this.url = url;
+    this.status = status;
+    this.isProxied = isProxied;
+  }
+}

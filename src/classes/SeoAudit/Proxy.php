@@ -28,19 +28,22 @@ final class Proxy
     /**
      * Fetches the preview HTML of the model named by the request.
      *
-     * @return array{code: int|null, html: string|null}
+     * @return array{code: int|null, html: string|null, url: string}
      * @throws InvalidArgumentException When the request names no model
      */
     public function handle(): array
     {
+        $url = $this->resolveTarget();
+
         $response = Remote::request(
-            $this->resolveTarget(),
+            $url,
             $this->kirby->option(self::OPTION_PREFIX . 'params', [])
         );
 
         return [
             'code' => $response->code(),
-            'html' => $response->content()
+            'html' => $response->content(),
+            'url' => $url
         ];
     }
 
