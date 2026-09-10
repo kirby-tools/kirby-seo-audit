@@ -11,10 +11,8 @@ export class IncompatibleLocaleError extends Error {
 }
 
 export class MissingPreviewUrlError extends Error {
-  constructor(path) {
+  constructor({ path }) {
     super(`Model has no preview URL: ${path}`);
-
-    this.path = path;
   }
 }
 

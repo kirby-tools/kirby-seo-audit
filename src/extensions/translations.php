@@ -16,7 +16,7 @@ $spanish = [
     'johannschopplich.seo-audit.rating.feedback' => 'Comentarios',
     'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Informe generado',
     'johannschopplich.seo-audit.notification.analyzeError' => 'No se pudo generar el informe. Por favor, revise los registros de la consola.',
-    'johannschopplich.seo-audit.error.missingPreviewUrl' => 'La "previewUrl" está deshabilitada en el blueprint, pero es requerida para el análisis SEO.',
+    'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No hay URL de vista previa – desactivada en el blueprint o no permitida para este rol.',
     'johannschopplich.seo-audit.error.previewResponse' => 'La URL de vista previa {url} devolvió el estado {status}, así que no hay ninguna página que analizar.',
     'johannschopplich.seo-audit.error.previewUnauthorized' => 'La URL de vista previa {url} devolvió el estado 401. Si está protegida con Basic Auth, indique las credenciales en la opción proxy.params.basicAuth.',
     'johannschopplich.seo-audit.error.incompatibleLocale' => 'El idioma {locale} no es compatible con la evaluación Yoast SEO {assessment}. Solo {compatibleLocales} son compatibles.'
@@ -38,7 +38,7 @@ return array_replace_recursive(
             'johannschopplich.seo-audit.rating.feedback' => 'Feedback',
             'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Report generated',
             'johannschopplich.seo-audit.notification.analyzeError' => 'Could not generate report. Please check console logs.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'The "previewUrl" is disabled in the blueprint, but is required for the SEO analysis.',
+            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No preview URL – disabled in the blueprint or not allowed for this role.',
             'johannschopplich.seo-audit.error.previewResponse' => 'The preview URL {url} returned status {status}, so there is no page to analyze.',
             'johannschopplich.seo-audit.error.previewUnauthorized' => 'The preview URL {url} returned status 401. If it sits behind Basic Auth, set the credentials in the proxy.params.basicAuth option.',
             'johannschopplich.seo-audit.error.incompatibleLocale' => 'The language {locale} is not supported by the Yoast SEO assessment {assessment}. Only {compatibleLocales} are compatible.'
@@ -56,7 +56,7 @@ return array_replace_recursive(
             'johannschopplich.seo-audit.rating.feedback' => 'Rückmeldung',
             'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Bericht generiert',
             'johannschopplich.seo-audit.notification.analyzeError' => 'Bericht konnte nicht generiert werden. Bitte Konsolenprotokolle prüfen.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Die "previewUrl" ist im Blueprint deaktiviert, wird aber für die SEO-Analyse benötigt.',
+            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Keine Vorschau-URL – im Blueprint deaktiviert oder für diese Rolle nicht erlaubt.',
             'johannschopplich.seo-audit.error.previewResponse' => 'Die Vorschau-URL {url} lieferte Status {status}, es gibt also keine Seite zum Analysieren.',
             'johannschopplich.seo-audit.error.previewUnauthorized' => 'Die Vorschau-URL {url} lieferte Status 401. Ist sie per Basic Auth geschützt, müssen die Zugangsdaten in der Option proxy.params.basicAuth hinterlegt sein.',
             'johannschopplich.seo-audit.error.incompatibleLocale' => 'Die Sprache {locale} wird von dem Yoast SEO Check {assessment} nicht unterstützt. Es sind nur {compatibleLocales} kompatibel.'
@@ -74,7 +74,7 @@ return array_replace_recursive(
             'johannschopplich.seo-audit.rating.feedback' => 'Retour',
             'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Rapport généré',
             'johannschopplich.seo-audit.notification.analyzeError' => 'Impossible de générer le rapport. Veuillez vérifier les journaux de la console.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'La "previewUrl" est désactivée dans le blueprint, mais elle est requise pour l\'analyse SEO.',
+            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Aucune URL d\'aperçu – désactivée dans le blueprint ou non autorisée pour ce rôle.',
             'johannschopplich.seo-audit.error.previewResponse' => 'L\'URL d\'aperçu {url} a renvoyé le statut {status}, il n\'y a donc aucune page à analyser.',
             'johannschopplich.seo-audit.error.previewUnauthorized' => 'L\'URL d\'aperçu {url} a renvoyé le statut 401. Si elle est protégée par Basic Auth, renseignez les identifiants dans l\'option proxy.params.basicAuth.',
             'johannschopplich.seo-audit.error.incompatibleLocale' => 'La langue {locale} n\'est pas prise en charge par l\'évaluation Yoast SEO {assessment}. Seules {compatibleLocales} sont compatibles.'
@@ -92,7 +92,7 @@ return array_replace_recursive(
             'johannschopplich.seo-audit.rating.feedback' => 'Feedback',
             'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Analyse gegenereerd',
             'johannschopplich.seo-audit.notification.analyzeError' => 'Er liep iets mis. Bekijk de console logs.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'De "previewUrl" is uitgeschakeld in de blueprint, maar is nodig voor de SEO-analyse.',
+            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Geen preview-URL – uitgeschakeld in de blueprint of niet toegestaan voor deze rol.',
             'johannschopplich.seo-audit.error.previewResponse' => 'De preview-URL {url} gaf status {status} terug, er is dus geen pagina om te analyseren.',
             'johannschopplich.seo-audit.error.previewUnauthorized' => 'De preview-URL {url} gaf status 401 terug. Staat deze achter Basic Auth, vul dan de inloggegevens in bij de optie proxy.params.basicAuth.',
             'johannschopplich.seo-audit.error.incompatibleLocale' => 'De taal {locale} wordt niet ondersteund door de Yoast SEO-beoordeling {assessment}. Alleen {compatibleLocales} zijn compatibel.'

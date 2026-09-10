@@ -116,7 +116,7 @@ export function useSeoReview() {
     });
 
     if (!previewUrl) {
-      throw new MissingPreviewUrlError(panel.view.path);
+      throw new MissingPreviewUrlError({ path: panel.view.path });
     }
 
     return { url: previewUrl, path: panel.view.path };
