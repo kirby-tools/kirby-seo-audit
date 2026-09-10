@@ -18,7 +18,7 @@ import {
   usePluginContext,
   useSeoReview,
 } from "../../composables";
-import { getHashedStorageKey } from "../../utils/storage";
+import { readStoredReport, writeStoredReport } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
 
 const propsDefinition = {
@@ -45,7 +45,6 @@ const {
   resolveSynonyms,
 } = useSeoReview();
 
-const storageKey = getHashedStorageKey(panel.view.path);
 let previewUrl;
 
 const isZeroOneBuild = __ZERO_ONE__;
@@ -80,6 +79,7 @@ watch(
   // Will be `null` in single language setups.
   () => panel.language.code,
   () => {
+    loadStoredReport();
     updateSectionData();
   },
 );
@@ -146,10 +146,7 @@ async function updateSectionData(isInitializing = false) {
     licenseStatus.value =
       __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
 
-    if (persisted.value) {
-      const lastReport = JSON.parse(localStorage.getItem(storageKey));
-      if (lastReport) report.value = lastReport;
-    }
+    loadStoredReport();
 
     isInitialized.value = true;
   }
@@ -161,6 +158,20 @@ async function updateSectionData(isInitializing = false) {
 
   const data = await api.get(panel.view.path, { select: "previewUrl" });
   previewUrl = data.previewUrl;
+}
+
+function getStorageScope() {
+  return {
+    path: panel.view.path,
+    language: panel.language.code,
+    section: props.name,
+  };
+}
+
+function loadStoredReport() {
+  report.value = persisted.value
+    ? readStoredReport(getStorageScope())
+    : undefined;
 }
 
 async function analyze() {
@@ -183,6 +194,8 @@ async function analyze() {
   const target = __PLAYGROUND__
     ? { url: currentContent.value.targeturl }
     : { url: previewUrl, path: panel.view.path };
+  const language = panel.language.code;
+  const storageScope = getStorageScope();
   panel.isLoading = true;
   isAnalyzing.value = true;
 
@@ -197,13 +210,19 @@ async function analyze() {
       synonyms: resolvedSynonyms.value,
     });
 
-    report.value = {
+    const newReport = {
       result,
       timestamp: Date.now(),
     };
 
     if (persisted.value) {
-      localStorage.setItem(storageKey, JSON.stringify(report.value));
+      writeStoredReport(storageScope, newReport);
+    }
+
+    // An analysis still running when the editor switched languages belongs to
+    // the language it started in.
+    if (panel.language.code === language) {
+      report.value = newReport;
     }
 
     panel.notification.success({
