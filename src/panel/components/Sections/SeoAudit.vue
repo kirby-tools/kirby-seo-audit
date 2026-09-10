@@ -4,7 +4,6 @@ import {
   computed,
   isKirby5,
   ref,
-  useApi,
   useContent,
   useI18n,
   usePanel,
@@ -35,17 +34,15 @@ const props = defineProps(propsDefinition);
 
 const _isKirby5 = isKirby5();
 const panel = usePanel();
-const api = useApi();
 const { t } = useI18n();
 const {
   generateReport,
   notifyReportError,
   resolveKeyphrase,
   resolveLogLevelIndex,
+  resolvePreviewTarget,
   resolveSynonyms,
 } = useSeoReview();
-
-let previewUrl;
 
 const isZeroOneBuild = __ZERO_ONE__;
 
@@ -155,9 +152,6 @@ async function updateSectionData(isInitializing = false) {
   // are re-read whenever it changes.
   keyphrase.value = response.keyphrase;
   synonyms.value = response.synonyms;
-
-  const data = await api.get(panel.view.path, { select: "previewUrl" });
-  previewUrl = data.previewUrl;
 }
 
 function getStorageScope() {
@@ -179,27 +173,20 @@ async function analyze() {
     return;
   }
 
-  if (__PLAYGROUND__) {
-    if (!currentContent.value.targeturl) {
-      panel.notification.error("Please enter a target URL to be analyzed.");
-      return;
-    }
-  } else if (!previewUrl) {
-    panel.notification.error(
-      panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
-    );
+  if (__PLAYGROUND__ && !currentContent.value.targeturl) {
+    panel.notification.error("Please enter a target URL to be analyzed.");
     return;
   }
 
-  const target = __PLAYGROUND__
-    ? { url: currentContent.value.targeturl }
-    : { url: previewUrl, path: panel.view.path };
   const language = panel.language.code;
   const storageScope = getStorageScope();
   panel.isLoading = true;
   isAnalyzing.value = true;
 
   try {
+    const target = __PLAYGROUND__
+      ? { url: currentContent.value.targeturl }
+      : await resolvePreviewTarget();
     const result = await generateReport(target, contentSelector.value, {
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments

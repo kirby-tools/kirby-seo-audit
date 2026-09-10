@@ -47,6 +47,7 @@ const {
   notifyReportError,
   resolveKeyphrase,
   resolveLogLevelIndex,
+  resolvePreviewTarget,
   resolveSynonyms,
 } = useSeoReview();
 
@@ -63,53 +64,39 @@ async function analyze() {
     return;
   }
 
-  if (__PLAYGROUND__) {
-    if (!currentContent.value.targeturl) {
-      panel.notification.error("Please enter a target URL to be analyzed.");
-      return;
-    }
+  if (__PLAYGROUND__ && !currentContent.value.targeturl) {
+    panel.notification.error("Please enter a target URL to be analyzed.");
+    return;
   }
 
   panel.isLoading = true;
   isAnalyzing.value = true;
 
-  const logLevel = await resolveLogLevelIndex(props.logLevel);
-
-  const [target, queriedProps] = __PLAYGROUND__
-    ? [{ url: currentContent.value.targeturl }, props]
-    : await Promise.all([
-        api
-          .get(panel.view.path, { select: "previewUrl" })
-          .then(({ previewUrl }) => ({
-            url: previewUrl,
-            path: panel.view.path,
-          })),
-        // A view button's props reach the Panel unresolved, so the server
-        // resolves the ones carrying a Kirby query.
-        hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
-          ? api.get(PLUGIN_BUTTON_OPTIONS_API_ROUTE, { path: panel.view.path })
-          : props,
-      ]);
-
-  if (!__PLAYGROUND__ && !target.url) {
-    panel.notification.error(
-      panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
-    );
-    panel.isLoading = false;
-    isAnalyzing.value = false;
-    return;
-  }
-
-  const resolvedKeyphrase = resolveKeyphrase(
-    queriedProps.keyphrase,
-    props.keyphraseField,
-  );
-  const resolvedSynonyms = resolveSynonyms(
-    queriedProps.synonyms,
-    props.synonymsField,
-  );
-
   try {
+    const logLevel = await resolveLogLevelIndex(props.logLevel);
+
+    const [target, queriedProps] = __PLAYGROUND__
+      ? [{ url: currentContent.value.targeturl }, props]
+      : await Promise.all([
+          resolvePreviewTarget(),
+          // A view button's props reach the Panel unresolved, so the server
+          // resolves the ones carrying a Kirby query.
+          hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
+            ? api.get(PLUGIN_BUTTON_OPTIONS_API_ROUTE, {
+                path: panel.view.path,
+              })
+            : props,
+        ]);
+
+    const resolvedKeyphrase = resolveKeyphrase(
+      queriedProps.keyphrase,
+      props.keyphraseField,
+    );
+    const resolvedSynonyms = resolveSynonyms(
+      queriedProps.synonyms,
+      props.synonymsField,
+    );
+
     const result = await generateReport(
       target,
       props.contentSelector || "body",

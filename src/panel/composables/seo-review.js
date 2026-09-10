@@ -4,7 +4,10 @@ import {
   LOG_LEVELS,
   PLUGIN_PROXY_API_ROUTE,
 } from "../constants";
-import { IncompatibleLocaleError } from "../utils/error";
+import {
+  IncompatibleLocaleError,
+  MissingPreviewUrlError,
+} from "../utils/error";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -102,6 +105,21 @@ export function useSeoReview() {
     return html;
   }
 
+  /**
+   * @throws {MissingPreviewUrlError} When the model has no preview URL for the current user
+   */
+  async function resolvePreviewTarget() {
+    const { previewUrl } = await panel.api.get(panel.view.path, {
+      select: "previewUrl",
+    });
+
+    if (!previewUrl) {
+      throw new MissingPreviewUrlError(panel.view.path);
+    }
+
+    return { url: previewUrl, path: panel.view.path };
+  }
+
   async function resolveLogLevelIndex(logLevel) {
     const context = await usePluginContext();
 
@@ -133,6 +151,13 @@ export function useSeoReview() {
   function notifyReportError(error) {
     logger.error(error);
 
+    if (error instanceof MissingPreviewUrlError) {
+      panel.notification.error(
+        panel.t("johannschopplich.seo-audit.error.missingPreviewUrl"),
+      );
+      return;
+    }
+
     if (error instanceof IncompatibleLocaleError) {
       panel.notification.error(
         panel.t("johannschopplich.seo-audit.error.incompatibleLocale", {
@@ -154,6 +179,7 @@ export function useSeoReview() {
   return {
     generateReport,
     fetchHtml,
+    resolvePreviewTarget,
     resolveLogLevelIndex,
     resolveKeyphrase,
     resolveSynonyms,
