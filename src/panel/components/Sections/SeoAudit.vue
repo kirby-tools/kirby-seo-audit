@@ -272,6 +272,7 @@ async function analyze() {
           ]"
         >
           <AuditResult
+            :key="report.timestamp"
             :report="report.result"
             :links="links"
             :class="[isAnalyzing && 'ksr-opacity-50']"

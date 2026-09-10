@@ -3,6 +3,7 @@ import { IncompatibleLocaleError } from "./error";
 import {
   filterYoastSeoResults,
   flattenYoastSeoResults,
+  groupResultsByRating,
   scoreToRating,
 } from "./seo-filter";
 
@@ -72,6 +73,48 @@ describe("filterYoastSeoResults", () => {
     const { seo } = filterYoastSeoResults(results, options, "en");
 
     expect(seo.map((i) => i._identifier)).toEqual(["titleWidth"]);
+  });
+
+  it("keeps an errored assessment that options.assessments names", () => {
+    const results = [
+      createResult("", {
+        score: -1,
+        text: "An error occurred in the 'titleWidth' assessment",
+      }),
+    ];
+    const options = createOptions({ assessments: ["titlewidth"] });
+
+    const { seo } = filterYoastSeoResults(results, options, "en");
+
+    expect(seo).toMatchObject([{ score: -1, rating: "error" }]);
+  });
+
+  it("keeps an errored assessment named in a German message", () => {
+    const results = [
+      createResult("", {
+        score: -1,
+        text: "Ein Fehler ist bei der Bewertung „titleWidth“ aufgetreten",
+      }),
+    ];
+    const options = createOptions({ assessments: ["titlewidth"] });
+
+    const { seo } = filterYoastSeoResults(results, options, "de");
+
+    expect(seo).toHaveLength(1);
+  });
+
+  it("drops an errored assessment that options.assessments leaves out", () => {
+    const results = [
+      createResult("", {
+        score: -1,
+        text: "An error occurred in the 'metaDescriptionLength' assessment",
+      }),
+    ];
+    const options = createOptions({ assessments: ["titlewidth"] });
+
+    const { seo } = filterYoastSeoResults(results, options, "en");
+
+    expect(seo).toEqual([]);
   });
 
   it("sorts each result into the category it carries", () => {
@@ -157,6 +200,25 @@ describe("scoreToRating", () => {
 
   it("maps a missing score to the empty string", () => {
     expect(scoreToRating(undefined)).toBe("");
+  });
+});
+
+describe("groupResultsByRating", () => {
+  it("groups a result with an empty rating under `error`", () => {
+    const results = [
+      { text: "Title width: Good job.", rating: "good" },
+      { text: "An error occurred in the 'textLength' assessment.", rating: "" },
+    ];
+
+    expect(groupResultsByRating(results)).toEqual({
+      good: [{ text: "Title width: Good job.", rating: "good" }],
+      error: [
+        {
+          text: "An error occurred in the 'textLength' assessment.",
+          rating: "error",
+        },
+      ],
+    });
   });
 });
 

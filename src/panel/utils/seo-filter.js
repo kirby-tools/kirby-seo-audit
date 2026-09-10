@@ -46,7 +46,7 @@ export function filterYoastSeoResults(analysisResults, options, locale) {
       continue;
 
     if (options.assessments.length > 0) {
-      if (!options.assessments.includes(id)) continue;
+      if (!isNamedByAssessments(result, options.assessments)) continue;
 
       const compatibleLocales = Object.entries(
         YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
@@ -68,6 +68,43 @@ export function filterYoastSeoResults(analysisResults, options, locale) {
   }
 
   return resultsByCategory;
+}
+
+/**
+ * Checks whether `assessments` names the result's assessment. Yoast replaces
+ * the result of an assessment that throws with a fresh one that carries no
+ * identifier, so an errored result is matched by the words of its text.
+ */
+function isNamedByAssessments(result, assessments) {
+  const id = result._identifier.toLowerCase();
+  if (id) return assessments.includes(id);
+  if (result.score !== -1) return false;
+
+  const words = result.text.toLowerCase().match(/\w+/g) ?? [];
+  return words.some((word) => assessments.includes(word));
+}
+
+export function groupResultsByRating(results) {
+  const resultsByRating = {
+    good: [],
+    ok: [],
+    bad: [],
+    feedback: [],
+    error: [],
+  };
+
+  for (const result of results) {
+    // An empty rating, which `scoreToRating` returns for a missing score,
+    // counts as an error rather than breaking the report.
+    const rating = Object.hasOwn(resultsByRating, result.rating)
+      ? result.rating
+      : "error";
+    resultsByRating[rating].push({ ...result, rating });
+  }
+
+  return Object.fromEntries(
+    Object.entries(resultsByRating).filter(([, items]) => items.length > 0),
+  );
 }
 
 export function scoreToRating(score) {

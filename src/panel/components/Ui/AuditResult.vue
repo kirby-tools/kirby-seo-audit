@@ -1,5 +1,6 @@
 <script setup>
 import { computed, toRaw, usePanel } from "kirbyuse";
+import { groupResultsByRating } from "../../utils/seo-filter";
 import AuditResultItem from "./AuditResultItem.vue";
 
 const props = defineProps({
@@ -25,26 +26,13 @@ const RATING_BADGE_COLOR_MAP = {
 
 const panel = usePanel();
 
-const categorizedReport = computed(() => {
-  const grouped = Object.values(props.report)
-    .flat()
-    .reduce(
-      (acc, item) => {
-        acc[item.rating].push(toRaw(item));
-        return acc;
-      },
-      {
-        good: [],
-        ok: [],
-        bad: [],
-        feedback: [],
-      },
-    );
-
-  return Object.fromEntries(
-    Object.entries(grouped).filter(([, items]) => items.length > 0),
-  );
-});
+const categorizedReport = computed(() =>
+  groupResultsByRating(
+    Object.values(props.report)
+      .flat()
+      .map((item) => toRaw(item)),
+  ),
+);
 </script>
 
 <template>
