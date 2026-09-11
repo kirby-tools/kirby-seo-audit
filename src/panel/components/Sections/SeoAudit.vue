@@ -63,14 +63,14 @@ const isInitialized = ref(false);
 const isAnalyzing = ref(false);
 const licenseStatus = ref();
 const report = ref();
+// The language `keyphrase` and `synonyms` were last resolved in, which lags
+// behind a language switch until the section data reloads.
+const keyphraseLanguage = ref();
+const isKeyphraseCurrent = computed(
+  () => keyphraseLanguage.value === panel.language.code,
+);
 
 const { currentContent } = useContent();
-const resolvedKeyphrase = computed(() =>
-  resolveKeyphrase(keyphrase.value, keyphraseField.value),
-);
-const resolvedSynonyms = computed(() =>
-  resolveSynonyms(synonyms.value, synonymsField.value),
-);
 
 watch(
   // Will be `null` in single language setups.
@@ -119,6 +119,7 @@ const { format } = new Intl.DateTimeFormat(
 );
 
 async function updateSectionData(isInitializing = false) {
+  const language = panel.language.code;
   const { load } = useSection();
   const [context, response] = await Promise.all([
     usePluginContext(),
@@ -148,10 +149,17 @@ async function updateSectionData(isInitializing = false) {
     isInitialized.value = true;
   }
 
+  // A response that arrives after a further language switch belongs to a
+  // language the editor has left.
+  if (panel.language.code !== language) {
+    return;
+  }
+
   // The server resolves these queries against the current language, so they
   // are re-read whenever it changes.
   keyphrase.value = response.keyphrase;
   synonyms.value = response.synonyms;
+  keyphraseLanguage.value = language;
 }
 
 function getStorageScope() {
@@ -178,23 +186,33 @@ async function analyze() {
     return;
   }
 
+  // A language switch during the analysis must not mix the two languages, so
+  // everything that depends on the language is read before the first `await`.
   const language = panel.language.code;
   const storageScope = getStorageScope();
+  const resolvedKeyphrase = resolveKeyphrase(
+    keyphrase.value,
+    keyphraseField.value,
+  );
+  const resolvedSynonyms = resolveSynonyms(
+    synonyms.value,
+    synonymsField.value,
+  );
   panel.isLoading = true;
   isAnalyzing.value = true;
 
   try {
     const target = __PLAYGROUND__
       ? { url: currentContent.value.targeturl }
-      : await resolvePreviewTarget();
+      : await resolvePreviewTarget(language);
     const result = await generateReport(target, contentSelector.value, {
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments
         : assessments.value,
       logLevel: logLevel.value,
       // Option names expected by Yoast SEO.
-      keyword: resolvedKeyphrase.value,
-      synonyms: resolvedSynonyms.value,
+      keyword: resolvedKeyphrase,
+      synonyms: resolvedSynonyms,
     });
 
     const newReport = {
@@ -208,8 +226,15 @@ async function analyze() {
 
     // An analysis still running when the editor switched languages belongs to
     // the language it started in.
-    if (panel.language.code === language) {
+    const isCurrentLanguage = panel.language.code === language;
+    if (isCurrentLanguage) {
       report.value = newReport;
+    }
+
+    // Unstored and no longer shown, the report is discarded, so nothing was
+    // generated from the editor's point of view.
+    if (!isCurrentLanguage && !persisted.value) {
+      return;
     }
 
     panel.notification.success({
@@ -248,7 +273,7 @@ async function analyze() {
           :text="panel.t('johannschopplich.seo-audit.analyze')"
           variant="filled"
           theme="positive"
-          :disabled="isAnalyzing"
+          :disabled="isAnalyzing || !isKeyphraseCurrent"
           @click="analyze()"
         />
       </k-button-group>

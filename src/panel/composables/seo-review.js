@@ -10,6 +10,7 @@ import {
   PreviewResponseError,
   PreviewUnreachableError,
 } from "../utils/error";
+import { createLanguageRequestOptions } from "../utils/request";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -78,7 +79,7 @@ export function useSeoReview() {
     return resultsByCategory;
   }
 
-  async function fetchHtml({ url, path }) {
+  async function fetchHtml({ url, path, language }) {
     // Same-origin pages raise no CORS question, so the browser reads them itself.
     if (location.origin === new URL(url).origin) {
       let response;
@@ -100,7 +101,11 @@ export function useSeoReview() {
       code,
       html,
       url: fetchedUrl,
-    } = await panel.api.post(PLUGIN_PROXY_API_ROUTE, path ? { path } : { url });
+    } = await panel.api.post(
+      PLUGIN_PROXY_API_ROUTE,
+      path ? { path } : { url },
+      createLanguageRequestOptions(language),
+    );
 
     if (code === null) {
       throw new PreviewUnreachableError({ url: fetchedUrl });
@@ -118,18 +123,23 @@ export function useSeoReview() {
   }
 
   /**
+   * Resolves the current view's preview URL in `language` and returns it as a
+   * target that carries `language` on to the proxy request.
+   *
    * @throws {MissingPreviewUrlError} When the model has no preview URL for the current user
    */
-  async function resolvePreviewTarget() {
-    const { previewUrl } = await panel.api.get(panel.view.path, {
-      select: "previewUrl",
-    });
+  async function resolvePreviewTarget(language) {
+    const { previewUrl } = await panel.api.get(
+      panel.view.path,
+      { select: "previewUrl" },
+      createLanguageRequestOptions(language),
+    );
 
     if (!previewUrl) {
       throw new MissingPreviewUrlError({ path: panel.view.path });
     }
 
-    return { url: previewUrl, path: panel.view.path };
+    return { url: previewUrl, path: panel.view.path, language };
   }
 
   async function resolveLogLevelIndex(logLevel) {
@@ -142,17 +152,22 @@ export function useSeoReview() {
     );
   }
 
-  function resolveKeyphrase(keyphrase, keyphraseField) {
-    return (
-      keyphrase || currentContent.value[keyphraseField?.toLowerCase()] || ""
-    );
+  function resolveKeyphrase(
+    keyphrase,
+    keyphraseField,
+    content = currentContent.value,
+  ) {
+    return keyphrase || content[keyphraseField?.toLowerCase()] || "";
   }
 
-  function resolveSynonyms(synonyms, synonymsField) {
+  function resolveSynonyms(
+    synonyms,
+    synonymsField,
+    content = currentContent.value,
+  ) {
     if (!synonyms && !synonymsField) return [];
 
-    const value =
-      synonyms || currentContent.value[synonymsField?.toLowerCase()];
+    const value = synonyms || content[synonymsField?.toLowerCase()];
 
     if (Array.isArray(value)) return value;
     if (typeof value === "string") return value.split(",").map((i) => i.trim());

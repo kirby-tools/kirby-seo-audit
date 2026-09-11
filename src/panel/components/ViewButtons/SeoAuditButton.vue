@@ -2,6 +2,7 @@
 import { ref, useApi, useContent, usePanel } from "kirbyuse";
 import { isZeroOneValid, useSeoReview } from "../../composables";
 import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
+import { createLanguageRequestOptions } from "../../utils/request";
 
 const props = defineProps({
   keyphrase: {
@@ -69,6 +70,10 @@ async function analyze() {
     return;
   }
 
+  // A language switch during the analysis must not mix the two languages, so
+  // everything that depends on the language is read before the first `await`.
+  const language = panel.language.code;
+  const content = currentContent.value;
   panel.isLoading = true;
   isAnalyzing.value = true;
 
@@ -76,34 +81,36 @@ async function analyze() {
     const logLevel = await resolveLogLevelIndex(props.logLevel);
 
     const [target, queriedProps] = __PLAYGROUND__
-      ? [{ url: currentContent.value.targeturl }, props]
+      ? [{ url: content.targeturl }, props]
       : await Promise.all([
-          resolvePreviewTarget(),
+          resolvePreviewTarget(language),
           // A view button's props reach the Panel unresolved, so the server
           // resolves the ones carrying a Kirby query.
           hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
-            ? api.get(PLUGIN_BUTTON_OPTIONS_API_ROUTE, {
-                path: panel.view.path,
-              })
+            ? api.get(
+                PLUGIN_BUTTON_OPTIONS_API_ROUTE,
+                { path: panel.view.path },
+                createLanguageRequestOptions(language),
+              )
             : props,
         ]);
 
     const resolvedKeyphrase = resolveKeyphrase(
       queriedProps.keyphrase,
       props.keyphraseField,
+      content,
     );
     const resolvedSynonyms = resolveSynonyms(
       queriedProps.synonyms,
       props.synonymsField,
+      content,
     );
 
     const result = await generateReport(
       target,
       props.contentSelector || "body",
       {
-        assessments: __PLAYGROUND__
-          ? currentContent.value.assessments
-          : props.assessments,
+        assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
         logLevel,
         // Option names expected by Yoast SEO.
         keyword: resolvedKeyphrase,
