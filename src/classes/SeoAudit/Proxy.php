@@ -46,9 +46,8 @@ final class Proxy
                 $this->kirby->option(self::OPTION_PREFIX . 'params', [])
             );
         } catch (KirbyException $exception) {
-            // `Remote` throws a plain `Exception` for a failed curl request; a
-            // Kirby exception means an invalid `proxy.params` option and
-            // propagates.
+            // A failed curl request throws a plain `Exception`, so a Kirby
+            // exception comes from invalid `proxy.params` and propagates.
             throw $exception;
         } catch (Exception) {
             return ['code' => null, 'html' => null, 'url' => $url];
