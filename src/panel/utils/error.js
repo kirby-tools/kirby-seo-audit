@@ -25,3 +25,11 @@ export class PreviewResponseError extends Error {
     this.isProxied = isProxied;
   }
 }
+
+export class PreviewUnreachableError extends Error {
+  constructor({ url }) {
+    super(`Preview URL ${url} could not be reached`);
+
+    this.url = url;
+  }
+}

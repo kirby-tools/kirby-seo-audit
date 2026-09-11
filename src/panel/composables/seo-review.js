@@ -8,6 +8,7 @@ import {
   IncompatibleLocaleError,
   MissingPreviewUrlError,
   PreviewResponseError,
+  PreviewUnreachableError,
 } from "../utils/error";
 import {
   createSeoReport,
@@ -80,7 +81,12 @@ export function useSeoReview() {
   async function fetchHtml({ url, path }) {
     // Same-origin pages raise no CORS question, so the browser reads them itself.
     if (location.origin === new URL(url).origin) {
-      const response = await fetch(url);
+      let response;
+      try {
+        response = await fetch(url);
+      } catch {
+        throw new PreviewUnreachableError({ url });
+      }
       if (!response.ok) {
         throw new PreviewResponseError({ url, status: response.status });
       }
@@ -95,6 +101,10 @@ export function useSeoReview() {
       html,
       url: fetchedUrl,
     } = await panel.api.post(PLUGIN_PROXY_API_ROUTE, path ? { path } : { url });
+
+    if (code === null) {
+      throw new PreviewUnreachableError({ url: fetchedUrl });
+    }
 
     if (!(code >= 200 && code < 300)) {
       throw new PreviewResponseError({
@@ -162,6 +172,15 @@ export function useSeoReview() {
             : "johannschopplich.seo-audit.error.previewResponse",
           { url: error.url, status: error.status },
         ),
+      );
+      return;
+    }
+
+    if (error instanceof PreviewUnreachableError) {
+      panel.notification.error(
+        panel.t("johannschopplich.seo-audit.error.previewUnreachable", {
+          url: error.url,
+        }),
       );
       return;
     }

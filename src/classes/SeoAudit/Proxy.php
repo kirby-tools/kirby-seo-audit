@@ -5,11 +5,13 @@ declare(strict_types = 1);
 namespace JohannSchopplich\SeoAudit;
 
 use Closure;
+use Exception;
 use Kirby\Cms\App;
 use Kirby\Cms\File;
 use Kirby\Cms\Find;
 use Kirby\Cms\Page;
 use Kirby\Cms\Site;
+use Kirby\Exception\Exception as KirbyException;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
 use Kirby\Http\Remote;
@@ -28,17 +30,29 @@ final class Proxy
     /**
      * Fetches the preview HTML of the model named by the request.
      *
+     * `code` is `null` when the host cannot be reached, so the Panel can tell
+     * an unreachable preview apart from one that returns an error status.
+     *
      * @return array{code: int|null, html: string|null, url: string}
-     * @throws InvalidArgumentException When the request names no model
+     * @throws InvalidArgumentException When the request names no model or `proxy.params` holds an invalid option
      */
     public function handle(): array
     {
         $url = $this->resolveTarget();
 
-        $response = Remote::request(
-            $url,
-            $this->kirby->option(self::OPTION_PREFIX . 'params', [])
-        );
+        try {
+            $response = Remote::request(
+                $url,
+                $this->kirby->option(self::OPTION_PREFIX . 'params', [])
+            );
+        } catch (KirbyException $exception) {
+            // `Remote` throws a plain `Exception` for a failed curl request; a
+            // Kirby exception means an invalid `proxy.params` option and
+            // propagates.
+            throw $exception;
+        } catch (Exception) {
+            return ['code' => null, 'html' => null, 'url' => $url];
+        }
 
         return [
             'code' => $response->code(),

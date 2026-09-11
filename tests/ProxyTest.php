@@ -258,7 +258,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function returns_the_url_it_fetched_after_urlResolver(): void
+    public function handle_returns_the_url_rewritten_by_urlResolver(): void
     {
         $kirby = self::bootApp([
             'options' => [
@@ -284,5 +284,52 @@ final class ProxyTest extends TestCase
             'https://host.docker.internal:3000/test',
             (new Proxy($kirby))->handle()['url']
         );
+    }
+
+    #[Test]
+    public function handle_returns_a_null_code_for_a_host_it_cannot_reach(): void
+    {
+        $kirby = self::bootApp([
+            'options' => [
+                'johannschopplich.seo-audit' => [
+                    'proxy' => [
+                        // Nothing listens on port 1, so the connection is refused at once.
+                        'urlResolver' => fn () => 'http://127.0.0.1:1/test'
+                    ]
+                ]
+            ],
+            'request' => [
+                'method' => 'POST',
+                'body' => ['path' => 'pages/test']
+            ]
+        ]);
+
+        $this->assertSame(
+            ['code' => null, 'html' => null, 'url' => 'http://127.0.0.1:1/test'],
+            (new Proxy($kirby))->handle()
+        );
+    }
+
+    #[Test]
+    public function handle_throws_InvalidArgumentException_for_a_ca_option_that_names_no_file(): void
+    {
+        $kirby = self::bootApp([
+            'options' => [
+                'johannschopplich.seo-audit' => [
+                    'proxy' => [
+                        'params' => ['test' => true, 'ca' => __DIR__ . '/missing-ca.pem']
+                    ]
+                ]
+            ],
+            'request' => [
+                'method' => 'POST',
+                'body' => ['path' => 'pages/test']
+            ]
+        ]);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid "ca" option');
+
+        (new Proxy($kirby))->handle();
     }
 }
