@@ -100,7 +100,7 @@ describe("filterYoastSeoResults", () => {
 
     const { seo } = filterYoastSeoResults(results, options, "de");
 
-    expect(seo).toHaveLength(1);
+    expect(seo).toMatchObject([{ score: -1, rating: "error" }]);
   });
 
   it("drops an errored assessment that options.assessments leaves out", () => {
@@ -184,25 +184,6 @@ describe("filterYoastSeoResults", () => {
   });
 });
 
-describe("scoreToRating", () => {
-  it.each([
-    [-1, "error"],
-    [0, "feedback"],
-    [3, "bad"],
-    [4, "bad"],
-    [5, "ok"],
-    [7, "ok"],
-    [8, "good"],
-    [9, "good"],
-  ])("maps %i to %s", (score, rating) => {
-    expect(scoreToRating(score)).toBe(rating);
-  });
-
-  it("maps a missing score to the empty string", () => {
-    expect(scoreToRating(undefined)).toBe("");
-  });
-});
-
 describe("groupResultsByRating", () => {
   it("groups a result with an empty rating under `error`", () => {
     const results = [
@@ -219,6 +200,25 @@ describe("groupResultsByRating", () => {
         },
       ],
     });
+  });
+});
+
+describe("scoreToRating", () => {
+  it.each([
+    [-1, "error"],
+    [0, "feedback"],
+    [3, "bad"],
+    [4, "bad"],
+    [5, "ok"],
+    [7, "ok"],
+    [8, "good"],
+    [9, "good"],
+  ])("maps %i to %s", (score, rating) => {
+    expect(scoreToRating(score)).toBe(rating);
+  });
+
+  it("maps a missing score to the empty string", () => {
+    expect(scoreToRating(undefined)).toBe("");
   });
 });
 
