@@ -44,7 +44,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function resolves_a_page_path_to_its_own_preview_url(): void
+    public function resolve_url_returns_the_preview_url_of_a_page_path(): void
     {
         $kirby = self::bootApp();
 
@@ -55,7 +55,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function resolves_the_site_path_to_the_site_preview_url(): void
+    public function resolve_url_returns_the_site_preview_url_for_site(): void
     {
         $kirby = self::bootApp();
 
@@ -66,7 +66,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_a_model_type_that_cannot_be_previewed(): void
+    public function resolve_url_throws_for_a_model_type_that_cannot_be_previewed(): void
     {
         $kirby = self::bootApp();
 
@@ -77,7 +77,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function throws_when_the_preview_url_resolves_to_null(): void
+    public function resolve_url_throws_when_the_preview_url_resolves_to_null(): void
     {
         // A model whose preview is unavailable yields `null`, which would
         // otherwise reach `Remote` as the URL to fetch.
@@ -94,7 +94,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_a_page_that_does_not_exist(): void
+    public function resolve_url_throws_for_a_page_that_does_not_exist(): void
     {
         $kirby = self::bootApp();
 
@@ -104,7 +104,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function applies_the_configured_url_resolver(): void
+    public function resolve_url_applies_urlResolver(): void
     {
         $kirby = self::bootApp([
             'options' => [
@@ -138,7 +138,7 @@ final class ProxyTest extends TestCase
 
     #[Test]
     #[DataProvider('unusableResolverResults')]
-    public function throws_when_the_url_resolver_returns_no_usable_url(mixed $result): void
+    public function resolve_url_throws_when_urlResolver_returns_no_usable_url(mixed $result): void
     {
         $kirby = self::bootApp([
             'options' => [
@@ -155,7 +155,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function throws_for_a_request_that_carries_a_url_but_no_model_path(): void
+    public function resolve_target_throws_for_a_request_that_carries_a_url_but_no_model_path(): void
     {
         // Honoring a request-supplied `url` would turn any Panel account into
         // an open proxy onto the server's network.
@@ -169,11 +169,11 @@ final class ProxyTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing model path');
 
-        (new Proxy($kirby))->handle();
+        (new Proxy($kirby))->resolveTarget();
     }
 
     #[Test]
-    public function resolves_the_model_preview_url_when_the_request_also_carries_a_url(): void
+    public function resolve_target_returns_the_model_preview_url_when_the_request_also_carries_a_url(): void
     {
         $kirby = self::bootApp([
             'request' => [
@@ -192,7 +192,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function returns_the_request_url_with_allowArbitraryUrls_enabled(): void
+    public function resolve_target_returns_the_request_url_with_allowArbitraryUrls(): void
     {
         $kirby = self::bootApp([
             'options' => [
@@ -213,7 +213,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function applies_the_url_resolver_to_a_request_url(): void
+    public function resolve_target_applies_urlResolver_to_a_request_url(): void
     {
         $kirby = self::bootApp([
             'options' => [
@@ -237,7 +237,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function falls_back_to_the_model_path_with_allowArbitraryUrls_but_no_request_url(): void
+    public function resolve_target_falls_back_to_the_model_path_with_allowArbitraryUrls_but_no_request_url(): void
     {
         $kirby = self::bootApp([
             'options' => [
@@ -287,7 +287,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function handle_returns_a_null_code_for_a_host_it_cannot_reach(): void
+    public function handle_returns_a_null_code_for_an_unreachable_host(): void
     {
         $kirby = self::bootApp([
             'options' => [
@@ -311,7 +311,7 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
-    public function handle_throws_InvalidArgumentException_for_a_ca_option_that_names_no_file(): void
+    public function handle_throws_InvalidArgumentException_for_a_ca_param_naming_a_missing_file(): void
     {
         $kirby = self::bootApp([
             'options' => [
