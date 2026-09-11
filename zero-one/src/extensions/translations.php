@@ -17,7 +17,7 @@ return [
         'johannschopplich.seo-audit.notification.analyzeError' => 'Could not generate report.',
         'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No preview URL – disabled in the blueprint or not allowed for this role.',
         'johannschopplich.seo-audit.error.previewResponse' => 'The preview URL {url} returned status {status}, so there is no page to analyze.',
-        'johannschopplich.seo-audit.error.previewUnauthorized' => 'The preview URL {url} returned status 401. If it sits behind Basic Auth, set the credentials in the proxy.params.basicAuth option.',
+        'johannschopplich.seo-audit.error.previewUnauthorized' => 'The preview URL {url} returned status 401. For Basic Auth, set the credentials in proxy.params.basicAuth.',
         'johannschopplich.seo-audit.error.previewUnreachable' => 'The preview URL {url} could not be reached.',
         'johannschopplich.seo-audit.error.incompatibleLocale' => 'The language {locale} is not supported by the Yoast SEO assessment {assessment}. Only {compatibleLocales} are compatible.'
     ],
@@ -37,7 +37,7 @@ return [
         'johannschopplich.seo-audit.notification.analyzeError' => 'Bericht konnte nicht generiert werden.',
         'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Keine Vorschau-URL – im Blueprint deaktiviert oder für diese Rolle nicht erlaubt.',
         'johannschopplich.seo-audit.error.previewResponse' => 'Die Vorschau-URL {url} lieferte Status {status}, es gibt also keine Seite zum Analysieren.',
-        'johannschopplich.seo-audit.error.previewUnauthorized' => 'Die Vorschau-URL {url} lieferte Status 401. Ist sie per Basic Auth geschützt, müssen die Zugangsdaten in der Option proxy.params.basicAuth hinterlegt sein.',
+        'johannschopplich.seo-audit.error.previewUnauthorized' => 'Die Vorschau-URL {url} lieferte Status 401. Hinterlege für Basic Auth die Zugangsdaten in proxy.params.basicAuth.',
         'johannschopplich.seo-audit.error.previewUnreachable' => 'Die Vorschau-URL {url} war nicht erreichbar.',
         'johannschopplich.seo-audit.error.incompatibleLocale' => 'Die Sprache {locale} wird von dem Yoast SEO Check {assessment} nicht unterstützt. Es sind nur {compatibleLocales} kompatibel.'
     ],
@@ -57,7 +57,7 @@ return [
         'johannschopplich.seo-audit.notification.analyzeError' => 'Impossible de générer le rapport.',
         'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Aucune URL d\'aperçu – désactivée dans le blueprint ou non autorisée pour ce rôle.',
         'johannschopplich.seo-audit.error.previewResponse' => 'L\'URL d\'aperçu {url} a renvoyé le statut {status}, il n\'y a donc aucune page à analyser.',
-        'johannschopplich.seo-audit.error.previewUnauthorized' => 'L\'URL d\'aperçu {url} a renvoyé le statut 401. Si elle est protégée par Basic Auth, renseignez les identifiants dans l\'option proxy.params.basicAuth.',
+        'johannschopplich.seo-audit.error.previewUnauthorized' => 'L\'URL d\'aperçu {url} a renvoyé le statut 401. Pour Basic Auth, renseignez les identifiants dans proxy.params.basicAuth.',
         'johannschopplich.seo-audit.error.previewUnreachable' => 'L\'URL d\'aperçu {url} n\'a pas pu être atteinte.',
         'johannschopplich.seo-audit.error.incompatibleLocale' => 'La langue {locale} n\'est pas prise en charge par l\'évaluation Yoast SEO {assessment}. Seules {compatibleLocales} sont compatibles.'
     ],
@@ -77,7 +77,7 @@ return [
         'johannschopplich.seo-audit.notification.analyzeError' => 'Het rapport kon niet worden gegenereerd.',
         'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Geen preview-URL – uitgeschakeld in de blueprint of niet toegestaan voor deze rol.',
         'johannschopplich.seo-audit.error.previewResponse' => 'De preview-URL {url} gaf status {status} terug, er is dus geen pagina om te analyseren.',
-        'johannschopplich.seo-audit.error.previewUnauthorized' => 'De preview-URL {url} gaf status 401 terug. Staat deze achter Basic Auth, vul dan de inloggegevens in bij de optie proxy.params.basicAuth.',
+        'johannschopplich.seo-audit.error.previewUnauthorized' => 'De preview-URL {url} gaf status 401 terug. Vul voor Basic Auth de inloggegevens in bij proxy.params.basicAuth.',
         'johannschopplich.seo-audit.error.previewUnreachable' => 'De preview-URL {url} was niet bereikbaar.',
         'johannschopplich.seo-audit.error.incompatibleLocale' => 'De taal {locale} wordt niet ondersteund door de Yoast SEO-beoordeling {assessment}. Alleen {compatibleLocales} zijn compatibel.'
     ],
@@ -97,7 +97,7 @@ return [
         'johannschopplich.seo-audit.notification.analyzeError' => 'No se pudo generar el informe.',
         'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No hay URL de vista previa – desactivada en el blueprint o no permitida para este rol.',
         'johannschopplich.seo-audit.error.previewResponse' => 'La URL de vista previa {url} devolvió el estado {status}, así que no hay ninguna página que analizar.',
-        'johannschopplich.seo-audit.error.previewUnauthorized' => 'La URL de vista previa {url} devolvió el estado 401. Si está protegida con Basic Auth, indique las credenciales en la opción proxy.params.basicAuth.',
+        'johannschopplich.seo-audit.error.previewUnauthorized' => 'La URL de vista previa {url} devolvió el estado 401. Para Basic Auth, indica las credenciales en proxy.params.basicAuth.',
         'johannschopplich.seo-audit.error.previewUnreachable' => 'No se pudo acceder a la URL de vista previa {url}.',
         'johannschopplich.seo-audit.error.incompatibleLocale' => 'El idioma {locale} no es compatible con la evaluación Yoast SEO {assessment}. Solo {compatibleLocales} son compatibles.'
     ]
