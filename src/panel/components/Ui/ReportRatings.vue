@@ -1,15 +1,17 @@
-<script setup>
+<script setup lang="ts">
+import type { PropType } from "vue";
+import type { Category, Report } from "../../types";
 import { usePanel } from "kirbyuse";
 import RatingStatus from "./RatingStatus.vue";
 
 defineProps({
   ratings: {
-    type: Object,
+    type: Object as PropType<Report["ratings"]>,
     required: true,
   },
 });
 
-const CATEGORIES = ["seo", "readability"];
+const CATEGORIES: Category[] = ["seo", "readability"];
 
 const panel = usePanel();
 </script>

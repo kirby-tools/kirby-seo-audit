@@ -1,8 +1,10 @@
-<script setup>
+<script setup lang="ts">
+import type { PropType } from "vue";
+import type { ContentVersion } from "../../types";
 import { computed, usePanel } from "kirbyuse";
 
 const props = defineProps({
-  version: String,
+  version: String as PropType<ContentVersion>,
   timestamp: {
     type: Number,
     required: true,

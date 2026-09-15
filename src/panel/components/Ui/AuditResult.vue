@@ -1,11 +1,13 @@
-<script setup>
+<script setup lang="ts">
+import type { PropType } from "vue";
+import type { Report, ResultRating } from "../../types";
 import { computed, toRaw, usePanel } from "kirbyuse";
 import { groupResultsByRating } from "../../utils/seo-filter";
 import AuditResultItem from "./AuditResultItem.vue";
 
 const props = defineProps({
   report: {
-    type: Object,
+    type: Object as PropType<Report["results"]>,
     required: true,
   },
   links: {
@@ -18,7 +20,7 @@ const props = defineProps({
   },
 });
 
-const RATING_BADGE_COLOR_MAP = {
+const RATING_BADGE_COLOR_MAP: Partial<Record<ResultRating, string>> = {
   good: "green",
   ok: "orange",
   bad: "red",

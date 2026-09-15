@@ -1,12 +1,15 @@
-<script setup>
+<script setup lang="ts">
+import type { PropType } from "vue";
+import type { CategoryRating, ResultRating } from "../../types";
+
 defineProps({
   rating: {
-    type: String,
+    type: String as PropType<ResultRating | CategoryRating>,
     required: true,
   },
 });
 
-const RATING_COLOR_MAP = {
+const RATING_COLOR_MAP: Record<ResultRating | CategoryRating, string> = {
   good: "green",
   ok: "orange",
   bad: "red",

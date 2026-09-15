@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { computed, ref, useContent, useSection } from "kirbyuse";
 import { section } from "kirbyuse/props";
 
@@ -11,15 +11,15 @@ export default {
 };
 </script>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps(propsDefinition);
-const data = ref({});
+const data = ref<{ label?: string; help?: string }>({});
 
 (async () => {
   const { load } = useSection();
   data.value = await load({
-    parent: props.parent,
-    name: props.name,
+    parent: props.parent!,
+    name: props.name!,
   });
 })();
 
@@ -38,7 +38,7 @@ seoAudit:
     Array.isArray(currentContent.value.assessments) &&
     currentContent.value.assessments.length
       ? `assessments:\n${currentContent.value.assessments
-          .map((i) => `    - ${i}`)
+          .map((i: string) => `    - ${i}`)
           .join("\n")}`
       : ""
   }

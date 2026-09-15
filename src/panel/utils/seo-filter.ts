@@ -101,7 +101,10 @@ function isNamedByAssessments(result: YoastResult, assessments: string[]) {
 export function groupResultsByRating<T extends Pick<Result, "rating">>(
   results: T[],
 ) {
-  const resultsByRating: Record<ResultRating, T[]> = {
+  const resultsByRating: Record<
+    ResultRating,
+    (T & { rating: ResultRating })[]
+  > = {
     good: [],
     ok: [],
     bad: [],
@@ -120,7 +123,7 @@ export function groupResultsByRating<T extends Pick<Result, "rating">>(
 
   return Object.fromEntries(
     Object.entries(resultsByRating).filter(([, items]) => items.length > 0),
-  ) as Partial<Record<ResultRating, T[]>>;
+  ) as Partial<Record<ResultRating, (T & { rating: ResultRating })[]>>;
 }
 
 export function scoreToRating(score?: number): ResultRating | "" {

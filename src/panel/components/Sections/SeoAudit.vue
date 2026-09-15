@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+import type { LicenseStatus } from "@kirby-tools/licensing";
+import type { PreviewTarget, Report } from "../../types";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
   computed,
@@ -33,7 +35,7 @@ export default {
 };
 </script>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps(propsDefinition);
 
 const _isKirby5 = isKirby5();
@@ -54,26 +56,26 @@ const { rating, store: storeRating } = useRating();
 const isZeroOneBuild = __ZERO_ONE__;
 
 // #region Section props
-const label = ref();
-const keyphrase = ref();
-const keyphraseField = ref();
-const synonyms = ref();
-const synonymsField = ref();
-const assessments = ref();
-const contentSelector = ref();
-const links = ref();
-const persisted = ref();
-const auto = ref();
-const logLevel = ref();
+const label = ref<string>();
+const keyphrase = ref<string>();
+const keyphraseField = ref<string>();
+const synonyms = ref<string | string[]>();
+const synonymsField = ref<string>();
+const assessments = ref<string[]>();
+const contentSelector = ref<string>();
+const links = ref<boolean>();
+const persisted = ref<boolean>();
+const auto = ref<AutoTrigger | boolean | null>();
+const logLevel = ref<number>();
 // #endregion
 
 const isInitialized = ref(false);
 const isAnalyzing = ref(false);
-const licenseStatus = ref();
-const report = ref();
+const licenseStatus = ref<LicenseStatus>();
+const report = ref<Report>();
 // The language `keyphrase` and `synonyms` were last resolved in, which lags
 // behind a language switch until the section data reloads.
-const keyphraseLanguage = ref();
+const keyphraseLanguage = ref<string>();
 const isKeyphraseCurrent = computed(
   () => keyphraseLanguage.value === panel.language.code,
 );
@@ -124,8 +126,8 @@ async function updateSectionData(isInitializing = false) {
   const [context, response] = await Promise.all([
     usePluginContext(),
     load({
-      parent: props.parent,
-      name: props.name,
+      parent: props.parent!,
+      name: props.name!,
     }),
   ]);
 
@@ -167,7 +169,7 @@ function getStorageScope() {
   return {
     path: panel.view.path,
     language: panel.language.code,
-    section: props.name,
+    section: props.name!,
   };
 }
 
@@ -184,24 +186,24 @@ function loadStoredReport() {
  * Runs the analysis in `language` and leaves showing the report to
  * `showReport`, which a run started elsewhere on the view goes through too.
  */
-async function runAnalysis(language) {
+async function runAnalysis(language: string): Promise<Report> {
   const resolvedKeyphrase = resolveKeyphrase(
     keyphrase.value,
     keyphraseField.value,
   );
   const resolvedSynonyms = resolveSynonyms(synonyms.value, synonymsField.value);
 
-  const target = __PLAYGROUND__
+  const target: PreviewTarget = __PLAYGROUND__
     ? { url: currentContent.value.targeturl }
     : await resolvePreviewTarget(language, await resolveContentVersion());
   const { results, ratings } = await generateReport(
     target,
-    contentSelector.value,
+    contentSelector.value!,
     {
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments
-        : assessments.value,
-      logLevel: logLevel.value,
+        : assessments.value!,
+      logLevel: logLevel.value!,
       // Option names expected by Yoast SEO.
       keyword: resolvedKeyphrase,
       synonyms: resolvedSynonyms,
@@ -226,7 +228,7 @@ async function runAnalysis(language) {
  * Stores and shows a report generated in `language`. Returns whether the
  * editor keeps it: an unstored report for a language they left is discarded.
  */
-function showReport(newReport, language) {
+function showReport(newReport: Report, language: string) {
   if (persisted.value) {
     writeStoredReport({ ...getStorageScope(), language }, newReport);
   }

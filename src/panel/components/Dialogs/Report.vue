@@ -1,4 +1,7 @@
-<script setup>
+<script setup lang="ts">
+import type { LicenseStatus } from "@kirby-tools/licensing";
+import type { PropType } from "vue";
+import type { ContentVersion, Report } from "../../types";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import { ref, usePanel } from "kirbyuse";
 import { usePluginContext } from "../../composables";
@@ -8,14 +11,14 @@ import ReportRatings from "../Ui/ReportRatings.vue";
 
 defineProps({
   report: {
-    type: Object,
+    type: Object as PropType<Report["results"]>,
     required: true,
   },
   ratings: {
-    type: Object,
+    type: Object as PropType<Report["ratings"]>,
     required: true,
   },
-  version: String,
+  version: String as PropType<ContentVersion>,
   timestamp: {
     type: Number,
     required: true,
@@ -26,11 +29,17 @@ defineProps({
   },
 });
 
-const emit = defineEmits(["cancel", "close", "input", "submit", "success"]);
+const emit = defineEmits<{
+  (event: "cancel"): void;
+  (event: "close"): void;
+  (event: "input", value: unknown): void;
+  (event: "submit"): void;
+  (event: "success"): void;
+}>();
 
 const panel = usePanel();
 
-const licenseStatus = ref();
+const licenseStatus = ref<LicenseStatus>();
 const isZeroOneBuild = __ZERO_ONE__;
 
 (async () => {
