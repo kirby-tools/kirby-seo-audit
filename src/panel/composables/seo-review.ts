@@ -1,3 +1,12 @@
+import type { LogLevel } from "../constants";
+import type {
+  AnalysisOptions,
+  ContentVersion,
+  PreviewTarget,
+  PreviewUrlResponse,
+  ProxyResponse,
+  Report,
+} from "../types";
 import { isKirby5, useContent, usePanel } from "kirbyuse";
 import {
   DEFAULT_LOG_LEVEL,
@@ -26,7 +35,11 @@ export function useSeoReview() {
   const { content, currentContent, hasChanges, isEditable } = useContent();
   const logger = useLogger();
 
-  async function generateReport(target, contentSelector, options) {
+  async function generateReport(
+    target: PreviewTarget,
+    contentSelector: string,
+    options: AnalysisOptions,
+  ): Promise<Pick<Report, "results" | "ratings">> {
     logger.info("Starting SEO analysis for", target.url);
 
     if (import.meta.env.DEV) {
@@ -80,14 +93,14 @@ export function useSeoReview() {
 
     return {
       results,
-      ratings: rateReport(results, language.split("-")[0]),
+      ratings: rateReport(results, language.split("-")[0]!),
     };
   }
 
-  async function fetchHtml({ url, path, language, version }) {
+  async function fetchHtml({ url, path, language, version }: PreviewTarget) {
     // Same-origin pages raise no CORS question, so the browser reads them itself.
     if (location.origin === new URL(url).origin) {
-      let response;
+      let response: Response;
       try {
         response = await fetch(url);
       } catch {
@@ -106,7 +119,7 @@ export function useSeoReview() {
       code,
       html,
       url: fetchedUrl,
-    } = await panel.api.post(
+    } = await panel.api.post<ProxyResponse>(
       PLUGIN_PROXY_API_ROUTE,
       path ? { path, version } : { url },
       createLanguageRequestOptions(language),
@@ -124,7 +137,7 @@ export function useSeoReview() {
       });
     }
 
-    return html;
+    return html!;
   }
 
   /**
@@ -133,7 +146,7 @@ export function useSeoReview() {
    * server renders what the form shows; an editor who cannot flush analyzes
    * them all the same.
    */
-  async function resolveContentVersion() {
+  async function resolveContentVersion(): Promise<ContentVersion> {
     if (!isKirby5() || !hasChanges.value) {
       return "latest";
     }
@@ -148,12 +161,16 @@ export function useSeoReview() {
   /**
    * @throws {MissingPreviewUrlError} When the model has no preview URL for the current user
    */
-  async function resolvePreviewTarget(language, version = "latest") {
-    const { url, version: resolvedVersion } = await panel.api.get(
-      PLUGIN_PREVIEW_URL_API_ROUTE,
-      { path: panel.view.path, version },
-      createLanguageRequestOptions(language),
-    );
+  async function resolvePreviewTarget(
+    language: string,
+    version: ContentVersion = "latest",
+  ): Promise<PreviewTarget> {
+    const { url, version: resolvedVersion } =
+      await panel.api.get<PreviewUrlResponse>(
+        PLUGIN_PREVIEW_URL_API_ROUTE,
+        { path: panel.view.path, version },
+        createLanguageRequestOptions(language),
+      );
 
     if (!url) {
       throw new MissingPreviewUrlError({ path: panel.view.path });
@@ -167,7 +184,7 @@ export function useSeoReview() {
     };
   }
 
-  async function resolveLogLevelIndex(logLevel) {
+  async function resolveLogLevelIndex(logLevel?: LogLevel | null) {
     const context = await usePluginContext();
 
     return LOG_LEVELS.indexOf(
@@ -178,21 +195,27 @@ export function useSeoReview() {
   }
 
   function resolveKeyphrase(
-    keyphrase,
-    keyphraseField,
+    keyphrase?: string | null,
+    keyphraseField?: string | null,
     content = currentContent.value,
-  ) {
-    return keyphrase || content[keyphraseField?.toLowerCase()] || "";
+  ): string {
+    return (
+      keyphrase ||
+      (keyphraseField ? content[keyphraseField.toLowerCase()] : undefined) ||
+      ""
+    );
   }
 
   function resolveSynonyms(
-    synonyms,
-    synonymsField,
+    synonyms?: string | string[] | null,
+    synonymsField?: string | null,
     content = currentContent.value,
-  ) {
+  ): string[] {
     if (!synonyms && !synonymsField) return [];
 
-    const value = synonyms || content[synonymsField?.toLowerCase()];
+    const value =
+      synonyms ||
+      (synonymsField ? content[synonymsField.toLowerCase()] : undefined);
 
     if (Array.isArray(value)) return value;
     if (typeof value === "string") return value.split(",").map((i) => i.trim());
@@ -200,7 +223,7 @@ export function useSeoReview() {
     return [];
   }
 
-  function notifyReportError(error) {
+  function notifyReportError(error: unknown) {
     logger.error(error);
 
     if (error instanceof PreviewResponseError) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveDocumentLocale } from "./locale";
+import { resolveDocumentLocale } from "../../../src/panel/utils/locale";
 
 describe("resolveDocumentLocale", () => {
   it("should expand a bare language to its full locale", () => {

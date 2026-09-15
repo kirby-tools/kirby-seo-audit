@@ -1,11 +1,12 @@
+import type { Category, Result } from "../../../src/panel/types";
 import { describe, expect, it } from "vitest";
-import { IncompatibleLocaleError } from "./error";
+import { IncompatibleLocaleError } from "../../../src/panel/utils/error";
 import {
   filterYoastSeoResults,
   flattenYoastSeoResults,
   groupResultsByRating,
   scoreToRating,
-} from "./seo-filter";
+} from "../../../src/panel/utils/seo-filter";
 
 describe("flattenYoastSeoResults", () => {
   it("tags each result with the category it arrived in", () => {
@@ -160,9 +161,11 @@ describe("filterYoastSeoResults", () => {
       filterYoastSeoResults(results, options, "nl");
       expect.unreachable();
     } catch (error) {
-      expect(error.locale).toBe("nl");
-      expect(error.assessment).toBe("wordComplexity");
-      expect(error.compatibleLocales).toContain("de");
+      const { locale, assessment, compatibleLocales } =
+        error as IncompatibleLocaleError;
+      expect(locale).toBe("nl");
+      expect(assessment).toBe("wordComplexity");
+      expect(compatibleLocales).toContain("de");
     }
   });
 
@@ -186,7 +189,7 @@ describe("filterYoastSeoResults", () => {
 
 describe("groupResultsByRating", () => {
   it("groups a result with an empty rating under `error`", () => {
-    const results = [
+    const results: Pick<Result, "text" | "rating">[] = [
       { text: "Title width: Good job.", rating: "good" },
       { text: "An error occurred in the 'textLength' assessment.", rating: "" },
     ];
@@ -223,12 +226,19 @@ describe("scoreToRating", () => {
 });
 
 function createResult(
-  identifier,
-  { text = "Some feedback.", score = 9, category = "seo" } = {},
+  identifier: string,
+  {
+    text = "Some feedback.",
+    score = 9,
+    category = "seo",
+  }: { text?: string; score?: number; category?: Category } = {},
 ) {
   return { _identifier: identifier, text, score, _category: category };
 }
 
-function createOptions({ keyword = "", assessments = [] } = {}) {
+function createOptions({
+  keyword = "",
+  assessments = [],
+}: { keyword?: string; assessments?: string[] } = {}) {
   return { keyword, assessments };
 }

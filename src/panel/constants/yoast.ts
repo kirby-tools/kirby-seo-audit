@@ -183,7 +183,9 @@ export const YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP = {
 };
 
 /// keep-sorted
-export const LANGUAGE_TO_LOCALE_MAP = Object.freeze({
+export const LANGUAGE_TO_LOCALE_MAP: Readonly<
+  Record<string, string> & { en: string }
+> = Object.freeze({
   af: "af-ZA",
   am: "am-ET",
   ar: "ar-SA",

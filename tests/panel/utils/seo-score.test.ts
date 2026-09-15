@@ -5,7 +5,7 @@ import {
   rateReport,
   toRatingRecord,
   worstRating,
-} from "./seo-score";
+} from "../../../src/panel/utils/seo-score";
 
 describe("aggregateSeoScore", () => {
   it("scales the mean score of the results to 100", () => {
@@ -87,7 +87,7 @@ describe("worstRating", () => {
 
 describe("toRatingRecord", () => {
   it("keeps one light per category and counts the results", () => {
-    const report = {
+    const report: Parameters<typeof toRatingRecord>[0] = {
       results: {
         seo: [{ rating: "good" }, { rating: "bad" }, { rating: "feedback" }],
         readability: [{ rating: "ok" }, { rating: "error" }],

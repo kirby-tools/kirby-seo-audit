@@ -1,3 +1,4 @@
+import type { Report } from "../types";
 import { onBeforeUnmount, usePanel } from "kirbyuse";
 import { resolveAuto } from "../utils/auto";
 import { useLogger } from "./logger";
@@ -5,18 +6,26 @@ import { usePluginContext } from "./plugin";
 
 // One run per view and language: the first component to react runs it, the
 // others on the same view wait for that run and adopt its result.
-const inFlightRuns = new Map();
+const inFlightRuns = new Map<string, Promise<Report>>();
 
 /**
  * Runs the analysis on its own once the editor publishes, if `auto` asks for
  * it. The run is silent; `onResult` lets a component show the outcome its
  * own way.
  */
-export function useAutoAnalysis({ auto, run, onResult }) {
+export function useAutoAnalysis({
+  auto,
+  run,
+  onResult,
+}: {
+  auto: () => unknown;
+  run: (language: string) => Promise<Report>;
+  onResult?: (report: Report, language: string) => void;
+}) {
   const panel = usePanel();
   const logger = useLogger();
 
-  async function onPublish({ language }) {
+  async function onPublish({ language }: { language: string }) {
     try {
       const { config } = await usePluginContext();
 

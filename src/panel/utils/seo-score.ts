@@ -1,3 +1,13 @@
+import type {
+  Category,
+  CategoryScore,
+  ContentVersion,
+  RatingRecord,
+  Report,
+  Result,
+  ResultRating,
+  TrafficLight,
+} from "../types";
 import { scoreToRating } from "./seo-filter";
 
 // Yoast scores a category from the results it kept, so the plugin recomputes
@@ -7,7 +17,10 @@ const MAX_RESULT_SCORE = 9;
 
 // A readability penalty weighs a bad result heavier in a language Yoast only
 // partially supports.
-const READABILITY_PENALTIES = {
+const READABILITY_PENALTIES: Record<
+  "full" | "partial",
+  Partial<Record<ResultRating, number>>
+> = {
   full: { bad: 3, ok: 2, good: 0 },
   partial: { bad: 4, ok: 2, good: 0 },
 };
@@ -27,14 +40,17 @@ const READABILITY_SCORES = {
   none: 0,
 };
 
-const RATING_ORDER = ["bad", "ok", "good"];
-const CATEGORIES = ["seo", "readability"];
+const RATING_ORDER: readonly TrafficLight[] = ["bad", "ok", "good"];
+const CATEGORIES: Category[] = ["seo", "readability"];
 
 /**
  * Rates both categories of a filtered report. A category without results has
  * no rating; a category Yoast cannot score yet rates `none`.
  */
-export function rateReport(results, language) {
+export function rateReport(
+  results: Record<Category, Pick<Result, "score">[]>,
+  language: string,
+): Report["ratings"] {
   return {
     seo: rateCategory(aggregateSeoScore(results.seo), results.seo),
     readability: rateCategory(
@@ -48,24 +64,35 @@ export function rateReport(results, language) {
  * Picks the light an editor has to act on first from a rating record. `none`
  * gives way to any real light; without one, the record as a whole is unrated.
  */
-export function worstRating(record) {
+export function worstRating(
+  record: Pick<RatingRecord, Category>,
+): TrafficLight | "none" {
   const ratedLights = CATEGORIES.map((category) => record[category]).filter(
-    (rating) => RATING_ORDER.includes(rating),
+    isTrafficLight,
   );
 
   if (ratedLights.length === 0) return "none";
 
   return ratedLights.sort(
     (a, b) => RATING_ORDER.indexOf(a) - RATING_ORDER.indexOf(b),
-  )[0];
+  )[0]!;
 }
 
-export function toRatingRecord({ results, ratings }, version) {
+export function toRatingRecord(
+  {
+    results,
+    ratings,
+  }: {
+    results: Record<Category, Pick<Result, "rating">[]>;
+    ratings: Report["ratings"];
+  },
+  version: ContentVersion | undefined,
+): RatingRecord {
   const counts = { good: 0, ok: 0, bad: 0 };
 
   for (const category of CATEGORIES) {
     for (const { rating } of results[category]) {
-      if (rating in counts) counts[rating]++;
+      if (isTrafficLight(rating)) counts[rating]++;
     }
   }
 
@@ -77,7 +104,7 @@ export function toRatingRecord({ results, ratings }, version) {
   };
 }
 
-export function aggregateSeoScore(results) {
+export function aggregateSeoScore(results: Pick<Result, "score">[]) {
   const scoredResults = results.filter((result) => result.score !== -1);
 
   if (scoredResults.length === 0) return 0;
@@ -85,12 +112,16 @@ export function aggregateSeoScore(results) {
   const sum = scoredResults.reduce((total, result) => total + result.score, 0);
 
   return (
-    Math.round((sum * SEO_SCORE_SCALE) / (scoredResults.length * MAX_RESULT_SCORE)) ||
-    0
+    Math.round(
+      (sum * SEO_SCORE_SCALE) / (scoredResults.length * MAX_RESULT_SCORE),
+    ) || 0
   );
 }
 
-export function aggregateReadabilityScore(results, language) {
+export function aggregateReadabilityScore(
+  results: Pick<Result, "score">[],
+  language: string,
+) {
   const scoredResults = results.filter((result) => result.score !== -1);
 
   // Yoast rates a single readability result as no rating at all.
@@ -101,10 +132,11 @@ export function aggregateReadabilityScore(results, language) {
   const penalties = isFullySupported
     ? READABILITY_PENALTIES.full
     : READABILITY_PENALTIES.partial;
-  const penalty = scoredResults.reduce(
-    (total, result) => total + (penalties[scoreToRating(result.score)] ?? 0),
-    0,
-  );
+  const penalty = scoredResults.reduce((total, result) => {
+    const rating = scoreToRating(result.score);
+
+    return total + (rating ? (penalties[rating] ?? 0) : 0);
+  }, 0);
 
   if (penalty > (isFullySupported ? 6 : 4)) return READABILITY_SCORES.bad;
   if (penalty > (isFullySupported ? 4 : 2)) return READABILITY_SCORES.ok;
@@ -112,12 +144,20 @@ export function aggregateReadabilityScore(results, language) {
   return READABILITY_SCORES.good;
 }
 
-function rateCategory(score, results) {
+function rateCategory(
+  score: number,
+  results: Pick<Result, "score">[],
+): CategoryScore | undefined {
   if (results.length === 0) return undefined;
 
   return {
     score,
-    // Yoast rates the 0–100 score with the thresholds of a single result.
-    rating: score === 0 ? "none" : scoreToRating(score / 10),
+    // Yoast rates the 0–100 score with the thresholds of a single result. A
+    // score past 0 lands on a light, never on `feedback` or `error`.
+    rating: score === 0 ? "none" : (scoreToRating(score / 10) as TrafficLight),
   };
+}
+
+function isTrafficLight(value: unknown): value is TrafficLight {
+  return (RATING_ORDER as readonly unknown[]).includes(value);
 }

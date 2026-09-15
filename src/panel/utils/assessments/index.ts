@@ -1,7 +1,12 @@
+import type { AssessmentContext, AssessmentResult } from "../../types";
+
 /**
  * Checks whether the content contains a H1 heading.
  */
-export function singleH1({ htmlDocument, contentSelector }) {
+export function singleH1({
+  htmlDocument,
+  contentSelector,
+}: AssessmentContext): AssessmentResult {
   const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
   const h1s = contentElements.flatMap((element) =>
     element.tagName.toLowerCase() === "h1"
@@ -19,7 +24,10 @@ export function singleH1({ htmlDocument, contentSelector }) {
 /**
  * Checks whether all images have an `alt` attribute.
  */
-export function altAttribute({ htmlDocument, contentSelector }) {
+export function altAttribute({
+  htmlDocument,
+  contentSelector,
+}: AssessmentContext): AssessmentResult {
   const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
   const images = contentElements.flatMap((element) =>
     element.tagName.toLowerCase() === "img"
@@ -66,16 +74,21 @@ export function altAttribute({ htmlDocument, contentSelector }) {
 /**
  * Checks whether the headings (H1 to H6) follow a proper sequential order.
  */
-export function headingStructureOrder({ htmlDocument, contentSelector }) {
-  const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
+export function headingStructureOrder({
+  htmlDocument,
+  contentSelector,
+}: AssessmentContext): AssessmentResult {
+  const contentElements = [
+    ...htmlDocument.querySelectorAll<HTMLElement>(contentSelector),
+  ];
   const headings = contentElements.flatMap((element) =>
     ["h1", "h2", "h3", "h4", "h5", "h6"].includes(element.tagName.toLowerCase())
       ? [element]
-      : [...element.querySelectorAll("h1, h2, h3, h4, h5, h6")],
+      : [...element.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6")],
   );
 
   let previousLevel = 0;
-  const issues = [];
+  const issues: HTMLElement[] = [];
 
   for (const heading of headings) {
     const currentLevel = Number.parseInt(heading.tagName.substring(1), 10);

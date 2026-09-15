@@ -1,3 +1,10 @@
+import type { Logger } from "kirbyuse";
+import type {
+  Assessment,
+  Category,
+  Result,
+  YoastAnalysisOptions,
+} from "../types";
 import { loadPluginModule, resolvePluginAsset } from "kirbyuse";
 import { LOG_LEVELS } from "../constants";
 import de from "../translations/assessments/de.json";
@@ -15,7 +22,7 @@ import {
 } from "./seo-filter";
 import { renderTemplate } from "./template";
 
-const TRANSLATIONS = {
+const TRANSLATIONS: Record<string, Record<string, unknown>> = {
   de,
   en,
   es,
@@ -23,7 +30,7 @@ const TRANSLATIONS = {
   nl,
 };
 
-const ASSESSMENTS = {
+const ASSESSMENTS: Record<string, Record<string, Assessment>> = {
   seo: {
     altAttribute,
     headingStructureOrder,
@@ -36,12 +43,17 @@ export function createSeoReport({
   contentSelector,
   assessments: selectedAssessments,
   language,
-}) {
+}: {
+  htmlDocument: Document;
+  contentSelector: string;
+  assessments: string[];
+  language: string;
+}): Partial<Record<Category, Result[]>> {
   const translations = TRANSLATIONS[language] ?? TRANSLATIONS.en;
-  const results = {};
+  const results: Record<string, Result[]> = {};
 
   for (const [category, assessments] of Object.entries(ASSESSMENTS)) {
-    const categoryResults = [];
+    const categoryResults: Result[] = [];
 
     for (const [key, assessmentFn] of Object.entries(assessments)) {
       // Skip assessment if it's not part of the selected assessments.
@@ -96,11 +108,17 @@ export async function createYoastSeoReport({
   options,
   language,
   logger,
+}: {
+  htmlDocument: Document;
+  contentSelector: string;
+  options: YoastAnalysisOptions;
+  language: string;
+  logger?: Logger;
 }) {
   const { Paper, helpers, AnalysisTranslations } =
     await loadPluginModule("yoastseo");
 
-  const paperLocale = options.language.split("-")[0];
+  const paperLocale = options.language.split("-")[0]!;
   const worker = await loadYoastSeoAnalysisWebWorker(paperLocale);
 
   await worker.initialize({
@@ -153,13 +171,14 @@ export async function createYoastSeoReport({
   return filterYoastSeoResults(analysisResults, options, paperLocale);
 }
 
-let analysisWorker;
+let analysisWorker:
+  { language: string; worker: Worker; wrapper: any } | undefined;
 
 /**
  * Creates the analysis worker, cached per language – the worker picks its
  * researcher from the language it is handed at construction.
  */
-async function loadYoastSeoAnalysisWebWorker(language) {
+async function loadYoastSeoAnalysisWebWorker(language: string) {
   if (analysisWorker?.language === language) {
     return analysisWorker.wrapper;
   }
@@ -181,7 +200,7 @@ async function loadYoastSeoAnalysisWebWorker(language) {
   return analysisWorker.wrapper;
 }
 
-export async function prepareContent(html) {
+export async function prepareContent(html: string) {
   const parser = new DOMParser();
   const htmlDocument = parser.parseFromString(html, "text/html");
 
@@ -199,7 +218,8 @@ export async function prepareContent(html) {
     htmlDocument.querySelector("h2")?.innerText ||
     "";
   const description =
-    htmlDocument.querySelector('meta[name="description"]')?.content || "";
+    htmlDocument.querySelector<HTMLMetaElement>('meta[name="description"]')
+      ?.content || "";
 
   return {
     htmlDocument,
@@ -209,7 +229,10 @@ export async function prepareContent(html) {
   };
 }
 
-export function extractContent(htmlDocument, contentSelector) {
+export function extractContent(
+  htmlDocument: Document,
+  contentSelector: string,
+) {
   const elements = htmlDocument.querySelectorAll(contentSelector);
   return Array.from(elements, (element) => element.innerHTML).join("\n");
 }

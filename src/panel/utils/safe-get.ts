@@ -1,11 +1,14 @@
 // Forked from https://www.npmjs.com/package/just-safe-get
-export function get(obj, propsArg, defaultValue) {
+export function get(
+  obj: any,
+  propsArg: string | symbol | (string | symbol)[],
+  defaultValue?: any,
+) {
   if (!obj) {
     return defaultValue;
   }
 
-  let props;
-  let prop;
+  let props: (string | symbol)[] | undefined;
 
   if (Array.isArray(propsArg)) {
     props = [...propsArg];
@@ -21,8 +24,7 @@ export function get(obj, propsArg, defaultValue) {
     );
   }
 
-  while (props.length) {
-    prop = props.shift();
+  for (const prop of props) {
     if (!obj) {
       return defaultValue;
     }

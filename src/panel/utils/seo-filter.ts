@@ -1,3 +1,10 @@
+import type {
+  AnalysisOptions,
+  Category,
+  Result,
+  ResultRating,
+  YoastResult,
+} from "../types";
 import {
   YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
   YOAST_IGNORED_ASSESSMENTS,
@@ -9,10 +16,10 @@ import { IncompatibleLocaleError } from "./error";
  * Flattens the worker's envelope, where SEO results sit under an empty
  * keyphrase key and readability results directly under their category.
  */
-export function flattenYoastSeoResults(rawResult) {
+export function flattenYoastSeoResults(rawResult: any): YoastResult[] {
   return [
-    ...rawResult.seo[""].results.map((i) => ({ ...i, _category: "seo" })),
-    ...rawResult.readability.results.map((i) => ({
+    ...rawResult.seo[""].results.map((i: any) => ({ ...i, _category: "seo" })),
+    ...rawResult.readability.results.map((i: any) => ({
       ...i,
       _category: "readability",
     })),
@@ -22,8 +29,15 @@ export function flattenYoastSeoResults(rawResult) {
 /**
  * @throws {IncompatibleLocaleError} When a selected assessment cannot score the document's locale
  */
-export function filterYoastSeoResults(analysisResults, options, locale) {
-  const resultsByCategory = {
+export function filterYoastSeoResults(
+  analysisResults: YoastResult[],
+  options: Pick<AnalysisOptions, "keyword" | "assessments">,
+  locale: string,
+) {
+  const resultsByCategory: Record<
+    Category,
+    (YoastResult & Pick<Result, "rating">)[]
+  > = {
     seo: [],
     readability: [],
   };
@@ -75,7 +89,7 @@ export function filterYoastSeoResults(analysisResults, options, locale) {
  * the result of an assessment that throws with a fresh one that carries no
  * identifier, so an errored result is matched by the words of its text.
  */
-function isNamedByAssessments(result, assessments) {
+function isNamedByAssessments(result: YoastResult, assessments: string[]) {
   const id = result._identifier.toLowerCase();
   if (id) return assessments.includes(id);
   if (result.score !== -1) return false;
@@ -84,8 +98,10 @@ function isNamedByAssessments(result, assessments) {
   return words.some((word) => assessments.includes(word));
 }
 
-export function groupResultsByRating(results) {
-  const resultsByRating = {
+export function groupResultsByRating<T extends Pick<Result, "rating">>(
+  results: T[],
+) {
+  const resultsByRating: Record<ResultRating, T[]> = {
     good: [],
     ok: [],
     bad: [],
@@ -97,19 +113,20 @@ export function groupResultsByRating(results) {
     // An empty rating, which `scoreToRating` returns for a missing score,
     // counts as an error rather than breaking the report.
     const rating = Object.hasOwn(resultsByRating, result.rating)
-      ? result.rating
+      ? (result.rating as ResultRating)
       : "error";
     resultsByRating[rating].push({ ...result, rating });
   }
 
   return Object.fromEntries(
     Object.entries(resultsByRating).filter(([, items]) => items.length > 0),
-  );
+  ) as Partial<Record<ResultRating, T[]>>;
 }
 
-export function scoreToRating(score) {
+export function scoreToRating(score?: number): ResultRating | "" {
   if (score === -1) return "error";
   if (score === 0) return "feedback";
+  if (score === undefined) return "";
   if (score <= 4) return "bad";
   if (score <= 7) return "ok";
   if (score > 7) return "good";

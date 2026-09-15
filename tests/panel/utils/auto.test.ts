@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveAuto } from "./auto";
+import { resolveAuto } from "../../../src/panel/utils/auto";
 
 describe("resolveAuto", () => {
   it("lets the blueprint value win over the global option", () => {

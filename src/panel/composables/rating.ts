@@ -1,11 +1,5 @@
-import {
-  computed,
-  isKirby5,
-  ref,
-  useContent,
-  usePanel,
-  watch,
-} from "kirbyuse";
+import type { ContentVersion, Rating, Report } from "../types";
+import { computed, isKirby5, ref, useContent, usePanel, watch } from "kirbyuse";
 import { PLUGIN_RATING_API_ROUTE } from "../constants";
 import { createLanguageRequestOptions } from "../utils/request";
 import { toRatingRecord } from "../utils/seo-score";
@@ -13,10 +7,10 @@ import { useLogger } from "./logger";
 
 // One record per view and language, shared by the button and the section on
 // the same view, so a run in either updates both.
-const records = ref({});
-const pendingLoads = new Map();
+const records = ref<Record<string, Rating>>({});
+const pendingLoads = new Map<string, Promise<void>>();
 
-function recordKey(path, language) {
+function recordKey(path: string, language?: string | null) {
   return `${path}:${language ?? ""}`;
 }
 
@@ -40,7 +34,7 @@ export function useRating() {
     if (pendingLoads.has(key)) return pendingLoads.get(key);
 
     const request = panel.api
-      .get(
+      .get<Rating>(
         PLUGIN_RATING_API_ROUTE,
         { path },
         createLanguageRequestOptions(language),
@@ -60,12 +54,16 @@ export function useRating() {
    * Stores the record of a run; without `update` on the model it stays in
    * this session, and the server keeps nothing.
    */
-  async function store(report, version, language) {
+  async function store(
+    report: Report,
+    version: ContentVersion | undefined,
+    language: string,
+  ) {
     if (!_isKirby5) return;
 
     const path = panel.view.path;
     const record = toRatingRecord(report, version);
-    let response = {
+    let response: Rating = {
       ...record,
       timestamp: Math.floor(Date.now() / 1000),
       isStale: false,
@@ -73,7 +71,7 @@ export function useRating() {
 
     if (isEditable.value) {
       try {
-        response = await panel.api.post(
+        response = await panel.api.post<Rating>(
           PLUGIN_RATING_API_ROUTE,
           { path, ...record },
           createLanguageRequestOptions(language),

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { altAttribute, headingStructureOrder, singleH1 } from ".";
+import {
+  altAttribute,
+  headingStructureOrder,
+  singleH1,
+} from "../../../../src/panel/utils/assessments";
 
 describe("singleH1", () => {
   it("should pass if there is exactly one H1 tag", () => {
@@ -135,7 +139,7 @@ describe("headingStructureOrder", () => {
   });
 });
 
-function createHtmlDocument(content) {
+function createHtmlDocument(content: string) {
   const parser = new DOMParser();
   return parser.parseFromString(content, "text/html");
 }

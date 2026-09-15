@@ -1,5 +1,17 @@
 export class IncompatibleLocaleError extends Error {
-  constructor({ locale, assessment, compatibleLocales }) {
+  locale: string;
+  assessment: string;
+  compatibleLocales: string[];
+
+  constructor({
+    locale,
+    assessment,
+    compatibleLocales,
+  }: {
+    locale: string;
+    assessment: string;
+    compatibleLocales: string[];
+  }) {
     super(
       `Locale ${locale.toUpperCase()} is not supported by the assessment ${assessment}.`,
     );
@@ -11,13 +23,25 @@ export class IncompatibleLocaleError extends Error {
 }
 
 export class MissingPreviewUrlError extends Error {
-  constructor({ path }) {
+  constructor({ path }: { path: string }) {
     super(`Model has no preview URL: ${path}`);
   }
 }
 
 export class PreviewResponseError extends Error {
-  constructor({ url, status, isProxied = false }) {
+  url: string;
+  status: number;
+  isProxied: boolean;
+
+  constructor({
+    url,
+    status,
+    isProxied = false,
+  }: {
+    url: string;
+    status: number;
+    isProxied?: boolean;
+  }) {
     super(`Preview URL ${url} responded with status ${status}`);
 
     this.url = url;
@@ -27,7 +51,9 @@ export class PreviewResponseError extends Error {
 }
 
 export class PreviewUnreachableError extends Error {
-  constructor({ url }) {
+  url: string;
+
+  constructor({ url }: { url: string }) {
     super(`Preview URL ${url} could not be reached`);
 
     this.url = url;
