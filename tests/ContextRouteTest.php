@@ -19,7 +19,7 @@ final class ContextRouteTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function sends_only_the_panel_options_to_the_panel(): void
+    public function sends_only_auto_and_log_level_to_the_panel(): void
     {
         $response = $this->callContextRoute([
             'auto' => 'publish',

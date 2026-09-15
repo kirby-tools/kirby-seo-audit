@@ -65,11 +65,16 @@ describe("rateReport", () => {
     });
   });
 
-  it("leaves a category without results unrated and one without a score at none", () => {
-    expect(rateReport({ seo: [], readability: [{ score: 9 }] }, "en")).toEqual({
-      seo: undefined,
-      readability: { score: 0, rating: "none" },
-    });
+  it("leaves a category without results unrated", () => {
+    expect(
+      rateReport({ seo: [], readability: [{ score: 9 }] }, "en").seo,
+    ).toBeUndefined();
+  });
+
+  it("rates a category without a score none", () => {
+    expect(
+      rateReport({ seo: [], readability: [{ score: 9 }] }, "en").readability,
+    ).toEqual({ score: 0, rating: "none" });
   });
 });
 

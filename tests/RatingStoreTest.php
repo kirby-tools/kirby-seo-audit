@@ -36,7 +36,6 @@ final class RatingStoreTest extends ApiRouteTestCase
 
         $this->assertFalse($rating->isRated());
         $this->assertSame('', (string)$rating);
-        $this->assertSame(0, $rating->score());
         $this->assertSame('', $rating->seo());
         $this->assertFalse($rating->isStale());
         $this->assertNull($rating->timestamp());
@@ -54,7 +53,6 @@ final class RatingStoreTest extends ApiRouteTestCase
 
         $this->assertSame($writtenRating->toArray(), $readRating->toArray());
         $this->assertSame('ok', $readRating->rating());
-        $this->assertSame(2, $readRating->score());
         $this->assertSame('good', $readRating->seo());
         $this->assertSame('ok', $readRating->readability());
         $this->assertSame(self::COUNTS, $readRating->counts());
@@ -72,11 +70,23 @@ final class RatingStoreTest extends ApiRouteTestCase
 
         $this->assertSame('bad', (string)$store->write($page, 'good', 'bad', self::COUNTS, 'latest'));
         $this->assertSame('good', (string)$store->write($page, 'good', 'good', self::COUNTS, 'latest'));
-        $this->assertSame(3, $store->read($page)->score());
     }
 
     #[Test]
-    public function a_category_without_a_light_does_not_count(): void
+    public function score_ranks_unrated_0_then_bad_ok_good(): void
+    {
+        $app = self::bootApp(self::APP_PROPS);
+        $store = new RatingStore($app);
+        $page = $app->page('test');
+
+        $this->assertSame(0, $store->read($page)->score());
+        $this->assertSame(1, $store->write($page, 'bad', 'good', self::COUNTS, 'latest')->score());
+        $this->assertSame(2, $store->write($page, 'ok', 'good', self::COUNTS, 'latest')->score());
+        $this->assertSame(3, $store->write($page, 'good', 'good', self::COUNTS, 'latest')->score());
+    }
+
+    #[Test]
+    public function rating_returns_the_other_light_for_a_none_category(): void
     {
         $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
@@ -90,7 +100,7 @@ final class RatingStoreTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function the_site_has_its_own_rating(): void
+    public function write_keeps_the_site_rating_apart_from_the_pages(): void
     {
         $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
@@ -163,7 +173,7 @@ final class RatingStoreTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function read_loses_the_rating_of_a_page_without_uuid_after_a_slug_change(): void
+    public function read_returns_unrated_after_a_slug_change_without_uuid(): void
     {
         $app = self::bootApp([
             ...self::APP_PROPS,

@@ -71,7 +71,7 @@ final class RatingRouteTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function get_returns_an_unrated_page_as_empty(): void
+    public function get_returns_unrated_for_an_unanalyzed_page(): void
     {
         $rating = $this->get(['path' => 'pages/test']);
 
@@ -104,7 +104,7 @@ final class RatingRouteTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function get_returns_an_empty_rating_for_a_file(): void
+    public function get_returns_unrated_for_a_file(): void
     {
         $this->assertNull($this->get(['path' => 'site/files/image.jpg'])['timestamp']);
     }
@@ -119,7 +119,7 @@ final class RatingRouteTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function post_requires_the_update_permission(): void
+    public function post_throws_without_the_update_permission(): void
     {
         $this->expectException(PermissionException::class);
 
@@ -141,7 +141,7 @@ final class RatingRouteTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function post_requires_counts(): void
+    public function post_throws_without_counts(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid rating counts');

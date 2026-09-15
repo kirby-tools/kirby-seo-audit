@@ -151,7 +151,7 @@ afterEach(() => {
 describe("useAnalysis", () => {
   it("requests the rating of the view in the current language on setup", async () => {
     ratingResponse = storedRating;
-    const { rating } = await mountAnalysis();
+    const { rating } = await loadAnalysis();
 
     expect(api.get).toHaveBeenCalledWith(
       "__seo-audit__/rating",
@@ -163,7 +163,7 @@ describe("useAnalysis", () => {
   });
 
   it("analyze runs with the resolved options and the content selector", async () => {
-    const { analyze } = await mountAnalysis();
+    const { analyze } = await loadAnalysis();
 
     await expect(analyze()).resolves.toBe(report);
 
@@ -180,7 +180,7 @@ describe("useAnalysis", () => {
       isStale: false,
     };
     api.post.mockResolvedValue(serverRating);
-    const { analyze, rating } = await mountAnalysis();
+    const { analyze, rating } = await loadAnalysis();
 
     await analyze();
 
@@ -202,16 +202,16 @@ describe("useAnalysis", () => {
 
   it("analyze exposes the report of the run as report for the view and language", async () => {
     api.post.mockResolvedValue(storedRating);
-    const { analyze, report: currentReport } = await mountAnalysis();
+    const { analyze, report: currentReport } = await loadAnalysis();
 
     await analyze();
 
     expect(currentReport.value).toBe(report);
   });
 
-  it("analyze keeps a local record without a request when the model is not editable", async () => {
+  it("analyze keeps the record local without isEditable", async () => {
     isEditable.value = false;
-    const { analyze, rating } = await mountAnalysis();
+    const { analyze, rating } = await loadAnalysis();
 
     await analyze();
 
@@ -227,7 +227,7 @@ describe("useAnalysis", () => {
   });
 
   it("analyze runs in the language it started in after a switch during resolveOptions", async () => {
-    const { analyze } = await mountAnalysis({
+    const { analyze } = await loadAnalysis({
       resolveOptions: async () => {
         panel.language.code = "en";
         return options;
@@ -242,7 +242,7 @@ describe("useAnalysis", () => {
   it("analyze sets isAnalyzing during the run and clears it after", async () => {
     const pendingRun = Promise.withResolvers<Report>();
     runAnalysis.mockReturnValue(pendingRun.promise);
-    const { analyze, isAnalyzing } = await mountAnalysis();
+    const { analyze, isAnalyzing } = await loadAnalysis();
 
     const pendingAnalysis = analyze();
     await flushPromises();
@@ -256,7 +256,7 @@ describe("useAnalysis", () => {
   it("analyze notifies a failed run and resolves to undefined", async () => {
     const error = new Error("Preview unreachable");
     runAnalysis.mockRejectedValue(error);
-    const { analyze, isAnalyzing } = await mountAnalysis();
+    const { analyze, isAnalyzing } = await loadAnalysis();
 
     await expect(analyze()).resolves.toBeUndefined();
 
@@ -267,7 +267,7 @@ describe("useAnalysis", () => {
   it("analyze resolves to undefined after a language switch and keeps the report under the start language", async () => {
     const pendingRun = Promise.withResolvers<Report>();
     runAnalysis.mockReturnValue(pendingRun.promise);
-    const { analyze, report: currentReport } = await mountAnalysis();
+    const { analyze, report: currentReport } = await loadAnalysis();
 
     const pendingAnalysis = analyze();
     panel.language.code = "en";
@@ -281,7 +281,7 @@ describe("useAnalysis", () => {
   });
 
   it("runs the analysis once in the published language on content.publish", async () => {
-    await mountAnalysis();
+    await loadAnalysis();
 
     publish("en");
     await flushPromises();
@@ -301,10 +301,10 @@ describe("useAnalysis", () => {
       config: {} satisfies PluginConfig,
     },
   ])(
-    "stays silent on content.publish when $condition",
+    "skips the run on content.publish when $condition",
     async ({ auto, config }) => {
       pluginConfig = config;
-      await mountAnalysis({ auto });
+      await loadAnalysis({ auto });
 
       publish("de");
       await flushPromises();
@@ -315,7 +315,7 @@ describe("useAnalysis", () => {
 
   it("reloads the rating on content.publish when auto is off", async () => {
     pluginConfig = {};
-    await mountAnalysis();
+    await loadAnalysis();
     api.get.mockClear();
     ratingResponse = { ...storedRating, isStale: true };
 
@@ -332,8 +332,8 @@ describe("useAnalysis", () => {
   });
 
   it("runs once per publish for two participants on the same view and language", async () => {
-    await mountAnalysis();
-    await mountAnalysis();
+    await loadAnalysis();
+    await loadAnalysis();
 
     publish("de");
     await flushPromises();
@@ -346,7 +346,7 @@ describe("useAnalysis", () => {
   it("logs a failed automatic run without a notification", async () => {
     const error = new Error("Preview unreachable");
     runAnalysis.mockRejectedValue(error);
-    await mountAnalysis();
+    await loadAnalysis();
 
     publish("de");
     await flushPromises();
@@ -356,8 +356,8 @@ describe("useAnalysis", () => {
   });
 
   it("a run by another participant on the same view reaches report", async () => {
-    const participant = await mountAnalysis();
-    const { analyze } = await mountAnalysis();
+    const participant = await loadAnalysis();
+    const { analyze } = await loadAnalysis();
 
     await analyze();
 
@@ -366,7 +366,7 @@ describe("useAnalysis", () => {
 
   it("seeds report from storage when persisted", async () => {
     writeStoredReport(storageScope, storedReport);
-    const { report: currentReport } = await mountAnalysis({
+    const { report: currentReport } = await loadAnalysis({
       storage: { scope: () => storageScope, persisted: () => true },
     });
 
@@ -375,7 +375,7 @@ describe("useAnalysis", () => {
 
   it("leaves report empty when not persisted", async () => {
     writeStoredReport(storageScope, storedReport);
-    const { report: currentReport } = await mountAnalysis({
+    const { report: currentReport } = await loadAnalysis({
       storage: { scope: () => storageScope, persisted: () => false },
     });
 
@@ -385,7 +385,7 @@ describe("useAnalysis", () => {
   it("discards a stored report without ratings", async () => {
     const { ratings, ...reportBefore35 } = storedReport;
     writeStoredReport(storageScope, reportBefore35 as Report);
-    const { report: currentReport } = await mountAnalysis({
+    const { report: currentReport } = await loadAnalysis({
       storage: { scope: () => storageScope, persisted: () => true },
     });
 
@@ -395,7 +395,7 @@ describe("useAnalysis", () => {
   it("analyze writes the report to storage under its start language", async () => {
     const pendingRun = Promise.withResolvers<Report>();
     runAnalysis.mockReturnValue(pendingRun.promise);
-    const { analyze } = await mountAnalysis({
+    const { analyze } = await loadAnalysis({
       storage: {
         scope: () => ({ ...storageScope, language: panel.language.code }),
         persisted: () => true,
@@ -414,7 +414,7 @@ describe("useAnalysis", () => {
   });
 
   it("stops reacting to content.publish after onBeforeUnmount", async () => {
-    await mountAnalysis();
+    await loadAnalysis();
 
     for (const hook of beforeUnmountHooks) hook();
     publish("de");
@@ -424,7 +424,7 @@ describe("useAnalysis", () => {
   });
 });
 
-async function mountAnalysis({
+async function loadAnalysis({
   auto,
   resolveOptions = async () => options,
   storage,
