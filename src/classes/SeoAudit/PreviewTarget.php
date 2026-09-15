@@ -17,7 +17,7 @@ use Kirby\Http\Uri;
  */
 final class PreviewTarget
 {
-    private const VERSIONS = ['latest', 'changes'];
+    public const VERSIONS = ['latest', 'changes'];
 
     /**
      * @return array{url: string|null, version: string}

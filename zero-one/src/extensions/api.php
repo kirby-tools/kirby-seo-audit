@@ -3,9 +3,13 @@
 use JohannSchopplich\SeoAudit\PanelContext;
 use JohannSchopplich\SeoAudit\PreviewTarget;
 use JohannSchopplich\SeoAudit\Proxy;
+use JohannSchopplich\SeoAudit\Rating;
+use JohannSchopplich\SeoAudit\RatingStore;
 use JohannSchopplich\SeoAudit\ViewButtonOptions;
 use Kirby\Cms\App;
 use Kirby\Cms\Find;
+use Kirby\Cms\Page;
+use Kirby\Cms\Site;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\PermissionException;
 
@@ -69,6 +73,58 @@ return [
                     Find::parent($path),
                     is_string($version) ? $version : 'latest'
                 );
+            }
+        ],
+        [
+            'pattern' => '__seo-audit__/rating',
+            'method' => 'GET',
+            'action' => function () use ($kirby) {
+                $path = $kirby->request()->get('path');
+
+                if (!is_string($path) || $path === '') {
+                    throw new InvalidArgumentException('Missing model path');
+                }
+
+                $model = Find::parent($path);
+
+                // A file has no rating, and its view must not fail on the read.
+                if (!$model instanceof Page && !$model instanceof Site) {
+                    return Rating::unrated()->toArray();
+                }
+
+                return (new RatingStore($kirby))->read($model)->toArray();
+            }
+        ],
+        [
+            'pattern' => '__seo-audit__/rating',
+            'method' => 'POST',
+            'action' => function () use ($kirby) {
+                $request = $kirby->request();
+                $path = $request->get('path');
+
+                if (!is_string($path) || $path === '') {
+                    throw new InvalidArgumentException('Missing model path');
+                }
+
+                $model = Find::parent($path);
+
+                if (!$model instanceof Page && !$model instanceof Site) {
+                    throw new InvalidArgumentException('Model has no rating: ' . $model::class);
+                }
+
+                // An editor who may preview but not update analyzes without
+                // leaving a rating behind.
+                if ($model->permissions()->can('update') !== true) {
+                    throw new PermissionException('You are not allowed to store a rating for this model');
+                }
+
+                return (new RatingStore($kirby))->write(
+                    model: $model,
+                    seo: $request->get('seo'),
+                    readability: $request->get('readability'),
+                    counts: $request->get('counts'),
+                    version: $request->get('version', 'latest')
+                )->toArray();
             }
         ],
         [

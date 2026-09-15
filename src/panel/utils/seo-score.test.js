@@ -3,6 +3,7 @@ import {
   aggregateReadabilityScore,
   aggregateSeoScore,
   rateReport,
+  toRatingRecord,
   worstRating,
 } from "./seo-score";
 
@@ -73,21 +74,35 @@ describe("rateReport", () => {
 });
 
 describe("worstRating", () => {
-  it("picks the rating to act on first", () => {
-    expect(
-      worstRating({ seo: { rating: "good" }, readability: { rating: "bad" } }),
-    ).toBe("bad");
-    expect(
-      worstRating({ seo: { rating: "ok" }, readability: { rating: "good" } }),
-    ).toBe("ok");
+  it("picks the light to act on first", () => {
+    expect(worstRating({ seo: "good", readability: "bad" })).toBe("bad");
+    expect(worstRating({ seo: "ok", readability: "good" })).toBe("ok");
   });
 
   it("ignores none and missing categories", () => {
-    expect(
-      worstRating({ seo: { rating: "none" }, readability: { rating: "good" } }),
-    ).toBe("good");
-    expect(worstRating({ seo: undefined, readability: undefined })).toBe(
-      "none",
-    );
+    expect(worstRating({ seo: "none", readability: "good" })).toBe("good");
+    expect(worstRating({ seo: null, readability: null })).toBe("none");
+  });
+});
+
+describe("toRatingRecord", () => {
+  it("keeps one light per category and counts the results", () => {
+    const report = {
+      results: {
+        seo: [{ rating: "good" }, { rating: "bad" }, { rating: "feedback" }],
+        readability: [{ rating: "ok" }, { rating: "error" }],
+      },
+      ratings: {
+        seo: { score: 50, rating: "ok" },
+        readability: undefined,
+      },
+    };
+
+    expect(toRatingRecord(report, "changes")).toEqual({
+      seo: "ok",
+      readability: null,
+      counts: { good: 1, ok: 1, bad: 1 },
+      version: "changes",
+    });
   });
 });

@@ -12,17 +12,17 @@ abstract class ApiRouteTestCase extends TestCase
         App::destroy();
     }
 
-    protected function callRoute(App $kirby, string $pattern): mixed
+    protected function callRoute(App $kirby, string $pattern, string $method = 'GET'): mixed
     {
         $api = require dirname(__DIR__) . '/src/extensions/api.php';
         $routes = $api['routes']($kirby);
 
         foreach ($routes as $route) {
-            if (($route['pattern'] ?? '') === $pattern) {
+            if (($route['pattern'] ?? '') === $pattern && ($route['method'] ?? 'GET') === $method) {
                 return $route['action']();
             }
         }
 
-        $this->fail("Route not found: {$pattern}");
+        $this->fail("Route not found: {$method} {$pattern}");
     }
 }

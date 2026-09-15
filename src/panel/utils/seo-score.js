@@ -28,6 +28,7 @@ const READABILITY_SCORES = {
 };
 
 const RATING_ORDER = ["bad", "ok", "good"];
+const CATEGORIES = ["seo", "readability"];
 
 /**
  * Rates both categories of a filtered report. A category without results has
@@ -44,20 +45,36 @@ export function rateReport(results, language) {
 }
 
 /**
- * Picks the rating an editor has to act on first. `none` gives way to any
- * real rating; without one, the report as a whole is unrated.
+ * Picks the light an editor has to act on first from a rating record. `none`
+ * gives way to any real light; without one, the record as a whole is unrated.
  */
-export function worstRating(ratings) {
-  const ratedLights = Object.values(ratings)
-    .filter(Boolean)
-    .map((i) => i.rating)
-    .filter((rating) => RATING_ORDER.includes(rating));
+export function worstRating(record) {
+  const ratedLights = CATEGORIES.map((category) => record[category]).filter(
+    (rating) => RATING_ORDER.includes(rating),
+  );
 
   if (ratedLights.length === 0) return "none";
 
   return ratedLights.sort(
     (a, b) => RATING_ORDER.indexOf(a) - RATING_ORDER.indexOf(b),
   )[0];
+}
+
+export function toRatingRecord({ results, ratings }, version) {
+  const counts = { good: 0, ok: 0, bad: 0 };
+
+  for (const category of CATEGORIES) {
+    for (const { rating } of results[category]) {
+      if (rating in counts) counts[rating]++;
+    }
+  }
+
+  return {
+    seo: ratings.seo?.rating ?? null,
+    readability: ratings.readability?.rating ?? null,
+    counts,
+    version,
+  };
 }
 
 export function aggregateSeoScore(results) {

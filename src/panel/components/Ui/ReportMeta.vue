@@ -7,6 +7,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isStale: Boolean,
 });
 
 const panel = usePanel();
@@ -24,6 +25,7 @@ const text = computed(() =>
     props.version &&
       panel.t(`johannschopplich.seo-audit.version.${props.version}`),
     format(props.timestamp),
+    props.isStale && panel.t("johannschopplich.seo-audit.rating.stale"),
   ]
     .filter(Boolean)
     .join(" · "),

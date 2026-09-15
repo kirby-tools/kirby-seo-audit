@@ -15,6 +15,7 @@ import throttle from "throttleit";
 import {
   isZeroOneValid,
   usePluginContext,
+  useRating,
   useSeoReview,
 } from "../../composables";
 import { readStoredReport, writeStoredReport } from "../../utils/storage";
@@ -46,6 +47,8 @@ const {
   resolvePreviewTarget,
   resolveSynonyms,
 } = useSeoReview();
+
+const { rating, store: storeRating } = useRating();
 
 const isZeroOneBuild = __ZERO_ONE__;
 
@@ -225,6 +228,10 @@ async function analyze() {
       writeStoredReport(storageScope, newReport);
     }
 
+    if (!__PLAYGROUND__) {
+      storeRating(newReport, target.version, language);
+    }
+
     // An analysis still running when the editor switched languages belongs to
     // the language it started in.
     const isCurrentLanguage = panel.language.code === language;
@@ -310,7 +317,11 @@ async function analyze() {
         </k-box>
 
         <k-box theme="empty" icon="clock" class="ksr-border-transparent">
-          <ReportMeta :version="report.version" :timestamp="report.timestamp" />
+          <ReportMeta
+            :version="report.version"
+            :timestamp="report.timestamp"
+            :is-stale="rating?.isStale"
+          />
         </k-box>
       </div>
     </div>

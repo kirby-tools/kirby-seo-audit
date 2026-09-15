@@ -1,13 +1,6 @@
 <script setup>
-import {
-  computed,
-  isKirby5,
-  ref,
-  useApi,
-  useContent,
-  usePanel,
-} from "kirbyuse";
-import { isZeroOneValid, useSeoReview } from "../../composables";
+import { computed, ref, useApi, useContent, usePanel } from "kirbyuse";
+import { isZeroOneValid, useRating, useSeoReview } from "../../composables";
 import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
 import { createLanguageRequestOptions } from "../../utils/request";
 import { worstRating } from "../../utils/seo-score";
@@ -56,7 +49,6 @@ const BADGE_THEMES = {
   none: "passive",
 };
 
-const _isKirby5 = isKirby5();
 const panel = usePanel();
 const api = useApi();
 const {
@@ -69,15 +61,19 @@ const {
   resolveSynonyms,
 } = useSeoReview();
 
-const isAnalyzing = ref(false);
-// The ratings of the last run, which Kirby 4 has no badge to show.
-const ratings = ref();
+const { rating, store: storeRating } = useRating();
 
-const badge = computed(() =>
-  _isKirby5 && ratings.value
-    ? { theme: BADGE_THEMES[worstRating(ratings.value)] }
-    : undefined,
-);
+const isAnalyzing = ref(false);
+
+// A stale rating keeps its color and gains a mark.
+const badge = computed(() => {
+  if (!rating.value?.timestamp) return undefined;
+
+  return {
+    theme: BADGE_THEMES[worstRating(rating.value)],
+    text: rating.value.isStale ? "!" : undefined,
+  };
+});
 
 const { currentContent } = useContent();
 
@@ -145,7 +141,9 @@ async function analyze() {
       },
     );
 
-    ratings.value = report.ratings;
+    if (!__PLAYGROUND__) {
+      storeRating(report, target.version, language);
+    }
 
     panel.dialog.open({
       component: "k-seo-audit-report-dialog",
