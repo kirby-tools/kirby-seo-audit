@@ -31,8 +31,12 @@ App::plugin('johannschopplich/playground', [
         'system.loadPlugins:after' => function () {
             $kirby = App::instance();
 
+            $isDebug = $kirby->option('debug') === true;
+
             $kirby->extend([
-                'routes' => fn (App $kirby) => [
+                // The shared playground has no frontend; locally the pages
+                // render, so the analysis has real HTML to read.
+                'routes' => fn (App $kirby) => $isDebug ? [] : [
                     [
                         'pattern' => '(:all)',
                         'action' => function () use ($kirby) {
@@ -47,17 +51,19 @@ App::plugin('johannschopplich/playground', [
                             'login' => [
                                 'pattern' => 'login',
                                 'auth' => false,
-                                'action' => function () use ($kirby) {
+                                'action' => function () use ($kirby, $isDebug) {
                                     if ($kirby->user() === null) {
-                                        // $system = $kirby->system();
-                                        // $role = $system->isLocal() ? 'admin' : 'playground';
-                                        $role = $kirby->option('debug') === true ? 'admin' : 'playground';
+                                        // Locally `login?role=playground` signs in the
+                                        // role without `update` to test what it sees.
+                                        $role = $isDebug
+                                            ? ($kirby->request()->get('role') ?? 'admin')
+                                            : 'playground';
                                         $kirby->users()->role($role)->first()->loginPasswordless([
                                             'long' => true
                                         ]);
                                     }
 
-                                    go(Panel::url('site'));
+                                    Panel::go('site');
                                 }
                             ]
                         ]

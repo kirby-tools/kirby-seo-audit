@@ -9,7 +9,21 @@ permissions:
     users: false
   files: false
   languages: false
-  pages: false
+  pages:
+    access: true
+    list: true
+    read: true
+    preview: true
+    changeSlug: false
+    changeStatus: false
+    changeTemplate: false
+    changeTitle: false
+    create: false
+    delete: false
+    duplicate: false
+    move: false
+    sort: false
+    update: false
   site:
     changeTitle: false
     update: true

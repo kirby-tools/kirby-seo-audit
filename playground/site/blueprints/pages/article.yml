@@ -45,6 +45,12 @@ tabs:
             buttons: false
             help: A brief summary or teaser for the article
 
+      - width: 1/3
+        sections:
+          seoAudit:
+            type: seo-audit
+            keyphraseField: metaKeyphrase
+
   settings:
     label: Settings
     fields:

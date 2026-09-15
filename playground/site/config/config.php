@@ -3,11 +3,14 @@
 return [
     'debug' => env('KIRBY_DEBUG', false),
 
+    'languages' => true,
+
     'content' => [
         'locking' => false
     ],
 
     'johannschopplich.seo-audit' => [
+        'auto' => 'publish',
         'proxy' => [
             // The playground analyzes a URL typed into a field, which belongs to
             // no model. Never set this in a real installation: it lets any Panel
