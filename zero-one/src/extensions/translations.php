@@ -51,7 +51,7 @@ return [
         'johannschopplich.seo-audit.error.previewResponse' => 'Die Vorschau-URL {url} lieferte Status {status}, es gibt also keine Seite zum Analysieren.',
         'johannschopplich.seo-audit.error.previewUnauthorized' => 'Die Vorschau-URL {url} lieferte Status 401. Hinterlege für Basic Auth die Zugangsdaten in proxy.params.basicAuth.',
         'johannschopplich.seo-audit.error.previewUnreachable' => 'Die Vorschau-URL {url} war nicht erreichbar.',
-        'johannschopplich.seo-audit.error.incompatibleLocale' => 'Die Sprache {locale} wird von dem Yoast SEO Check {assessment} nicht unterstützt. Es sind nur {compatibleLocales} kompatibel.'
+        'johannschopplich.seo-audit.error.incompatibleLocale' => 'Die Sprache {locale} wird von der Yoast-SEO-Bewertung {assessment} nicht unterstützt. Es sind nur {compatibleLocales} kompatibel.'
     ],
     'fr' => [
         'johannschopplich.seo-audit.label' => 'Audit SEO',
