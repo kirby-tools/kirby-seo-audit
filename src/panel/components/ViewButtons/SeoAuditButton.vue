@@ -2,10 +2,9 @@
 import type { PropType } from "vue";
 import type { AutoTrigger, LogLevel } from "../../constants";
 import type {
+  AnalysisOptions,
   ButtonOptionsResponse,
   CategoryRating,
-  PreviewTarget,
-  Report,
 } from "../../types";
 import { computed, ref, useApi, useContent, usePanel } from "kirbyuse";
 import {
@@ -70,16 +69,14 @@ const BADGE_THEMES: Record<CategoryRating, string> = {
 const panel = usePanel();
 const api = useApi();
 const {
-  generateReport,
   notifyReportError,
-  resolveContentVersion,
   resolveKeyphrase,
   resolveLogLevelIndex,
-  resolvePreviewTarget,
   resolveSynonyms,
+  runAnalysis,
 } = useSeoReview();
 
-const { rating, store: storeRating } = useRating();
+const { rating } = useRating();
 
 const isAnalyzing = ref(false);
 
@@ -99,67 +96,38 @@ function hasKirbyQuery(value: unknown) {
   return typeof value === "string" && value.includes("{{");
 }
 
-/**
- * Runs the analysis in `language`; the report has the section's shape, so a
- * section on the same view can adopt the run.
- */
-async function runAnalysis(language: string): Promise<Report> {
+async function resolveAnalysisOptions(
+  language: string,
+): Promise<AnalysisOptions> {
   const content = currentContent.value;
-  const logLevel = await resolveLogLevelIndex(props.logLevel);
 
-  const version = __PLAYGROUND__ ? undefined : await resolveContentVersion();
+  // A view button's props reach the Panel unresolved, so the server resolves
+  // the ones carrying a Kirby query.
+  const queriedProps: ButtonOptionsResponse =
+    !__PLAYGROUND__ &&
+    (hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms))
+      ? await api.get<ButtonOptionsResponse>(
+          PLUGIN_BUTTON_OPTIONS_API_ROUTE,
+          { path: panel.view.path },
+          createLanguageRequestOptions(language),
+        )
+      : props;
 
-  const [target, queriedProps]: [PreviewTarget, ButtonOptionsResponse] =
-    __PLAYGROUND__
-      ? [{ url: content.targeturl }, props]
-      : await Promise.all([
-          resolvePreviewTarget(language, version),
-          // A view button's props reach the Panel unresolved, so the server
-          // resolves the ones carrying a Kirby query.
-          hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
-            ? api.get<ButtonOptionsResponse>(
-                PLUGIN_BUTTON_OPTIONS_API_ROUTE,
-                { path: panel.view.path },
-                createLanguageRequestOptions(language),
-              )
-            : props,
-        ]);
-
-  const resolvedKeyphrase = resolveKeyphrase(
-    queriedProps.keyphrase,
-    props.keyphraseField,
-    content,
-  );
-  const resolvedSynonyms = resolveSynonyms(
-    queriedProps.synonyms,
-    props.synonymsField,
-    content,
-  );
-
-  const { results, ratings } = await generateReport(
-    target,
-    props.contentSelector || "body",
-    {
-      assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
-      logLevel,
-      // Option names expected by Yoast SEO.
-      keyword: resolvedKeyphrase,
-      synonyms: resolvedSynonyms,
-    },
-  );
-
-  const report = {
-    results,
-    ratings,
-    version: target.version,
-    timestamp: Date.now(),
+  return {
+    assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
+    logLevel: await resolveLogLevelIndex(props.logLevel),
+    // Option names expected by Yoast SEO.
+    keyword: resolveKeyphrase(
+      queriedProps.keyphrase,
+      props.keyphraseField,
+      content,
+    ),
+    synonyms: resolveSynonyms(
+      queriedProps.synonyms,
+      props.synonymsField,
+      content,
+    ),
   };
-
-  if (!__PLAYGROUND__) {
-    storeRating(report, target.version, language);
-  }
-
-  return report;
 }
 
 async function analyze() {
@@ -179,7 +147,11 @@ async function analyze() {
   isAnalyzing.value = true;
 
   try {
-    const report = await runAnalysis(language);
+    const report = await runAnalysis(
+      language,
+      props.contentSelector || "body",
+      await resolveAnalysisOptions(language),
+    );
 
     panel.dialog.open({
       component: "k-seo-audit-report-dialog",
@@ -202,7 +174,12 @@ async function analyze() {
 if (!__PLAYGROUND__) {
   useAutoAnalysis({
     auto: () => props.auto,
-    run: runAnalysis,
+    run: async (language) =>
+      runAnalysis(
+        language,
+        props.contentSelector || "body",
+        await resolveAnalysisOptions(language),
+      ),
   });
 }
 </script>

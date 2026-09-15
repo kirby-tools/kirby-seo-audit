@@ -8,6 +8,9 @@ import { useLogger } from "./logger";
 // One record per view and language, shared by the button and the section on
 // the same view, so a run in either updates both.
 const records = ref<Record<string, Rating>>({});
+// The report behind the record, which only this session holds, so a section
+// can show what a button on the same view ran.
+const reports = ref<Record<string, Report>>({});
 const pendingLoads = new Map<string, Promise<void>>();
 
 function recordKey(path: string, language?: string | null) {
@@ -24,6 +27,7 @@ export function useRating() {
     recordKey(panel.view.path, panel.language.code),
   );
   const rating = computed(() => records.value[currentKey.value]);
+  const report = computed(() => reports.value[currentKey.value]);
 
   function load(language = panel.language.code) {
     if (!_isKirby5) return;
@@ -51,17 +55,20 @@ export function useRating() {
   }
 
   /**
-   * Stores the record of a run; without `update` on the model it stays in
-   * this session, and the server keeps nothing.
+   * Stores the report of a run and its record; without `update` on the model
+   * the record stays in this session, and the server keeps nothing.
    */
   async function store(
     report: Report,
     version: ContentVersion | undefined,
     language: string,
   ) {
+    const path = panel.view.path;
+    const key = recordKey(path, language);
+    reports.value = { ...reports.value, [key]: report };
+
     if (!_isKirby5) return;
 
-    const path = panel.view.path;
     const record = toRatingRecord(report, version);
     let response: Rating = {
       ...record,
@@ -81,10 +88,7 @@ export function useRating() {
       }
     }
 
-    records.value = {
-      ...records.value,
-      [recordKey(path, language)]: response,
-    };
+    records.value = { ...records.value, [key]: response };
   }
 
   // A view button survives the move to another model of the same kind, so
@@ -95,6 +99,7 @@ export function useRating() {
 
   return {
     rating,
+    report,
     store,
   };
 }

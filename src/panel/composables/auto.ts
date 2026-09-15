@@ -4,23 +4,20 @@ import { resolveAuto } from "../utils/auto";
 import { useLogger } from "./logger";
 import { usePluginContext } from "./plugin";
 
-// One run per view and language: the first component to react runs it, the
-// others on the same view wait for that run and adopt its result.
+// One run per view and language: the first component to react runs it, and
+// the others on the same view adopt its report through the shared rating.
 const inFlightRuns = new Map<string, Promise<Report>>();
 
 /**
  * Runs the analysis on its own once the editor publishes, if `auto` asks for
- * it. The run is silent; `onResult` lets a component show the outcome its
- * own way.
+ * it. The run is silent.
  */
 export function useAutoAnalysis({
   auto,
   run,
-  onResult,
 }: {
   auto: () => unknown;
   run: (language: string) => Promise<Report>;
-  onResult?: (report: Report, language: string) => void;
 }) {
   const panel = usePanel();
   const logger = useLogger();
@@ -32,14 +29,11 @@ export function useAutoAnalysis({
       if (resolveAuto(auto(), config.auto) !== "publish") return;
 
       const key = `${panel.view.path}:${language ?? ""}`;
-      let pendingRun = inFlightRuns.get(key);
+      if (inFlightRuns.has(key)) return;
 
-      if (!pendingRun) {
-        pendingRun = run(language).finally(() => inFlightRuns.delete(key));
-        inFlightRuns.set(key, pendingRun);
-      }
-
-      onResult?.(await pendingRun, language);
+      const pendingRun = run(language).finally(() => inFlightRuns.delete(key));
+      inFlightRuns.set(key, pendingRun);
+      await pendingRun;
     } catch (error) {
       logger.error(error);
     }

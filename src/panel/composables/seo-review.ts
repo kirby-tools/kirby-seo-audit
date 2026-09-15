@@ -29,11 +29,41 @@ import {
 import { rateReport } from "../utils/seo-score";
 import { useLogger } from "./logger";
 import { usePluginContext } from "./plugin";
+import { useRating } from "./rating";
 
 export function useSeoReview() {
   const panel = usePanel();
   const { content, currentContent, hasChanges, isEditable } = useContent();
   const logger = useLogger();
+  const { store: storeRating } = useRating();
+
+  async function runAnalysis(
+    language: string,
+    contentSelector: string,
+    options: AnalysisOptions,
+  ): Promise<Report> {
+    const target: PreviewTarget = __PLAYGROUND__
+      ? { url: currentContent.value.targeturl }
+      : await resolvePreviewTarget(language, await resolveContentVersion());
+    const { results, ratings } = await generateReport(
+      target,
+      contentSelector,
+      options,
+    );
+
+    const report: Report = {
+      results,
+      ratings,
+      version: target.version,
+      timestamp: Date.now(),
+    };
+
+    if (!__PLAYGROUND__) {
+      storeRating(report, target.version, language);
+    }
+
+    return report;
+  }
 
   async function generateReport(
     target: PreviewTarget,
@@ -274,6 +304,7 @@ export function useSeoReview() {
   }
 
   return {
+    runAnalysis,
     generateReport,
     fetchHtml,
     resolveContentVersion,

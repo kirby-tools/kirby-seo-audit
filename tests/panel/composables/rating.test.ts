@@ -106,6 +106,15 @@ describe("useRating", () => {
     expect(rating.value).toEqual(serverRating);
   });
 
+  it("store exposes the stored report as report for the view and language", async () => {
+    api.post.mockResolvedValue(storedRating);
+    const { report: currentReport, store } = await mountRating();
+
+    await store(report, "changes", "de");
+
+    expect(currentReport.value).toBe(report);
+  });
+
   it("store keeps a local record without a request when the model is not editable", async () => {
     isEditable.value = false;
     const { rating, store } = await mountRating();

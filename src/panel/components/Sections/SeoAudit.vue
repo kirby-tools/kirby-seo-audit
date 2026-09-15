@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { LicenseStatus } from "@kirby-tools/licensing";
-import type { PreviewTarget, Report } from "../../types";
+import type { AnalysisOptions, Report } from "../../types";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
   computed,
@@ -42,16 +42,14 @@ const _isKirby5 = isKirby5();
 const panel = usePanel();
 const { t } = useI18n();
 const {
-  generateReport,
   notifyReportError,
-  resolveContentVersion,
   resolveKeyphrase,
   resolveLogLevelIndex,
-  resolvePreviewTarget,
   resolveSynonyms,
+  runAnalysis,
 } = useSeoReview();
 
-const { rating, store: storeRating } = useRating();
+const { rating, report: latestReport } = useRating();
 
 const isZeroOneBuild = __ZERO_ONE__;
 
@@ -92,6 +90,13 @@ watch(
 );
 
 updateSectionData(true);
+
+// A run started by a view button on the same view reaches the section here.
+watch(latestReport, (newReport) => {
+  if (newReport) {
+    showReport(newReport, panel.language.code);
+  }
+});
 
 // The playground re-runs the analysis whenever its own fields change.
 if (__PLAYGROUND__) {
@@ -182,46 +187,16 @@ function loadStoredReport() {
   report.value = storedReport?.ratings ? storedReport : undefined;
 }
 
-/**
- * Runs the analysis in `language` and leaves showing the report to
- * `showReport`, which a run started elsewhere on the view goes through too.
- */
-async function runAnalysis(language: string): Promise<Report> {
-  const resolvedKeyphrase = resolveKeyphrase(
-    keyphrase.value,
-    keyphraseField.value,
-  );
-  const resolvedSynonyms = resolveSynonyms(synonyms.value, synonymsField.value);
-
-  const target: PreviewTarget = __PLAYGROUND__
-    ? { url: currentContent.value.targeturl }
-    : await resolvePreviewTarget(language, await resolveContentVersion());
-  const { results, ratings } = await generateReport(
-    target,
-    contentSelector.value!,
-    {
-      assessments: __PLAYGROUND__
-        ? currentContent.value.assessments
-        : assessments.value!,
-      logLevel: logLevel.value!,
-      // Option names expected by Yoast SEO.
-      keyword: resolvedKeyphrase,
-      synonyms: resolvedSynonyms,
-    },
-  );
-
-  const newReport = {
-    results,
-    ratings,
-    version: target.version,
-    timestamp: Date.now(),
+function resolveAnalysisOptions(): AnalysisOptions {
+  return {
+    assessments: __PLAYGROUND__
+      ? currentContent.value.assessments
+      : assessments.value!,
+    logLevel: logLevel.value!,
+    // Option names expected by Yoast SEO.
+    keyword: resolveKeyphrase(keyphrase.value, keyphraseField.value),
+    synonyms: resolveSynonyms(synonyms.value, synonymsField.value),
   };
-
-  if (!__PLAYGROUND__) {
-    storeRating(newReport, target.version, language);
-  }
-
-  return newReport;
 }
 
 /**
@@ -229,6 +204,11 @@ async function runAnalysis(language: string): Promise<Report> {
  * editor keeps it: an unstored report for a language they left is discarded.
  */
 function showReport(newReport: Report, language: string) {
+  // The section's own run reaches the section through the shared rating too.
+  if (report.value === newReport) {
+    return true;
+  }
+
   if (persisted.value) {
     writeStoredReport({ ...getStorageScope(), language }, newReport);
   }
@@ -260,7 +240,14 @@ async function analyze() {
   isAnalyzing.value = true;
 
   try {
-    const hasReport = showReport(await runAnalysis(language), language);
+    const hasReport = showReport(
+      await runAnalysis(
+        language,
+        contentSelector.value!,
+        resolveAnalysisOptions(),
+      ),
+      language,
+    );
 
     // Unstored and no longer shown, the report is discarded, so nothing was
     // generated from the editor's point of view.
@@ -292,9 +279,12 @@ if (!__PLAYGROUND__) {
         await updateSectionData();
       }
 
-      return runAnalysis(language);
+      return runAnalysis(
+        language,
+        contentSelector.value!,
+        resolveAnalysisOptions(),
+      );
     },
-    onResult: showReport,
   });
 }
 </script>

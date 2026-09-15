@@ -32,20 +32,18 @@ beforeEach(() => {
 });
 
 describe("useAutoAnalysis", () => {
-  it("runs the analysis once on content.publish and hands onResult the report with the language", async () => {
+  it("runs the analysis once in the published language on content.publish", async () => {
     api.get.mockResolvedValue({ config: { auto: "publish" }, assets: [] });
     const run = vi.fn<(language: string) => Promise<Report>>();
     run.mockResolvedValue(report);
-    const onResult = vi.fn();
     const { useAutoAnalysis } =
       await import("../../../src/panel/composables/auto");
 
-    useAutoAnalysis({ auto: () => undefined, run, onResult });
+    useAutoAnalysis({ auto: () => undefined, run });
     publish("de");
     await flushPromises();
 
     expect(run).toHaveBeenCalledExactlyOnceWith("de");
-    expect(onResult).toHaveBeenCalledExactlyOnceWith(report, "de");
   });
 
   it.each([
@@ -65,36 +63,32 @@ describe("useAutoAnalysis", () => {
       api.get.mockResolvedValue({ config, assets: [] });
       const run = vi.fn<(language: string) => Promise<Report>>();
       run.mockResolvedValue(report);
-      const onResult = vi.fn();
       const { useAutoAnalysis } =
         await import("../../../src/panel/composables/auto");
 
-      useAutoAnalysis({ auto: () => auto, run, onResult });
+      useAutoAnalysis({ auto: () => auto, run });
       publish("de");
       await flushPromises();
 
       expect(run).not.toHaveBeenCalled();
-      expect(onResult).not.toHaveBeenCalled();
     },
   );
 
-  it("lets a second participant on the same view and language join the in-flight run", async () => {
+  it("runs once per publish for two participants on the same view and language", async () => {
     api.get.mockResolvedValue({ config: { auto: "publish" }, assets: [] });
     const run = vi.fn<(language: string) => Promise<Report>>();
     run.mockResolvedValue(report);
-    const onButtonResult = vi.fn();
-    const onSectionResult = vi.fn();
     const { useAutoAnalysis } =
       await import("../../../src/panel/composables/auto");
 
-    useAutoAnalysis({ auto: () => undefined, run, onResult: onButtonResult });
-    useAutoAnalysis({ auto: () => undefined, run, onResult: onSectionResult });
+    useAutoAnalysis({ auto: () => undefined, run });
+    useAutoAnalysis({ auto: () => undefined, run });
+    publish("de");
+    await flushPromises();
     publish("de");
     await flushPromises();
 
-    expect(run).toHaveBeenCalledTimes(1);
-    expect(onButtonResult).toHaveBeenCalledExactlyOnceWith(report, "de");
-    expect(onSectionResult).toHaveBeenCalledExactlyOnceWith(report, "de");
+    expect(run).toHaveBeenCalledTimes(2);
   });
 
   it("stops reacting to content.publish after onBeforeUnmount", async () => {
