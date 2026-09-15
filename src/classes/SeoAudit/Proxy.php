@@ -7,10 +7,7 @@ namespace JohannSchopplich\SeoAudit;
 use Closure;
 use Exception;
 use Kirby\Cms\App;
-use Kirby\Cms\File;
 use Kirby\Cms\Find;
-use Kirby\Cms\Page;
-use Kirby\Cms\Site;
 use Kirby\Exception\Exception as KirbyException;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
@@ -89,7 +86,9 @@ final class Proxy
             throw new InvalidArgumentException('Missing model path');
         }
 
-        return $this->resolveUrl($path);
+        $version = $request->get('version', 'latest');
+
+        return $this->resolveUrl($path, is_string($version) ? $version : 'latest');
     }
 
     /**
@@ -105,21 +104,12 @@ final class Proxy
      * site chose to point its preview button, which is the site's call to
      * make, not a target the request picked.
      *
-     * @throws InvalidArgumentException When the model cannot carry a preview URL
+     * @throws InvalidArgumentException When the model cannot carry a preview URL or the version is unknown
      * @throws NotFoundException When the model is inaccessible or has no preview URL
      */
-    public function resolveUrl(string $path): string
+    public function resolveUrl(string $path, string $version = 'latest'): string
     {
-        $model = Find::parent($path);
-
-        $url = match (true) {
-            $model instanceof Page,
-            $model instanceof Site,
-            $model instanceof File => $model->previewUrl(),
-            default => throw new InvalidArgumentException(
-                'Model cannot be analyzed: ' . $model::class
-            )
-        };
+        ['url' => $url] = PreviewTarget::resolve(Find::parent($path), $version);
 
         if ($url === null) {
             throw new NotFoundException('Model has no preview URL: ' . $path);

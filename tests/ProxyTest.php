@@ -55,6 +55,17 @@ final class ProxyTest extends TestCase
     }
 
     #[Test]
+    public function resolve_url_returns_the_changes_url_for_the_changes_version(): void
+    {
+        $kirby = self::bootApp();
+
+        $this->assertStringContainsString(
+            '_version=changes',
+            (new Proxy($kirby))->resolveUrl('pages/test', 'changes')
+        );
+    }
+
+    #[Test]
     public function resolve_url_returns_the_site_preview_url_for_site(): void
     {
         $kirby = self::bootApp();
@@ -126,6 +137,30 @@ final class ProxyTest extends TestCase
         );
     }
 
+    #[Test]
+    public function resolve_url_keeps_the_changes_token_through_the_url_resolver(): void
+    {
+        $kirby = self::bootApp([
+            'options' => [
+                'johannschopplich.seo-audit' => [
+                    'proxy' => [
+                        'urlResolver' => fn (string $url) => str_replace(
+                            'example.com',
+                            'host.docker.internal:3000',
+                            $url
+                        )
+                    ]
+                ]
+            ]
+        ]);
+
+        $url = (new Proxy($kirby))->resolveUrl('pages/test', 'changes');
+
+        $this->assertStringStartsWith('https://host.docker.internal:3000/test?', $url);
+        $this->assertStringContainsString('_token=', $url);
+        $this->assertStringContainsString('_version=changes', $url);
+    }
+
     /** @return array<string, array{0: mixed}> */
     public static function unusableResolverResults(): array
     {
@@ -187,6 +222,22 @@ final class ProxyTest extends TestCase
 
         $this->assertSame(
             'https://example.com/test',
+            (new Proxy($kirby))->resolveTarget()
+        );
+    }
+
+    #[Test]
+    public function resolve_target_returns_the_changes_url_for_a_request_version_of_changes(): void
+    {
+        $kirby = self::bootApp([
+            'request' => [
+                'method' => 'POST',
+                'body' => ['path' => 'pages/test', 'version' => 'changes']
+            ]
+        ]);
+
+        $this->assertStringContainsString(
+            '_version=changes',
             (new Proxy($kirby))->resolveTarget()
         );
     }

@@ -19,6 +19,7 @@ import {
 } from "../../composables";
 import { readStoredReport, writeStoredReport } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
+import ReportMeta from "../Ui/ReportMeta.vue";
 
 const propsDefinition = {
   ...sectionProps,
@@ -38,6 +39,7 @@ const { t } = useI18n();
 const {
   generateReport,
   notifyReportError,
+  resolveContentVersion,
   resolveKeyphrase,
   resolveLogLevelIndex,
   resolvePreviewTarget,
@@ -109,14 +111,6 @@ if (__PLAYGROUND__) {
     },
   );
 }
-
-const { format } = new Intl.DateTimeFormat(
-  panel.translation.code.replace("_", "-"),
-  {
-    dateStyle: "short",
-    timeStyle: "short",
-  },
-);
 
 async function updateSectionData(isInitializing = false) {
   const language = panel.language.code;
@@ -204,7 +198,7 @@ async function analyze() {
   try {
     const target = __PLAYGROUND__
       ? { url: currentContent.value.targeturl }
-      : await resolvePreviewTarget(language);
+      : await resolvePreviewTarget(language, await resolveContentVersion());
     const result = await generateReport(target, contentSelector.value, {
       assessments: __PLAYGROUND__
         ? currentContent.value.assessments
@@ -217,6 +211,7 @@ async function analyze() {
 
     const newReport = {
       result,
+      version: target.version,
       timestamp: Date.now(),
     };
 
@@ -305,7 +300,7 @@ async function analyze() {
         </k-box>
 
         <k-box theme="empty" icon="clock" class="ksr-border-transparent">
-          {{ format(report.timestamp) }}
+          <ReportMeta :version="report.version" :timestamp="report.timestamp" />
         </k-box>
       </div>
     </div>

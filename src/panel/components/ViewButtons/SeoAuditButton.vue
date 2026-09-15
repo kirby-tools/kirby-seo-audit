@@ -46,6 +46,7 @@ const api = useApi();
 const {
   generateReport,
   notifyReportError,
+  resolveContentVersion,
   resolveKeyphrase,
   resolveLogLevelIndex,
   resolvePreviewTarget,
@@ -80,10 +81,12 @@ async function analyze() {
   try {
     const logLevel = await resolveLogLevelIndex(props.logLevel);
 
+    const version = __PLAYGROUND__ ? undefined : await resolveContentVersion();
+
     const [target, queriedProps] = __PLAYGROUND__
       ? [{ url: content.targeturl }, props]
       : await Promise.all([
-          resolvePreviewTarget(language),
+          resolvePreviewTarget(language, version),
           // A view button's props reach the Panel unresolved, so the server
           // resolves the ones carrying a Kirby query.
           hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
@@ -122,6 +125,8 @@ async function analyze() {
       component: "k-seo-audit-report-dialog",
       props: {
         report: result,
+        version: target.version,
+        timestamp: Date.now(),
         links: props.links,
       },
     });

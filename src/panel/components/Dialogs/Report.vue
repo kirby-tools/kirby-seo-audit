@@ -3,10 +3,16 @@ import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import { ref, usePanel } from "kirbyuse";
 import { usePluginContext } from "../../composables";
 import AuditResult from "../Ui/AuditResult.vue";
+import ReportMeta from "../Ui/ReportMeta.vue";
 
 defineProps({
   report: {
     type: Object,
+    required: true,
+  },
+  version: String,
+  timestamp: {
+    type: Number,
     required: true,
   },
   links: {
@@ -51,6 +57,9 @@ const isZeroOneBuild = __ZERO_ONE__;
                     : panel.t("johannschopplich.seo-audit.results.readability")
               }}
             </h2>
+            <p class="ksr-text-[var(--color-text-dimmed)]">
+              <ReportMeta :version="version" :timestamp="timestamp" />
+            </p>
           </k-text>
           <div v-if="licenseStatus !== undefined && !isZeroOneBuild">
             <LicensingButtonGroup

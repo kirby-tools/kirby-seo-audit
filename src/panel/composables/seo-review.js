@@ -1,7 +1,8 @@
-import { useContent, usePanel } from "kirbyuse";
+import { isKirby5, useContent, usePanel } from "kirbyuse";
 import {
   DEFAULT_LOG_LEVEL,
   LOG_LEVELS,
+  PLUGIN_PREVIEW_URL_API_ROUTE,
   PLUGIN_PROXY_API_ROUTE,
 } from "../constants";
 import {
@@ -21,7 +22,7 @@ import { usePluginContext } from "./plugin";
 
 export function useSeoReview() {
   const panel = usePanel();
-  const { currentContent } = useContent();
+  const { content, currentContent, hasChanges, isEditable } = useContent();
   const logger = useLogger();
 
   async function generateReport(target, contentSelector, options) {
@@ -79,7 +80,7 @@ export function useSeoReview() {
     return resultsByCategory;
   }
 
-  async function fetchHtml({ url, path, language }) {
+  async function fetchHtml({ url, path, language, version }) {
     // Same-origin pages raise no CORS question, so the browser reads them itself.
     if (location.origin === new URL(url).origin) {
       let response;
@@ -103,7 +104,7 @@ export function useSeoReview() {
       url: fetchedUrl,
     } = await panel.api.post(
       PLUGIN_PROXY_API_ROUTE,
-      path ? { path } : { url },
+      path ? { path, version } : { url },
       createLanguageRequestOptions(language),
     );
 
@@ -123,23 +124,43 @@ export function useSeoReview() {
   }
 
   /**
-   * Resolves the current view's preview URL in `language` and returns it as a
-   * target that carries `language` on to the proxy request.
-   *
+   * Names the content version to analyze: `changes` once the form differs
+   * from the published content. Pending changes are flushed first, so the
+   * server renders what the form shows; an editor who cannot flush analyzes
+   * them all the same.
+   */
+  async function resolveContentVersion() {
+    if (!isKirby5() || !hasChanges.value) {
+      return "latest";
+    }
+
+    if (isEditable.value) {
+      await content.save(content.version("changes"));
+    }
+
+    return "changes";
+  }
+
+  /**
    * @throws {MissingPreviewUrlError} When the model has no preview URL for the current user
    */
-  async function resolvePreviewTarget(language) {
-    const { previewUrl } = await panel.api.get(
-      panel.view.path,
-      { select: "previewUrl" },
+  async function resolvePreviewTarget(language, version = "latest") {
+    const { url, version: resolvedVersion } = await panel.api.get(
+      PLUGIN_PREVIEW_URL_API_ROUTE,
+      { path: panel.view.path, version },
       createLanguageRequestOptions(language),
     );
 
-    if (!previewUrl) {
+    if (!url) {
       throw new MissingPreviewUrlError({ path: panel.view.path });
     }
 
-    return { url: previewUrl, path: panel.view.path, language };
+    return {
+      url,
+      path: panel.view.path,
+      language,
+      version: resolvedVersion,
+    };
   }
 
   async function resolveLogLevelIndex(logLevel) {
@@ -228,6 +249,7 @@ export function useSeoReview() {
   return {
     generateReport,
     fetchHtml,
+    resolveContentVersion,
     resolvePreviewTarget,
     resolveLogLevelIndex,
     resolveKeyphrase,

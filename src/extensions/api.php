@@ -3,6 +3,7 @@
 use JohannSchopplich\Licensing\LicensePanel;
 use JohannSchopplich\Licensing\Licenses;
 use JohannSchopplich\SeoAudit\PanelContext;
+use JohannSchopplich\SeoAudit\PreviewTarget;
 use JohannSchopplich\SeoAudit\Proxy;
 use JohannSchopplich\SeoAudit\ViewButtonOptions;
 use Kirby\Cms\App;
@@ -47,6 +48,25 @@ return [
 
                 // `Find::parent` enforces the model's own access permissions.
                 return ViewButtonOptions::resolve(Find::parent($path));
+            }
+        ],
+        [
+            'pattern' => '__seo-audit__/preview-url',
+            'method' => 'GET',
+            'action' => function () use ($kirby) {
+                $request = $kirby->request();
+                $path = $request->get('path');
+
+                if (!is_string($path) || $path === '') {
+                    throw new InvalidArgumentException('Missing model path');
+                }
+
+                $version = $request->get('version', 'latest');
+
+                return PreviewTarget::resolve(
+                    Find::parent($path),
+                    is_string($version) ? $version : 'latest'
+                );
             }
         ],
         [
