@@ -6,7 +6,7 @@ import { groupResultsByRating } from "../../utils/seo-filter";
 import AuditResultItem from "./AuditResultItem.vue";
 
 const props = defineProps({
-  report: {
+  results: {
     type: Object as PropType<Report["results"]>,
     required: true,
   },
@@ -28,9 +28,9 @@ const RATING_BADGE_COLOR_MAP: Partial<Record<ResultRating, string>> = {
 
 const panel = usePanel();
 
-const categorizedReport = computed(() =>
+const resultsByRating = computed(() =>
   groupResultsByRating(
-    Object.values(props.report)
+    Object.values(props.results)
       .flat()
       .map((item) => toRaw(item)),
   ),
@@ -51,7 +51,7 @@ const categorizedReport = computed(() =>
     >
       <div
         v-for="(ratingCategory, ratingCategoryIndex) in Object.keys(
-          categorizedReport,
+          resultsByRating,
         )"
         :key="ratingCategory"
       >
@@ -67,19 +67,19 @@ const categorizedReport = computed(() =>
             class="k-button-badge ksr-[font-weight:var(--font-semi)] ksr-static ksr-transform-none ksr-shadow-none"
             :data-theme="RATING_BADGE_COLOR_MAP[ratingCategory]"
           >
-            {{ categorizedReport[ratingCategory].length }}
+            {{ resultsByRating[ratingCategory].length }}
           </span>
         </div>
 
         <AuditResultItem
-          v-for="(resultItem, resultIndex) in categorizedReport[ratingCategory]"
+          v-for="(resultItem, resultIndex) in resultsByRating[ratingCategory]"
           :key="resultIndex"
           :result="resultItem"
           :links="links"
         />
 
         <hr
-          v-if="ratingCategoryIndex < Object.keys(categorizedReport).length - 1"
+          v-if="ratingCategoryIndex < Object.keys(resultsByRating).length - 1"
           class="ksr-my-4"
           :style="{
             background: isDialog

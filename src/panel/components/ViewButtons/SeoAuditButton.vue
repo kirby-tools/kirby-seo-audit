@@ -184,7 +184,7 @@ async function analyze() {
     panel.dialog.open({
       component: "k-seo-audit-report-dialog",
       props: {
-        report: report.results,
+        results: report.results,
         ratings: report.ratings,
         version: report.version,
         timestamp: report.timestamp,

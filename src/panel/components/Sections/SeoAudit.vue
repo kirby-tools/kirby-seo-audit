@@ -345,7 +345,7 @@ if (!__PLAYGROUND__) {
         >
           <AuditResult
             :key="report.timestamp"
-            :report="report.results"
+            :results="report.results"
             :links="links"
             :class="[isAnalyzing && 'ksr-opacity-50']"
           >

@@ -10,7 +10,7 @@ import ReportMeta from "../Ui/ReportMeta.vue";
 import ReportRatings from "../Ui/ReportRatings.vue";
 
 defineProps({
-  report: {
+  results: {
     type: Object as PropType<Report["results"]>,
     required: true,
   },
@@ -58,15 +58,15 @@ const isZeroOneBuild = __ZERO_ONE__;
     class="k-seo-audit-report-dialog"
     @cancel="emit('cancel')"
   >
-    <AuditResult :report="report" :links="links" is-dialog>
+    <AuditResult :results="results" :links="links" is-dialog>
       <template #header>
         <div class="ksr-mb-4 ksr-flex ksr-items-start ksr-justify-between">
           <k-text>
             <h2>
               {{
-                report.seo.length > 0 && report.readability.length > 0
+                results.seo.length > 0 && results.readability.length > 0
                   ? panel.t("johannschopplich.seo-audit.results")
-                  : report.seo.length > 0
+                  : results.seo.length > 0
                     ? panel.t("johannschopplich.seo-audit.results.seo")
                     : panel.t("johannschopplich.seo-audit.results.readability")
               }}
