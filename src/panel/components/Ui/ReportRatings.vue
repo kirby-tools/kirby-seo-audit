@@ -24,13 +24,17 @@ const panel = usePanel();
         class="ksr-inline-flex ksr-items-center ksr-gap-1.5"
       >
         <RatingStatus :rating="ratings[category].rating" class="ksr-size-3" />
-        <span>
-          {{ panel.t(`johannschopplich.seo-audit.category.${category}`) }}:
-          {{
-            panel.t(
-              `johannschopplich.seo-audit.rating.${ratings[category].rating}`,
-            )
-          }}
+        <span class="ksr-inline-flex ksr-gap-2">
+          <strong>
+            {{ panel.t(`johannschopplich.seo-audit.category.${category}`) }}
+          </strong>
+          <span>
+            {{
+              panel.t(
+                `johannschopplich.seo-audit.rating.${ratings[category].rating}`,
+              )
+            }}
+          </span>
         </span>
       </span>
     </template>
