@@ -16,9 +16,9 @@ export interface AssessmentContext {
   contentSelector: string;
 }
 
-/** What one of the plugin's own assessments yields; `translation` names the message under the assessment's key. */
 export interface AssessmentResult {
   score: number;
+  /** The message key under the assessment's key. */
   translation: string;
   context?: Record<string, unknown>;
   details?: { text: string };
@@ -34,9 +34,9 @@ export interface Result {
   details?: { text: string };
 }
 
-/** The fields the plugin reads off a Yoast assessment result, tagged with the category it arrived in. */
 export interface YoastResult {
   _identifier: string;
+  /** Set by the plugin from the category the result arrived in. */
   _category: Category;
   score: number;
   text: string;
@@ -86,9 +86,8 @@ export interface RatingRecord {
 }
 
 /**
- * Response from the `__seo-audit__/rating` API endpoint. `version` and
- * `timestamp` are `null` before the first analysis; a run the Panel keeps
- * before the server answers has the same shape.
+ * `version` and `timestamp` are `null` before the first analysis; a run the
+ * Panel keeps before the server answers has the same shape.
  */
 export interface Rating extends Omit<RatingRecord, "version"> {
   version?: ContentVersion | null;
@@ -96,7 +95,7 @@ export interface Rating extends Omit<RatingRecord, "version"> {
   isStale: boolean;
 }
 
-/** The preview URL to analyze; the playground passes a bare URL with no model behind it. */
+/** Only the playground passes a bare URL with no model behind it. */
 export interface PreviewTarget {
   url: string;
   path?: string;
@@ -109,20 +108,17 @@ export interface PluginConfig {
   logLevel?: LogLevel | null;
 }
 
-/** Response from the `__seo-audit__/context` API endpoint. */
 export interface PluginContextResponse {
   config: PluginConfig;
   assets: PluginAsset[];
   licenseStatus?: LicenseStatus;
 }
 
-/** Response from the `__seo-audit__/button-options` API endpoint. */
 export interface ButtonOptionsResponse {
   keyphrase?: string | null;
   synonyms?: string | string[] | null;
 }
 
-/** Response from the `__seo-audit__/preview-url` API endpoint. */
 export interface PreviewUrlResponse {
   /** `null` for a model without a preview URL for the current user. */
   url: string | null;

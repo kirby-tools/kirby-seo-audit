@@ -43,10 +43,6 @@ const READABILITY_SCORES = {
 const RATING_ORDER: readonly TrafficLight[] = ["bad", "ok", "good"];
 const CATEGORIES: Category[] = ["seo", "readability"];
 
-/**
- * Rates both categories of a filtered report. A category without results has
- * no rating; a category Yoast cannot score yet rates `none`.
- */
 export function rateReport(
   results: Record<Category, Pick<Result, "score">[]>,
   language: string,

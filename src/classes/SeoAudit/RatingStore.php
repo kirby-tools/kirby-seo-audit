@@ -11,9 +11,8 @@ use Kirby\Cms\Site;
 use Kirby\Uuid\PageUuid;
 
 /**
- * Keeps one rating per page and language in the plugin cache. The content
- * file stays untouched, so an analysis never counts as an edit, and the page
- * folder stays clean, so Kirby can still remove it.
+ * One rating per page and language in the plugin cache. The content file
+ * stays untouched, so an analysis never counts as an edit.
  */
 final class RatingStore
 {
@@ -107,12 +106,12 @@ final class RatingStore
 
     private function modified(Page|Site $model, string $languageCode): int|null
     {
-        // The published version's own time, not the folder's: a site must not
-        // go stale because any page changed.
         if (!method_exists($model, 'version')) {
             return null;
         }
 
+        // The published version's own time, not the folder's: a site must not
+        // go stale because any page changed.
         return $model->version('latest')->modified(
             $this->kirby->multilang() ? $languageCode : 'default'
         );

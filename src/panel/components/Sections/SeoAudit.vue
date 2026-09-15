@@ -177,7 +177,6 @@ function resolveAnalysisOptions(): AnalysisOptions {
       ? currentContent.value.assessments
       : assessments.value!,
     logLevel: logLevel.value!,
-    // Option names expected by Yoast SEO.
     keyword: resolveKeyphrase(
       currentContent.value,
       keyphrase.value,

@@ -111,8 +111,8 @@ export function useAnalysis({
   }
 
   /**
-   * Stores the record of a run; without `update` on the model the record
-   * stays in this session, and the server keeps nothing.
+   * Stores the record of a run. Without `isEditable` the server would refuse
+   * the write, so the record stays in this session.
    */
   async function storeRating(
     path: string,

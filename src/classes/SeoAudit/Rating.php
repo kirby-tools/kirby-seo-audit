@@ -8,9 +8,8 @@ use Kirby\Exception\InvalidArgumentException;
 use Stringable;
 
 /**
- * What an analysis leaves behind: one traffic light per category, the
- * counts behind them, and what was analyzed when. Reads like a field in
- * blueprint queries, where the string form is the worse of the two lights.
+ * The rating of one model in one language, readable as a field in blueprint
+ * queries and templates through `__toString`.
  */
 final class Rating implements Stringable
 {

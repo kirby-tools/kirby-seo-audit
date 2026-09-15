@@ -12,8 +12,8 @@ use Kirby\Exception\InvalidArgumentException;
 use Kirby\Http\Uri;
 
 /**
- * Resolves the preview URL of a content version, along with the version the
- * URL asks for: a file has no versions, and a disabled preview has no URL.
+ * The preview URL of a content version, along with the version the URL asks
+ * for: a file has no versions, and a disabled preview has no URL.
  */
 final class PreviewTarget
 {

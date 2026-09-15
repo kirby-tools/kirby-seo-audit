@@ -464,7 +464,7 @@ function createEventBus() {
   };
 }
 
-// Kirby emits `content.publish` with the values, the API path and the language.
+// Kirby emits `content.publish` with the values, the API path, and the language.
 function publish(language: string) {
   events.emit("content.publish", { values: {}, api: "/pages/about", language });
 }

@@ -135,10 +135,8 @@ async function resolvePreviewTarget(
 }
 
 /**
- * Names the content version to analyze: `changes` once the form differs
- * from the published content. Pending changes are flushed first, so the
- * server renders what the form shows; an editor who cannot flush analyzes
- * them all the same.
+ * Saves the pending changes first, so the server renders what the form
+ * shows; an editor who cannot save analyzes them all the same.
  */
 async function resolveContentVersion(): Promise<ContentVersion> {
   const { content, hasChanges, isEditable } = useContent();

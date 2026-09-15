@@ -76,7 +76,6 @@ const { analyze, isAnalyzing, rating } = useAnalysis({
   auto: () => props.auto,
 });
 
-// A stale rating keeps its color and gains a mark.
 const badge = computed(() => {
   if (!rating.value?.timestamp) return undefined;
 
@@ -112,7 +111,6 @@ async function resolveAnalysisOptions(
   return {
     assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
     logLevel: resolveLogLevelIndex(props.logLevel, config.logLevel),
-    // Option names expected by Yoast SEO.
     keyword: resolveKeyphrase(
       content,
       queriedProps.keyphrase,
