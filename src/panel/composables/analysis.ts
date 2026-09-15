@@ -1,4 +1,9 @@
-import type { AnalysisOptions, Rating, Report } from "../types";
+import type {
+  AnalysisOptions,
+  Rating,
+  Report,
+  ReportStorageScope,
+} from "../types";
 import {
   computed,
   isKirby5,
@@ -12,6 +17,7 @@ import { PLUGIN_RATING_API_ROUTE } from "../constants";
 import { resolveAuto } from "../utils/auto";
 import { createLanguageRequestOptions } from "../utils/request";
 import { toRatingRecord } from "../utils/seo-score";
+import { readStoredReport, writeStoredReport } from "../utils/storage";
 import { useLogger } from "./logger";
 import { usePluginContext } from "./plugin";
 import { useSeoReview } from "./seo-review";
@@ -30,10 +36,15 @@ export function useAnalysis({
   resolveOptions,
   contentSelector,
   auto,
+  storage,
 }: {
   resolveOptions: (language: string) => Promise<AnalysisOptions>;
   contentSelector: () => string;
   auto: () => unknown;
+  storage?: {
+    scope: () => ReportStorageScope;
+    persisted: () => boolean;
+  };
 }) {
   const _isKirby5 = isKirby5();
   const panel = usePanel();
@@ -46,7 +57,9 @@ export function useAnalysis({
     analysisKey(panel.view.path, panel.language.code),
   );
   const rating = computed(() => records.value[currentKey.value]);
-  const report = computed(() => reports.value[currentKey.value]);
+  const report = computed(
+    () => reports.value[currentKey.value] ?? readSeededReport(),
+  );
 
   async function analyze(
     language = panel.language.code,
@@ -68,9 +81,10 @@ export function useAnalysis({
   }
 
   async function run(language: string): Promise<Report | undefined> {
-    // A language switch during the analysis must not mix the two languages, so
-    // everything that depends on the language is read before the first `await`.
+    // A view or language switch during the analysis must not move the run, so
+    // the view path and the storage scope are read before the first `await`.
     const path = panel.view.path;
+    const storageScope = storage?.scope();
     isAnalyzing.value = true;
 
     try {
@@ -80,6 +94,10 @@ export function useAnalysis({
         ...reports.value,
         [analysisKey(path, language)]: newReport,
       };
+
+      if (storageScope && storage?.persisted()) {
+        writeStoredReport({ ...storageScope, language }, newReport);
+      }
 
       if (!__PLAYGROUND__) {
         await storeRating(path, language, newReport);
@@ -128,6 +146,15 @@ export function useAnalysis({
       ...records.value,
       [analysisKey(path, language)]: response,
     };
+  }
+
+  function readSeededReport() {
+    if (!storage?.persisted()) return undefined;
+
+    const storedReport = readStoredReport(storage.scope());
+
+    // A report stored before 3.5 carries no ratings and is discarded.
+    return storedReport?.ratings ? storedReport : undefined;
   }
 
   function loadRating() {

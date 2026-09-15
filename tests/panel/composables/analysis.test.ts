@@ -3,9 +3,14 @@ import type {
   PluginConfig,
   Rating,
   Report,
+  ReportStorageScope,
 } from "../../../src/panel/types";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { markRaw, reactive } from "vue";
+import {
+  readStoredReport,
+  writeStoredReport,
+} from "../../../src/panel/utils/storage";
 import { flushPromises } from "../helpers/flush-promises";
 
 const api = { get: vi.fn(), post: vi.fn() };
@@ -30,6 +35,12 @@ const runAnalysis =
     ) => Promise<Report>
   >();
 const notifyReportError = vi.fn();
+// Node's own `localStorage` shadows happy-dom's and stays empty without a storage file.
+const storedItems = new Map<string, string>();
+vi.stubGlobal("localStorage", {
+  getItem: (key: string) => storedItems.get(key) ?? null,
+  setItem: (key: string, value: string) => storedItems.set(key, value),
+});
 
 let pluginConfig: PluginConfig;
 let ratingResponse: Rating;
@@ -96,6 +107,17 @@ const report: Report = {
   timestamp: 1_700_000_000,
 };
 
+const storedReport: Report = {
+  ...report,
+  timestamp: 1_699_500_000,
+};
+
+const storageScope: ReportStorageScope = {
+  path: "pages/about",
+  language: "de",
+  section: "seo",
+};
+
 beforeEach(() => {
   vi.resetModules();
   vi.setSystemTime(1_700_000_000_000);
@@ -118,6 +140,7 @@ beforeEach(() => {
   panel.language.code = "de";
   isEditable.value = true;
   isKirby5.mockReturnValue(true);
+  storedItems.clear();
   window.panel = panel as unknown as Window["panel"];
 });
 
@@ -314,6 +337,64 @@ describe("useAnalysis", () => {
     expect(notifyReportError).not.toHaveBeenCalled();
   });
 
+  it("a run by another participant on the same view reaches report", async () => {
+    const participant = await mountAnalysis();
+    const { analyze } = await mountAnalysis();
+
+    await analyze();
+
+    expect(participant.report.value).toBe(report);
+  });
+
+  it("seeds report from storage when persisted", async () => {
+    writeStoredReport(storageScope, storedReport);
+    const { report: currentReport } = await mountAnalysis({
+      storage: { scope: () => storageScope, persisted: () => true },
+    });
+
+    expect(currentReport.value).toEqual(storedReport);
+  });
+
+  it("leaves report empty when not persisted", async () => {
+    writeStoredReport(storageScope, storedReport);
+    const { report: currentReport } = await mountAnalysis({
+      storage: { scope: () => storageScope, persisted: () => false },
+    });
+
+    expect(currentReport.value).toBeUndefined();
+  });
+
+  it("discards a stored report without ratings", async () => {
+    const { ratings, ...reportBefore35 } = storedReport;
+    writeStoredReport(storageScope, reportBefore35 as Report);
+    const { report: currentReport } = await mountAnalysis({
+      storage: { scope: () => storageScope, persisted: () => true },
+    });
+
+    expect(currentReport.value).toBeUndefined();
+  });
+
+  it("analyze writes the report to storage under its start language", async () => {
+    const pendingRun = Promise.withResolvers<Report>();
+    runAnalysis.mockReturnValue(pendingRun.promise);
+    const { analyze } = await mountAnalysis({
+      storage: {
+        scope: () => ({ ...storageScope, language: panel.language.code }),
+        persisted: () => true,
+      },
+    });
+
+    const pendingAnalysis = analyze();
+    panel.language.code = "en";
+    pendingRun.resolve(report);
+    await pendingAnalysis;
+
+    expect(readStoredReport(storageScope)).toEqual(report);
+    expect(
+      readStoredReport({ ...storageScope, language: "en" }),
+    ).toBeUndefined();
+  });
+
   it("stops reacting to content.publish after onBeforeUnmount", async () => {
     await mountAnalysis();
 
@@ -328,9 +409,11 @@ describe("useAnalysis", () => {
 async function mountAnalysis({
   auto,
   resolveOptions = async () => options,
+  storage,
 }: {
   auto?: unknown;
   resolveOptions?: (language: string) => Promise<AnalysisOptions>;
+  storage?: { scope: () => ReportStorageScope; persisted: () => boolean };
 } = {}) {
   const { useAnalysis } =
     await import("../../../src/panel/composables/analysis");
@@ -338,6 +421,7 @@ async function mountAnalysis({
     resolveOptions,
     contentSelector: () => "main",
     auto: () => auto,
+    storage,
   });
   await flushPromises();
   return composable;

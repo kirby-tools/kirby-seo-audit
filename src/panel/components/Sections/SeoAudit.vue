@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { LicenseStatus } from "@kirby-tools/licensing";
 import type { AutoTrigger } from "../../constants";
-import type { AnalysisOptions, Report } from "../../types";
+import type { AnalysisOptions } from "../../types";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
   computed,
@@ -21,7 +21,6 @@ import {
   resolveLogLevelIndex,
   resolveSynonyms,
 } from "../../utils/analysis-options";
-import { readStoredReport, writeStoredReport } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
 import ReportMeta from "../Ui/ReportMeta.vue";
 import ReportRatings from "../Ui/ReportRatings.vue";
@@ -60,7 +59,6 @@ const logLevel = ref<number>();
 
 const isInitialized = ref(false);
 const licenseStatus = ref<LicenseStatus>();
-const report = ref<Report>();
 // The language `keyphrase` and `synonyms` were last resolved in, which lags
 // behind a language switch until the section data reloads.
 const keyphraseLanguage = ref<string>();
@@ -70,12 +68,7 @@ const isKeyphraseCurrent = computed(
 
 const { currentContent } = useContent();
 
-const {
-  analyze,
-  isAnalyzing,
-  rating,
-  report: latestReport,
-} = useAnalysis({
+const { analyze, isAnalyzing, rating, report } = useAnalysis({
   // A publish right after a language switch must not run with the
   // keyphrase of the language the editor left.
   resolveOptions: async () => {
@@ -87,25 +80,23 @@ const {
   },
   contentSelector: () => contentSelector.value!,
   auto: () => auto.value,
+  storage: {
+    scope: () => ({
+      path: panel.view.path,
+      language: panel.language.code,
+      section: props.name!,
+    }),
+    persisted: () => persisted.value ?? false,
+  },
 });
 
 watch(
   // Will be `null` in single language setups.
   () => panel.language.code,
-  () => {
-    loadStoredReport();
-    updateSectionData();
-  },
+  () => updateSectionData(),
 );
 
 updateSectionData(true);
-
-// A run started by a view button on the same view reaches the section here.
-watch(latestReport, (newReport) => {
-  if (newReport) {
-    showReport(newReport, panel.language.code);
-  }
-});
 
 // The playground re-runs the analysis whenever its own fields change.
 if (__PLAYGROUND__) {
@@ -164,8 +155,6 @@ async function updateSectionData(isInitializing = false) {
     licenseStatus.value =
       __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
 
-    loadStoredReport();
-
     isInitialized.value = true;
   }
 
@@ -180,23 +169,6 @@ async function updateSectionData(isInitializing = false) {
   keyphrase.value = response.keyphrase;
   synonyms.value = response.synonyms;
   keyphraseLanguage.value = language;
-}
-
-function getStorageScope() {
-  return {
-    path: panel.view.path,
-    language: panel.language.code,
-    section: props.name!,
-  };
-}
-
-function loadStoredReport() {
-  const storedReport = persisted.value
-    ? readStoredReport(getStorageScope())
-    : undefined;
-
-  // A report stored before 3.5 carries no ratings and is discarded.
-  report.value = storedReport?.ratings ? storedReport : undefined;
 }
 
 function resolveAnalysisOptions(): AnalysisOptions {
@@ -217,30 +189,6 @@ function resolveAnalysisOptions(): AnalysisOptions {
       synonymsField.value,
     ),
   };
-}
-
-/**
- * Stores and shows a report generated in `language`. Returns whether the
- * editor keeps it: an unstored report for a language they left is discarded.
- */
-function showReport(newReport: Report, language: string) {
-  // The section's own run reaches the section through the shared rating too.
-  if (report.value === newReport) {
-    return true;
-  }
-
-  if (persisted.value) {
-    writeStoredReport({ ...getStorageScope(), language }, newReport);
-  }
-
-  // An analysis still running when the editor switched languages belongs to
-  // the language it started in.
-  const isCurrentLanguage = panel.language.code === language;
-  if (isCurrentLanguage) {
-    report.value = newReport;
-  }
-
-  return isCurrentLanguage || persisted.value;
 }
 
 async function analyzeAndNotify() {
