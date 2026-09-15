@@ -2,29 +2,29 @@ import { describe, expect, it } from "vitest";
 import { resolveDocumentLocale } from "../../../src/panel/utils/locale";
 
 describe("resolveDocumentLocale", () => {
-  it("should expand a bare language to its full locale", () => {
+  it("expands de to de-DE", () => {
     expect(resolveDocumentLocale("de")).toBe("de-DE");
   });
 
-  it("should keep a locale that already carries a region", () => {
+  it("returns de-AT unchanged", () => {
     expect(resolveDocumentLocale("de-AT")).toBe("de-AT");
   });
 
-  it("should resolve every Norwegian language code to Bokmål", () => {
+  it("resolves `no`, nb, and nn to nb-NO", () => {
     expect(resolveDocumentLocale("no")).toBe("nb-NO");
     expect(resolveDocumentLocale("nb")).toBe("nb-NO");
     expect(resolveDocumentLocale("nn")).toBe("nb-NO");
   });
 
-  it("should resolve a regional Norwegian locale to Bokmål", () => {
+  it("resolves no-NO to nb-NO", () => {
     expect(resolveDocumentLocale("no-NO")).toBe("nb-NO");
   });
 
-  it("should fall back to English for an unknown language", () => {
+  it("falls back to en-US for an unknown xx", () => {
     expect(resolveDocumentLocale("xx")).toBe("en-US");
   });
 
-  it("should fall back to English for a missing language", () => {
+  it("falls back to en-US for an empty language", () => {
     expect(resolveDocumentLocale("")).toBe("en-US");
   });
 });

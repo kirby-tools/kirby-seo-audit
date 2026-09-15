@@ -6,7 +6,7 @@ import {
 } from "../../../../src/panel/utils/assessments";
 
 describe("singleH1", () => {
-  it("should pass if there is exactly one H1 tag", () => {
+  it("passes with exactly one H1", () => {
     const htmlDocument = createHtmlDocument("<div><h1>Title</h1></div>");
     const result = singleH1({
       htmlDocument,
@@ -20,7 +20,7 @@ describe("singleH1", () => {
     `);
   });
 
-  it("should fail if there are multiple H1 tags", () => {
+  it("fails with two H1s", () => {
     const htmlDocument = createHtmlDocument(
       "<div><h1>Title</h1><h1>Another Title</h1></div>",
     );
@@ -36,7 +36,7 @@ describe("singleH1", () => {
     `);
   });
 
-  it("should fail if there are no H1 tags", () => {
+  it("fails without an H1", () => {
     const htmlDocument = createHtmlDocument("<div></div>");
     const result = singleH1({
       htmlDocument,
@@ -52,7 +52,7 @@ describe("singleH1", () => {
 });
 
 describe("altAttribute", () => {
-  it("should pass if there are no images", () => {
+  it("passes without images", () => {
     const htmlDocument = createHtmlDocument("<div></div>");
     const result = altAttribute({
       htmlDocument,
@@ -66,7 +66,7 @@ describe("altAttribute", () => {
     `);
   });
 
-  it("should pass if all images have an alt attribute", () => {
+  it("passes with an alt attribute on every image", () => {
     const htmlDocument = createHtmlDocument(
       '<div><img src="image.jpg" alt="Image description"></div>',
     );
@@ -82,7 +82,7 @@ describe("altAttribute", () => {
     `);
   });
 
-  it("should fail if any image lacks an alt attribute", () => {
+  it("fails with one of two images lacking an alt attribute", () => {
     const htmlDocument = createHtmlDocument(
       '<div><img src="image.jpg"><img src="another.jpg" alt="Description"></div>',
     );
@@ -103,7 +103,7 @@ describe("altAttribute", () => {
 });
 
 describe("headingStructureOrder", () => {
-  it("should pass if headings follow a proper sequential order", () => {
+  it("passes with an H2 following an H1", () => {
     const htmlDocument = createHtmlDocument(
       "<div><h1>Title</h1><h2>Subtitle</h2></div>",
     );
@@ -119,7 +119,7 @@ describe("headingStructureOrder", () => {
     `);
   });
 
-  it("should fail if headings do not follow a proper sequential order", () => {
+  it("fails with an H3 directly following an H1", () => {
     const htmlDocument = createHtmlDocument(
       "<div><h1>Title</h1><h3>Subsection without H2</h3></div>",
     );
