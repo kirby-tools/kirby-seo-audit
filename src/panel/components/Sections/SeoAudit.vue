@@ -243,10 +243,7 @@ async function analyzeAndNotify() {
                 }
               : undefined
           "
-          :class="[
-            isAnalyzing &&
-              'ksr-cusor-wait ksr-pointer-events-none ksr-animate-pulse',
-          ]"
+          :class="[isAnalyzing && 'ksr-pointer-events-none ksr-animate-pulse']"
         >
           <AuditResult
             :key="report.timestamp"
