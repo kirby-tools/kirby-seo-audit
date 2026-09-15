@@ -3,50 +3,34 @@
 declare(strict_types = 1);
 
 use JohannSchopplich\SeoAudit\Proxy;
-use Kirby\Cms\App;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 #[RunTestsInSeparateProcesses]
 #[PreserveGlobalState(false)]
-final class ProxyTest extends TestCase
+final class ProxyTest extends ApiRouteTestCase
 {
-    protected function tearDown(): void
-    {
-        App::destroy();
-    }
-
-    private static function bootApp(array $props = []): App
-    {
-        $app = new App(array_replace_recursive([
-            'roots' => ['index' => __DIR__ . '/tmp'],
-            'urls' => ['index' => 'https://example.com'],
-            'site' => [
-                'children' => [
-                    // The site previews its home page, so it needs one.
-                    ['slug' => 'home', 'num' => 1],
-                    ['slug' => 'test', 'num' => 1]
-                ]
-            ],
-            'users' => [
-                ['id' => 'editor', 'email' => 'editor@example.com', 'role' => 'admin']
+    private const APP_PROPS = [
+        'site' => [
+            'children' => [
+                // The site previews its home page, so it needs one.
+                ['slug' => 'home', 'num' => 1],
+                ['slug' => 'test', 'num' => 1]
             ]
-        ], $props));
-
-        $app->impersonate('kirby');
-
-        return $app;
-    }
+        ],
+        'users' => [
+            ['id' => 'editor', 'email' => 'editor@example.com', 'role' => 'admin']
+        ]
+    ];
 
     #[Test]
     public function resolve_url_returns_the_preview_url_of_a_page_path(): void
     {
-        $kirby = self::bootApp();
+        $kirby = self::bootApp(self::APP_PROPS);
 
         $this->assertSame(
             'https://example.com/test',
@@ -57,7 +41,7 @@ final class ProxyTest extends TestCase
     #[Test]
     public function resolve_url_returns_the_changes_url_for_the_changes_version(): void
     {
-        $kirby = self::bootApp();
+        $kirby = self::bootApp(self::APP_PROPS);
 
         $this->assertStringContainsString(
             '_version=changes',
@@ -68,7 +52,7 @@ final class ProxyTest extends TestCase
     #[Test]
     public function resolve_url_returns_the_site_preview_url_for_site(): void
     {
-        $kirby = self::bootApp();
+        $kirby = self::bootApp(self::APP_PROPS);
 
         $this->assertSame(
             'https://example.com',
@@ -79,7 +63,7 @@ final class ProxyTest extends TestCase
     #[Test]
     public function resolve_url_throws_for_a_model_type_that_cannot_be_previewed(): void
     {
-        $kirby = self::bootApp();
+        $kirby = self::bootApp(self::APP_PROPS);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Model cannot be analyzed:');
@@ -92,11 +76,7 @@ final class ProxyTest extends TestCase
     {
         // A model whose preview is unavailable yields `null`, which would
         // otherwise reach `Remote` as the URL to fetch.
-        $kirby = new App([
-            'roots' => ['index' => __DIR__ . '/tmp'],
-            'urls' => ['index' => 'https://example.com']
-        ]);
-        $kirby->impersonate('kirby');
+        $kirby = self::bootApp();
 
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Model has no preview URL: site');
@@ -107,7 +87,7 @@ final class ProxyTest extends TestCase
     #[Test]
     public function resolve_url_throws_for_a_page_that_does_not_exist(): void
     {
-        $kirby = self::bootApp();
+        $kirby = self::bootApp(self::APP_PROPS);
 
         $this->expectException(NotFoundException::class);
 
@@ -118,6 +98,7 @@ final class ProxyTest extends TestCase
     public function resolve_url_applies_urlResolver(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => [
@@ -141,6 +122,7 @@ final class ProxyTest extends TestCase
     public function resolve_url_keeps_the_changes_token_through_the_url_resolver(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => [
@@ -176,6 +158,7 @@ final class ProxyTest extends TestCase
     public function resolve_url_throws_when_urlResolver_returns_no_usable_url(mixed $result): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => ['urlResolver' => fn () => $result]
@@ -195,6 +178,7 @@ final class ProxyTest extends TestCase
         // Honoring a request-supplied `url` would turn any Panel account into
         // an open proxy onto the server's network.
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'request' => [
                 'method' => 'POST',
                 'body' => ['url' => 'http://169.254.169.254/latest/meta-data/']
@@ -211,6 +195,7 @@ final class ProxyTest extends TestCase
     public function resolve_target_returns_the_model_preview_url_when_the_request_also_carries_a_url(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'request' => [
                 'method' => 'POST',
                 'body' => [
@@ -230,6 +215,7 @@ final class ProxyTest extends TestCase
     public function resolve_target_returns_the_changes_url_for_a_request_version_of_changes(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'request' => [
                 'method' => 'POST',
                 'body' => ['path' => 'pages/test', 'version' => 'changes']
@@ -246,6 +232,7 @@ final class ProxyTest extends TestCase
     public function resolve_target_returns_the_request_url_with_allowArbitraryUrls(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => ['allowArbitraryUrls' => true]
@@ -267,6 +254,7 @@ final class ProxyTest extends TestCase
     public function resolve_target_applies_urlResolver_to_a_request_url(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => [
@@ -291,6 +279,7 @@ final class ProxyTest extends TestCase
     public function resolve_target_falls_back_to_the_model_path_with_allowArbitraryUrls_but_no_request_url(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => ['allowArbitraryUrls' => true]
@@ -312,6 +301,7 @@ final class ProxyTest extends TestCase
     public function handle_returns_the_url_rewritten_by_urlResolver(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => [
@@ -341,6 +331,7 @@ final class ProxyTest extends TestCase
     public function handle_returns_a_null_code_for_an_unreachable_host(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => [
@@ -365,6 +356,7 @@ final class ProxyTest extends TestCase
     public function handle_throws_InvalidArgumentException_for_a_ca_param_naming_a_missing_file(): void
     {
         $kirby = self::bootApp([
+            ...self::APP_PROPS,
             'options' => [
                 'johannschopplich.seo-audit' => [
                     'proxy' => [

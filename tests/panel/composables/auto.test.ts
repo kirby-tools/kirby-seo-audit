@@ -1,6 +1,6 @@
 import type { Report } from "../../../src/panel/types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { flushPromises } from "../utils";
+import { flushPromises } from "../helpers/flush-promises";
 
 const api = { get: vi.fn() };
 const events = createEventBus();

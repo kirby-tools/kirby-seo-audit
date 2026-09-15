@@ -2,7 +2,6 @@
 
 declare(strict_types = 1);
 
-use Kirby\Cms\App;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
@@ -17,18 +16,13 @@ final class ButtonOptionsRouteTest extends ApiRouteTestCase
         array $query,
         string $user = 'admin@example.com'
     ): mixed {
-        $app = new App([
-            'roots' => ['index' => __DIR__ . '/tmp'],
+        $app = self::bootApp([
             'blueprints' => [
                 'pages/article' => [
                     'title' => 'Article',
                     'buttons' => [
                         'seo-audit' => ['keyphrase' => '{{ page.title }}']
                     ]
-                ],
-                'users/editor' => [
-                    'title' => 'Editor',
-                    'permissions' => ['access' => ['panel' => true]]
                 ]
             ],
             'site' => [

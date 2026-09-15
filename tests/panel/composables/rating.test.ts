@@ -1,6 +1,6 @@
 import type { Rating, Report } from "../../../src/panel/types";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { flushPromises } from "../utils";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { flushPromises } from "../helpers/flush-promises";
 
 const api = { get: vi.fn(), post: vi.fn() };
 const panel = { view: { path: "pages/about" }, language: { code: "de" }, api };
@@ -16,8 +16,6 @@ vi.mock("kirbyuse", async () => {
     isKirby5,
   };
 });
-
-vi.spyOn(Date, "now").mockReturnValue(1_700_000_000_000);
 
 const unratedRating: Rating = {
   seo: null,
@@ -59,10 +57,15 @@ const report: Report = {
 
 beforeEach(() => {
   vi.resetModules();
+  vi.setSystemTime(1_700_000_000_000);
   api.get.mockReset().mockResolvedValue(unratedRating);
   api.post.mockReset();
   isEditable.value = true;
   isKirby5.mockReturnValue(true);
+});
+
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 describe("useRating", () => {

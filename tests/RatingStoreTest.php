@@ -3,65 +3,35 @@
 declare(strict_types = 1);
 
 use JohannSchopplich\SeoAudit\RatingStore;
-use Kirby\Cms\App;
 use Kirby\Cms\Page;
 use Kirby\Exception\InvalidArgumentException;
-use Kirby\Filesystem\Dir;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 #[RunTestsInSeparateProcesses]
 #[PreserveGlobalState(false)]
-final class RatingStoreTest extends TestCase
+final class RatingStoreTest extends ApiRouteTestCase
 {
     private const COUNTS = ['good' => 5, 'ok' => 1, 'bad' => 2];
-    private const ROOT = __DIR__ . '/tmp/rating-store';
-
-    protected function setUp(): void
-    {
-        Dir::make(self::ROOT . '/content');
-    }
-
-    protected function tearDown(): void
-    {
-        App::destroy();
-        Dir::remove(self::ROOT);
-    }
-
-    private static function bootApp(array $props = []): App
-    {
-        $app = new App(array_replace_recursive([
-            'roots' => ['index' => self::ROOT],
-            'urls' => ['index' => 'https://example.com'],
-            'options' => [
-                'johannschopplich.seo-audit' => [
-                    'cache' => ['type' => 'memory']
-                ]
-            ],
-            'site' => [
-                'content' => ['title' => 'Site'],
-                'children' => [
-                    ['slug' => 'home', 'num' => 1],
-                    [
-                        'slug' => 'test',
-                        'num' => 1,
-                        'content' => ['title' => 'Test', 'uuid' => 'test-uuid']
-                    ]
+    private const APP_PROPS = [
+        'site' => [
+            'content' => ['title' => 'Site'],
+            'children' => [
+                ['slug' => 'home', 'num' => 1],
+                [
+                    'slug' => 'test',
+                    'num' => 1,
+                    'content' => ['title' => 'Test', 'uuid' => 'test-uuid']
                 ]
             ]
-        ], $props));
-
-        $app->impersonate('kirby');
-
-        return $app;
-    }
+        ]
+    ];
 
     #[Test]
     public function read_returns_unrated_for_an_unanalyzed_page(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $rating = (new RatingStore($app))->read($app->page('test'));
 
         $this->assertFalse($rating->isRated());
@@ -75,7 +45,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function write_then_read_returns_the_stored_rating(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
         $page = $app->page('test');
 
@@ -96,7 +66,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function rating_returns_the_worse_of_the_two_lights(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
         $page = $app->page('test');
 
@@ -108,7 +78,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function a_category_without_a_light_does_not_count(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
         $page = $app->page('test');
 
@@ -122,7 +92,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function the_site_has_its_own_rating(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
 
         $store->write($app->site(), 'bad', 'bad', self::COUNTS, 'latest');
@@ -135,6 +105,7 @@ final class RatingStoreTest extends TestCase
     public function write_keeps_a_rating_per_language(): void
     {
         $app = self::bootApp([
+            ...self::APP_PROPS,
             'languages' => [
                 ['code' => 'en', 'name' => 'English', 'default' => true],
                 ['code' => 'de', 'name' => 'Deutsch']
@@ -153,7 +124,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function a_rating_goes_stale_when_the_content_changes_afterwards(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
         $page = Page::create(['slug' => 'temp', 'template' => 'default']);
 
@@ -169,7 +140,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function read_returns_a_fresh_rating_when_the_content_changed_in_the_same_second(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
         $page = Page::create(['slug' => 'temp', 'template' => 'default']);
 
@@ -182,7 +153,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function read_finds_the_rating_after_a_slug_change(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
         $store = new RatingStore($app);
         $page = Page::create(['slug' => 'temp', 'template' => 'default']);
 
@@ -194,7 +165,10 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function read_loses_the_rating_of_a_page_without_uuid_after_a_slug_change(): void
     {
-        $app = self::bootApp(['options' => ['content' => ['uuid' => false]]]);
+        $app = self::bootApp([
+            ...self::APP_PROPS,
+            'options' => ['content' => ['uuid' => false]]
+        ]);
         $store = new RatingStore($app);
         $page = Page::create(['slug' => 'temp', 'template' => 'default']);
 
@@ -208,6 +182,7 @@ final class RatingStoreTest extends TestCase
     public function remove_drops_the_ratings_of_every_language(): void
     {
         $app = self::bootApp([
+            ...self::APP_PROPS,
             'languages' => [
                 ['code' => 'en', 'name' => 'English', 'default' => true],
                 ['code' => 'de', 'name' => 'Deutsch']
@@ -227,7 +202,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function write_rejects_an_unknown_seo_light(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid seo rating');
@@ -238,7 +213,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function write_rejects_a_non_integer_count(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid rating count for bad');
@@ -249,7 +224,7 @@ final class RatingStoreTest extends TestCase
     #[Test]
     public function write_rejects_an_unknown_version(): void
     {
-        $app = self::bootApp();
+        $app = self::bootApp(self::APP_PROPS);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown content version');

@@ -22,73 +22,52 @@ final class RatingRouteTest extends ApiRouteTestCase
         'version' => 'latest'
     ];
 
-    private static function bootApp(array $request, string $user = 'admin@example.com'): App
-    {
-        $app = new App([
-            'roots' => ['index' => __DIR__ . '/tmp'],
-            'urls' => ['index' => 'https://example.com'],
-            'options' => [
-                'johannschopplich.seo-audit' => [
-                    'cache' => ['type' => 'memory']
-                ]
+    private const APP_PROPS = [
+        'site' => [
+            'children' => [
+                ['slug' => 'home', 'num' => 1],
+                ['slug' => 'test', 'num' => 1, 'content' => ['title' => 'Test']]
             ],
-            'blueprints' => [
-                'users/editor' => [
-                    'title' => 'Editor',
-                    'permissions' => ['access' => ['panel' => true]]
-                ],
-                'users/reviewer' => [
-                    'title' => 'Reviewer',
-                    'permissions' => ['access' => ['panel' => true]]
-                ]
+            'files' => [
+                ['filename' => 'image.jpg']
+            ]
+        ],
+        'users' => [
+            ['id' => 'admin', 'email' => 'admin@example.com', 'role' => 'admin'],
+            ['id' => 'editor', 'email' => 'editor@example.com', 'role' => 'editor'],
+            ['id' => 'reviewer', 'email' => 'reviewer@example.com', 'role' => 'reviewer']
+        ],
+        'roles' => [
+            ['name' => 'admin', 'title' => 'Admin'],
+            [
+                'name' => 'editor',
+                'title' => 'Editor',
+                'permissions' => ['pages' => ['access' => false]]
             ],
-            'site' => [
-                'children' => [
-                    ['slug' => 'home', 'num' => 1],
-                    ['slug' => 'test', 'num' => 1, 'content' => ['title' => 'Test']]
-                ],
-                'files' => [
-                    ['filename' => 'image.jpg']
-                ]
-            ],
-            'users' => [
-                ['id' => 'admin', 'email' => 'admin@example.com', 'role' => 'admin'],
-                ['id' => 'editor', 'email' => 'editor@example.com', 'role' => 'editor'],
-                ['id' => 'reviewer', 'email' => 'reviewer@example.com', 'role' => 'reviewer']
-            ],
-            'roles' => [
-                ['name' => 'admin', 'title' => 'Admin'],
-                [
-                    'name' => 'editor',
-                    'title' => 'Editor',
-                    'permissions' => ['pages' => ['access' => false]]
-                ],
-                [
-                    'name' => 'reviewer',
-                    'title' => 'Reviewer',
-                    'permissions' => ['pages' => ['update' => false]]
-                ]
-            ],
-            'request' => $request
-        ]);
-
-        $app->impersonate($user);
-
-        return $app;
-    }
+            [
+                'name' => 'reviewer',
+                'title' => 'Reviewer',
+                'permissions' => ['pages' => ['update' => false]]
+            ]
+        ]
+    ];
 
     private function get(array $query, string $user = 'admin@example.com'): mixed
     {
-        return $this->callRoute(self::bootApp(['query' => $query], $user), '__seo-audit__/rating', 'GET');
+        return $this->callRatingRoute(['query' => $query], $user, 'GET');
     }
 
     private function post(array $body, string $user = 'admin@example.com'): mixed
     {
-        return $this->callRoute(
-            self::bootApp(['method' => 'POST', 'body' => $body], $user),
-            '__seo-audit__/rating',
-            'POST'
-        );
+        return $this->callRatingRoute(['method' => 'POST', 'body' => $body], $user, 'POST');
+    }
+
+    private function callRatingRoute(array $request, string $user, string $method): mixed
+    {
+        $app = self::bootApp([...self::APP_PROPS, 'request' => $request]);
+        $app->impersonate($user);
+
+        return $this->callRoute($app, '__seo-audit__/rating', $method);
     }
 
     #[Test]

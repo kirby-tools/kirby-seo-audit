@@ -2,7 +2,6 @@
 
 declare(strict_types = 1);
 
-use Kirby\Cms\App;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\NotFoundException;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
@@ -17,17 +16,11 @@ final class PreviewUrlRouteTest extends ApiRouteTestCase
         array $query,
         string $user = 'admin@example.com'
     ): mixed {
-        $app = new App([
-            'roots' => ['index' => __DIR__ . '/tmp'],
-            'urls' => ['index' => 'https://example.com'],
+        $app = self::bootApp([
             'blueprints' => [
                 'pages/no-preview' => [
                     'title' => 'No preview',
                     'options' => ['preview' => false]
-                ],
-                'users/editor' => [
-                    'title' => 'Editor',
-                    'permissions' => ['access' => ['panel' => true]]
                 ]
             ],
             'site' => [

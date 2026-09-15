@@ -7,22 +7,14 @@ use Kirby\Cms\App;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 #[RunTestsInSeparateProcesses]
 #[PreserveGlobalState(false)]
-final class ViewButtonOptionsTest extends TestCase
+final class ViewButtonOptionsTest extends ApiRouteTestCase
 {
-    protected function tearDown(): void
-    {
-        App::destroy();
-    }
-
     private function appWithButtons(array|false|null $buttons = null): App
     {
-        $app = new App([
-            'roots' => ['index' => __DIR__ . '/tmp'],
-            'urls' => ['index' => 'https://example.com'],
+        return self::bootApp([
             'blueprints' => [
                 'pages/article' => [
                     'title' => 'Article',
@@ -40,10 +32,6 @@ final class ViewButtonOptionsTest extends TestCase
                 ]
             ]
         ]);
-
-        $app->impersonate('kirby');
-
-        return $app;
     }
 
     #[Test]
