@@ -16,15 +16,20 @@ const panel = usePanel();
 </script>
 
 <template>
-  <div class="ksr-flex ksr-flex-wrap ksr-gap-x-4 ksr-gap-y-1">
+  <div
+    class="ksr-flex ksr-flex-wrap ksr-gap-x-[var(--spacing-4)] ksr-gap-y-[var(--spacing-1)]"
+  >
     <template v-for="category in CATEGORIES">
       <span
         v-if="ratings[category]"
         :key="category"
-        class="ksr-inline-flex ksr-items-center ksr-gap-1.5"
+        class="ksr-inline-flex ksr-items-center ksr-gap-[var(--spacing-2)]"
       >
-        <RatingStatus :rating="ratings[category].rating" class="ksr-size-3" />
-        <span class="ksr-inline-flex ksr-gap-2">
+        <RatingStatus
+          :rating="ratings[category].rating"
+          class="ksr-size-[var(--spacing-3)]"
+        />
+        <span class="ksr-inline-flex ksr-gap-[var(--spacing-2)]">
           <strong>
             {{ panel.t(`johannschopplich.seo-audit.category.${category}`) }}
           </strong>

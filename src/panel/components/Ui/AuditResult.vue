@@ -42,7 +42,7 @@ const resultsByRating = computed(() =>
     <slot name="header" />
 
     <k-text
-      class="ksr-pb-2 [&>div+div]:ksr-mt-[var(--spacing-4)]"
+      class="ksr-pb-[var(--spacing-2)] [&>div+div]:ksr-mt-[var(--spacing-4)]"
       :style="{
         '--link-color': 'var(--color-text)',
         '--link-color-hover':
@@ -55,7 +55,9 @@ const resultsByRating = computed(() =>
         )"
         :key="ratingCategory"
       >
-        <div class="ksr-mb-2 ksr-inline-flex ksr-items-center ksr-gap-1.5">
+        <div
+          class="ksr-mb-[var(--spacing-2)] ksr-inline-flex ksr-items-center ksr-gap-[var(--spacing-2)]"
+        >
           <h3
             class="!ksr-leading-[var(--text-line-height)]"
             style="color: var(--color-text); font-size: var(--text-font-size)"
@@ -80,7 +82,7 @@ const resultsByRating = computed(() =>
 
         <hr
           v-if="ratingCategoryIndex < Object.keys(resultsByRating).length - 1"
-          class="ksr-my-4"
+          class="ksr-my-[var(--spacing-4)]"
           :style="{
             background: isDialog
               ? undefined

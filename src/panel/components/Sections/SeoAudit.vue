@@ -252,12 +252,17 @@ async function analyzeAndNotify() {
             :class="[isAnalyzing && 'ksr-opacity-50']"
           >
             <template #header>
-              <ReportRatings :ratings="report.ratings" class="ksr-mb-3" />
+              <ReportRatings
+                :ratings="report.ratings"
+                class="ksr-mb-[var(--spacing-3)]"
+              />
             </template>
           </AuditResult>
         </k-box>
 
-        <p class="ksr-mt-2 ksr-text-sm ksr-text-[var(--color-text-dimmed)]">
+        <p
+          class="ksr-mt-[var(--spacing-2)] ksr-[font-size:var(--text-sm)] ksr-text-[var(--color-text-dimmed)]"
+        >
           <ReportMeta
             :version="report.version"
             :timestamp="report.timestamp"

@@ -33,8 +33,11 @@ function stripTags(html: string) {
 </script>
 
 <template>
-  <div class="ksr-flex ksr-items-start ksr-gap-2">
-    <RatingStatus :rating="result.rating" class="ksr-mt-1 ksr-size-3" />
+  <div class="ksr-flex ksr-items-start ksr-gap-[var(--spacing-2)]">
+    <RatingStatus
+      :rating="result.rating"
+      class="ksr-mt-[var(--spacing-1)] ksr-size-[var(--spacing-3)]"
+    />
 
     <div>
       <div v-html="displayText" />
@@ -46,7 +49,7 @@ function stripTags(html: string) {
           data-theme="passive"
           :text="result.details.text"
           html
-          class="ksr-my-1"
+          class="ksr-my-[var(--spacing-1)]"
         />
       </details>
     </div>
