@@ -188,7 +188,11 @@ export function useAnalysis({
     try {
       const { config } = await usePluginContext();
 
-      if (resolveAuto(auto(), config.auto) !== "publish") return;
+      // The publish changed the content, so a stored rating is stale now.
+      if (resolveAuto(auto(), config.auto) !== "publish") {
+        await loadRating();
+        return;
+      }
 
       const key = analysisKey(panel.view.path, language);
       if (inFlightRuns.has(key)) return;

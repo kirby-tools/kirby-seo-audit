@@ -313,6 +313,24 @@ describe("useAnalysis", () => {
     },
   );
 
+  it("reloads the rating on content.publish when auto is off", async () => {
+    pluginConfig = {};
+    await mountAnalysis();
+    api.get.mockClear();
+    ratingResponse = { ...storedRating, isStale: true };
+
+    publish("de");
+    await flushPromises();
+
+    expect(runAnalysis).not.toHaveBeenCalled();
+    expect(api.get).toHaveBeenCalledWith(
+      "__seo-audit__/rating",
+      { path: "pages/about" },
+      { headers: { "x-language": "de" } },
+      true,
+    );
+  });
+
   it("runs once per publish for two participants on the same view and language", async () => {
     await mountAnalysis();
     await mountAnalysis();
