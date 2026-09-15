@@ -20,6 +20,7 @@ import {
 import { readStoredReport, writeStoredReport } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
 import ReportMeta from "../Ui/ReportMeta.vue";
+import ReportRatings from "../Ui/ReportRatings.vue";
 
 const propsDefinition = {
   ...sectionProps,
@@ -165,9 +166,12 @@ function getStorageScope() {
 }
 
 function loadStoredReport() {
-  report.value = persisted.value
+  const storedReport = persisted.value
     ? readStoredReport(getStorageScope())
     : undefined;
+
+  // A report stored before 3.5 carries no ratings and is discarded.
+  report.value = storedReport?.ratings ? storedReport : undefined;
 }
 
 async function analyze() {
@@ -188,10 +192,7 @@ async function analyze() {
     keyphrase.value,
     keyphraseField.value,
   );
-  const resolvedSynonyms = resolveSynonyms(
-    synonyms.value,
-    synonymsField.value,
-  );
+  const resolvedSynonyms = resolveSynonyms(synonyms.value, synonymsField.value);
   panel.isLoading = true;
   isAnalyzing.value = true;
 
@@ -199,18 +200,23 @@ async function analyze() {
     const target = __PLAYGROUND__
       ? { url: currentContent.value.targeturl }
       : await resolvePreviewTarget(language, await resolveContentVersion());
-    const result = await generateReport(target, contentSelector.value, {
-      assessments: __PLAYGROUND__
-        ? currentContent.value.assessments
-        : assessments.value,
-      logLevel: logLevel.value,
-      // Option names expected by Yoast SEO.
-      keyword: resolvedKeyphrase,
-      synonyms: resolvedSynonyms,
-    });
+    const { results, ratings } = await generateReport(
+      target,
+      contentSelector.value,
+      {
+        assessments: __PLAYGROUND__
+          ? currentContent.value.assessments
+          : assessments.value,
+        logLevel: logLevel.value,
+        // Option names expected by Yoast SEO.
+        keyword: resolvedKeyphrase,
+        synonyms: resolvedSynonyms,
+      },
+    );
 
     const newReport = {
-      result,
+      results,
+      ratings,
       version: target.version,
       timestamp: Date.now(),
     };
@@ -267,7 +273,7 @@ async function analyze() {
           :icon="isAnalyzing ? 'loader' : 'seo-audit-analyze'"
           :text="panel.t('johannschopplich.seo-audit.analyze')"
           variant="filled"
-          theme="positive"
+          theme="positive-icon"
           :disabled="isAnalyzing || !isKeyphraseCurrent"
           @click="analyze()"
         />
@@ -293,10 +299,14 @@ async function analyze() {
         >
           <AuditResult
             :key="report.timestamp"
-            :report="report.result"
+            :report="report.results"
             :links="links"
             :class="[isAnalyzing && 'ksr-opacity-50']"
-          />
+          >
+            <template #header>
+              <ReportRatings :ratings="report.ratings" class="ksr-mb-3" />
+            </template>
+          </AuditResult>
         </k-box>
 
         <k-box theme="empty" icon="clock" class="ksr-border-transparent">

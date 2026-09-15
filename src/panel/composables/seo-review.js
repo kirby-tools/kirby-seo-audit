@@ -17,6 +17,7 @@ import {
   createYoastSeoReport,
   prepareContent,
 } from "../utils/seo-review";
+import { rateReport } from "../utils/seo-score";
 import { useLogger } from "./logger";
 import { usePluginContext } from "./plugin";
 
@@ -69,7 +70,7 @@ export function useSeoReview() {
       logger,
     });
 
-    const resultsByCategory = {
+    const results = {
       seo: [...(kirbySeoResult.seo ?? []), ...(yoastSeoResult.seo ?? [])],
       readability: [
         ...(kirbySeoResult.readability ?? []),
@@ -77,7 +78,10 @@ export function useSeoReview() {
       ],
     };
 
-    return resultsByCategory;
+    return {
+      results,
+      ratings: rateReport(results, language.split("-")[0]),
+    };
   }
 
   async function fetchHtml({ url, path, language, version }) {

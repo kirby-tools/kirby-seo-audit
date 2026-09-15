@@ -12,6 +12,7 @@ const RATING_COLOR_MAP = {
   bad: "red",
   feedback: "gray",
   error: "gray",
+  none: "gray",
 };
 </script>
 

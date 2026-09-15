@@ -4,9 +4,14 @@ import { ref, usePanel } from "kirbyuse";
 import { usePluginContext } from "../../composables";
 import AuditResult from "../Ui/AuditResult.vue";
 import ReportMeta from "../Ui/ReportMeta.vue";
+import ReportRatings from "../Ui/ReportRatings.vue";
 
 defineProps({
   report: {
+    type: Object,
+    required: true,
+  },
+  ratings: {
     type: Object,
     required: true,
   },
@@ -46,7 +51,7 @@ const isZeroOneBuild = __ZERO_ONE__;
   >
     <AuditResult :report="report" :links="links" is-dialog>
       <template #header>
-        <div class="ksr-mb-4 ksr-flex ksr-items-center ksr-justify-between">
+        <div class="ksr-mb-4 ksr-flex ksr-items-start ksr-justify-between">
           <k-text>
             <h2>
               {{
@@ -57,7 +62,8 @@ const isZeroOneBuild = __ZERO_ONE__;
                     : panel.t("johannschopplich.seo-audit.results.readability")
               }}
             </h2>
-            <p class="ksr-text-[var(--color-text-dimmed)]">
+            <ReportRatings :ratings="ratings" class="ksr-mt-2" />
+            <p class="ksr-mt-1 ksr-text-[var(--color-text-dimmed)]">
               <ReportMeta :version="version" :timestamp="timestamp" />
             </p>
           </k-text>

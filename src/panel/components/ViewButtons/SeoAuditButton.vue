@@ -1,8 +1,16 @@
 <script setup>
-import { ref, useApi, useContent, usePanel } from "kirbyuse";
+import {
+  computed,
+  isKirby5,
+  ref,
+  useApi,
+  useContent,
+  usePanel,
+} from "kirbyuse";
 import { isZeroOneValid, useSeoReview } from "../../composables";
 import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
 import { createLanguageRequestOptions } from "../../utils/request";
+import { worstRating } from "../../utils/seo-score";
 
 const props = defineProps({
   keyphrase: {
@@ -37,10 +45,18 @@ const props = defineProps({
   label: String,
   theme: {
     type: String,
-    default: "positive",
+    default: "positive-icon",
   },
 });
 
+const BADGE_THEMES = {
+  good: "positive",
+  ok: "notice",
+  bad: "negative",
+  none: "passive",
+};
+
+const _isKirby5 = isKirby5();
 const panel = usePanel();
 const api = useApi();
 const {
@@ -54,6 +70,14 @@ const {
 } = useSeoReview();
 
 const isAnalyzing = ref(false);
+// The ratings of the last run, which Kirby 4 has no badge to show.
+const ratings = ref();
+
+const badge = computed(() =>
+  _isKirby5 && ratings.value
+    ? { theme: BADGE_THEMES[worstRating(ratings.value)] }
+    : undefined,
+);
 
 const { currentContent } = useContent();
 
@@ -109,7 +133,7 @@ async function analyze() {
       content,
     );
 
-    const result = await generateReport(
+    const report = await generateReport(
       target,
       props.contentSelector || "body",
       {
@@ -121,10 +145,13 @@ async function analyze() {
       },
     );
 
+    ratings.value = report.ratings;
+
     panel.dialog.open({
       component: "k-seo-audit-report-dialog",
       props: {
-        report: result,
+        report: report.results,
+        ratings: report.ratings,
         version: target.version,
         timestamp: Date.now(),
         links: props.links,
@@ -144,6 +171,8 @@ async function analyze() {
     :icon="isAnalyzing ? 'loader' : 'seo-audit-analyze'"
     :text="label || panel.t('johannschopplich.seo-audit.label')"
     :theme="theme"
+    :badge="badge"
+    :disabled="isAnalyzing"
     variant="filled"
     size="sm"
     responsive
