@@ -15,6 +15,8 @@ return [
             'contentSelector' => fn ($contentSelector = null) => is_string($contentSelector) ? $contentSelector : 'body',
             'links' => fn ($links = true) => $links !== false,
             'persisted' => fn ($persisted = true) => $persisted !== false,
+            // Unset falls back to the global option, so `null` stays `null`.
+            'auto' => fn ($auto = null) => $auto,
             'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : null
         ],
         'computed' => [

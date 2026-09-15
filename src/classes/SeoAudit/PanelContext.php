@@ -19,8 +19,11 @@ final class PanelContext
      */
     public static function config(): array
     {
+        $kirby = App::instance();
+
         return [
-            'logLevel' => App::instance()->option('johannschopplich.seo-audit.logLevel')
+            'auto' => $kirby->option('johannschopplich.seo-audit.auto'),
+            'logLevel' => $kirby->option('johannschopplich.seo-audit.logLevel')
         ];
     }
 }

@@ -1,6 +1,11 @@
 <script setup>
 import { computed, ref, useApi, useContent, usePanel } from "kirbyuse";
-import { isZeroOneValid, useRating, useSeoReview } from "../../composables";
+import {
+  isZeroOneValid,
+  useAutoAnalysis,
+  useRating,
+  useSeoReview,
+} from "../../composables";
 import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
 import { createLanguageRequestOptions } from "../../utils/request";
 import { worstRating } from "../../utils/seo-score";
@@ -36,6 +41,11 @@ const props = defineProps({
   },
   logLevel: String,
   label: String,
+  auto: {
+    type: [String, Boolean],
+    // Keeps Vue from casting an absent prop to `false` and overriding the global option.
+    default: null,
+  },
   theme: {
     type: String,
     default: "positive-icon",
@@ -81,6 +91,68 @@ function hasKirbyQuery(value) {
   return typeof value === "string" && value.includes("{{");
 }
 
+/**
+ * Runs the analysis in `language`; the report has the section's shape, so a
+ * section on the same view can adopt the run.
+ */
+async function runAnalysis(language) {
+  const content = currentContent.value;
+  const logLevel = await resolveLogLevelIndex(props.logLevel);
+
+  const version = __PLAYGROUND__ ? undefined : await resolveContentVersion();
+
+  const [target, queriedProps] = __PLAYGROUND__
+    ? [{ url: content.targeturl }, props]
+    : await Promise.all([
+        resolvePreviewTarget(language, version),
+        // A view button's props reach the Panel unresolved, so the server
+        // resolves the ones carrying a Kirby query.
+        hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
+          ? api.get(
+              PLUGIN_BUTTON_OPTIONS_API_ROUTE,
+              { path: panel.view.path },
+              createLanguageRequestOptions(language),
+            )
+          : props,
+      ]);
+
+  const resolvedKeyphrase = resolveKeyphrase(
+    queriedProps.keyphrase,
+    props.keyphraseField,
+    content,
+  );
+  const resolvedSynonyms = resolveSynonyms(
+    queriedProps.synonyms,
+    props.synonymsField,
+    content,
+  );
+
+  const { results, ratings } = await generateReport(
+    target,
+    props.contentSelector || "body",
+    {
+      assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
+      logLevel,
+      // Option names expected by Yoast SEO.
+      keyword: resolvedKeyphrase,
+      synonyms: resolvedSynonyms,
+    },
+  );
+
+  const report = {
+    results,
+    ratings,
+    version: target.version,
+    timestamp: Date.now(),
+  };
+
+  if (!__PLAYGROUND__) {
+    storeRating(report, target.version, language);
+  }
+
+  return report;
+}
+
 async function analyze() {
   if (__ZERO_ONE__ && !isZeroOneValid()) {
     return;
@@ -94,64 +166,19 @@ async function analyze() {
   // A language switch during the analysis must not mix the two languages, so
   // everything that depends on the language is read before the first `await`.
   const language = panel.language.code;
-  const content = currentContent.value;
   panel.isLoading = true;
   isAnalyzing.value = true;
 
   try {
-    const logLevel = await resolveLogLevelIndex(props.logLevel);
-
-    const version = __PLAYGROUND__ ? undefined : await resolveContentVersion();
-
-    const [target, queriedProps] = __PLAYGROUND__
-      ? [{ url: content.targeturl }, props]
-      : await Promise.all([
-          resolvePreviewTarget(language, version),
-          // A view button's props reach the Panel unresolved, so the server
-          // resolves the ones carrying a Kirby query.
-          hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms)
-            ? api.get(
-                PLUGIN_BUTTON_OPTIONS_API_ROUTE,
-                { path: panel.view.path },
-                createLanguageRequestOptions(language),
-              )
-            : props,
-        ]);
-
-    const resolvedKeyphrase = resolveKeyphrase(
-      queriedProps.keyphrase,
-      props.keyphraseField,
-      content,
-    );
-    const resolvedSynonyms = resolveSynonyms(
-      queriedProps.synonyms,
-      props.synonymsField,
-      content,
-    );
-
-    const report = await generateReport(
-      target,
-      props.contentSelector || "body",
-      {
-        assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
-        logLevel,
-        // Option names expected by Yoast SEO.
-        keyword: resolvedKeyphrase,
-        synonyms: resolvedSynonyms,
-      },
-    );
-
-    if (!__PLAYGROUND__) {
-      storeRating(report, target.version, language);
-    }
+    const report = await runAnalysis(language);
 
     panel.dialog.open({
       component: "k-seo-audit-report-dialog",
       props: {
         report: report.results,
         ratings: report.ratings,
-        version: target.version,
-        timestamp: Date.now(),
+        version: report.version,
+        timestamp: report.timestamp,
         links: props.links,
       },
     });
@@ -161,6 +188,13 @@ async function analyze() {
     panel.isLoading = false;
     isAnalyzing.value = false;
   }
+}
+
+if (!__PLAYGROUND__) {
+  useAutoAnalysis({
+    auto: () => props.auto,
+    run: runAnalysis,
+  });
 }
 </script>
 

@@ -9,3 +9,4 @@ export const PLUGIN_PROXY_API_ROUTE = "__seo-audit__/proxy";
 export const LOG_LEVELS = ["error", "warn", "info", "debug"];
 export const DEFAULT_LOG_LEVEL = "warn";
 export const STORAGE_KEY_PREFIX = "kirby$seo-audit$";
+export const AUTO_TRIGGERS = ["publish"];

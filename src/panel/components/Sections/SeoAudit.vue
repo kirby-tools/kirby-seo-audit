@@ -14,6 +14,7 @@ import { section as sectionProps } from "kirbyuse/props";
 import throttle from "throttleit";
 import {
   isZeroOneValid,
+  useAutoAnalysis,
   usePluginContext,
   useRating,
   useSeoReview,
@@ -62,6 +63,7 @@ const assessments = ref();
 const contentSelector = ref();
 const links = ref();
 const persisted = ref();
+const auto = ref();
 const logLevel = ref();
 // #endregion
 
@@ -137,6 +139,7 @@ async function updateSectionData(isInitializing = false) {
     contentSelector.value = response.contentSelector;
     links.value = response.links;
     persisted.value = response.persisted;
+    auto.value = response.auto;
     logLevel.value = await resolveLogLevelIndex(response.logLevel);
 
     licenseStatus.value =
@@ -177,6 +180,67 @@ function loadStoredReport() {
   report.value = storedReport?.ratings ? storedReport : undefined;
 }
 
+/**
+ * Runs the analysis in `language` and leaves showing the report to
+ * `showReport`, which a run started elsewhere on the view goes through too.
+ */
+async function runAnalysis(language) {
+  const resolvedKeyphrase = resolveKeyphrase(
+    keyphrase.value,
+    keyphraseField.value,
+  );
+  const resolvedSynonyms = resolveSynonyms(synonyms.value, synonymsField.value);
+
+  const target = __PLAYGROUND__
+    ? { url: currentContent.value.targeturl }
+    : await resolvePreviewTarget(language, await resolveContentVersion());
+  const { results, ratings } = await generateReport(
+    target,
+    contentSelector.value,
+    {
+      assessments: __PLAYGROUND__
+        ? currentContent.value.assessments
+        : assessments.value,
+      logLevel: logLevel.value,
+      // Option names expected by Yoast SEO.
+      keyword: resolvedKeyphrase,
+      synonyms: resolvedSynonyms,
+    },
+  );
+
+  const newReport = {
+    results,
+    ratings,
+    version: target.version,
+    timestamp: Date.now(),
+  };
+
+  if (!__PLAYGROUND__) {
+    storeRating(newReport, target.version, language);
+  }
+
+  return newReport;
+}
+
+/**
+ * Stores and shows a report generated in `language`. Returns whether the
+ * editor keeps it: an unstored report for a language they left is discarded.
+ */
+function showReport(newReport, language) {
+  if (persisted.value) {
+    writeStoredReport({ ...getStorageScope(), language }, newReport);
+  }
+
+  // An analysis still running when the editor switched languages belongs to
+  // the language it started in.
+  const isCurrentLanguage = panel.language.code === language;
+  if (isCurrentLanguage) {
+    report.value = newReport;
+  }
+
+  return isCurrentLanguage || persisted.value;
+}
+
 async function analyze() {
   if (__ZERO_ONE__ && !isZeroOneValid()) {
     return;
@@ -190,58 +254,15 @@ async function analyze() {
   // A language switch during the analysis must not mix the two languages, so
   // everything that depends on the language is read before the first `await`.
   const language = panel.language.code;
-  const storageScope = getStorageScope();
-  const resolvedKeyphrase = resolveKeyphrase(
-    keyphrase.value,
-    keyphraseField.value,
-  );
-  const resolvedSynonyms = resolveSynonyms(synonyms.value, synonymsField.value);
   panel.isLoading = true;
   isAnalyzing.value = true;
 
   try {
-    const target = __PLAYGROUND__
-      ? { url: currentContent.value.targeturl }
-      : await resolvePreviewTarget(language, await resolveContentVersion());
-    const { results, ratings } = await generateReport(
-      target,
-      contentSelector.value,
-      {
-        assessments: __PLAYGROUND__
-          ? currentContent.value.assessments
-          : assessments.value,
-        logLevel: logLevel.value,
-        // Option names expected by Yoast SEO.
-        keyword: resolvedKeyphrase,
-        synonyms: resolvedSynonyms,
-      },
-    );
-
-    const newReport = {
-      results,
-      ratings,
-      version: target.version,
-      timestamp: Date.now(),
-    };
-
-    if (persisted.value) {
-      writeStoredReport(storageScope, newReport);
-    }
-
-    if (!__PLAYGROUND__) {
-      storeRating(newReport, target.version, language);
-    }
-
-    // An analysis still running when the editor switched languages belongs to
-    // the language it started in.
-    const isCurrentLanguage = panel.language.code === language;
-    if (isCurrentLanguage) {
-      report.value = newReport;
-    }
+    const hasReport = showReport(await runAnalysis(language), language);
 
     // Unstored and no longer shown, the report is discarded, so nothing was
     // generated from the editor's point of view.
-    if (!isCurrentLanguage && !persisted.value) {
+    if (!hasReport) {
       return;
     }
 
@@ -257,6 +278,22 @@ async function analyze() {
     panel.isLoading = false;
     isAnalyzing.value = false;
   }
+}
+
+if (!__PLAYGROUND__) {
+  useAutoAnalysis({
+    auto: () => auto.value,
+    // A publish right after a language switch must not run with the
+    // keyphrase of the language the editor left.
+    run: async (language) => {
+      if (!isKeyphraseCurrent.value) {
+        await updateSectionData();
+      }
+
+      return runAnalysis(language);
+    },
+    onResult: showReport,
+  });
 }
 </script>
 

@@ -20,15 +20,16 @@ final class ContextRouteTest extends ApiRouteTestCase
     }
 
     #[Test]
-    public function sends_only_the_log_level_to_the_panel(): void
+    public function sends_only_the_panel_options_to_the_panel(): void
     {
         $response = $this->callContextRoute([
+            'auto' => 'publish',
             'logLevel' => 'debug',
             'proxy' => ['params' => ['basicAuth' => 'user:hunter2']],
             'someFutureOption' => 'test-secret'
         ]);
 
-        $this->assertSame(['logLevel' => 'debug'], $response['config']);
+        $this->assertSame(['auto' => 'publish', 'logLevel' => 'debug'], $response['config']);
 
         // Any Panel user of any role can read this response, so the guard
         // covers the whole envelope rather than the `config` key alone.

@@ -1,8 +1,24 @@
-import { isKirby5, ref, useContent, usePanel, watch } from "kirbyuse";
+import {
+  computed,
+  isKirby5,
+  ref,
+  useContent,
+  usePanel,
+  watch,
+} from "kirbyuse";
 import { PLUGIN_RATING_API_ROUTE } from "../constants";
 import { createLanguageRequestOptions } from "../utils/request";
 import { toRatingRecord } from "../utils/seo-score";
 import { useLogger } from "./logger";
+
+// One record per view and language, shared by the button and the section on
+// the same view, so a run in either updates both.
+const records = ref({});
+const pendingLoads = new Map();
+
+function recordKey(path, language) {
+  return `${path}:${language ?? ""}`;
+}
 
 export function useRating() {
   const _isKirby5 = isKirby5();
@@ -10,26 +26,34 @@ export function useRating() {
   const logger = useLogger();
   const { isEditable } = useContent();
 
-  const rating = ref();
+  const currentKey = computed(() =>
+    recordKey(panel.view.path, panel.language.code),
+  );
+  const rating = computed(() => records.value[currentKey.value]);
 
-  async function load(language = panel.language.code) {
+  function load(language = panel.language.code) {
     if (!_isKirby5) return;
 
-    try {
-      const response = await panel.api.get(
-        PLUGIN_RATING_API_ROUTE,
-        { path: panel.view.path },
-        createLanguageRequestOptions(language),
-      );
+    const path = panel.view.path;
+    const key = recordKey(path, language);
 
-      // A response that arrives after a further language switch belongs to
-      // a language the editor has left.
-      if (panel.language.code === language) {
-        rating.value = response;
-      }
-    } catch (error) {
-      logger.error(error);
-    }
+    if (pendingLoads.has(key)) return pendingLoads.get(key);
+
+    const request = panel.api
+      .get(
+        PLUGIN_RATING_API_ROUTE,
+        { path },
+        createLanguageRequestOptions(language),
+      )
+      .then((response) => {
+        records.value = { ...records.value, [key]: response };
+      })
+      .catch((error) => logger.error(error))
+      .finally(() => pendingLoads.delete(key));
+
+    pendingLoads.set(key, request);
+
+    return request;
   }
 
   /**
@@ -39,6 +63,7 @@ export function useRating() {
   async function store(report, version, language) {
     if (!_isKirby5) return;
 
+    const path = panel.view.path;
     const record = toRatingRecord(report, version);
     let response = {
       ...record,
@@ -50,7 +75,7 @@ export function useRating() {
       try {
         response = await panel.api.post(
           PLUGIN_RATING_API_ROUTE,
-          { path: panel.view.path, ...record },
+          { path, ...record },
           createLanguageRequestOptions(language),
         );
       } catch (error) {
@@ -58,17 +83,16 @@ export function useRating() {
       }
     }
 
-    if (panel.language.code === language) {
-      rating.value = response;
-    }
+    records.value = {
+      ...records.value,
+      [recordKey(path, language)]: response,
+    };
   }
 
+  // A view button survives the move to another model of the same kind, so
+  // the view path is watched along with the language.
   if (!__PLAYGROUND__) {
-    load();
-    watch(
-      () => panel.language.code,
-      (language) => load(language),
-    );
+    watch(currentKey, () => load(), { immediate: true });
   }
 
   return {
