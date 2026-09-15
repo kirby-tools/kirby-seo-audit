@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { LicenseStatus } from "@kirby-tools/licensing";
+import type { AutoTrigger } from "../../constants";
 import type { AnalysisOptions, Report } from "../../types";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
@@ -14,13 +15,12 @@ import {
 } from "kirbyuse";
 import { section as sectionProps } from "kirbyuse/props";
 import throttle from "throttleit";
+import { useAnalysis, usePluginContext } from "../../composables";
 import {
-  isZeroOneValid,
-  useAutoAnalysis,
-  usePluginContext,
-  useRating,
-  useSeoReview,
-} from "../../composables";
+  resolveKeyphrase,
+  resolveLogLevelIndex,
+  resolveSynonyms,
+} from "../../utils/analysis-options";
 import { readStoredReport, writeStoredReport } from "../../utils/storage";
 import AuditResult from "../Ui/AuditResult.vue";
 import ReportMeta from "../Ui/ReportMeta.vue";
@@ -41,15 +41,6 @@ const props = defineProps(propsDefinition);
 const _isKirby5 = isKirby5();
 const panel = usePanel();
 const { t } = useI18n();
-const {
-  notifyReportError,
-  resolveKeyphrase,
-  resolveLogLevelIndex,
-  resolveSynonyms,
-  runAnalysis,
-} = useSeoReview();
-
-const { rating, report: latestReport } = useRating();
 
 const isZeroOneBuild = __ZERO_ONE__;
 
@@ -68,7 +59,6 @@ const logLevel = ref<number>();
 // #endregion
 
 const isInitialized = ref(false);
-const isAnalyzing = ref(false);
 const licenseStatus = ref<LicenseStatus>();
 const report = ref<Report>();
 // The language `keyphrase` and `synonyms` were last resolved in, which lags
@@ -79,6 +69,25 @@ const isKeyphraseCurrent = computed(
 );
 
 const { currentContent } = useContent();
+
+const {
+  analyze,
+  isAnalyzing,
+  rating,
+  report: latestReport,
+} = useAnalysis({
+  // A publish right after a language switch must not run with the
+  // keyphrase of the language the editor left.
+  resolveOptions: async () => {
+    if (!isKeyphraseCurrent.value) {
+      await updateSectionData();
+    }
+
+    return resolveAnalysisOptions();
+  },
+  contentSelector: () => contentSelector.value!,
+  auto: () => auto.value,
+});
 
 watch(
   // Will be `null` in single language setups.
@@ -100,7 +109,7 @@ watch(latestReport, (newReport) => {
 
 // The playground re-runs the analysis whenever its own fields change.
 if (__PLAYGROUND__) {
-  const throttledAnalyze = throttle(analyze, 1000);
+  const throttledAnalyze = throttle(analyzeAndNotify, 1000);
   watch(
     () => currentContent.value.assessments,
     (newValue, oldValue) => {
@@ -113,7 +122,7 @@ if (__PLAYGROUND__) {
     () => currentContent.value.language,
     (newValue, oldValue) => {
       if (newValue !== oldValue) {
-        analyze();
+        analyzeAndNotify();
       }
     },
   );
@@ -147,7 +156,10 @@ async function updateSectionData(isInitializing = false) {
     links.value = response.links;
     persisted.value = response.persisted;
     auto.value = response.auto;
-    logLevel.value = await resolveLogLevelIndex(response.logLevel);
+    logLevel.value = resolveLogLevelIndex(
+      response.logLevel,
+      context.config.logLevel,
+    );
 
     licenseStatus.value =
       __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
@@ -194,8 +206,16 @@ function resolveAnalysisOptions(): AnalysisOptions {
       : assessments.value!,
     logLevel: logLevel.value!,
     // Option names expected by Yoast SEO.
-    keyword: resolveKeyphrase(keyphrase.value, keyphraseField.value),
-    synonyms: resolveSynonyms(synonyms.value, synonymsField.value),
+    keyword: resolveKeyphrase(
+      currentContent.value,
+      keyphrase.value,
+      keyphraseField.value,
+    ),
+    synonyms: resolveSynonyms(
+      currentContent.value,
+      synonyms.value,
+      synonymsField.value,
+    ),
   };
 }
 
@@ -223,68 +243,16 @@ function showReport(newReport: Report, language: string) {
   return isCurrentLanguage || persisted.value;
 }
 
-async function analyze() {
-  if (__ZERO_ONE__ && !isZeroOneValid()) {
+async function analyzeAndNotify() {
+  const newReport = await analyze();
+
+  if (!newReport) {
     return;
   }
 
-  if (__PLAYGROUND__ && !currentContent.value.targeturl) {
-    panel.notification.error("Please enter a target URL to be analyzed.");
-    return;
-  }
-
-  // A language switch during the analysis must not mix the two languages, so
-  // everything that depends on the language is read before the first `await`.
-  const language = panel.language.code;
-  panel.isLoading = true;
-  isAnalyzing.value = true;
-
-  try {
-    const hasReport = showReport(
-      await runAnalysis(
-        language,
-        contentSelector.value!,
-        resolveAnalysisOptions(),
-      ),
-      language,
-    );
-
-    // Unstored and no longer shown, the report is discarded, so nothing was
-    // generated from the editor's point of view.
-    if (!hasReport) {
-      return;
-    }
-
-    panel.notification.success({
-      icon: "check",
-      message: panel.t(
-        "johannschopplich.seo-audit.notification.analyzeSuccess",
-      ),
-    });
-  } catch (error) {
-    notifyReportError(error);
-  } finally {
-    panel.isLoading = false;
-    isAnalyzing.value = false;
-  }
-}
-
-if (!__PLAYGROUND__) {
-  useAutoAnalysis({
-    auto: () => auto.value,
-    // A publish right after a language switch must not run with the
-    // keyphrase of the language the editor left.
-    run: async (language) => {
-      if (!isKeyphraseCurrent.value) {
-        await updateSectionData();
-      }
-
-      return runAnalysis(
-        language,
-        contentSelector.value!,
-        resolveAnalysisOptions(),
-      );
-    },
+  panel.notification.success({
+    icon: "check",
+    message: panel.t("johannschopplich.seo-audit.notification.analyzeSuccess"),
   });
 }
 </script>
@@ -311,7 +279,7 @@ if (!__PLAYGROUND__) {
           variant="filled"
           theme="positive-icon"
           :disabled="isAnalyzing || !isKeyphraseCurrent"
-          @click="analyze()"
+          @click="analyzeAndNotify()"
         />
       </k-button-group>
 

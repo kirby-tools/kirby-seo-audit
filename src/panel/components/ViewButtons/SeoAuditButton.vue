@@ -6,14 +6,14 @@ import type {
   ButtonOptionsResponse,
   CategoryRating,
 } from "../../types";
-import { computed, ref, useApi, useContent, usePanel } from "kirbyuse";
-import {
-  isZeroOneValid,
-  useAutoAnalysis,
-  useRating,
-  useSeoReview,
-} from "../../composables";
+import { computed, useApi, useContent, usePanel } from "kirbyuse";
+import { useAnalysis, usePluginContext } from "../../composables";
 import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
+import {
+  resolveKeyphrase,
+  resolveLogLevelIndex,
+  resolveSynonyms,
+} from "../../utils/analysis-options";
 import { createLanguageRequestOptions } from "../../utils/request";
 import { worstRating } from "../../utils/seo-score";
 
@@ -68,17 +68,13 @@ const BADGE_THEMES: Record<CategoryRating, string> = {
 
 const panel = usePanel();
 const api = useApi();
-const {
-  notifyReportError,
-  resolveKeyphrase,
-  resolveLogLevelIndex,
-  resolveSynonyms,
-  runAnalysis,
-} = useSeoReview();
+const { currentContent } = useContent();
 
-const { rating } = useRating();
-
-const isAnalyzing = ref(false);
+const { analyze, isAnalyzing, rating } = useAnalysis({
+  resolveOptions: resolveAnalysisOptions,
+  contentSelector: () => props.contentSelector || "body",
+  auto: () => props.auto,
+});
 
 // A stale rating keeps its color and gains a mark.
 const badge = computed(() => {
@@ -89,8 +85,6 @@ const badge = computed(() => {
     text: rating.value.isStale ? "!" : undefined,
   };
 });
-
-const { currentContent } = useContent();
 
 function hasKirbyQuery(value: unknown) {
   return typeof value === "string" && value.includes("{{");
@@ -110,76 +104,44 @@ async function resolveAnalysisOptions(
           PLUGIN_BUTTON_OPTIONS_API_ROUTE,
           { path: panel.view.path },
           createLanguageRequestOptions(language),
+          true,
         )
       : props;
+  const { config } = await usePluginContext();
 
   return {
     assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
-    logLevel: await resolveLogLevelIndex(props.logLevel),
+    logLevel: resolveLogLevelIndex(props.logLevel, config.logLevel),
     // Option names expected by Yoast SEO.
     keyword: resolveKeyphrase(
+      content,
       queriedProps.keyphrase,
       props.keyphraseField,
-      content,
     ),
     synonyms: resolveSynonyms(
+      content,
       queriedProps.synonyms,
       props.synonymsField,
-      content,
     ),
   };
 }
 
-async function analyze() {
-  if (__ZERO_ONE__ && !isZeroOneValid()) {
+async function openReport() {
+  const report = await analyze();
+
+  if (!report) {
     return;
   }
 
-  if (__PLAYGROUND__ && !currentContent.value.targeturl) {
-    panel.notification.error("Please enter a target URL to be analyzed.");
-    return;
-  }
-
-  // A language switch during the analysis must not mix the two languages, so
-  // everything that depends on the language is read before the first `await`.
-  const language = panel.language.code;
-  panel.isLoading = true;
-  isAnalyzing.value = true;
-
-  try {
-    const report = await runAnalysis(
-      language,
-      props.contentSelector || "body",
-      await resolveAnalysisOptions(language),
-    );
-
-    panel.dialog.open({
-      component: "k-seo-audit-report-dialog",
-      props: {
-        results: report.results,
-        ratings: report.ratings,
-        version: report.version,
-        timestamp: report.timestamp,
-        links: props.links,
-      },
-    });
-  } catch (error) {
-    notifyReportError(error);
-  } finally {
-    panel.isLoading = false;
-    isAnalyzing.value = false;
-  }
-}
-
-if (!__PLAYGROUND__) {
-  useAutoAnalysis({
-    auto: () => props.auto,
-    run: async (language) =>
-      runAnalysis(
-        language,
-        props.contentSelector || "body",
-        await resolveAnalysisOptions(language),
-      ),
+  panel.dialog.open({
+    component: "k-seo-audit-report-dialog",
+    props: {
+      results: report.results,
+      ratings: report.ratings,
+      version: report.version,
+      timestamp: report.timestamp,
+      links: props.links,
+    },
   });
 }
 </script>
@@ -194,7 +156,7 @@ if (!__PLAYGROUND__) {
     variant="filled"
     size="sm"
     responsive
-    @click="analyze()"
+    @click="openReport()"
   >
   </k-button>
 </template>
