@@ -60,7 +60,7 @@ const isZeroOneBuild = __ZERO_ONE__;
   >
     <AuditResult :results="results" :links="links" is-dialog>
       <template #header>
-        <div class="ksr-mb-4 ksr-flex ksr-items-start ksr-justify-between">
+        <div class="ksr-mb-6 ksr-flex ksr-items-start ksr-justify-between">
           <k-text>
             <h2>
               {{
@@ -71,10 +71,7 @@ const isZeroOneBuild = __ZERO_ONE__;
                     : panel.t("johannschopplich.seo-audit.results.readability")
               }}
             </h2>
-            <ReportRatings :ratings="ratings" class="ksr-mt-2" />
-            <p class="ksr-mt-1 ksr-text-[var(--color-text-dimmed)]">
-              <ReportMeta :version="version" :timestamp="timestamp" />
-            </p>
+            <ReportRatings :ratings="ratings" class="ksr-mt-3" />
           </k-text>
           <div v-if="licenseStatus !== undefined && !isZeroOneBuild">
             <LicensingButtonGroup
@@ -85,6 +82,11 @@ const isZeroOneBuild = __ZERO_ONE__;
             />
           </div>
         </div>
+      </template>
+      <template #footer>
+        <p class="ksr-mt-4 ksr-text-[var(--color-text-dimmed)]">
+          <ReportMeta :version="version" :timestamp="timestamp" />
+        </p>
       </template>
     </AuditResult>
   </k-dialog>

@@ -260,13 +260,13 @@ async function analyzeAndNotify() {
           </AuditResult>
         </k-box>
 
-        <k-box theme="empty" icon="clock" class="ksr-border-transparent">
+        <p class="ksr-mt-2 ksr-text-sm ksr-text-[var(--color-text-dimmed)]">
           <ReportMeta
             :version="report.version"
             :timestamp="report.timestamp"
             :is-stale="rating?.isStale"
           />
-        </k-box>
+        </p>
       </div>
     </div>
   </k-section>

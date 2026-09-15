@@ -89,5 +89,7 @@ const resultsByRating = computed(() =>
         />
       </div>
     </k-text>
+
+    <slot name="footer" />
   </div>
 </template>
