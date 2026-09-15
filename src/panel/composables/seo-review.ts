@@ -257,5 +257,5 @@ async function fetchHtml({ url, path, language, version }: PreviewTarget) {
     });
   }
 
-  return html!;
+  return html;
 }

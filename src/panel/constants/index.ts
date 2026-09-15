@@ -10,5 +10,6 @@ export const LOG_LEVELS = ["error", "warn", "info", "debug"] as const;
 export type LogLevel = (typeof LOG_LEVELS)[number];
 export const DEFAULT_LOG_LEVEL: LogLevel = "warn";
 export const STORAGE_KEY_PREFIX = "kirby$seo-audit$";
+export const CATEGORIES = ["seo", "readability"] as const;
 export const AUTO_TRIGGERS = ["publish"] as const;
 export type AutoTrigger = (typeof AUTO_TRIGGERS)[number];

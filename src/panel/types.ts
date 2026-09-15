@@ -1,8 +1,8 @@
 import type { LicenseStatus } from "@kirby-tools/licensing";
 import type { PluginAsset } from "kirbyuse";
-import type { AutoTrigger, LogLevel } from "./constants";
+import type { AutoTrigger, CATEGORIES, LogLevel } from "./constants";
 
-export type Category = "seo" | "readability";
+export type Category = (typeof CATEGORIES)[number];
 export type ContentVersion = "latest" | "changes";
 
 export type TrafficLight = "good" | "ok" | "bad";
@@ -82,15 +82,14 @@ export interface RatingRecord {
   seo: CategoryRating | null;
   readability: CategoryRating | null;
   counts: Record<TrafficLight, number>;
-  version: ContentVersion | undefined;
+  version?: ContentVersion | null;
 }
 
 /**
  * `version` and `timestamp` are `null` before the first analysis; a run the
  * Panel keeps before the server answers has the same shape.
  */
-export interface Rating extends Omit<RatingRecord, "version"> {
-  version?: ContentVersion | null;
+export interface Rating extends RatingRecord {
   timestamp: number | null;
   isStale: boolean;
 }
@@ -125,10 +124,7 @@ export interface PreviewUrlResponse {
   version: ContentVersion;
 }
 
-/** Response from the `__seo-audit__/proxy` API endpoint. */
-export interface ProxyResponse {
-  /** `null` when the host could not be reached. */
-  code: number | null;
-  html: string | null;
-  url: string;
-}
+export type ProxyResponse =
+  | { code: number; html: string; url: string }
+  /** The host could not be reached. */
+  | { code: null; html: null; url: string };

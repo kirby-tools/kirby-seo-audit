@@ -49,12 +49,12 @@ const keyphrase = ref<string>();
 const keyphraseField = ref<string>();
 const synonyms = ref<string | string[]>();
 const synonymsField = ref<string>();
-const assessments = ref<string[]>();
-const contentSelector = ref<string>();
+const assessments = ref<string[]>([]);
+const contentSelector = ref("body");
 const links = ref<boolean>();
 const persisted = ref<boolean>();
 const auto = ref<AutoTrigger | boolean | null>();
-const logLevel = ref<number>();
+const logLevel = ref(resolveLogLevelIndex());
 // #endregion
 
 const isInitialized = ref(false);
@@ -78,7 +78,7 @@ const { analyze, isAnalyzing, rating, report } = useAnalysis({
 
     return resolveAnalysisOptions();
   },
-  contentSelector: () => contentSelector.value!,
+  contentSelector: () => contentSelector.value,
   auto: () => auto.value,
   storage: {
     scope: () => ({
@@ -175,8 +175,8 @@ function resolveAnalysisOptions(): AnalysisOptions {
   return {
     assessments: __PLAYGROUND__
       ? currentContent.value.assessments
-      : assessments.value!,
-    logLevel: logLevel.value!,
+      : assessments.value,
+    logLevel: logLevel.value,
     keyword: resolveKeyphrase(
       currentContent.value,
       keyphrase.value,

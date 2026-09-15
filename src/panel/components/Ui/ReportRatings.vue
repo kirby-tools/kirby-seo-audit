@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { Category, Report } from "../../types";
+import type { Report } from "../../types";
 import { usePanel } from "kirbyuse";
+import { CATEGORIES } from "../../constants";
 import RatingStatus from "./RatingStatus.vue";
 
 defineProps({
@@ -10,8 +11,6 @@ defineProps({
     required: true,
   },
 });
-
-const CATEGORIES: Category[] = ["seo", "readability"];
 
 const panel = usePanel();
 </script>

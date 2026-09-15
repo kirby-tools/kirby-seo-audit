@@ -8,6 +8,7 @@ import type {
   ResultRating,
   TrafficLight,
 } from "../types";
+import { CATEGORIES } from "../constants";
 import { scoreToRating } from "./seo-filter";
 
 // Yoast scores a category from the results it kept, so the plugin recomputes
@@ -40,8 +41,11 @@ const READABILITY_SCORES = {
   none: 0,
 };
 
-const RATING_ORDER: readonly TrafficLight[] = ["bad", "ok", "good"];
-const CATEGORIES: Category[] = ["seo", "readability"];
+const RATING_ORDER = [
+  "bad",
+  "ok",
+  "good",
+] as const satisfies readonly TrafficLight[];
 
 export function rateReport(
   results: Record<Category, Pick<Result, "score">[]>,
@@ -82,7 +86,7 @@ export function toRatingRecord(
     results: Record<Category, Pick<Result, "rating">[]>;
     ratings: Report["ratings"];
   },
-  version: ContentVersion | undefined,
+  version?: ContentVersion,
 ): RatingRecord {
   const counts = { good: 0, ok: 0, bad: 0 };
 
