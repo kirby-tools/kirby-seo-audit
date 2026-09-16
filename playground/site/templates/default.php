@@ -15,7 +15,7 @@
 <body>
   <main>
     <h1><?= $page->title()->esc() ?></h1>
-    <?= $page->content()->toBlocks() ?>
+    <?= $page->content()->get('content')->toBlocks() ?>
   </main>
 </body>
 </html>
