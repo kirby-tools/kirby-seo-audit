@@ -74,9 +74,6 @@ importers:
       vue:
         specifier: ^2.7.16
         version: 2.7.16
-      yoastseo:
-        specifier: ^3.6.0
-        version: 3.6.0
       zx:
         specifier: ^8.8.5
         version: 8.8.5
@@ -3587,10 +3584,6 @@ packages:
     resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
     engines: {node: '>= 14.6'}
     hasBin: true
-
-  yoastseo@3.6.0:
-    resolution: {integrity: sha512-1xneXxybp2M3waApvEdvEScnspK4AR/Prk7D+kbz9MGrriv8WSdIKu14BeloXH1uJFf5eurw9fj3fRyCCSgBPg==}
-    engines: {node: '>=8.0.0'}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -7185,17 +7178,6 @@ snapshots:
       yaml: 2.9.0
 
   yaml@2.9.0: {}
-
-  yoastseo@3.6.0:
-    dependencies:
-      '@wordpress/i18n': 5.26.0
-      '@yoast/feature-flag': 0.6.0-alpha.2
-      htmlparser2: 3.10.1
-      lodash: 4.18.1
-      loglevel: 1.9.2
-      parse5: 8.0.1
-      tiny-segmenter: 0.2.0
-      tokenizer2: 2.0.1
 
   yocto-queue@0.1.0: {}
 
