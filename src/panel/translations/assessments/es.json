@@ -14,7 +14,7 @@
   "singleH1": {
     "_label": "H1 único",
     "one": "El texto contiene una sola etiqueta H1. ¡Buen trabajo!",
-    "multiple": "El texto contiene múltiples etiquetas H1. ¡Reconsider tu estructura de encabezados!",
+    "multiple": "El texto contiene múltiples etiquetas H1. ¡Reconsidera tu estructura de encabezados!",
     "none": "El texto no contiene ninguna etiqueta H1. ¡Añádela!"
   }
 }
