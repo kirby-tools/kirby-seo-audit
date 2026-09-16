@@ -149,7 +149,7 @@ export function useAnalysis({
   }
 
   function readSeededReport() {
-    if (!storage?.isPersisted()) return undefined;
+    if (!storage?.isPersisted()) return;
 
     const storedReport = readStoredReport(storage.scope());
 

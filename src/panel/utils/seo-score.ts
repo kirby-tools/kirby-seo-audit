@@ -148,7 +148,7 @@ function rateCategory(
   score: number,
   results: Pick<Result, "score">[],
 ): CategoryScore | undefined {
-  if (results.length === 0) return undefined;
+  if (results.length === 0) return;
 
   return {
     score,
