@@ -139,9 +139,9 @@
       "%1$sKeyphrase in slug%3$s: %2$sPlease add both a keyphrase and a slug containing the keyphrase%3$s.": [
         "%1$sKeyphrase in slug%3$s: %2$sVoeg zowel een keyphrase als een slug toe die de keyphrase bevat%3$s."
       ],
-      "%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!": [
-        "%1$sKeyphrase in subkop%2$s: %3$s van je H2- en H3-subkoppen weerspiegelt het onderwerp van je tekst. Goed gedaan!",
-        "%1$sKeyphrase in subkop%2$s: %3$s van je H2- en H3-subkoppen weerspiegelen het onderwerp van je tekst. Goed gedaan!"
+      "%1$sKeyphrase in subheading%2$s: %3$d of your H2 and H3 subheadings reflects the topic of your copy. Good job!": [
+        "%1$sKeyphrase in subkop%2$s: %3$d van je H2- en H3-subkoppen weerspiegelt het onderwerp van je tekst. Goed gedaan!",
+        "%1$sKeyphrase in subkop%2$s: %3$d van je H2- en H3-subkoppen weerspiegelen het onderwerp van je tekst. Goed gedaan!"
       ],
       "%1$sKeyphrase in subheading%2$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.": [
         "%1$sKeyphrase in subkop%2$s: Je gebruikt geen subkoppen van hoger niveau die de keyphrase of synoniemen bevatten, maar je tekst is kort genoeg en heeft ze waarschijnlijk niet nodig."

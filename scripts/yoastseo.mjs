@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-export const YOASTSEO_TAG = "26.6";
+export const YOASTSEO_TAG = "28.5";
 
 export const YOASTSEO_DIR = path.resolve(
   import.meta.dirname,

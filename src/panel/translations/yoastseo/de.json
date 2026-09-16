@@ -139,9 +139,9 @@
       "%1$sKeyphrase in slug%3$s: %2$sPlease add both a keyphrase and a slug containing the keyphrase%3$s.": [
         "%1$sKeyphrase im Slug%3$s: %2$sBitte füge sowohl eine Keyphrase als auch einen Slug hinzu, der die Keyphrase enthält%3$s."
       ],
-      "%1$sKeyphrase in subheading%2$s: %3$s of your H2 and H3 subheadings reflects the topic of your copy. Good job!": [
-        "%1$sKeyphrase in Zwischenüberschrift%2$s: %3$s deiner H2- und H3-Zwischenüberschriften spiegelt das Thema deines Textes wider. Gut gemacht!",
-        "%1$sKeyphrase in Zwischenüberschrift%2$s: %3$s deiner H2- und H3-Zwischenüberschriften spiegeln das Thema deines Textes wider. Gut gemacht!"
+      "%1$sKeyphrase in subheading%2$s: %3$d of your H2 and H3 subheadings reflects the topic of your copy. Good job!": [
+        "%1$sKeyphrase in Zwischenüberschrift%2$s: %3$d deiner H2- und H3-Zwischenüberschriften spiegelt das Thema deines Textes wider. Gut gemacht!",
+        "%1$sKeyphrase in Zwischenüberschrift%2$s: %3$d deiner H2- und H3-Zwischenüberschriften spiegeln das Thema deines Textes wider. Gut gemacht!"
       ],
       "%1$sKeyphrase in subheading%2$s: You are not using any higher-level subheadings containing the keyphrase or its synonyms, but your text is short enough and probably doesn't need them.": [
         "%1$sKeyphrase in Zwischenüberschrift%2$s: Du verwendest keine übergeordneten Zwischenüberschriften, die die Keyphrase oder ihre Synonyme enthalten, aber dein Text ist kurz genug und braucht sie wahrscheinlich nicht."
