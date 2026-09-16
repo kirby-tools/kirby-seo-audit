@@ -2,7 +2,7 @@
   "name": "johannschopplich/kirby-seo-audit",
   "description": "Yoast SEO analysis in the Kirby Panel",
   "type": "kirby-plugin",
-  "version": "3.4.2",
+  "version": "3.5.0",
   "keywords": [
     "getkirby",
     "kirby",

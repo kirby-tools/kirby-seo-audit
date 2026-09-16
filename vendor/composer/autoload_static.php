@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit24fb65fee597d8a0b8a98c55635d1a85
+class ComposerStaticInit6cf7696319c4483649c48435f3821503
 {
     public static $prefixLengthsPsr4 = array (
         'K' =>
@@ -56,7 +56,10 @@ class ComposerStaticInit24fb65fee597d8a0b8a98c55635d1a85
         'JohannSchopplich\\Licensing\\PluginLicense' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/PluginLicense.php',
         'JohannSchopplich\\Licensing\\PluginLicenseExtensions' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/PluginLicenseExtensions.php',
         'JohannSchopplich\\SeoAudit\\PanelContext' => __DIR__ . '/../..' . '/src/classes/SeoAudit/PanelContext.php',
+        'JohannSchopplich\\SeoAudit\\PreviewTarget' => __DIR__ . '/../..' . '/src/classes/SeoAudit/PreviewTarget.php',
         'JohannSchopplich\\SeoAudit\\Proxy' => __DIR__ . '/../..' . '/src/classes/SeoAudit/Proxy.php',
+        'JohannSchopplich\\SeoAudit\\Rating' => __DIR__ . '/../..' . '/src/classes/SeoAudit/Rating.php',
+        'JohannSchopplich\\SeoAudit\\RatingStore' => __DIR__ . '/../..' . '/src/classes/SeoAudit/RatingStore.php',
         'JohannSchopplich\\SeoAudit\\ViewButtonOptions' => __DIR__ . '/../..' . '/src/classes/SeoAudit/ViewButtonOptions.php',
         'Kirby\\ComposerInstaller\\CmsInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
         'Kirby\\ComposerInstaller\\Installer' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
@@ -67,9 +70,9 @@ class ComposerStaticInit24fb65fee597d8a0b8a98c55635d1a85
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit24fb65fee597d8a0b8a98c55635d1a85::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit24fb65fee597d8a0b8a98c55635d1a85::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit24fb65fee597d8a0b8a98c55635d1a85::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6cf7696319c4483649c48435f3821503::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6cf7696319c4483649c48435f3821503::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6cf7696319c4483649c48435f3821503::$classMap;
 
         }, null, ClassLoader::class);
     }
