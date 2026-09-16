@@ -2,8 +2,8 @@
   "altAttribute": {
     "_label": "Attribut alt des images",
     "na": "Le texte ne contient aucune image.",
-    "none": "Aucune des {imagesWithoutAltAttribute} images ne contient un attribut de texte alternatif. Ajoutez-les !",
-    "some": "Certaines des {imagesWithoutAltAttribute} images contiennent un attribut de texte alternatif. Ajoutez-les !",
+    "none": "L'attribut de texte alternatif manque sur les {imagesWithoutAltAttribute} images. Ajoute-le !",
+    "some": "L'attribut de texte alternatif manque sur {imagesWithoutAltAttribute} des images. Ajoute-le !",
     "every": "Toutes les images contiennent un attribut de texte alternatif. Bon travail !"
   },
   "headingStructureOrder": {

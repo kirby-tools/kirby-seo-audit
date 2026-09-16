@@ -2,8 +2,8 @@
   "altAttribute": {
     "_label": "Alt-tekst voor afbeeldingen",
     "na": "De tekst bevat geen afbeeldingen.",
-    "none": "Geen van de {imagesWithoutAltAttribute} afbeeldingen bevat alt-tekst. Voeg ze toe!",
-    "some": "Sommige van de {imagesWithoutAltAttribute} afbeeldingen bevatten alt-tekst. Voeg ze toe!",
+    "none": "Bij alle {imagesWithoutAltAttribute} afbeeldingen ontbreekt de alt-tekst. Voeg die toe!",
+    "some": "Bij {imagesWithoutAltAttribute} van de afbeeldingen ontbreekt de alt-tekst. Voeg die toe!",
     "every": "Alle afbeeldingen bevatten alt-tekst. Goed gedaan!"
   },
   "headingStructureOrder": {
