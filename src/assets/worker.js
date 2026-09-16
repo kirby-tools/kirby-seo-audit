@@ -40,11 +40,6 @@ function registerPremiumAssessments(worker, language) {
     const wordComplexityConfig = getWordComplexityConfig(language);
     const wordComplexityHelper = getWordComplexityHelper(language);
     const wordComplexityAssessment = new WordComplexityAssessment();
-    const wordComplexityAssessmentCornerstone = new WordComplexityAssessment({
-      scores: {
-        acceptableAmount: 3,
-      },
-    });
 
     worker.registerResearcherConfig("wordComplexity", wordComplexityConfig);
 
@@ -57,13 +52,6 @@ function registerPremiumAssessments(worker, language) {
       wordComplexityAssessment,
       pluginName,
       "readability",
-    );
-
-    worker.registerAssessment(
-      "wordComplexity",
-      wordComplexityAssessmentCornerstone,
-      pluginName,
-      "cornerstoneReadability",
     );
   }
 
