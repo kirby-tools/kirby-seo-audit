@@ -43,7 +43,7 @@ export function useAnalysis({
   analyzeOn: () => unknown;
   storage?: {
     scope: () => ReportStorageScope;
-    persisted: () => boolean;
+    isPersisted: () => boolean;
   };
 }) {
   const _isKirby5 = isKirby5();
@@ -95,7 +95,7 @@ export function useAnalysis({
         [analysisKey(path, language)]: newReport,
       };
 
-      if (storageScope && storage?.persisted()) {
+      if (storageScope && storage?.isPersisted()) {
         writeStoredReport({ ...storageScope, language }, newReport);
       }
 
@@ -149,7 +149,7 @@ export function useAnalysis({
   }
 
   function readSeededReport() {
-    if (!storage?.persisted()) return undefined;
+    if (!storage?.isPersisted()) return undefined;
 
     const storedReport = readStoredReport(storage.scope());
 

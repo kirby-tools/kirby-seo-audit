@@ -367,7 +367,7 @@ describe("useAnalysis", () => {
   it("seeds report from storage when persisted", async () => {
     writeStoredReport(storageScope, storedReport);
     const { report: currentReport } = await loadAnalysis({
-      storage: { scope: () => storageScope, persisted: () => true },
+      storage: { scope: () => storageScope, isPersisted: () => true },
     });
 
     expect(currentReport.value).toEqual(storedReport);
@@ -376,7 +376,7 @@ describe("useAnalysis", () => {
   it("leaves report empty when not persisted", async () => {
     writeStoredReport(storageScope, storedReport);
     const { report: currentReport } = await loadAnalysis({
-      storage: { scope: () => storageScope, persisted: () => false },
+      storage: { scope: () => storageScope, isPersisted: () => false },
     });
 
     expect(currentReport.value).toBeUndefined();
@@ -386,7 +386,7 @@ describe("useAnalysis", () => {
     const { ratings, ...reportBefore35 } = storedReport;
     writeStoredReport(storageScope, reportBefore35 as Report);
     const { report: currentReport } = await loadAnalysis({
-      storage: { scope: () => storageScope, persisted: () => true },
+      storage: { scope: () => storageScope, isPersisted: () => true },
     });
 
     expect(currentReport.value).toBeUndefined();
@@ -398,7 +398,7 @@ describe("useAnalysis", () => {
     const { analyze } = await loadAnalysis({
       storage: {
         scope: () => ({ ...storageScope, language: panel.language.code }),
-        persisted: () => true,
+        isPersisted: () => true,
       },
     });
 
@@ -431,7 +431,7 @@ async function loadAnalysis({
 }: {
   analyzeOn?: unknown;
   resolveOptions?: (language: string) => Promise<AnalysisOptions>;
-  storage?: { scope: () => ReportStorageScope; persisted: () => boolean };
+  storage?: { scope: () => ReportStorageScope; isPersisted: () => boolean };
 } = {}) {
   const { useAnalysis } =
     await import("../../../src/panel/composables/analysis");

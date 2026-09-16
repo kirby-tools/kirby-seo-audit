@@ -52,7 +52,7 @@ const synonymsField = ref<string>();
 const assessments = ref<string[]>([]);
 const contentSelector = ref("body");
 const links = ref<boolean>();
-const persisted = ref<boolean>();
+const isPersisted = ref<boolean>();
 const analyzeOn = ref<AnalyzeOnTrigger | boolean | null>();
 const logLevel = ref(resolveLogLevelIndex());
 // #endregion
@@ -86,7 +86,7 @@ const { analyze, isAnalyzing, rating, report } = useAnalysis({
       language: panel.language.code,
       section: props.name!,
     }),
-    persisted: () => persisted.value ?? false,
+    isPersisted: () => isPersisted.value ?? false,
   },
 });
 
@@ -145,7 +145,7 @@ async function updateSectionData(isInitializing = false) {
     assessments.value = response.assessments;
     contentSelector.value = response.contentSelector;
     links.value = response.links;
-    persisted.value = response.persisted;
+    isPersisted.value = response.persisted;
     analyzeOn.value = response.analyzeOn;
     logLevel.value = resolveLogLevelIndex(
       response.logLevel,
