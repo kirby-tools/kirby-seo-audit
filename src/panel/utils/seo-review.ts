@@ -56,7 +56,6 @@ export function createSeoReport({
     const categoryResults: Result[] = [];
 
     for (const [key, assessmentFn] of Object.entries(assessments)) {
-      // Skip assessment if it's not part of the selected assessments.
       if (
         selectedAssessments.length > 0 &&
         !selectedAssessments.includes(key.toLowerCase())
@@ -81,7 +80,7 @@ export function createSeoReport({
       const label = get(translations, `${key}._label`, key);
 
       // Lowercase all keys in context for the template renderer.
-      const _context = Object.fromEntries(
+      const templateContext = Object.fromEntries(
         Object.entries(context).map(([key, value]) => [
           key.toLowerCase(),
           value,
@@ -91,7 +90,7 @@ export function createSeoReport({
       categoryResults.push({
         score,
         rating: scoreToRating(score),
-        text: `${label}: ${renderTemplate(template, _context)}`,
+        text: `${label}: ${renderTemplate(template, templateContext)}`,
         details,
       });
     }

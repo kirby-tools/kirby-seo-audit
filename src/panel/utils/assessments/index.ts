@@ -1,18 +1,13 @@
 import type { AssessmentContext, AssessmentResult } from "../../types";
 
 /**
- * Checks whether the content contains a H1 heading.
+ * Checks that the content has exactly one H1 heading.
  */
 export function singleH1({
   htmlDocument,
   contentSelector,
 }: AssessmentContext): AssessmentResult {
-  const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
-  const h1s = contentElements.flatMap((element) =>
-    element.tagName.toLowerCase() === "h1"
-      ? [element]
-      : [...element.querySelectorAll("h1")],
-  );
+  const h1s = queryContentElements(htmlDocument, contentSelector, "h1");
 
   return {
     score: h1s.length === 1 ? 9 : 3,
@@ -28,12 +23,7 @@ export function altAttribute({
   htmlDocument,
   contentSelector,
 }: AssessmentContext): AssessmentResult {
-  const contentElements = [...htmlDocument.querySelectorAll(contentSelector)];
-  const images = contentElements.flatMap((element) =>
-    element.tagName.toLowerCase() === "img"
-      ? [element]
-      : [...element.querySelectorAll("img")],
-  );
+  const images = queryContentElements(htmlDocument, contentSelector, "img");
 
   if (images.length === 0) {
     return {
@@ -42,27 +32,18 @@ export function altAttribute({
     };
   }
 
-  const imagesWithoutAltAttribute = images.filter(
+  const imagesWithoutAltAttributeCount = images.filter(
     (image) => image.getAttribute("alt") === null,
-  );
-  const imagesWithoutAltAttributeCount = imagesWithoutAltAttribute.length;
+  ).length;
 
   return {
-    score:
-      imagesWithoutAltAttributeCount === images.length
-        ? 3
-        : imagesWithoutAltAttributeCount > 0
-          ? 3
-          : 9,
+    score: imagesWithoutAltAttributeCount > 0 ? 3 : 9,
     translation:
       imagesWithoutAltAttributeCount === images.length
-        ? // None of the images have an `alt` attribute.
-          "none"
+        ? "none"
         : imagesWithoutAltAttributeCount > 0
-          ? // Not all images have an `alt` attribute.
-            "some"
-          : // All images have an `alt` attribute.
-            "every",
+          ? "some"
+          : "every",
     ...(imagesWithoutAltAttributeCount > 0 && {
       context: {
         imagesWithoutAltAttribute: imagesWithoutAltAttributeCount,
@@ -78,17 +59,14 @@ export function headingStructureOrder({
   htmlDocument,
   contentSelector,
 }: AssessmentContext): AssessmentResult {
-  const contentElements = [
-    ...htmlDocument.querySelectorAll<HTMLElement>(contentSelector),
-  ];
-  const headings = contentElements.flatMap((element) =>
-    ["h1", "h2", "h3", "h4", "h5", "h6"].includes(element.tagName.toLowerCase())
-      ? [element]
-      : [...element.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6")],
+  const headings = queryContentElements(
+    htmlDocument,
+    contentSelector,
+    "h1, h2, h3, h4, h5, h6",
   );
 
   let previousLevel = 0;
-  const issues: HTMLElement[] = [];
+  const issues: Element[] = [];
 
   for (const heading of headings) {
     const currentLevel = Number.parseInt(heading.tagName.substring(1), 10);
@@ -114,6 +92,23 @@ export function headingStructureOrder({
       },
     }),
   };
+}
+
+/**
+ * Collects the elements matching `selector` inside the content, including
+ * content elements that match it themselves.
+ */
+function queryContentElements(
+  htmlDocument: Document,
+  contentSelector: string,
+  selector: string,
+) {
+  return [...htmlDocument.querySelectorAll(contentSelector)].flatMap(
+    (element) =>
+      element.matches(selector)
+        ? [element]
+        : [...element.querySelectorAll(selector)],
+  );
 }
 
 function escapeHtml(text: string) {
