@@ -21,28 +21,28 @@
         "%1$s: %2$sBitte füge sowohl eine Keyphrase als auch einen SEO-Titel hinzu, der mit der Keyphrase beginnt%3$s."
       ],
       "%1$s: Does not contain the exact match. %2$sTry to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title%3$s.": [
-        "%1$s: Enthält nicht die exakte Übereinstimmung. %2$sVersuche, die exakte Übereinstimmung deines Keyphrases im SEO-Titel zu verwenden und setze sie an den Anfang des Titels%3$s."
+        "%1$s: Enthält nicht die exakte Übereinstimmung. %2$sVersuche, die exakte Übereinstimmung deiner Keyphrase im SEO-Titel zu verwenden und sie an den Anfang des Titels zu setzen%3$s."
       ],
       "%1$s: Not all the words from your keyphrase \"%4$s\" appear in the SEO title. %2$s%5$s%3$s.": [
-        "%1$s: Nicht alle Wörter deines Keyphrases „%4$s“ erscheinen im SEO-Titel. %2$s%5$s%3$s."
+        "%1$s: Nicht alle Wörter deiner Keyphrase „%4$s“ erscheinen im SEO-Titel. %2$s%5$s%3$s."
       ],
       "%1$s: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!": [
-        "%1$s: Die exakte Übereinstimmung des Fokus-Keyphrases erscheint am Anfang des SEO-Titels. Gut gemacht!"
+        "%1$s: Die exakte Übereinstimmung der Fokus-Keyphrase erscheint am Anfang des SEO-Titels. Gut gemacht!"
       ],
       "%1$s: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. %2$sMove it to the beginning for the best results%3$s.": [
-        "%1$s: Die exakte Übereinstimmung des Fokus-Keyphrases erscheint im SEO-Titel, aber nicht am Anfang. %2$sVerschiebe sie an den Anfang für beste Ergebnisse%3$s."
+        "%1$s: Die exakte Übereinstimmung der Fokus-Keyphrase erscheint im SEO-Titel, aber nicht am Anfang. %2$sVerschiebe sie für beste Ergebnisse an den Anfang%3$s."
       ],
       "%1$s: The focus keyphrase appears at the beginning of the SEO title. Good job!": [
         "%1$s: Die Fokus-Keyphrase erscheint am Anfang des SEO-Titels. Gut gemacht!"
       ],
       "%1$s: Title does not begin with the focus keyphrase. %2$sMove your focus keyphrase to the beginning of the title%3$s.": [
-        "%1$s: Der Titel beginnt nicht mit dem Fokus-Keyphrase. %2$sVerschiebe deine Fokus-Keyphrase an den Anfang des Titels%3$s."
+        "%1$s: Der Titel beginnt nicht mit der Fokus-Keyphrase. %2$sVerschiebe deine Fokus-Keyphrase an den Anfang des Titels%3$s."
       ],
       "%1$sCompeting links%2$s: There are no links which use your keyphrase or synonym as their anchor text. Nice!": [
-        "%1$sKonkurrierende Links%2$s: Es gibt keine Links, die deine Keyphrase oder Synonym als Ankertext verwenden. Sehr gut!"
+        "%1$sKonkurrierende Links%2$s: Es gibt keine Links, die deine Keyphrase oder ein Synonym als Ankertext verwenden. Sehr gut!"
       ],
       "%1$sCompeting links%3$s: You have a link which uses your keyphrase or synonym as its anchor text. %2$sFix that%3$s!": [
-        "%1$sKonkurrierende Links%3$s: Du hast einen Link, der deine Keyphrase oder Synonym als Ankertext verwendet. %2$sBehebe das%3$s!"
+        "%1$sKonkurrierende Links%3$s: Du hast einen Link, der deine Keyphrase oder ein Synonym als Ankertext verwendet. %2$sBehebe das%3$s!"
       ],
       "%1$sConsecutive sentences%2$s: The text contains %3$d consecutive sentences starting with the same word. %5$sTry to mix things up%2$s!": [
         "%1$sAufeinanderfolgende Sätze%2$s: Der Text enthält %3$d aufeinanderfolgende Sätze, die mit demselben Wort beginnen. %5$sVersuche, etwas Abwechslung hineinzubringen%2$s!",
@@ -101,7 +101,7 @@
         "%1$sKeyphrase in Bild-Alt-Attributen%3$s: Die Bilder auf dieser Seite haben keine Alt-Attribute mit mindestens der Hälfte der Wörter aus deiner Keyphrase. %2$sBehebe das%3$s!"
       ],
       "%1$sKeyphrase in image alt attributes%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!": [
-        "%1$sKeyphrase in Bild-Alt-Attributen%3$s: Diese Seite hat keine Bilder, keine Keyphrase oder beides nicht. %2$sFüge einige Bilder mit Alt-Attributen hinzu, die die Keyphrase oder Synonyme enthalten%3$s!"
+        "%1$sKeyphrase in Bild-Alt-Attributen%3$s: Dieser Seite fehlen Bilder, eine Keyphrase oder beides. %2$sFüge einige Bilder mit Alt-Attributen hinzu, die die Keyphrase oder Synonyme enthalten%3$s!"
       ],
       "%1$sKeyphrase in introduction%2$s: Well done!": [
         "%1$sKeyphrase in der Einleitung%2$s: Gut gemacht!"
@@ -131,10 +131,10 @@
         "%1$sKeyphrase im Slug%2$s: Großartige Arbeit!"
       ],
       "%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!": [
-        "%1$sKeyphrase im Slug%2$s: Mehr als die Hälfte deines Keyphrases erscheint im Slug. Das ist großartig!"
+        "%1$sKeyphrase im Slug%2$s: Mehr als die Hälfte deiner Keyphrase erscheint im Slug. Das ist großartig!"
       ],
       "%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!": [
-        "%1$sKeyphrase im Slug%3$s: (Ein Teil) deines Keyphrases erscheint nicht im Slug. %2$sÄndere das%3$s!"
+        "%1$sKeyphrase im Slug%3$s: (Ein Teil) deiner Keyphrase erscheint nicht im Slug. %2$sÄndere das%3$s!"
       ],
       "%1$sKeyphrase in slug%3$s: %2$sPlease add both a keyphrase and a slug containing the keyphrase%3$s.": [
         "%1$sKeyphrase im Slug%3$s: %2$sBitte füge sowohl eine Keyphrase als auch einen Slug hinzu, der die Keyphrase enthält%3$s."
@@ -153,7 +153,7 @@
         "%1$sKeyphrase in Zwischenüberschrift%3$s: %2$sBitte füge sowohl eine Keyphrase als auch etwas Text hinzu, um relevantes Feedback zu erhalten%3$s."
       ],
       "%1$sKeyphrase in subheading%3$s: %2$sUse more keyphrases or synonyms in your H2 and H3 subheadings%3$s!": [
-        "%1$sKeyphrase in Zwischenüberschrift%3$s: %2$sVerwende mehr Keyphrases oder Synonyme in deinen H2- und H3-Zwischenüberschriften%3$s!"
+        "%1$sKeyphrase in Zwischenüberschrift%3$s: %2$sVerwende mehr Keyphrasen oder Synonyme in deinen H2- und H3-Zwischenüberschriften%3$s!"
       ],
       "%1$sKeyphrase in subheading%3$s: More than 75%% of your H2 and H3 subheadings reflect the topic of your copy. That's too much. %2$sDon't over-optimize%3$s!": [
         "%1$sKeyphrase in Zwischenüberschrift%3$s: Mehr als 75%% deiner H2- und H3-Zwischenüberschriften spiegeln das Thema deines Textes wider. Das ist zu viel. %2$sÜberoptimiere nicht%3$s!"
@@ -239,7 +239,7 @@
         "%1$sSEO-Titelbreite%3$s: Der SEO-Titel ist zu kurz. %2$sNutze den Platz, um Keyphrase-Varianten hinzuzufügen oder überzeugende Handlungsaufforderungen zu erstellen%3$s."
       ],
       "%1$sSEO title width%3$s: The SEO title is wider than the viewable limit. %2$sTry to make it shorter%3$s.": [
-        "%1$sSEO-Titelbreite%3$s: Der SEO-Titel ist breiter als die sichtbare Grenze. %2$sVersuche, ihn kürzer zu machen%3$s."
+        "%1$sSEO-Titelbreite%3$s: Der SEO-Titel ist breiter als der sichtbare Bereich. %2$sVersuche, ihn kürzer zu machen%3$s."
       ],
       "%1$sSingle title%2$s: You don't have multiple H1 headings, well done!": [
         "%1$sEinzelner Titel%2$s: Du hast nicht mehrere H1-Überschriften, gut gemacht!"
@@ -410,10 +410,10 @@
       "Edit your slug": ["Bearbeite deinen Slug"],
       "Feedback": ["Feedback"],
       "For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title": [
-        "Für die besten SEO-Ergebnisse füge alle Wörter deines Keyphrases in den SEO-Titel ein und setze die Keyphrase an den Anfang des Titels"
+        "Für die besten SEO-Ergebnisse füge alle Wörter deiner Keyphrase in den SEO-Titel ein und setze die Keyphrase an den Anfang des Titels"
       ],
       "For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title": [
-        "Für die besten SEO-Ergebnisse schreibe die exakte Übereinstimmung deines Keyphrases in den SEO-Titel und setze die Keyphrase an den Anfang des Titels"
+        "Für die besten SEO-Ergebnisse schreibe die exakte Übereinstimmung deiner Keyphrase in den SEO-Titel und setze die Keyphrase an den Anfang des Titels"
       ],
       "Good": ["Gut"],
       "Good SEO score": ["Guter SEO-Score"],

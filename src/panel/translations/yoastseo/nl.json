@@ -6,8 +6,8 @@
       "%1$sLearn more.%2$s": ["%1$sMeer informatie.%2$s"],
       "%1$s Good job!": ["%1$s Goed gedaan!"],
       "%1$s That's less than the recommended minimum of %2$d time for a text of this length. %3$sFocus on your keyphrase%4$s!": [
-        "%1$s Dat is minder dan het aanbevolen minimum van %2$d keer voor een tekst van deze lengte. %3$sRicht je op je keyphrase%4$s!",
-        "%1$s Dat is minder dan het aanbevolen minimum van %2$d keer voor een tekst van deze lengte. %3$sRicht je op je keyphrase%4$s!"
+        "%1$s Dat is minder dan het aanbevolen minimum van %2$d keer voor een tekst van deze lengte. %3$sFocus op je keyphrase%4$s!",
+        "%1$s Dat is minder dan het aanbevolen minimum van %2$d keer voor een tekst van deze lengte. %3$sFocus op je keyphrase%4$s!"
       ],
       "%1$s That's more than the recommended maximum of %2$d time for a text of this length. %3$sDon't overoptimize%4$s!": [
         "%1$s Dat is meer dan het aanbevolen maximum van %2$d keer voor een tekst van deze lengte. %3$sOveroptimaliseer niet%4$s!",
@@ -24,19 +24,19 @@
         "%1$s: Bevat niet de exacte overeenkomst. %2$sProbeer de exacte overeenkomst van je keyphrase in de SEO-titel te schrijven en zet deze aan het begin van de titel%3$s."
       ],
       "%1$s: Not all the words from your keyphrase \"%4$s\" appear in the SEO title. %2$s%5$s%3$s.": [
-        "%1$s: Niet alle woorden van je keyphrase \"%4$s\" verschijnen in de SEO-titel. %2$s%5$s%3$s."
+        "%1$s: Niet alle woorden van je keyphrase \"%4$s\" komen voor in de SEO-titel. %2$s%5$s%3$s."
       ],
       "%1$s: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!": [
-        "%1$s: De exacte overeenkomst van de focus keyphrase verschijnt aan het begin van de SEO-titel. Goed gedaan!"
+        "%1$s: De exacte overeenkomst van de focus-keyphrase staat aan het begin van de SEO-titel. Goed gedaan!"
       ],
       "%1$s: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. %2$sMove it to the beginning for the best results%3$s.": [
-        "%1$s: De exacte overeenkomst van de focus keyphrase verschijnt in de SEO-titel, maar niet aan het begin. %2$sVerplaats deze naar het begin voor de beste resultaten%3$s."
+        "%1$s: De exacte overeenkomst van de focus-keyphrase komt voor in de SEO-titel, maar niet aan het begin. %2$sVerplaats deze naar het begin voor de beste resultaten%3$s."
       ],
       "%1$s: The focus keyphrase appears at the beginning of the SEO title. Good job!": [
-        "%1$s: De focus keyphrase verschijnt aan het begin van de SEO-titel. Goed gedaan!"
+        "%1$s: De focus-keyphrase staat aan het begin van de SEO-titel. Goed gedaan!"
       ],
       "%1$s: Title does not begin with the focus keyphrase. %2$sMove your focus keyphrase to the beginning of the title%3$s.": [
-        "%1$s: De titel begint niet met de focus keyphrase. %2$sVerplaats je focus keyphrase naar het begin van de titel%3$s."
+        "%1$s: De titel begint niet met de focus-keyphrase. %2$sVerplaats je focus-keyphrase naar het begin van de titel%3$s."
       ],
       "%1$sCompeting links%2$s: There are no links which use your keyphrase or synonym as their anchor text. Nice!": [
         "%1$sConcurrerende links%2$s: Er zijn geen links die je keyphrase of synoniem als ankertekst gebruiken. Mooi!"
@@ -49,20 +49,20 @@
         "%1$sOpeenvolgende zinnen%2$s: De tekst bevat %4$d gevallen waar %3$d of meer opeenvolgende zinnen met hetzelfde woord beginnen. %5$sProbeer wat variatie aan te brengen%2$s!"
       ],
       "%1$sConsecutive sentences%2$s: There are no repetitive sentence beginnings. That's great!": [
-        "%1$sOpeenvolgende zinnen%2$s: Er zijn geen repetitieve zinsbeginnen. Geweldig!"
+        "%1$sOpeenvolgende zinnen%2$s: Er zijn geen zinnen die op dezelfde manier beginnen. Geweldig!"
       ],
       "%1$sFunction words in keyphrase%3$s: Your keyphrase \"%4$s\" contains function words only. %2$sLearn more about what makes a good keyphrase.%3$s": [
-        "%1$sFunctiewoorden in keyphrase%3$s: Je keyphrase \"%4$s\" bevat alleen functiewoorden. %2$sLeer meer over wat een goede keyphrase maakt.%3$s"
+        "%1$sFunctiewoorden in keyphrase%3$s: Je keyphrase \"%4$s\" bevat alleen functiewoorden. %2$sLees meer over wat een goede keyphrase is.%3$s"
       ],
       "%1$sImages and videos%2$s: Good job!": [
         "%1$sAfbeeldingen en video's%2$s: Goed gedaan!"
       ],
       "%1$sImages and videos%3$s: No images or videos appear on this page. %2$sAdd some%3$s!": [
-        "%1$sAfbeeldingen en video's%3$s: Er verschijnen geen afbeeldingen of video's op deze pagina. %2$sVoeg er wat toe%3$s!"
+        "%1$sAfbeeldingen en video's%3$s: Er staan geen afbeeldingen of video's op deze pagina. %2$sVoeg er wat toe%3$s!"
       ],
       "%1$sImages%2$s: Good job!": ["%1$sAfbeeldingen%2$s: Goed gedaan!"],
       "%1$sImages%3$s: No images appear on this page. %2$sAdd some%3$s!": [
-        "%1$sAfbeeldingen%3$s: Er verschijnen geen afbeeldingen op deze pagina. %2$sVoeg er wat toe%3$s!"
+        "%1$sAfbeeldingen%3$s: Er staan geen afbeeldingen op deze pagina. %2$sVoeg er wat toe%3$s!"
       ],
       "%1$sInternal links%2$s: There are both nofollowed and normal internal links on this page. Good job!": [
         "%1$sInterne links%2$s: Er zijn zowel nofollow als normale interne links op deze pagina. Goed gedaan!"
@@ -71,7 +71,7 @@
         "%1$sInterne links%2$s: Je hebt voldoende interne links. Goed gedaan!"
       ],
       "%1$sInternal links%3$s: No internal links appear in this page, %2$smake sure to add some%3$s!": [
-        "%1$sInterne links%3$s: Er verschijnen geen interne links op deze pagina, %2$szorg ervoor dat je er wat toevoegt%3$s!"
+        "%1$sInterne links%3$s: Er staan geen interne links op deze pagina, %2$szorg ervoor dat je er wat toevoegt%3$s!"
       ],
       "%1$sInternal links%3$s: The internal links in this page are all nofollowed. %2$sAdd some good internal links%3$s.": [
         "%1$sInterne links%3$s: De interne links op deze pagina zijn allemaal nofollow. %2$sVoeg wat goede interne links toe%3$s."
@@ -85,8 +85,8 @@
         "%1$sKeyphrase-dichtheid%2$s: De keyphrase is %3$d keer gevonden. Geweldig!"
       ],
       "%1$sKeyphrase density%2$s: The keyphrase was found 0 times. That's less than the recommended minimum of %3$d time for a text of this length. %4$sFocus on your keyphrase%2$s!": [
-        "%1$sKeyphrase-dichtheid%2$s: De keyphrase is 0 keer gevonden. Dat is minder dan het aanbevolen minimum van %3$d keer voor een tekst van deze lengte. %4$sRicht je op je keyphrase%2$s!",
-        "%1$sKeyphrase-dichtheid%2$s: De keyphrase is 0 keer gevonden. Dat is minder dan het aanbevolen minimum van %3$d keer voor een tekst van deze lengte. %4$sRicht je op je keyphrase%2$s!"
+        "%1$sKeyphrase-dichtheid%2$s: De keyphrase is 0 keer gevonden. Dat is minder dan het aanbevolen minimum van %3$d keer voor een tekst van deze lengte. %4$sFocus op je keyphrase%2$s!",
+        "%1$sKeyphrase-dichtheid%2$s: De keyphrase is 0 keer gevonden. Dat is minder dan het aanbevolen minimum van %3$d keer voor een tekst van deze lengte. %4$sFocus op je keyphrase%2$s!"
       ],
       "%1$sKeyphrase density%3$s: %2$sPlease add both a keyphrase and some text containing the keyphrase%3$s.": [
         "%1$sKeyphrase-dichtheid%3$s: %2$sVoeg zowel een keyphrase als tekst toe die de keyphrase bevat%3$s."
@@ -101,7 +101,7 @@
         "%1$sKeyphrase in alt-attributen van afbeeldingen%3$s: Afbeeldingen op deze pagina hebben geen alt-attributen met minstens de helft van de woorden uit je keyphrase. %2$sLos dat op%3$s!"
       ],
       "%1$sKeyphrase in image alt attributes%3$s: This page does not have images, a keyphrase, or both. %2$sAdd some images with alt attributes that include the keyphrase or synonyms%3$s!": [
-        "%1$sKeyphrase in alt-attributen van afbeeldingen%3$s: Deze pagina heeft geen afbeeldingen, geen keyphrase, of beide niet. %2$sVoeg afbeeldingen toe met alt-attributen die de keyphrase of synoniemen bevatten%3$s!"
+        "%1$sKeyphrase in alt-attributen van afbeeldingen%3$s: Op deze pagina ontbreken afbeeldingen, een keyphrase, of beide. %2$sVoeg afbeeldingen toe met alt-attributen die de keyphrase of synoniemen bevatten%3$s!"
       ],
       "%1$sKeyphrase in introduction%2$s: Well done!": [
         "%1$sKeyphrase in de inleiding%2$s: Goed gedaan!"
@@ -110,13 +110,13 @@
         "%1$sKeyphrase in de inleiding%3$s: %2$sVoeg zowel een keyphrase als een inleiding toe die de keyphrase bevat%3$s."
       ],
       "%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. %2$sFix that%3$s!": [
-        "%1$sKeyphrase in de inleiding%3$s: Je keyphrase of synoniemen verschijnen in de eerste alinea van de tekst, maar niet binnen één zin. %2$sLos dat op%3$s!"
+        "%1$sKeyphrase in de inleiding%3$s: Je keyphrase of synoniemen komen voor in de eerste alinea van de tekst, maar niet binnen één zin. %2$sLos dat op%3$s!"
       ],
       "%1$sKeyphrase in introduction%3$s: Your keyphrase or its synonyms do not appear in the first paragraph. %2$sMake sure the topic is clear immediately%3$s.": [
-        "%1$sKeyphrase in de inleiding%3$s: Je keyphrase of synoniemen verschijnen niet in de eerste alinea. %2$sZorg ervoor dat het onderwerp meteen duidelijk is%3$s."
+        "%1$sKeyphrase in de inleiding%3$s: Je keyphrase of synoniemen komen niet voor in de eerste alinea. %2$sZorg ervoor dat het onderwerp meteen duidelijk is%3$s."
       ],
       "%1$sKeyphrase in meta description%2$s: Keyphrase or synonym appear in the meta description. Well done!": [
-        "%1$sKeyphrase in de metabeschrijving%2$s: Keyphrase of synoniem verschijnt in de metabeschrijving. Goed gedaan!"
+        "%1$sKeyphrase in de metabeschrijving%2$s: De keyphrase of een synoniem komt voor in de metabeschrijving. Goed gedaan!"
       ],
       "%1$sKeyphrase in meta description%2$s: The meta description contains the keyphrase %3$s times, which is over the advised maximum of 2 times. %4$sLimit that%5$s!": [
         "%1$sKeyphrase in de metabeschrijving%2$s: De metabeschrijving bevat de keyphrase %3$s keer, wat boven het aanbevolen maximum van 2 keer ligt. %4$sBeperk dat%5$s!"
@@ -131,10 +131,10 @@
         "%1$sKeyphrase in slug%2$s: Uitstekend werk!"
       ],
       "%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!": [
-        "%1$sKeyphrase in slug%2$s: Meer dan de helft van je keyphrase verschijnt in de slug. Geweldig!"
+        "%1$sKeyphrase in slug%2$s: Meer dan de helft van je keyphrase komt voor in de slug. Geweldig!"
       ],
       "%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!": [
-        "%1$sKeyphrase in slug%3$s: (Een deel van) je keyphrase verschijnt niet in de slug. %2$sVerander dat%3$s!"
+        "%1$sKeyphrase in slug%3$s: (Een deel van) je keyphrase komt niet voor in de slug. %2$sVerander dat%3$s!"
       ],
       "%1$sKeyphrase in slug%3$s: %2$sPlease add both a keyphrase and a slug containing the keyphrase%3$s.": [
         "%1$sKeyphrase in slug%3$s: %2$sVoeg zowel een keyphrase als een slug toe die de keyphrase bevat%3$s."
@@ -168,19 +168,19 @@
         "%1$sKeyphrase-lengte%3$s: %2$sStel een keyphrase in om je SEO-score te berekenen%3$s."
       ],
       "%1$sKeyphrase length%3$s: No focus keyphrase was set for this page. %2$sSet a keyphrase in order to calculate your SEO score%3$s.": [
-        "%1$sKeyphrase-lengte%3$s: Er is geen focus keyphrase ingesteld voor deze pagina. %2$sStel een keyphrase in om je SEO-score te berekenen%3$s."
+        "%1$sKeyphrase-lengte%3$s: Er is geen focus-keyphrase ingesteld voor deze pagina. %2$sStel een keyphrase in om je SEO-score te berekenen%3$s."
       ],
       "%1$sMeta description length%2$s: Well done!": [
-        "%1$sLengte metabeschrijving%2$s: Goed gedaan!"
+        "%1$sLengte van de metabeschrijving%2$s: Goed gedaan!"
       ],
       "%1$sMeta description length%3$s: No meta description has been specified. Search engines will display copy from the page instead. %2$sMake sure to write one%3$s!": [
-        "%1$sLengte metabeschrijving%3$s: Er is geen metabeschrijving opgegeven. Zoekmachines zullen in plaats daarvan tekst van de pagina tonen. %2$sZorg ervoor dat je er een schrijft%3$s!"
+        "%1$sLengte van de metabeschrijving%3$s: Er is geen metabeschrijving opgegeven. Zoekmachines zullen in plaats daarvan tekst van de pagina tonen. %2$sZorg ervoor dat je er een schrijft%3$s!"
       ],
       "%1$sMeta description length%3$s: The meta description is over %4$d characters. To ensure the entire description will be visible, %2$syou should reduce the length%3$s!": [
-        "%1$sLengte metabeschrijving%3$s: De metabeschrijving is langer dan %4$d tekens. Om ervoor te zorgen dat de hele beschrijving zichtbaar is, %2$sverkort de lengte%3$s!"
+        "%1$sLengte van de metabeschrijving%3$s: De metabeschrijving is langer dan %4$d tekens. Om ervoor te zorgen dat de hele beschrijving zichtbaar is, %2$sverkort de lengte%3$s!"
       ],
       "%1$sMeta description length%3$s: The meta description is too short (under %4$d characters). Up to %5$d characters are available. %2$sUse the space%3$s!": [
-        "%1$sLengte metabeschrijving%3$s: De metabeschrijving is te kort (minder dan %4$d tekens). Er zijn tot %5$d tekens beschikbaar. %2$sGebruik de ruimte%3$s!"
+        "%1$sLengte van de metabeschrijving%3$s: De metabeschrijving is te kort (minder dan %4$d tekens). Er zijn tot %5$d tekens beschikbaar. %2$sGebruik de ruimte%3$s!"
       ],
       "%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.": [
         "%1$sNiet genoeg inhoud%2$s: %3$sVoeg wat inhoud toe om een goede analyse mogelijk te maken%2$s."
@@ -195,7 +195,7 @@
         "%1$sUitgaande links%3$s: Alle uitgaande links op deze pagina zijn nofollow. %2$sVoeg wat normale links toe%3$s."
       ],
       "%1$sOutbound links%3$s: No outbound links appear in this page. %2$sAdd some%3$s!": [
-        "%1$sUitgaande links%3$s: Er verschijnen geen uitgaande links op deze pagina. %2$sVoeg er wat toe%3$s!"
+        "%1$sUitgaande links%3$s: Er staan geen uitgaande links op deze pagina. %2$sVoeg er wat toe%3$s!"
       ],
       "%1$sParagraph length%2$s: %3$d of the paragraphs contains more than the recommended maximum number of characters (%4$d). %5$sShorten your paragraphs%2$s!": [
         "%1$sAlinealengte%2$s: %3$d van de alinea's bevat meer dan het aanbevolen maximum aantal tekens (%4$d). %5$sVerkort je alinea's%2$s!",
@@ -218,7 +218,7 @@
         "%1$sEerder gebruikte keyphrase%2$s: Je hebt deze keyphrase nog niet eerder gebruikt, heel goed."
       ],
       "%1$sPreviously used keyphrase%3$s: No focus keyphrase was set for this page. %2$sPlease add a focus keyphrase you haven't used before on other content%3$s.": [
-        "%1$sEerder gebruikte keyphrase%3$s: Er is geen focus keyphrase ingesteld voor deze pagina. %2$sVoeg een focus keyphrase toe die je nog niet eerder hebt gebruikt op andere inhoud%3$s."
+        "%1$sEerder gebruikte keyphrase%3$s: Er is geen focus-keyphrase ingesteld voor deze pagina. %2$sVoeg een focus-keyphrase toe die je nog niet eerder hebt gebruikt op andere inhoud%3$s."
       ],
       "%1$sSentence length%2$s: %3$s of the sentences contain more than %4$d character, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.": [
         "%1$sZinslengte%2$s: %3$s van de zinnen bevat meer dan %4$d teken, wat meer is dan het aanbevolen maximum van %5$s. %6$sProbeer de zinnen te verkorten%2$s.",
@@ -236,16 +236,16 @@
         "%1$sSEO-titelbreedte%3$s: %2$sMaak een SEO-titel aan%3$s."
       ],
       "%1$sSEO title width%3$s: The SEO title is too short. %2$sUse the space to add keyphrase variations or create compelling call-to-action copy%3$s.": [
-        "%1$sSEO-titelbreedte%3$s: De SEO-titel is te kort. %2$sGebruik de ruimte om keyphrase-variaties toe te voegen of een overtuigende call-to-action tekst te maken%3$s."
+        "%1$sSEO-titelbreedte%3$s: De SEO-titel is te kort. %2$sGebruik de ruimte om keyphrase-variaties toe te voegen of een overtuigende call-to-actiontekst te maken%3$s."
       ],
       "%1$sSEO title width%3$s: The SEO title is wider than the viewable limit. %2$sTry to make it shorter%3$s.": [
         "%1$sSEO-titelbreedte%3$s: De SEO-titel is breder dan de zichtbare limiet. %2$sProbeer deze korter te maken%3$s."
       ],
       "%1$sSingle title%2$s: You don't have multiple H1 headings, well done!": [
-        "%1$sEnkele titel%2$s: Je hebt niet meerdere H1-koppen, goed gedaan!"
+        "%1$sEnkele titel%2$s: Je hebt niet meer dan één H1-kop, goed gedaan!"
       ],
       "%1$sSingle title%3$s: H1s should only be used as your main title. Find all H1s in your text that aren't your main title and %2$schange them to a lower heading level%3$s!": [
-        "%1$sEnkele titel%3$s: H1's mogen alleen als hoofdtitel worden gebruikt. Vind alle H1's in je tekst die niet je hoofdtitel zijn en %2$sverander ze naar een lager kopniveau%3$s!"
+        "%1$sEnkele titel%3$s: H1's mogen alleen als hoofdtitel worden gebruikt. Zoek alle H1's in je tekst die niet je hoofdtitel zijn en %2$sverander ze in een lager kopniveau%3$s!"
       ],
       "%1$sSubheading distribution%2$s: %3$d section of your text is longer than the recommended number of characters (%4$d) and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.": [
         "%1$sSubkopverdeling%2$s: %3$d sectie van je tekst is langer dan het aanbevolen aantal tekens (%4$d) en wordt niet gescheiden door subkoppen. %5$sVoeg subkoppen toe om de leesbaarheid te verbeteren%2$s.",
@@ -380,19 +380,19 @@
         "%2$sTekstlengte%3$s: De tekst bevat %1$d woorden."
       ],
       "%3$sImages and videos%5$s: Only %1$d image or video appears on this page. We recommend at least %2$d. %4$sAdd more relevant images or videos%5$s!": [
-        "%3$sAfbeeldingen en video's%5$s: Er verschijnt slechts %1$d afbeelding of video op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen of video's toe%5$s!",
-        "%3$sAfbeeldingen en video's%5$s: Er verschijnen slechts %1$d afbeeldingen of video's op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen of video's toe%5$s!"
+        "%3$sAfbeeldingen en video's%5$s: Er staat slechts %1$d afbeelding of video op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen of video's toe%5$s!",
+        "%3$sAfbeeldingen en video's%5$s: Er staan slechts %1$d afbeeldingen of video's op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen of video's toe%5$s!"
       ],
       "%3$sImages%5$s: Only %1$d image appears on this page. We recommend at least %2$d. %4$sAdd more relevant images%5$s!": [
-        "%3$sAfbeeldingen%5$s: Er verschijnt slechts %1$d afbeelding op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen toe%5$s!",
-        "%3$sAfbeeldingen%5$s: Er verschijnen slechts %1$d afbeeldingen op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen toe%5$s!"
+        "%3$sAfbeeldingen%5$s: Er staat slechts %1$d afbeelding op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen toe%5$s!",
+        "%3$sAfbeeldingen%5$s: Er staan slechts %1$d afbeeldingen op deze pagina. We raden minstens %2$d aan. %4$sVoeg meer relevante afbeeldingen toe%5$s!"
       ],
       "%3$sKeyphrase in image alt attributes%5$s: Out of %2$d images on this page, %1$d have alt attributes with words from your keyphrase or synonyms. That's a bit much. %4$sOnly include the keyphrase or its synonyms when it really fits the image%5$s.": [
-        "%3$sKeyphrase in alt-attributen van afbeeldingen%5$s: Van %2$d afbeeldingen op deze pagina hebben %1$d alt-attributen met woorden uit je keyphrase of synoniemen. Dat is wat veel. %4$sVoeg de keyphrase of synoniemen alleen toe als het echt bij de afbeelding past%5$s."
+        "%3$sKeyphrase in alt-attributen van afbeeldingen%5$s: Van de %2$d afbeeldingen op deze pagina hebben er %1$d alt-attributen met woorden uit je keyphrase of synoniemen. Dat is wat veel. %4$sVoeg de keyphrase of synoniemen alleen toe als het echt bij de afbeelding past%5$s."
       ],
       "%3$sKeyphrase in image alt attributes%5$s: Out of %2$d images on this page, only %1$d has an alt attribute that reflects the topic of your text. %4$sAdd your keyphrase or synonyms to the alt tags of more relevant images%5$s!": [
-        "%3$sKeyphrase in alt-attributen van afbeeldingen%5$s: Van %2$d afbeeldingen op deze pagina heeft slechts %1$d een alt-attribuut dat het onderwerp van je tekst weerspiegelt. %4$sVoeg je keyphrase of synoniemen toe aan de alt-tags van relevantere afbeeldingen%5$s!",
-        "%3$sKeyphrase in alt-attributen van afbeeldingen%5$s: Van %2$d afbeeldingen op deze pagina hebben slechts %1$d alt-attributen die het onderwerp van je tekst weerspiegelen. %4$sVoeg je keyphrase of synoniemen toe aan de alt-tags van relevantere afbeeldingen%5$s!"
+        "%3$sKeyphrase in alt-attributen van afbeeldingen%5$s: Van de %2$d afbeeldingen op deze pagina heeft er slechts %1$d een alt-attribuut dat het onderwerp van je tekst weerspiegelt. %4$sVoeg je keyphrase of synoniemen toe aan de alt-tags van meer relevante afbeeldingen%5$s!",
+        "%3$sKeyphrase in alt-attributen van afbeeldingen%5$s: Van de %2$d afbeeldingen op deze pagina hebben er slechts %1$d een alt-attribuut dat het onderwerp van je tekst weerspiegelt. %4$sVoeg je keyphrase of synoniemen toe aan de alt-tags van meer relevante afbeeldingen%5$s!"
       ],
       "%3$sPreviously used keyphrase%2$s: You've used this keyphrase %1$smultiple times before%2$s. %4$sDo not use your keyphrase more than once%2$s.": [
         "%3$sEerder gebruikte keyphrase%2$s: Je hebt deze keyphrase %1$smeerdere keren eerder gebruikt%2$s. %4$sGebruik je keyphrase niet meer dan één keer%2$s."
@@ -401,7 +401,7 @@
         "%3$sEerder gebruikte keyphrase%2$s: Je hebt deze keyphrase %1$séén keer eerder gebruikt%2$s. %4$sGebruik je keyphrase niet meer dan één keer%2$s."
       ],
       "An error occurred in the '%1$s' assessment": [
-        "Er is een fout opgetreden bij de '%1$s' beoordeling"
+        "Er is een fout opgetreden bij de '%1$s'-beoordeling"
       ],
       "Content optimization:": ["Contentoptimalisatie:"],
       "Edit your keyphrase": ["Bewerk je keyphrase"],
@@ -410,10 +410,10 @@
       "Edit your slug": ["Bewerk je slug"],
       "Feedback": ["Feedback"],
       "For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title": [
-        "Voor de beste SEO-resultaten, neem alle woorden van je keyphrase op in de SEO-titel en plaats de keyphrase aan het begin van de titel"
+        "Voor de beste SEO-resultaten neem je alle woorden van je keyphrase op in de SEO-titel en plaats je de keyphrase aan het begin van de titel"
       ],
       "For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title": [
-        "Voor de beste SEO-resultaten, schrijf de exacte overeenkomst van je keyphrase in de SEO-titel en plaats de keyphrase aan het begin van de titel"
+        "Voor de beste SEO-resultaten schrijf je de exacte overeenkomst van je keyphrase in de SEO-titel en plaats je de keyphrase aan het begin van de titel"
       ],
       "Good": ["Goed"],
       "Good SEO score": ["Goede SEO-score"],
