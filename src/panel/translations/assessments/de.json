@@ -9,12 +9,12 @@
   "headingStructureOrder": {
     "_label": "Reihenfolge der Überschriften",
     "sequential": "Die Überschriftenstruktur ist in sequenzieller Reihenfolge. Gute Arbeit!",
-    "nonSequential": "Die Überschriftenstruktur ist nicht in sequenzieller Reihenfolge. Korrigieren Sie Ihre Überschriftenstruktur!"
+    "nonSequential": "Die Überschriftenstruktur ist nicht in sequenzieller Reihenfolge. Korrigiere deine Überschriftenstruktur!"
   },
   "singleH1": {
     "_label": "Einzelne H1",
     "one": "Der Text enthält einen H1-Tag. Gute Arbeit!",
-    "multiple": "Der Text enthält mehrere H1-Tags. Überdenken Sie Ihre Überschriftenstruktur!",
-    "none": "Der Text enthält keinen H1-Tag. Fügen Sie ihn hinzu!"
+    "multiple": "Der Text enthält mehrere H1-Tags. Überdenke deine Überschriftenstruktur!",
+    "none": "Der Text enthält keinen H1-Tag. Füge ihn hinzu!"
   }
 }
