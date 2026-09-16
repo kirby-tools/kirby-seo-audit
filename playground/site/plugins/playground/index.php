@@ -34,8 +34,7 @@ App::plugin('johannschopplich/playground', [
             $isDebug = $kirby->option('debug') === true;
 
             $kirby->extend([
-                // The shared playground has no frontend; locally the pages
-                // render, so the analysis has real HTML to read.
+                // The shared demo has no frontend; locally the pages render.
                 'routes' => fn (App $kirby) => $isDebug ? [] : [
                     [
                         'pattern' => '(:all)',
