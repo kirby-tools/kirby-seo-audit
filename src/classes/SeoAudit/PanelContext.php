@@ -22,7 +22,7 @@ final class PanelContext
         $kirby = App::instance();
 
         return [
-            'auto' => $kirby->option('johannschopplich.seo-audit.auto'),
+            'analyzeOn' => $kirby->option('johannschopplich.seo-audit.analyzeOn'),
             'logLevel' => $kirby->option('johannschopplich.seo-audit.logLevel')
         ];
     }

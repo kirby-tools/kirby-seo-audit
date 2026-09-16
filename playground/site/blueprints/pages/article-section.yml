@@ -37,7 +37,7 @@ tabs:
             keyphraseField: metaKeyphrase
             synonymsField: metaSynonyms
             persisted: false
-            auto: false
+            analyzeOn: false
 
   settings:
     label: Settings

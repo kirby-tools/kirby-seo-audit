@@ -14,7 +14,7 @@ import {
   watch,
 } from "kirbyuse";
 import { PLUGIN_RATING_API_ROUTE } from "../constants";
-import { resolveAuto } from "../utils/auto";
+import { resolveAnalyzeOn } from "../utils/analyze-on";
 import { createLanguageRequestOptions } from "../utils/request";
 import { toRatingRecord } from "../utils/seo-score";
 import { readStoredReport, writeStoredReport } from "../utils/storage";
@@ -35,12 +35,12 @@ const inFlightRuns = new Map<string, Promise<Report | undefined>>();
 export function useAnalysis({
   resolveOptions,
   contentSelector,
-  auto,
+  analyzeOn,
   storage,
 }: {
   resolveOptions: (language: string) => Promise<AnalysisOptions>;
   contentSelector: () => string;
-  auto: () => unknown;
+  analyzeOn: () => unknown;
   storage?: {
     scope: () => ReportStorageScope;
     persisted: () => boolean;
@@ -189,7 +189,7 @@ export function useAnalysis({
       const { config } = await usePluginContext();
 
       // The publish changed the content, so a stored rating is stale now.
-      if (resolveAuto(auto(), config.auto) !== "publish") {
+      if (resolveAnalyzeOn(analyzeOn(), config.analyzeOn) !== "publish") {
         await loadRating();
         return;
       }

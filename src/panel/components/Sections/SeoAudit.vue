@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { LicenseStatus } from "@kirby-tools/licensing";
-import type { AutoTrigger } from "../../constants";
+import type { AnalyzeOnTrigger } from "../../constants";
 import type { AnalysisOptions } from "../../types";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import {
@@ -53,7 +53,7 @@ const assessments = ref<string[]>([]);
 const contentSelector = ref("body");
 const links = ref<boolean>();
 const persisted = ref<boolean>();
-const auto = ref<AutoTrigger | boolean | null>();
+const analyzeOn = ref<AnalyzeOnTrigger | boolean | null>();
 const logLevel = ref(resolveLogLevelIndex());
 // #endregion
 
@@ -79,7 +79,7 @@ const { analyze, isAnalyzing, rating, report } = useAnalysis({
     return resolveAnalysisOptions();
   },
   contentSelector: () => contentSelector.value,
-  auto: () => auto.value,
+  analyzeOn: () => analyzeOn.value,
   storage: {
     scope: () => ({
       path: panel.view.path,
@@ -146,7 +146,7 @@ async function updateSectionData(isInitializing = false) {
     contentSelector.value = response.contentSelector;
     links.value = response.links;
     persisted.value = response.persisted;
-    auto.value = response.auto;
+    analyzeOn.value = response.analyzeOn;
     logLevel.value = resolveLogLevelIndex(
       response.logLevel,
       context.config.logLevel,

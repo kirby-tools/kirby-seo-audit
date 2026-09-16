@@ -50,5 +50,5 @@ The term the editor wants the page to rank for. Without one the keyphrase assess
 _Avoid_: keyword (except as Yoast's option name), focus keyword
 
 **Automatic analysis**:
-An analysis nobody started: the plugin runs it silently after the editor publishes their changes, when `auto` asks for it.
+An analysis nobody started: the plugin runs it silently after the editor publishes their changes, when `analyzeOn` asks for it.
 _Avoid_: background analysis, auto audit

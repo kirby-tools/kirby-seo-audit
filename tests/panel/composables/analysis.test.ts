@@ -121,7 +121,7 @@ const storageScope: ReportStorageScope = {
 beforeEach(() => {
   vi.resetModules();
   vi.setSystemTime(1_700_000_000_000);
-  pluginConfig = { auto: "publish" };
+  pluginConfig = { analyzeOn: "publish" };
   ratingResponse = unratedRating;
   api.get
     .mockReset()
@@ -291,20 +291,20 @@ describe("useAnalysis", () => {
 
   it.each([
     {
-      condition: "the blueprint sets auto to false",
-      auto: false,
-      config: { auto: "publish" } satisfies PluginConfig,
+      condition: "the blueprint sets analyzeOn to false",
+      analyzeOn: false,
+      config: { analyzeOn: "publish" } satisfies PluginConfig,
     },
     {
-      condition: "neither the blueprint nor the config sets auto",
-      auto: undefined,
+      condition: "neither the blueprint nor the config sets analyzeOn",
+      analyzeOn: undefined,
       config: {} satisfies PluginConfig,
     },
   ])(
     "skips the run on content.publish when $condition",
-    async ({ auto, config }) => {
+    async ({ analyzeOn, config }) => {
       pluginConfig = config;
-      await loadAnalysis({ auto });
+      await loadAnalysis({ analyzeOn });
 
       publish("de");
       await flushPromises();
@@ -313,7 +313,7 @@ describe("useAnalysis", () => {
     },
   );
 
-  it("reloads the rating on content.publish when auto is off", async () => {
+  it("reloads the rating on content.publish when analyzeOn is off", async () => {
     pluginConfig = {};
     await loadAnalysis();
     api.get.mockClear();
@@ -425,11 +425,11 @@ describe("useAnalysis", () => {
 });
 
 async function loadAnalysis({
-  auto,
+  analyzeOn,
   resolveOptions = async () => options,
   storage,
 }: {
-  auto?: unknown;
+  analyzeOn?: unknown;
   resolveOptions?: (language: string) => Promise<AnalysisOptions>;
   storage?: { scope: () => ReportStorageScope; persisted: () => boolean };
 } = {}) {
@@ -438,7 +438,7 @@ async function loadAnalysis({
   const composable = useAnalysis({
     resolveOptions,
     contentSelector: () => "main",
-    auto: () => auto,
+    analyzeOn: () => analyzeOn,
     storage,
   });
   await flushPromises();

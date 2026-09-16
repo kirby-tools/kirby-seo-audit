@@ -16,7 +16,7 @@ return [
             'links' => fn ($links = true) => $links !== false,
             'persisted' => fn ($persisted = true) => $persisted !== false,
             // Unset falls back to the global option, so `null` stays `null`.
-            'auto' => fn ($auto = null) => $auto,
+            'analyzeOn' => fn ($analyzeOn = null) => $analyzeOn,
             'logLevel' => fn ($logLevel = null) => in_array($logLevel, ['error', 'warn', 'info', 'debug'], true) ? $logLevel : null
         ],
         'computed' => [

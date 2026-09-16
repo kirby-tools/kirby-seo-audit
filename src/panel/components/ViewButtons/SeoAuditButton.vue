@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AutoTrigger, LogLevel } from "../../constants";
+import type { AnalyzeOnTrigger, LogLevel } from "../../constants";
 import type {
   AnalysisOptions,
   ButtonOptionsResponse,
@@ -48,8 +48,8 @@ const props = defineProps({
   },
   logLevel: String as PropType<LogLevel>,
   label: String,
-  auto: {
-    type: [String, Boolean] as PropType<AutoTrigger | boolean | null>,
+  analyzeOn: {
+    type: [String, Boolean] as PropType<AnalyzeOnTrigger | boolean | null>,
     // Keeps Vue from casting an absent prop to `false` and overriding the global option.
     default: null,
   },
@@ -73,7 +73,7 @@ const { currentContent } = useContent();
 const { analyze, isAnalyzing, rating } = useAnalysis({
   resolveOptions: resolveAnalysisOptions,
   contentSelector: () => props.contentSelector || "body",
-  auto: () => props.auto,
+  analyzeOn: () => props.analyzeOn,
 });
 
 const badge = computed(() => {

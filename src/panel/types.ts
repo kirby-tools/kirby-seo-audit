@@ -1,6 +1,6 @@
 import type { LicenseStatus } from "@kirby-tools/licensing";
 import type { PluginAsset } from "kirbyuse";
-import type { AutoTrigger, CATEGORIES, LogLevel } from "./constants";
+import type { AnalyzeOnTrigger, CATEGORIES, LogLevel } from "./constants";
 
 export type Category = (typeof CATEGORIES)[number];
 export type ContentVersion = "latest" | "changes";
@@ -103,7 +103,7 @@ export interface PreviewTarget {
 }
 
 export interface PluginConfig {
-  auto?: AutoTrigger | false | null;
+  analyzeOn?: AnalyzeOnTrigger | false | null;
   logLevel?: LogLevel | null;
 }
 
