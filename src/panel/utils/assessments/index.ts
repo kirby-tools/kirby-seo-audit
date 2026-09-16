@@ -108,11 +108,18 @@ export function headingStructureOrder({
         text: `<ul>${issues
           .map(
             (heading) =>
-              // eslint-disable-next-line unicorn/prefer-dom-node-text-content
-              `<li><strong>${heading.tagName}</strong>: ${heading.innerText}</li>`,
+              `<li><strong>${heading.tagName}</strong>: ${escapeHtml(heading.textContent)}</li>`,
           )
           .join("")}</ul>`,
       },
     }),
   };
+}
+
+function escapeHtml(text: string) {
+  return text
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }

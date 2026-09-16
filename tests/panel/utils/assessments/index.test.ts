@@ -137,6 +137,18 @@ describe("headingStructureOrder", () => {
       }
     `);
   });
+  it("escapes the heading text in the details", () => {
+    const htmlDocument = createHtmlDocument(
+      "<div><h1>Title</h1><h3>Tags &amp; <em>markup</em> &lt;b&gt;</h3></div>",
+    );
+    const result = headingStructureOrder({
+      htmlDocument,
+      contentSelector: "div",
+    });
+    expect(result.details?.text).toBe(
+      "<ul><li><strong>H3</strong>: Tags &amp; markup &lt;b&gt;</li></ul>",
+    );
+  });
 });
 
 function createHtmlDocument(content: string) {
