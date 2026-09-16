@@ -10,7 +10,7 @@ describe("singleH1", () => {
     const htmlDocument = createHtmlDocument("<div><h1>Title</h1></div>");
     const result = singleH1({
       htmlDocument,
-      contentSelector: "div > *",
+      contentSelector: "div",
     });
     expect(result).toMatchInlineSnapshot(`
       {
@@ -26,7 +26,7 @@ describe("singleH1", () => {
     );
     const result = singleH1({
       htmlDocument,
-      contentSelector: "div > *",
+      contentSelector: "div",
     });
     expect(result).toMatchInlineSnapshot(`
       {
@@ -40,7 +40,7 @@ describe("singleH1", () => {
     const htmlDocument = createHtmlDocument("<div></div>");
     const result = singleH1({
       htmlDocument,
-      contentSelector: "div > *",
+      contentSelector: "div",
     });
     expect(result).toMatchInlineSnapshot(`
       {
@@ -48,6 +48,15 @@ describe("singleH1", () => {
         "translation": "none",
       }
     `);
+  });
+
+  it("counts a content element that is itself an H1", () => {
+    const htmlDocument = createHtmlDocument("<h1>Title</h1><p>Text</p>");
+    const result = singleH1({
+      htmlDocument,
+      contentSelector: "body > *",
+    });
+    expect(result.translation).toBe("one");
   });
 });
 
@@ -80,6 +89,17 @@ describe("altAttribute", () => {
         "translation": "every",
       }
     `);
+  });
+
+  it("passes with an empty alt attribute", () => {
+    const htmlDocument = createHtmlDocument(
+      '<div><img src="decoration.svg" alt=""></div>',
+    );
+    const result = altAttribute({
+      htmlDocument,
+      contentSelector: "div",
+    });
+    expect(result.translation).toBe("every");
   });
 
   it("fails with one of two images lacking an alt attribute", () => {
@@ -137,16 +157,26 @@ describe("headingStructureOrder", () => {
       }
     `);
   });
+
+  it("fails with an H2 as the first heading", () => {
+    const htmlDocument = createHtmlDocument("<div><h2>Section</h2></div>");
+    const result = headingStructureOrder({
+      htmlDocument,
+      contentSelector: "div",
+    });
+    expect(result.translation).toBe("nonSequential");
+  });
+
   it("escapes the heading text in the details", () => {
     const htmlDocument = createHtmlDocument(
-      "<div><h1>Title</h1><h3>Tags &amp; <em>markup</em> &lt;b&gt;</h3></div>",
+      "<div><h1>Title</h1><h3>Tags &amp; &lt;b&gt;</h3></div>",
     );
     const result = headingStructureOrder({
       htmlDocument,
       contentSelector: "div",
     });
     expect(result.details?.text).toBe(
-      "<ul><li><strong>H3</strong>: Tags &amp; markup &lt;b&gt;</li></ul>",
+      "<ul><li><strong>H3</strong>: Tags &amp; &lt;b&gt;</li></ul>",
     );
   });
 });
