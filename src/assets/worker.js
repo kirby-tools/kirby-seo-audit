@@ -31,7 +31,7 @@ function registerPremiumAssessments(worker, language) {
     assessments.seo.KeyphraseDistributionAssessment;
 
   const wordComplexity = languageProcessing.researches.wordComplexity;
-  const keyPhraseDistribution =
+  const keyphraseDistribution =
     languageProcessing.researches.keyphraseDistribution;
 
   const pluginName = "YoastSEOPremium";
@@ -68,7 +68,7 @@ function registerPremiumAssessments(worker, language) {
   }
 
   const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
-  worker.registerResearch("keyphraseDistribution", keyPhraseDistribution);
+  worker.registerResearch("keyphraseDistribution", keyphraseDistribution);
   worker.registerAssessment(
     "keyphraseDistributionAssessment",
     keyphraseDistributionAssessment,
