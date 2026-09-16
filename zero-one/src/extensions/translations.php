@@ -1,5 +1,33 @@
 <?php
 
+// Kirby ships no bare `es` translation.
+$spanish = [
+    'johannschopplich.seo-audit.label' => 'Auditoría SEO',
+    'johannschopplich.seo-audit.analyze' => 'Analizar',
+    'johannschopplich.seo-audit.results' => 'Puntuaciones SEO y Legibilidad',
+    'johannschopplich.seo-audit.results.seo' => 'Puntuaciones SEO',
+    'johannschopplich.seo-audit.results.readability' => 'Puntuaciones de Legibilidad',
+    'johannschopplich.seo-audit.issues' => 'Problemas',
+    'johannschopplich.seo-audit.rating.good' => 'Bueno',
+    'johannschopplich.seo-audit.rating.ok' => 'OK',
+    'johannschopplich.seo-audit.rating.bad' => 'Necesita mejora',
+    'johannschopplich.seo-audit.rating.feedback' => 'Comentarios',
+    'johannschopplich.seo-audit.rating.error' => 'Errores',
+    'johannschopplich.seo-audit.rating.none' => 'No disponible',
+    'johannschopplich.seo-audit.category.seo' => 'SEO',
+    'johannschopplich.seo-audit.category.readability' => 'Legibilidad',
+    'johannschopplich.seo-audit.version.changes' => 'Cambios sin guardar',
+    'johannschopplich.seo-audit.version.latest' => 'Versión publicada',
+    'johannschopplich.seo-audit.rating.stale' => 'Contenido modificado desde entonces',
+    'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Informe generado',
+    'johannschopplich.seo-audit.notification.analyzeError' => 'No se pudo generar el informe.',
+    'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No hay URL de vista previa – desactivada en el blueprint o no permitida para este rol.',
+    'johannschopplich.seo-audit.error.previewResponse' => 'La URL de vista previa {url} devolvió el estado {status}, así que no hay ninguna página que analizar.',
+    'johannschopplich.seo-audit.error.previewUnauthorized' => 'La URL de vista previa {url} devolvió el estado 401. Para Basic Auth, indica las credenciales en proxy.params.basicAuth.',
+    'johannschopplich.seo-audit.error.previewUnreachable' => 'No se pudo acceder a la URL de vista previa {url}.',
+    'johannschopplich.seo-audit.error.incompatibleLocale' => 'El idioma {locale} no es compatible con la evaluación Yoast SEO {assessment}. Solo {compatibleLocales} son compatibles.'
+];
+
 return [
     'en' => [
         'johannschopplich.seo-audit.label' => 'SEO Audit',
@@ -105,30 +133,7 @@ return [
         'johannschopplich.seo-audit.error.previewUnreachable' => 'De preview-URL {url} was niet bereikbaar.',
         'johannschopplich.seo-audit.error.incompatibleLocale' => 'De taal {locale} wordt niet ondersteund door de Yoast SEO-beoordeling {assessment}. Alleen {compatibleLocales} zijn compatibel.'
     ],
-    'es' => [
-        'johannschopplich.seo-audit.label' => 'Auditoría SEO',
-        'johannschopplich.seo-audit.analyze' => 'Analizar',
-        'johannschopplich.seo-audit.results' => 'Puntuaciones SEO y Legibilidad',
-        'johannschopplich.seo-audit.results.seo' => 'Puntuaciones SEO',
-        'johannschopplich.seo-audit.results.readability' => 'Puntuaciones de Legibilidad',
-        'johannschopplich.seo-audit.issues' => 'Problemas',
-        'johannschopplich.seo-audit.rating.good' => 'Bueno',
-        'johannschopplich.seo-audit.rating.ok' => 'OK',
-        'johannschopplich.seo-audit.rating.bad' => 'Necesita mejora',
-        'johannschopplich.seo-audit.rating.feedback' => 'Comentarios',
-        'johannschopplich.seo-audit.rating.error' => 'Errores',
-        'johannschopplich.seo-audit.rating.none' => 'No disponible',
-        'johannschopplich.seo-audit.category.seo' => 'SEO',
-        'johannschopplich.seo-audit.category.readability' => 'Legibilidad',
-        'johannschopplich.seo-audit.version.changes' => 'Cambios sin guardar',
-        'johannschopplich.seo-audit.version.latest' => 'Versión publicada',
-        'johannschopplich.seo-audit.rating.stale' => 'Contenido modificado desde entonces',
-        'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Informe generado',
-        'johannschopplich.seo-audit.notification.analyzeError' => 'No se pudo generar el informe.',
-        'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No hay URL de vista previa – desactivada en el blueprint o no permitida para este rol.',
-        'johannschopplich.seo-audit.error.previewResponse' => 'La URL de vista previa {url} devolvió el estado {status}, así que no hay ninguna página que analizar.',
-        'johannschopplich.seo-audit.error.previewUnauthorized' => 'La URL de vista previa {url} devolvió el estado 401. Para Basic Auth, indica las credenciales en proxy.params.basicAuth.',
-        'johannschopplich.seo-audit.error.previewUnreachable' => 'No se pudo acceder a la URL de vista previa {url}.',
-        'johannschopplich.seo-audit.error.incompatibleLocale' => 'El idioma {locale} no es compatible con la evaluación Yoast SEO {assessment}. Solo {compatibleLocales} son compatibles.'
-    ]
+    'es' => $spanish,
+    'es_ES' => $spanish,
+    'es_419' => $spanish
 ];
