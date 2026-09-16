@@ -1,23 +1,25 @@
-import * as fsp from "node:fs/promises";
 import { GettextExtractor, JsExtractors } from "gettext-extractor";
 import { glob } from "tinyglobby";
+import { assertYoastseoCheckout, YOASTSEO_SRC_DIR } from "./yoastseo.mjs";
+
+assertYoastseoCheckout();
 
 const extractor = new GettextExtractor();
 
 const parser = extractor.createJsParser([
-  JsExtractors.callExpression("_i18n.__", {
+  JsExtractors.callExpression("__", {
     arguments: {
       text: 0,
       context: 1,
     },
   }),
-  JsExtractors.callExpression("_i18n.sprintf", {
+  JsExtractors.callExpression("sprintf", {
     arguments: {
       text: 0,
       context: 1,
     },
   }),
-  JsExtractors.callExpression("_i18n._n", {
+  JsExtractors.callExpression("_n", {
     arguments: {
       text: 0,
       textPlural: 1,
@@ -27,33 +29,14 @@ const parser = extractor.createJsParser([
   }),
 ]);
 
-const files = await glob("node_modules/yoastseo/build/**/*.js");
+const files = await glob("**/*.js", { cwd: YOASTSEO_SRC_DIR, absolute: true });
 
 console.log(`Processing ${files.length} files…`);
 
 for (const file of files) {
-  const preprocessedContent = await preprocessFile(file);
-  parser.parseString(preprocessedContent, file);
+  parser.parseFile(file);
 }
 
 extractor.savePotFile("./messages.pot");
 
 extractor.printStats();
-
-// Preprocesses a file so the extractor recognizes Babel-wrapped i18n calls.
-async function preprocessFile(filePath) {
-  let content = await fsp.readFile(filePath, "utf8");
-
-  // Transform Babel patterns `(0, _i18n.function)` to `_i18n.function`.
-  const i18nFunctions = ["__", "sprintf", "_n"];
-
-  for (const fn of i18nFunctions) {
-    const escapedFn = fn.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    content = content.replace(
-      new RegExp(`\\(0,\\s*(_i18n\\.${escapedFn})\\)`, "g"),
-      "$1",
-    );
-  }
-
-  return content;
-}
