@@ -261,7 +261,7 @@ async function analyzeAndNotify() {
         </k-box>
 
         <p
-          class="ksr-[font-size:var(--text-sm)] ksr-mt-[var(--spacing-2)] ksr-text-[var(--color-text-dimmed)]"
+          class="ksr-mt-[var(--spacing-2)] ksr-text-[length:var(--text-sm)] ksr-text-[color:var(--color-text-dimmed)]"
         >
           <ReportMeta
             :version="report.version"

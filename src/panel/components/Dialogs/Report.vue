@@ -90,7 +90,7 @@ const isZeroOneBuild = __ZERO_ONE__;
       </template>
       <template #footer>
         <p
-          class="ksr-mt-[var(--spacing-4)] ksr-text-[var(--color-text-dimmed)]"
+          class="ksr-mt-[var(--spacing-4)] ksr-text-[color:var(--color-text-dimmed)]"
         >
           <ReportMeta :version="version" :timestamp="timestamp" />
         </p>
