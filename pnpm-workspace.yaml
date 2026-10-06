@@ -13,3 +13,6 @@ packages:
 allowBuilds:
   "@parcel/watcher": true
   esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@kirby-tools/licensing@0.9.0'
