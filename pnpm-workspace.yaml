@@ -16,3 +16,4 @@ allowBuilds:
 
 minimumReleaseAgeExclude:
   - '@kirby-tools/licensing@0.9.0'
+  - kirby-types@1.8.1

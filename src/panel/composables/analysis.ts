@@ -38,7 +38,7 @@ export function useAnalysis({
   analyzeOn,
   storage,
 }: {
-  resolveOptions: (language: string) => Promise<AnalysisOptions>;
+  resolveOptions: (language: string | null) => Promise<AnalysisOptions>;
   contentSelector: () => string;
   analyzeOn: () => unknown;
   storage?: {
@@ -80,7 +80,7 @@ export function useAnalysis({
     }
   }
 
-  async function run(language: string): Promise<Report | undefined> {
+  async function run(language: string | null): Promise<Report | undefined> {
     // A view or language switch during the analysis must not move the run, so
     // the view path and the storage scope are read before the first `await`.
     const path = panel.view.path;
@@ -116,7 +116,7 @@ export function useAnalysis({
    */
   async function storeRating(
     path: string,
-    language: string,
+    language: string | null,
     newReport: Report,
   ) {
     if (!_isKirby5) return;
@@ -184,7 +184,7 @@ export function useAnalysis({
     return request;
   }
 
-  async function onPublish({ language }: { language: string }) {
+  async function onPublish({ language }: { language: string | null }) {
     try {
       const { config } = await usePluginContext();
 

@@ -90,7 +90,7 @@ function hasKirbyQuery(value: unknown) {
 }
 
 async function resolveAnalysisOptions(
-  language: string,
+  language: string | null,
 ): Promise<AnalysisOptions> {
   const content = currentContent.value;
 

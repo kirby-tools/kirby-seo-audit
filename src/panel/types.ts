@@ -57,7 +57,8 @@ export interface Report {
 
 export interface ReportStorageScope {
   path: string;
-  language: string;
+  /** `null` on single-language sites. */
+  language: string | null;
   section: string;
 }
 
@@ -98,7 +99,7 @@ export interface Rating extends RatingRecord {
 export interface PreviewTarget {
   url: string;
   path?: string;
-  language?: string;
+  language?: string | null;
   version?: ContentVersion;
 }
 

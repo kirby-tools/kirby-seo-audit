@@ -61,7 +61,7 @@ const isInitialized = ref(false);
 const licenseStatus = ref<LicenseStatus>();
 // The language `keyphrase` and `synonyms` were last resolved in, which lags
 // behind a language switch until the section data reloads.
-const keyphraseLanguage = ref<string>();
+const keyphraseLanguage = ref<string | null>();
 const isKeyphraseCurrent = computed(
   () => keyphraseLanguage.value === panel.language.code,
 );

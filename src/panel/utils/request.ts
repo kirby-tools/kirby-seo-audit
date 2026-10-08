@@ -1,7 +1,7 @@
-import type { PanelRequestOptions } from "kirby-types";
+import type { PanelApiRequestOptions } from "kirby-types";
 
 export function createLanguageRequestOptions(
   language?: string | null,
-): PanelRequestOptions {
+): PanelApiRequestOptions {
   return language ? { headers: { "x-language": language } } : {};
 }

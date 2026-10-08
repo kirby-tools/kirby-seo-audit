@@ -32,7 +32,7 @@ export function useSeoReview() {
   const { currentContent } = useContent();
 
   async function runAnalysis(
-    language: string,
+    language: string | null,
     contentSelector: string,
     options: AnalysisOptions,
   ): Promise<Report> {
@@ -110,7 +110,7 @@ export function useSeoReview() {
 }
 
 async function resolvePreviewTarget(
-  language: string,
+  language: string | null,
   version: ContentVersion,
 ): Promise<PreviewTarget> {
   const panel = usePanel();

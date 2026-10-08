@@ -430,7 +430,7 @@ async function loadAnalysis({
   storage,
 }: {
   analyzeOn?: unknown;
-  resolveOptions?: (language: string) => Promise<AnalysisOptions>;
+  resolveOptions?: (language: string | null) => Promise<AnalysisOptions>;
   storage?: { scope: () => ReportStorageScope; isPersisted: () => boolean };
 } = {}) {
   const { useAnalysis } =
