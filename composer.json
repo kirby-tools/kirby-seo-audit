@@ -1,13 +1,15 @@
 {
   "name": "johannschopplich/kirby-seo-audit",
-  "description": "Yoast SEO analysis in the Kirby Panel",
+  "description": "Yoast SEO and readability checks before the page goes live",
   "type": "kirby-plugin",
   "version": "3.5.0",
   "keywords": [
-    "getkirby",
     "kirby",
+    "kirby-cms",
+    "kirby-plugin",
     "seo",
-    "yoast"
+    "yoast",
+    "readability"
   ],
   "license": "proprietary",
   "homepage": "https://kirby.tools/seo-audit",
