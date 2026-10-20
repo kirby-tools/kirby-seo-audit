@@ -47,6 +47,8 @@ describe("filterYoastSeoResults", () => {
   it("drops keyphrase assessments for an empty keyword", () => {
     const results = [
       createResult("keyphraseDensity"),
+      createResult("imageKeyphrase"),
+      createResult("textCompetingLinks"),
       createResult("titleWidth"),
     ];
 

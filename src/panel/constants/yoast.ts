@@ -7,6 +7,7 @@ export const YOAST_IGNORED_ASSESSMENTS = [
 /// keep-sorted
 export const YOAST_KEYPHRASE_ASSESSMENTS = [
   "functionWordsInKeyphrase",
+  "imageKeyphrase",
   "introductionKeyword",
   "keyphraseDensity",
   "keyphraseDistribution",
@@ -15,6 +16,7 @@ export const YOAST_KEYPHRASE_ASSESSMENTS = [
   "metaDescriptionKeyword",
   "slugKeyword",
   "subheadingsKeyword",
+  "textCompetingLinks",
 ];
 
 // See: https://yoast.com/help/features-per-language/

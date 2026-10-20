@@ -50,8 +50,8 @@ export function filterYoastSeoResults(
     if (YOAST_IGNORED_ASSESSMENTS.some((key) => key.toLowerCase() === id))
       continue;
 
-    // Without a keyphrase, every `YOAST_KEYPHRASE_ASSESSMENTS` entry can only
-    // fail, so they stay out unless the blueprint asks for them by name.
+    // Without a keyphrase, every `YOAST_KEYPHRASE_ASSESSMENTS` entry has nothing
+    // to score, so they stay out unless the blueprint asks for them by name.
     if (
       !options.keyword &&
       options.assessments.length === 0 &&
