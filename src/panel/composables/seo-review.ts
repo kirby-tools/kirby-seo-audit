@@ -17,6 +17,7 @@ import {
   PreviewResponseError,
   PreviewUnreachableError,
 } from "../utils/error";
+import { resolveReportLanguage } from "../utils/locale";
 import { createLanguageRequestOptions } from "../utils/request";
 import {
   createSeoReport,
@@ -178,7 +179,7 @@ async function generateReport(
 
   const panelLanguage = __PLAYGROUND__
     ? useContent().currentContent.value.language
-    : usePanel().translation.code;
+    : resolveReportLanguage(usePanel().translation.code);
 
   const kirbySeoResult = createSeoReport({
     htmlDocument,

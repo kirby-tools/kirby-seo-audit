@@ -22,3 +22,8 @@ export function resolveDocumentLocale(lang: string) {
 
   return LANGUAGE_TO_LOCALE_MAP[resolved] ?? LANGUAGE_TO_LOCALE_MAP.en;
 }
+
+/** Reduces a region-coded Panel translation like `es_419` to the language the report texts are keyed by. */
+export function resolveReportLanguage(translationCode: string) {
+  return translationCode.split("_")[0]!;
+}

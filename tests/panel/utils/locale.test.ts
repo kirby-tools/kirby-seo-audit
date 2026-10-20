@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { resolveDocumentLocale } from "../../../src/panel/utils/locale";
+import {
+  resolveDocumentLocale,
+  resolveReportLanguage,
+} from "../../../src/panel/utils/locale";
 
 describe("resolveDocumentLocale", () => {
   it("expands de to de-DE", () => {
@@ -26,5 +29,11 @@ describe("resolveDocumentLocale", () => {
 
   it("falls back to en-US for an empty language", () => {
     expect(resolveDocumentLocale("")).toBe("en-US");
+  });
+});
+
+describe("resolveReportLanguage", () => {
+  it("reduces es_419 to es", () => {
+    expect(resolveReportLanguage("es_419")).toBe("es");
   });
 });
