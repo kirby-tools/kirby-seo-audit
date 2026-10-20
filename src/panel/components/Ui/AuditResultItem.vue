@@ -15,6 +15,8 @@ const props = defineProps({
   },
 });
 
+const TRAILING_EXCLAMATION_REGEX = /!$/;
+
 const panel = usePanel();
 
 const displayText = computed(() => {
@@ -23,7 +25,7 @@ const displayText = computed(() => {
 });
 
 function replaceTrailingExclamation(text: string) {
-  return text.replace(/!$/, ".");
+  return text.replace(TRAILING_EXCLAMATION_REGEX, ".");
 }
 
 function stripTags(html: string) {

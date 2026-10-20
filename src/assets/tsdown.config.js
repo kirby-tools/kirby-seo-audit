@@ -16,6 +16,7 @@ const entries = fs
   .filter((file) => file.endsWith(".js") && !file.endsWith(".config.js"));
 
 const { env } = defineEnv({ nodeCompat: true });
+const ANY_MODULE_REGEX = /.*/;
 
 export default defineConfig(
   entries.map((entry) => ({
@@ -29,7 +30,7 @@ export default defineConfig(
       codeSplitting: false,
     },
     deps: {
-      alwaysBundle: [/.*/],
+      alwaysBundle: [ANY_MODULE_REGEX],
       onlyBundle: false,
     },
     platform: "browser",

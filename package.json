@@ -12,11 +12,11 @@
     "build:zero-one": "ZERO_ONE=true pnpm run build && pnpm run build:assets && node scripts/build-zero-one.mjs",
     "prepare:yoastseo": "node scripts/prepare-yoastseo.mjs",
     "prepare:messages": "node scripts/extract-translations.mjs && npx po2json messages.pot messages.json --format jed1.x --domain wordpress-seo && sed -i '' 's/\"wordpress-seo\\\\u0004/\"/g' messages.json",
-    "test": "vitest",
-    "test:types": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier \"src/panel/**\" --write",
+    "test": "vitest",
+    "test:types": "tsc --noEmit",
     "release": "pnpm run build && pnpm run build:assets && bumpp --all --execute \"npx zx scripts/pre-release.mjs\" && zx scripts/post-release.mjs"
   },
   "devDependencies": {
