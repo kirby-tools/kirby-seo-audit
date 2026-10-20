@@ -1,11 +1,6 @@
-/* eslint-disable ts/ban-ts-comment */
-// @ts-ignore - Vue component
 import ReportDialog from "./components/Dialogs/Report.vue";
-// @ts-ignore - Vue component
 import PlaygroundBlueprintCodeField from "./components/Playground/BlueprintCode.vue";
-// @ts-ignore - Vue component
 import SeoAuditSection from "./components/Sections/SeoAudit.vue";
-// @ts-ignore - Vue component
 import SeoAuditButton from "./components/ViewButtons/SeoAuditButton.vue";
 import "virtual:uno.css";
 
