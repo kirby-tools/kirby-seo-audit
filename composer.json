@@ -2,7 +2,7 @@
   "name": "johannschopplich/kirby-seo-audit",
   "description": "Yoast SEO and readability checks before the page goes live",
   "type": "kirby-plugin",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "keywords": [
     "kirby",
     "kirby-cms",
