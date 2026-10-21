@@ -69,7 +69,7 @@ export function useAnalysis({
     }
 
     if (__PLAYGROUND__ && !currentContent.value.targeturl) {
-      panel.notification.error("Please enter a target URL to be analyzed.");
+      panel.notification.info("Please enter a target URL to be analyzed.");
       return;
     }
 
