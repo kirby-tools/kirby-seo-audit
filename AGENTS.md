@@ -2,7 +2,7 @@
 
 Commercial Kirby CMS plugin that runs SEO and readability analysis on a page's rendered HTML, powered by Yoast SEO. The analysis happens in the Panel; the server fetches the HTML, keeps the ratings and answers a small configuration route.
 
-Use the terms from `CONTEXT.md`. Decisions are in `docs/adr/`.
+Use the terms from `GLOSSARY.md`. Decisions are in `docs/adr/`.
 
 ## Commands
 
