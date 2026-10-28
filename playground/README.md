@@ -9,10 +9,10 @@ Two modes, switched by `KIRBY_DEBUG` in `.env`:
 
 ## What the pages test
 
-| View              | Set up for                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------ |
-| `article`         | View button and section on one view: a run from either shows in both, one rating is stored |
-| `article-section` | Section only, `persisted: false`, `analyzeOn: false` overriding the global option          |
-| `site`            | View button and section on the site, keyphrase and synonyms from site fields               |
+| View            | Set up for                                                                               |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| `article`       | View button and field on one view: a run from either shows in both, one rating is stored |
+| `article-field` | Field only, `persisted: false`, `analyzeOn: false` overriding the global option          |
+| `site`          | View button and field on the site, keyphrase and synonyms from site fields               |
 
 Two languages (`en`, `de`) keep one rating each. Ratings live in the plugin cache; clear `storage/cache` to unrate everything.

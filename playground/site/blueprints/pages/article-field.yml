@@ -32,12 +32,12 @@ tabs:
                 label: Focus Keyphrase
                 type: text
                 help: Enter the keyword or keyphrase you want the page to rank for in Google.
-          seoAudit:
-            type: seo-audit
-            keyphraseField: metaKeyphrase
-            synonymsField: metaSynonyms
-            persisted: false
-            analyzeOn: false
+              seoAudit:
+                type: seo-audit
+                keyphraseField: metaKeyphrase
+                synonymsField: metaSynonyms
+                persisted: false
+                analyzeOn: false
 
   settings:
     label: Settings
