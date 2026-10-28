@@ -18,6 +18,7 @@ pnpm run build:zero-one    # build the Zero One edition
 ## Conventions
 
 - `__PLAYGROUND__` and `__ZERO_ONE__` are build-time constants defined in `kirbyup.config.js`.
+- `src/panel/site.ts` feeds kirby.tools' Panel mocks.
 
 ## The Zero One Edition
 
