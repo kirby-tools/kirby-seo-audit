@@ -48,9 +48,9 @@ tabs:
                 buttons: false
                 help: A brief summary or teaser for the article
 
-          seoAudit:
-            type: seo-audit
-            keyphraseField: metaKeyphrase
+              seoAudit:
+                type: seo-audit
+                keyphraseField: metaKeyphrase
 
   settings:
     label: Settings

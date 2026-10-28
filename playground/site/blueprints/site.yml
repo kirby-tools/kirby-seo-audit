@@ -13,7 +13,7 @@ buttons:
 
 columns:
   - width: 1/2
-    sections:
+    fields:
       seoAudit:
         type: seo-audit
         keyphraseField: metakeyphrase
@@ -103,7 +103,7 @@ columns:
             help: Using synonyms is a way to help users understand your copy better, and search engines will recognize these synonyms as well.
           lineBlueprintCode:
             type: line
-      blueprintCode:
-        label: Blueprint Generator
-        type: playground-blueprint-code
-        help: This is the section code with all the configuration options you have currently selected. Copy and paste this code into your blueprint of choice.
+          blueprintCode:
+            label: Blueprint Generator
+            type: playground-blueprint-code
+            help: This is the field code with all the configuration options you have currently selected. Copy and paste this code into your blueprint of choice.

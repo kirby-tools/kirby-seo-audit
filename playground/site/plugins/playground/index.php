@@ -60,7 +60,7 @@ App::plugin('johannschopplich/playground', [
                     [
                         'pattern' => '(:all)',
                         'action' => function () use ($kirby) {
-                            go(Panel::url($kirby->user() === null ? 'login' : 'site'));
+                            go($kirby->panel()->url($kirby->user() === null ? 'login' : 'site'));
                         }
                     ]
                 ],
@@ -91,13 +91,5 @@ App::plugin('johannschopplich/playground', [
                 ]
             ], $kirby->plugin('johannschopplich/playground'));
         }
-    ],
-    'sections' => [
-        'playground-blueprint-code' => [
-            'props' => [
-                'label' => fn ($label = null) => $label,
-                'help' => fn ($help = null) => $help
-            ]
-        ]
     ]
 ]);
