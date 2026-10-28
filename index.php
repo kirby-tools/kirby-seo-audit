@@ -3,12 +3,12 @@
 use JohannSchopplich\SeoAudit\Licensing;
 use JohannSchopplich\SeoAudit\SeoAuditField;
 use Kirby\Cms\App as Kirby;
+use Kirby\Exception\LogicException;
 use KirbyTools\Licensing\LicensePanel;
 use KirbyTools\Licensing\PluginLicense;
 
-// Composer's `conflict` cannot stop a copy unzipped into an older Kirby, so the plugin registers nothing there.
-if (version_compare(Kirby::version() ?? '0', '6.0.0-alpha', '<')) {
-    return;
+if (version_compare(Kirby::version() ?? '0', '6.0.0-beta', '<')) {
+    throw new LogicException('Kirby SEO Audit requires Kirby 6');
 }
 
 @include_once __DIR__ . '/vendor/autoload.php';
