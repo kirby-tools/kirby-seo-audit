@@ -31,7 +31,7 @@
     "gettext-extractor": "^4.0.6",
     "happy-dom": "^21.0.3",
     "jiti": "^2.7.0",
-    "kirby-types": "^2.0.0-beta.4",
+    "kirby-types": "^2.0.0-beta.5",
     "kirbyup": "^4.0.0-beta.1",
     "kirbyuse": "^2.0.0-beta.4",
     "ohash": "^2.0.12",
