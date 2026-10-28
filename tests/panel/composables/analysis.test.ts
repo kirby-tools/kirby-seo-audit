@@ -12,6 +12,7 @@ import {
   readStoredReport,
   writeStoredReport,
 } from "../../../src/panel/utils/storage";
+import { createEventBus } from "../helpers/event-bus";
 import { flushPromises } from "../helpers/flush-promises";
 
 const api = { get: vi.fn(), post: vi.fn() };
@@ -449,25 +450,6 @@ async function loadAnalysis({
   unmountHosts.push(() => host.unmount());
   await flushPromises();
   return composable;
-}
-
-function createEventBus() {
-  const listeners = new Map<string, Set<(payload: unknown) => void>>();
-
-  return {
-    on(event: string, handler: (payload: unknown) => void) {
-      listeners.set(event, (listeners.get(event) ?? new Set()).add(handler));
-    },
-    off(event: string, handler: (payload: unknown) => void) {
-      listeners.get(event)?.delete(handler);
-    },
-    emit(event: string, payload: unknown) {
-      for (const handler of listeners.get(event) ?? []) handler(payload);
-    },
-    clear() {
-      listeners.clear();
-    },
-  };
 }
 
 // Kirby emits `content.publish` with the values, the API path, and the language.
