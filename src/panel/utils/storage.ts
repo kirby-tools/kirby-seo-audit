@@ -13,6 +13,6 @@ export function writeStoredReport(scope: ReportStorageScope, report: Report) {
   localStorage.setItem(getReportStorageKey(scope), JSON.stringify(report));
 }
 
-function getReportStorageKey({ path, language, section }: ReportStorageScope) {
-  return `${STORAGE_KEY_PREFIX}${hash([path, language, section])}`;
+function getReportStorageKey({ path, language, field }: ReportStorageScope) {
+  return `${STORAGE_KEY_PREFIX}${hash([path, language, field])}`;
 }

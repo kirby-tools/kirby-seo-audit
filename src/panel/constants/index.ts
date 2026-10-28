@@ -5,6 +5,7 @@ export const PLUGIN_BUTTON_OPTIONS_API_ROUTE = "__seo-audit__/button-options";
 export const PLUGIN_PREVIEW_URL_API_ROUTE = "__seo-audit__/preview-url";
 export const PLUGIN_RATING_API_ROUTE = "__seo-audit__/rating";
 export const PLUGIN_PROXY_API_ROUTE = "__seo-audit__/proxy";
+export const LICENSE_ACTIVATE_EVENT = "kirby-tools.license.activate.seo-audit";
 
 export const LOG_LEVELS = ["error", "warn", "info", "debug"] as const;
 export type LogLevel = (typeof LOG_LEVELS)[number];

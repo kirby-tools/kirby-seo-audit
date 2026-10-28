@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { ContentVersion } from "../../types";
-import { computed, usePanel } from "kirbyuse";
+import type { AuditLabels, ContentVersion } from "../../types";
+import { computed } from "vue";
+import { formatReportMeta } from "../../utils/audit-labels";
 
 const props = defineProps({
   version: String as PropType<ContentVersion>,
@@ -10,28 +11,13 @@ const props = defineProps({
     required: true,
   },
   isStale: Boolean,
+  labels: {
+    type: Object as PropType<AuditLabels>,
+    required: true,
+  },
 });
 
-const panel = usePanel();
-
-const { format } = new Intl.DateTimeFormat(
-  panel.translation.code.replace("_", "-"),
-  {
-    dateStyle: "short",
-    timeStyle: "short",
-  },
-);
-
-const text = computed(() =>
-  [
-    props.version &&
-      panel.t(`johannschopplich.seo-audit.version.${props.version}`),
-    format(props.timestamp),
-    props.isStale && panel.t("johannschopplich.seo-audit.rating.stale"),
-  ]
-    .filter(Boolean)
-    .join(" · "),
-);
+const text = computed(() => formatReportMeta(props, props.labels));
 </script>
 
 <template>

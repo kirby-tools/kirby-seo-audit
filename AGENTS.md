@@ -9,7 +9,8 @@ Use the terms from `GLOSSARY.md`. Decisions are in `docs/adr/`.
 ```bash
 composer test              # PHPUnit
 composer csfix             # php-cs-fixer, lives in tools/phpcs/vendor/bin/, not vendor/bin/
-pnpm test                  # Vitest, for the Panel utilities
+pnpm test                  # Vitest, for the Panel code
+pnpm run test:types        # typecheck with vue-tsc
 pnpm run lint              # ESLint
 pnpm run build:zero-one    # build the Zero One edition
 ```
@@ -20,4 +21,4 @@ pnpm run build:zero-one    # build the Zero One edition
 
 ## The Zero One Edition
 
-`zero-one/` holds override files for the edition bundled with the Zero One Theme.
+`zero-one/` holds override files for the edition bundled with the Zero One Theme; that edition ships without the licensing package.

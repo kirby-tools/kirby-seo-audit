@@ -59,7 +59,21 @@ export interface ReportStorageScope {
   path: string;
   /** `null` on single-language sites. */
   language: string | null;
-  section: string;
+  field: string;
+}
+
+/** The fixed strings the audit components show, translated by the caller. */
+export interface AuditLabels {
+  analyze: string;
+  /** Report headings by the categories that have results; `all` when both have. */
+  results: Record<Category | "all", string>;
+  categories: Record<Category, string>;
+  ratings: Record<ResultRating | CategoryRating, string>;
+  versions: Record<ContentVersion, string>;
+  stale: string;
+  issues: string;
+  /** The locale the report timestamp is formatted in. */
+  locale: string;
 }
 
 export interface AnalysisOptions {
@@ -111,7 +125,8 @@ export interface PluginConfig {
 export interface PluginContextResponse {
   config: PluginConfig;
   assets: PluginAsset[];
-  licenseStatus?: LicenseStatus;
+  licenseStatus: LicenseStatus;
+  licenseDialog: string;
 }
 
 export interface ButtonOptionsResponse {

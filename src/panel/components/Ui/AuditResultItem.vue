@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import type { Result, ResultRating } from "../../types";
-import { computed, usePanel } from "kirbyuse";
+import { computed } from "vue";
 import RatingStatus from "./RatingStatus.vue";
 
 const props = defineProps({
@@ -13,11 +13,13 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  issuesLabel: {
+    type: String,
+    required: true,
+  },
 });
 
 const TRAILING_EXCLAMATION_REGEX = /!$/;
-
-const panel = usePanel();
 
 const displayText = computed(() => {
   const text = replaceTrailingExclamation(props.result.text);
@@ -45,14 +47,11 @@ function stripTags(html: string) {
       <div v-html="displayText" />
       <details v-if="result.details">
         <summary class="ksr-[font-weight:var(--font-semi)]">
-          {{ panel.t("johannschopplich.seo-audit.issues") }}
+          {{ issuesLabel }}
         </summary>
-        <k-box
-          data-theme="passive"
-          :text="result.details.text"
-          html
-          class="ksr-my-[var(--spacing-1)]"
-        />
+        <k-box theme="passive" class="ksr-my-[var(--spacing-1)]">
+          <div class="k-text" v-html="result.details.text" />
+        </k-box>
       </details>
     </div>
   </div>

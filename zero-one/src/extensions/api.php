@@ -1,5 +1,6 @@
 <?php
 
+use JohannSchopplich\SeoAudit\Licensing;
 use JohannSchopplich\SeoAudit\PanelContext;
 use JohannSchopplich\SeoAudit\PreviewTarget;
 use JohannSchopplich\SeoAudit\Proxy;
@@ -38,7 +39,8 @@ return [
                 return [
                     'config' => PanelContext::config(),
                     'assets' => $assets,
-                    'licenseStatus' => 'active'
+                    'licenseStatus' => Licensing::status(),
+                    'licenseDialog' => Licensing::dialog()
                 ];
             }
         ],
@@ -114,7 +116,7 @@ return [
 
                 // An editor who may preview but not update analyzes without
                 // leaving a rating behind.
-                if ($model->permissions()->can('update') !== true) {
+                if ($model->guards()->isAvailable('update') !== true) {
                     throw new PermissionException('You are not allowed to store a rating for this model');
                 }
 

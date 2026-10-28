@@ -3,11 +3,11 @@ import type { LicenseStatus } from "@kirby-tools/licensing";
 import type { PropType } from "vue";
 import type { ContentVersion, Report } from "../../types";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
-import { ref, usePanel } from "kirbyuse";
-import { usePluginContext } from "../../composables";
-import AuditResult from "../Ui/AuditResult.vue";
-import ReportMeta from "../Ui/ReportMeta.vue";
-import ReportRatings from "../Ui/ReportRatings.vue";
+import { usePanel } from "kirbyuse";
+import { onBeforeUnmount, ref } from "vue";
+import { useAuditLabels, usePluginContext } from "../../composables";
+import { LICENSE_ACTIVATE_EVENT } from "../../constants";
+import ReportBody from "../Ui/ReportBody.vue";
 
 defineProps({
   results: {
@@ -38,15 +38,28 @@ const emit = defineEmits<{
 }>();
 
 const panel = usePanel();
+const labels = useAuditLabels();
+const hasLicenseButtons = !__PLAYGROUND__ && !__ZERO_ONE__;
 
 const licenseStatus = ref<LicenseStatus>();
-const isZeroOneBuild = __ZERO_ONE__;
+const licenseDialog = ref<string>();
 
-(async () => {
-  const context = await usePluginContext();
-  licenseStatus.value =
-    __PLAYGROUND__ || __ZERO_ONE__ ? "active" : context.licenseStatus;
-})();
+if (hasLicenseButtons) {
+  usePluginContext().then((context) => {
+    licenseStatus.value = context.licenseStatus;
+    licenseDialog.value = context.licenseDialog;
+  });
+
+  // Kirby reopens this dialog from its history after the activation dialog,
+  // with the status it had before.
+  const onActivate = () => {
+    licenseStatus.value = "active";
+  };
+  panel.events.on(LICENSE_ACTIVATE_EVENT, onActivate);
+  onBeforeUnmount(() => {
+    panel.events.off(LICENSE_ACTIVATE_EVENT, onActivate);
+  });
+}
 </script>
 
 <template>
@@ -58,43 +71,21 @@ const isZeroOneBuild = __ZERO_ONE__;
     class="k-seo-audit-report-dialog"
     @cancel="emit('cancel')"
   >
-    <AuditResult :results="results" :links="links" is-dialog>
-      <template #header>
-        <div
-          class="ksr-mb-[var(--spacing-6)] ksr-flex ksr-items-start ksr-justify-between"
-        >
-          <k-text>
-            <h2>
-              {{
-                results.seo.length > 0 && results.readability.length > 0
-                  ? panel.t("johannschopplich.seo-audit.results")
-                  : results.seo.length > 0
-                    ? panel.t("johannschopplich.seo-audit.results.seo")
-                    : panel.t("johannschopplich.seo-audit.results.readability")
-              }}
-            </h2>
-            <ReportRatings
-              :ratings="ratings"
-              class="ksr-mt-[var(--spacing-3)]"
-            />
-          </k-text>
-          <div v-if="licenseStatus !== undefined && !isZeroOneBuild">
-            <LicensingButtonGroup
-              label="Kirby SEO Audit"
-              api-namespace="__seo-audit__"
-              :license-status="licenseStatus"
-              pricing-url="https://kirby.tools/seo-audit/buy"
-            />
-          </div>
-        </div>
+    <ReportBody
+      :results="results"
+      :ratings="ratings"
+      :version="version"
+      :timestamp="timestamp"
+      :links="links"
+      :labels="labels"
+    >
+      <template v-if="licenseStatus && licenseDialog" #options>
+        <LicensingButtonGroup
+          :dialog="licenseDialog"
+          :license-status="licenseStatus"
+          pricing-url="https://kirby.tools/seo-audit/buy"
+        />
       </template>
-      <template #footer>
-        <p
-          class="ksr-mt-[var(--spacing-4)] ksr-text-[color:var(--color-text-dimmed)]"
-        >
-          <ReportMeta :version="version" :timestamp="timestamp" />
-        </p>
-      </template>
-    </AuditResult>
+    </ReportBody>
   </k-dialog>
 </template>

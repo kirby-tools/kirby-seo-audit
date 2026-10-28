@@ -5,8 +5,9 @@ import type {
   Report,
   ReportStorageScope,
 } from "../../../src/panel/types";
+import { mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { markRaw, reactive } from "vue";
+import { defineComponent, markRaw, reactive } from "vue";
 import {
   readStoredReport,
   writeStoredReport,
@@ -23,9 +24,8 @@ const panel = reactive({
   events: markRaw(events),
 });
 const isEditable = { value: true };
-const isKirby5 = vi.fn(() => true);
 const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() };
-const beforeUnmountHooks: Array<() => void> = [];
+const unmountHosts: Array<() => void> = [];
 const runAnalysis =
   vi.fn<
     (
@@ -52,8 +52,6 @@ vi.mock("kirbyuse", async () => {
     createLogger: () => logger,
     usePanel: () => panel,
     useContent: () => ({ isEditable }),
-    isKirby5,
-    onBeforeUnmount: (hook: () => void) => beforeUnmountHooks.push(hook),
     registerPluginAssets: vi.fn(),
   };
 });
@@ -115,7 +113,7 @@ const storedReport: Report = {
 const storageScope: ReportStorageScope = {
   path: "pages/about",
   language: "de",
-  section: "seo",
+  field: "seo",
 };
 
 beforeEach(() => {
@@ -135,16 +133,15 @@ beforeEach(() => {
   notifyReportError.mockReset();
   logger.error.mockReset();
   events.clear();
-  beforeUnmountHooks.length = 0;
   panel.view.path = "pages/about";
   panel.language.code = "de";
   isEditable.value = true;
-  isKirby5.mockReturnValue(true);
   storedItems.clear();
   window.panel = panel as unknown as Window["panel"];
 });
 
 afterEach(() => {
+  for (const unmount of unmountHosts.splice(0)) unmount();
   vi.useRealTimers();
 });
 
@@ -206,7 +203,7 @@ describe("useAnalysis", () => {
 
     await analyze();
 
-    expect(currentReport.value).toBe(report);
+    expect(currentReport.value).toEqual(report);
   });
 
   it("analyze keeps the record local without isEditable", async () => {
@@ -277,7 +274,7 @@ describe("useAnalysis", () => {
     expect(currentReport.value).toBeUndefined();
 
     panel.language.code = "de";
-    expect(currentReport.value).toBe(report);
+    expect(currentReport.value).toEqual(report);
   });
 
   it("runs the analysis once in the published language on content.publish", async () => {
@@ -361,7 +358,7 @@ describe("useAnalysis", () => {
 
     await analyze();
 
-    expect(participant.report.value).toBe(report);
+    expect(participant.report.value).toEqual(report);
   });
 
   it("seeds report from storage when persisted", async () => {
@@ -413,10 +410,10 @@ describe("useAnalysis", () => {
     ).toBeUndefined();
   });
 
-  it("stops reacting to content.publish after onBeforeUnmount", async () => {
+  it("stops reacting to content.publish after the host unmounts", async () => {
     await loadAnalysis();
 
-    for (const hook of beforeUnmountHooks) hook();
+    for (const unmount of unmountHosts.splice(0)) unmount();
     publish("de");
     await flushPromises();
 
@@ -435,12 +432,21 @@ async function loadAnalysis({
 } = {}) {
   const { useAnalysis } =
     await import("../../../src/panel/composables/analysis");
-  const composable = useAnalysis({
-    resolveOptions,
-    contentSelector: () => "main",
-    analyzeOn: () => analyzeOn,
-    storage,
-  });
+  let composable!: ReturnType<typeof useAnalysis>;
+  const host = mount(
+    defineComponent({
+      setup() {
+        composable = useAnalysis({
+          resolveOptions,
+          contentSelector: () => "main",
+          analyzeOn: () => analyzeOn,
+          storage,
+        });
+        return () => null;
+      },
+    }),
+  );
+  unmountHosts.push(() => host.unmount());
   await flushPromises();
   return composable;
 }
