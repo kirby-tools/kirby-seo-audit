@@ -6,7 +6,7 @@ import type {
   ProxyResponse,
   Report,
 } from "../types";
-import { isKirby5, useContent, usePanel } from "kirbyuse";
+import { useContent, usePanel } from "kirbyuse";
 import {
   PLUGIN_PREVIEW_URL_API_ROUTE,
   PLUGIN_PROXY_API_ROUTE,
@@ -142,7 +142,7 @@ async function resolvePreviewTarget(
 async function resolveContentVersion(): Promise<ContentVersion> {
   const { content, hasChanges, isEditable } = useContent();
 
-  if (!isKirby5() || !hasChanges.value) {
+  if (!hasChanges.value) {
     return "latest";
   }
 

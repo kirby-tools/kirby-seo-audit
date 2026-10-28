@@ -1,6 +1,6 @@
 import ReportDialog from "./components/Dialogs/Report.vue";
+import SeoAuditField from "./components/Fields/SeoAudit.vue";
 import PlaygroundBlueprintCodeField from "./components/Playground/BlueprintCode.vue";
-import SeoAuditSection from "./components/Sections/SeoAudit.vue";
 import SeoAuditButton from "./components/ViewButtons/SeoAuditButton.vue";
 import "virtual:uno.css";
 
@@ -11,8 +11,8 @@ window.panel.plugin("johannschopplich/seo-audit", {
   components: {
     "k-seo-audit-report-dialog": ReportDialog,
   },
-  sections: {
-    "seo-audit": SeoAuditSection,
+  fields: {
+    "seo-audit": SeoAuditField,
     ...(__PLAYGROUND__ && {
       "playground-blueprint-code": PlaygroundBlueprintCodeField,
     }),

@@ -1,27 +1,19 @@
-<script lang="ts">
-import { computed, ref, useContent, useSection } from "kirbyuse";
-import { section } from "kirbyuse/props";
-
-const propsDefinition = {
-  ...section,
-};
-
-export default {
-  inheritAttrs: false,
-};
-</script>
-
 <script setup lang="ts">
-const props = defineProps(propsDefinition);
-const data = ref<{ label?: string; help?: string }>({});
+import { useContent } from "kirbyuse";
+import {
+  help as helpProp,
+  id as idProp,
+  label as labelProp,
+  name as nameProp,
+} from "kirbyuse/props";
+import { computed } from "vue";
 
-(async () => {
-  const { load } = useSection();
-  data.value = await load({
-    parent: props.parent!,
-    name: props.name!,
-  });
-})();
+defineProps({
+  ...helpProp,
+  ...idProp,
+  ...labelProp,
+  ...nameProp,
+});
 
 const { currentContent } = useContent();
 
@@ -47,11 +39,15 @@ seoAudit:
 </script>
 
 <template>
-  <k-section :label="data.label" class="[&>*+*]:ksr-mt-[var(--spacing-2)]">
+  <k-field
+    :id="id"
+    :help="help"
+    :input="false"
+    :label="label"
+    :name="name"
+    type="playground-blueprint-code"
+  >
     <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
     <k-code language="yaml">{{ code }}</k-code>
-    <k-text v-if="data.help" class="k-help">
-      {{ data.help }}
-    </k-text>
-  </k-section>
+  </k-field>
 </template>

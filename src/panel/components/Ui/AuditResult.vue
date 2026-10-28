@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { Report, ResultRating } from "../../types";
-import { computed, toRaw, usePanel } from "kirbyuse";
+import type { AuditLabels, Report, ResultRating } from "../../types";
+import { computed, toRaw } from "vue";
 import { groupResultsByRating } from "../../utils/seo-filter";
 import AuditResultItem from "./AuditResultItem.vue";
 
@@ -14,9 +14,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isDialog: {
-    type: Boolean,
-    default: false,
+  labels: {
+    type: Object as PropType<AuditLabels>,
+    required: true,
   },
 });
 
@@ -26,15 +26,18 @@ const RATING_BADGE_COLOR_MAP: Partial<Record<ResultRating, string>> = {
   bad: "red",
 };
 
-const panel = usePanel();
-
-const resultsByRating = computed(() =>
-  groupResultsByRating(
+const ratingGroups = computed(() => {
+  const resultsByRating = groupResultsByRating(
     Object.values(props.results)
       .flat()
       .map((item) => toRaw(item)),
-  ),
-);
+  );
+
+  return (Object.keys(resultsByRating) as ResultRating[]).map((rating) => ({
+    rating,
+    results: resultsByRating[rating]!,
+  }));
+});
 </script>
 
 <template>
@@ -49,12 +52,7 @@ const resultsByRating = computed(() =>
           'light-dark(var(--color-blue-800), var(--color-blue-500))',
       }"
     >
-      <div
-        v-for="(ratingCategory, ratingCategoryIndex) in Object.keys(
-          resultsByRating,
-        )"
-        :key="ratingCategory"
-      >
+      <div v-for="(group, groupIndex) in ratingGroups" :key="group.rating">
         <div
           class="ksr-mb-[var(--spacing-2)] ksr-inline-flex ksr-items-center ksr-gap-[var(--spacing-2)]"
         >
@@ -62,32 +60,28 @@ const resultsByRating = computed(() =>
             class="!ksr-leading-[var(--text-line-height)]"
             style="color: var(--color-text); font-size: var(--text-font-size)"
           >
-            {{ panel.t(`johannschopplich.seo-audit.rating.${ratingCategory}`) }}
+            {{ labels.ratings[group.rating] }}
           </h3>
 
           <span
             class="k-button-badge ksr-[font-weight:var(--font-semi)] ksr-static ksr-transform-none ksr-shadow-none"
-            :data-theme="RATING_BADGE_COLOR_MAP[ratingCategory]"
+            :data-theme="RATING_BADGE_COLOR_MAP[group.rating]"
           >
-            {{ resultsByRating[ratingCategory].length }}
+            {{ group.results.length }}
           </span>
         </div>
 
         <AuditResultItem
-          v-for="(resultItem, resultIndex) in resultsByRating[ratingCategory]"
+          v-for="(resultItem, resultIndex) in group.results"
           :key="resultIndex"
           :result="resultItem"
           :links="links"
+          :issues-label="labels.issues"
         />
 
         <hr
-          v-if="ratingCategoryIndex < Object.keys(resultsByRating).length - 1"
+          v-if="groupIndex < ratingGroups.length - 1"
           class="ksr-my-[var(--spacing-4)]"
-          :style="{
-            background: isDialog
-              ? undefined
-              : 'light-dark(var(--color-gray-350), var(--color-border))',
-          }"
         />
       </div>
     </k-text>

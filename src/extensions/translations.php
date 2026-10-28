@@ -1,6 +1,6 @@
 <?php
 
-use JohannSchopplich\Licensing\LicensePanel;
+use KirbyTools\Licensing\LicensePanel;
 
 // Kirby ships no bare `es` translation.
 $spanish = [
