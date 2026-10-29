@@ -1,5 +1,4 @@
-import type { LicenseStatus } from "@kirby-tools/licensing";
-import type { PluginAsset } from "kirbyuse";
+import type { PluginContext } from "@kirby-tools/licensing";
 import type { AnalyzeOnTrigger, CATEGORIES, LogLevel } from "./constants";
 
 export type Category = (typeof CATEGORIES)[number];
@@ -122,11 +121,8 @@ export interface PluginConfig {
   logLevel?: LogLevel | null;
 }
 
-export interface PluginContextResponse {
+export interface PluginContextResponse extends PluginContext {
   config: PluginConfig;
-  assets: PluginAsset[];
-  licenseStatus: LicenseStatus;
-  licenseDialog: string;
 }
 
 export interface ButtonOptionsResponse {
