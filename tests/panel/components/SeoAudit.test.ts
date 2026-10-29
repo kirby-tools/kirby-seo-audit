@@ -1,9 +1,7 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
 import { ref } from "vue";
 import SeoAudit from "../../../src/panel/components/Fields/SeoAudit.vue";
-import { labels } from "../helpers/audit-labels";
-import { panelStubs } from "../helpers/panel-stubs";
 
 vi.mock("kirbyuse", () => ({
   useContent: () => ({ currentContent: ref({}) }),
@@ -24,12 +22,12 @@ vi.mock("../../../src/panel/composables", () => ({
     rating: ref(),
     report: ref(),
   }),
-  useAuditLabels: () => labels,
+  useAuditLabels: () => ({}),
   usePluginContext: async () => ({ config: {} }),
 }));
 
 it("keeps disabled off k-field", () => {
-  const wrapper = mount(SeoAudit, {
+  const wrapper = shallowMount(SeoAudit, {
     props: {
       name: "seo",
       label: "SEO Audit",
@@ -37,8 +35,7 @@ it("keeps disabled off k-field", () => {
       licenseDialog: "",
     },
     attrs: { disabled: true },
-    global: { stubs: panelStubs },
   });
 
-  expect(wrapper.find("section").attributes("disabled")).toBeUndefined();
+  expect(wrapper.attributes("disabled")).toBeUndefined();
 });
