@@ -46,10 +46,12 @@ vi.stubGlobal("localStorage", {
 let pluginConfig: PluginConfig;
 let ratingResponse: Rating;
 
-vi.mock("kirbyuse", async () => {
+vi.mock("kirbyuse", async (importOriginal) => {
   const { baseKirbyuseMock } = await import("../helpers/mock-kirbyuse");
+  const { usePanelEvent } = await importOriginal<typeof import("kirbyuse")>();
   return {
     ...baseKirbyuseMock(),
+    usePanelEvent,
     createLogger: () => logger,
     usePanel: () => panel,
     useContent: () => ({ isEditable }),

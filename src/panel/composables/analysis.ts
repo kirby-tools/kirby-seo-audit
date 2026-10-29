@@ -4,8 +4,8 @@ import type {
   Report,
   ReportStorageScope,
 } from "../types";
-import { useContent, usePanel } from "kirbyuse";
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { useContent, usePanel, usePanelEvent } from "kirbyuse";
+import { computed, ref, watch } from "vue";
 import { PLUGIN_RATING_API_ROUTE } from "../constants";
 import { resolveAnalyzeOn } from "../utils/analyze-on";
 import { toRatingRecord } from "../utils/seo-score";
@@ -192,13 +192,7 @@ export function useAnalysis({
     // the view path is watched along with the language.
     watch(currentKey, () => loadRating(), { immediate: true });
 
-    // Subscribed synchronously: an unmount before an async setup resolves
-    // would call `off` first, which the event bus silently ignores.
-    panel.events.on("content.publish", onPublish);
-
-    onBeforeUnmount(() => {
-      panel.events.off("content.publish", onPublish);
-    });
+    usePanelEvent("content.publish", onPublish);
   }
 
   return {

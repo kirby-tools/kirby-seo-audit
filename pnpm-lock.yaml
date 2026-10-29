@@ -13,7 +13,7 @@ importers:
         version: 9.5.1(@typescript-eslint/typescript-estree@8.71.2(typescript@6.0.3))(@typescript-eslint/utils@8.71.2(eslint@10.13.0(jiti@2.7.0))(typescript@6.0.3))(@unocss/eslint-plugin@66.11.0(eslint@10.13.0(jiti@2.7.0))(typescript@6.0.3))(@vue/compiler-sfc@3.5.44)(eslint@10.13.0(jiti@2.7.0))(typescript@6.0.3)(vitest@5.0.5(@types/node@26.6.5)(happy-dom@21.0.3)(vite@8.3.5(@types/node@26.6.5)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1)))
       '@kirby-tools/licensing':
         specifier: ^1.0.0
-        version: 1.0.0(kirbyuse@2.0.0-beta.4(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+        version: 1.0.0(kirbyuse@2.0.0-beta.5(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -48,8 +48,8 @@ importers:
         specifier: ^4.0.0-beta.1
         version: 4.0.0-beta.1(@types/node@26.6.5)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(typescript@6.0.3)(yaml@2.9.1)
       kirbyuse:
-        specifier: ^2.0.0-beta.4
-        version: 2.0.0-beta.4(vue@3.5.44(typescript@6.0.3))
+        specifier: ^2.0.0-beta.5
+        version: 2.0.0-beta.5(vue@3.5.44(typescript@6.0.3))
       ohash:
         specifier: ^2.0.12
         version: 2.0.12
@@ -2209,8 +2209,8 @@ packages:
     engines: {node: '>=24'}
     hasBin: true
 
-  kirbyuse@2.0.0-beta.4:
-    resolution: {integrity: sha512-NUshdJvZ6H+norwd8OPiJxu+4hsmpOq/eERdl7HSiy+zwVoK+5lmkWZv4OO5oVanSRIbeFt03ibIUDPo/nF9fQ==}
+  kirbyuse@2.0.0-beta.5:
+    resolution: {integrity: sha512-zzEGQBONu/p5SoNrFxjrmqXNEKpUcDwjOWnLNzIF5y+y0XQMvQKbrP9yzc/yMIGpOcdd4qfMbuC6nWHZgfb6Ew==}
     peerDependencies:
       dayjs: ^1.0.0
       prosemirror-commands: ^1.7.1
@@ -3661,9 +3661,9 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@kirby-tools/licensing@1.0.0(kirbyuse@2.0.0-beta.4(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))':
+  '@kirby-tools/licensing@1.0.0(kirbyuse@2.0.0-beta.5(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))':
     dependencies:
-      kirbyuse: 2.0.0-beta.4(vue@3.5.44(typescript@6.0.3))
+      kirbyuse: 2.0.0-beta.5(vue@3.5.44(typescript@6.0.3))
       vue: 3.5.44(typescript@6.0.3)
 
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
@@ -5309,7 +5309,7 @@ snapshots:
       - typescript
       - yaml
 
-  kirbyuse@2.0.0-beta.4(vue@3.5.44(typescript@6.0.3)):
+  kirbyuse@2.0.0-beta.5(vue@3.5.44(typescript@6.0.3)):
     dependencies:
       kirby-types: 2.0.0-beta.5(vue@3.5.44(typescript@6.0.3))
       vue: 3.5.44(typescript@6.0.3)
