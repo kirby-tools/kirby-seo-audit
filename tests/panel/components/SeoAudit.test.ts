@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import { shallowMount } from "@vue/test-utils";
 import { expect, it, vi } from "vitest";
 import { ref } from "vue";

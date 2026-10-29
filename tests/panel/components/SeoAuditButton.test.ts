@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import type { AnalysisOptions } from "../../../src/panel/types";
 import { shallowMount } from "@vue/test-utils";
 import { beforeEach, expect, it, vi } from "vitest";
