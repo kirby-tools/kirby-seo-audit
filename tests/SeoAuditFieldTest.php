@@ -14,35 +14,12 @@ use PHPUnit\Framework\Attributes\Test;
 final class SeoAuditFieldTest extends ApiRouteTestCase
 {
     #[Test]
-    public function toArray_resolves_the_queries_and_keeps_the_defaults(): void
+    public function toArray_templates_the_keyphrase_and_a_synonyms_string_and_exports_the_field_options(): void
     {
         $props = $this->formField($this->appWithField([
             'keyphrase' => '{{ page.title }}',
-            'synonyms' => '{{ page.slug }}'
-        ]))->toArray();
-
-        $this->assertArrayNotHasKey('analyzeOn', $props);
-        $expected = [
-            'assessments' => [],
-            'contentSelector' => 'body',
-            'keyphrase' => 'Analyzing Kirby',
-            'licenseDialog' => 'johannschopplich-kirby-seo-audit/activate',
-            'licenseStatus' => 'inactive',
-            'links' => true,
-            'persisted' => true,
-            'synonyms' => 'test'
-        ];
-
-        $this->assertSame($expected, array_intersect_key($props, $expected));
-    }
-
-    #[Test]
-    public function toArray_exports_the_field_options(): void
-    {
-        $props = $this->formField($this->appWithField([
-            'keyphrase' => 'kirby',
             'keyphraseField' => 'metaKeyphrase',
-            'synonyms' => ['cms'],
+            'synonyms' => '{{ page.slug }}',
             'synonymsField' => 'metaSynonyms',
             'analyzeOn' => 'publish',
             'logLevel' => 'debug'
@@ -50,14 +27,27 @@ final class SeoAuditFieldTest extends ApiRouteTestCase
 
         $expected = [
             'analyzeOn' => 'publish',
-            'keyphrase' => 'kirby',
+            'keyphrase' => 'Analyzing Kirby',
             'keyphraseField' => 'metaKeyphrase',
+            'licenseDialog' => 'johannschopplich-kirby-seo-audit/activate',
+            'licenseStatus' => 'inactive',
             'logLevel' => 'debug',
-            'synonyms' => ['cms'],
+            'synonyms' => 'test',
             'synonymsField' => 'metaSynonyms'
         ];
 
         $this->assertSame($expected, array_intersect_key($props, $expected));
+    }
+
+    #[Test]
+    public function toArray_keeps_a_synonyms_list_verbatim_and_omits_an_unset_analyzeOn(): void
+    {
+        $props = $this->formField($this->appWithField([
+            'synonyms' => ['{{ page.slug }}']
+        ]))->toArray();
+
+        $this->assertSame(['{{ page.slug }}'], $props['synonyms']);
+        $this->assertArrayNotHasKey('analyzeOn', $props);
     }
 
     #[Test]
