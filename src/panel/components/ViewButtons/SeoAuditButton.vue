@@ -10,7 +10,6 @@ import {
   resolveLogLevelIndex,
   resolveSynonyms,
 } from "../../utils/analysis-options";
-import { createLanguageRequestOptions } from "../../utils/request";
 import AuditButton from "../Ui/AuditButton.vue";
 
 // The view button props Kirby passes (`disabled`, `responsive`, …) would override the button's own.
@@ -85,7 +84,7 @@ async function resolveAnalysisOptions(
       ? await api.get<ButtonOptionsResponse>(
           PLUGIN_BUTTON_OPTIONS_API_ROUTE,
           { path: panel.view.path },
-          createLanguageRequestOptions(language),
+          { language },
           true,
         )
       : props;
