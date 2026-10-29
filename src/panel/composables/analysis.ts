@@ -8,7 +8,6 @@ import { useContent, usePanel } from "kirbyuse";
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { PLUGIN_RATING_API_ROUTE } from "../constants";
 import { resolveAnalyzeOn } from "../utils/analyze-on";
-import { createLanguageRequestOptions } from "../utils/request";
 import { toRatingRecord } from "../utils/seo-score";
 import { readStoredReport, writeStoredReport } from "../utils/storage";
 import { useLogger } from "./logger";
@@ -123,7 +122,7 @@ export function useAnalysis({
         response = await panel.api.post<Rating>(
           PLUGIN_RATING_API_ROUTE,
           { path, ...record },
-          createLanguageRequestOptions(language),
+          { language },
           "POST",
           true,
         );
@@ -155,12 +154,7 @@ export function useAnalysis({
     if (pendingLoads.has(key)) return pendingLoads.get(key);
 
     const request = panel.api
-      .get<Rating>(
-        PLUGIN_RATING_API_ROUTE,
-        { path },
-        createLanguageRequestOptions(language),
-        true,
-      )
+      .get<Rating>(PLUGIN_RATING_API_ROUTE, { path }, { language }, true)
       .then((response) => {
         records.value = { ...records.value, [key]: response };
       })

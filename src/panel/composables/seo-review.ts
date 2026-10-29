@@ -18,7 +18,6 @@ import {
   PreviewUnreachableError,
 } from "../utils/error";
 import { resolveReportLanguage } from "../utils/locale";
-import { createLanguageRequestOptions } from "../utils/request";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -119,7 +118,7 @@ async function resolvePreviewTarget(
     await panel.api.get<PreviewUrlResponse>(
       PLUGIN_PREVIEW_URL_API_ROUTE,
       { path: panel.view.path, version },
-      createLanguageRequestOptions(language),
+      { language },
       true,
     );
 
@@ -241,7 +240,7 @@ async function fetchHtml({ url, path, language, version }: PreviewTarget) {
   } = await usePanel().api.post<ProxyResponse>(
     PLUGIN_PROXY_API_ROUTE,
     path ? { path, version } : { url },
-    createLanguageRequestOptions(language),
+    { language },
     "POST",
     true,
   );

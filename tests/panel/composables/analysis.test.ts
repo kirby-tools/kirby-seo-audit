@@ -154,7 +154,7 @@ describe("useAnalysis", () => {
     expect(api.get).toHaveBeenCalledWith(
       "__seo-audit__/rating",
       { path: "pages/about" },
-      { headers: { "x-language": "de" } },
+      { language: "de" },
       true,
     );
     expect(rating.value).toEqual(storedRating);
@@ -191,7 +191,7 @@ describe("useAnalysis", () => {
         counts: { good: 2, ok: 1, bad: 1 },
         version: "changes",
       },
-      { headers: { "x-language": "de" } },
+      { language: "de" },
       "POST",
       true,
     );
@@ -324,7 +324,7 @@ describe("useAnalysis", () => {
     expect(api.get).toHaveBeenCalledWith(
       "__seo-audit__/rating",
       { path: "pages/about" },
-      { headers: { "x-language": "de" } },
+      { language: "de" },
       true,
     );
   });
