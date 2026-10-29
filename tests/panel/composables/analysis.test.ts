@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import type {
   AnalysisOptions,
   PluginConfig,
@@ -5,7 +6,7 @@ import type {
   Report,
   ReportStorageScope,
 } from "../../../src/panel/types";
-import { mount } from "@vue/test-utils";
+import { flushPromises, mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { defineComponent, markRaw, reactive } from "vue";
 import {
@@ -13,7 +14,6 @@ import {
   writeStoredReport,
 } from "../../../src/panel/utils/storage";
 import { createEventBus } from "../helpers/event-bus";
-import { flushPromises } from "../helpers/flush-promises";
 
 const api = { get: vi.fn(), post: vi.fn() };
 const events = createEventBus();
