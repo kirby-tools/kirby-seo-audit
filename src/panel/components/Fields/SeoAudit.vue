@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { LicenseStatus } from "@kirby-tools/licensing";
 import type { PropType } from "vue";
 import type { AnalyzeOnTrigger, LogLevel } from "../../constants";
 import type { AnalysisOptions } from "../../types";
+import { licenseProps } from "@kirby-tools/licensing";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import { useContent, usePanel } from "kirbyuse";
 import {
@@ -61,14 +61,7 @@ const props = defineProps({
     default: null,
   },
   logLevel: String as PropType<LogLevel>,
-  licenseStatus: {
-    type: String as PropType<LicenseStatus>,
-    required: true,
-  },
-  licenseDialog: {
-    type: String,
-    required: true,
-  },
+  ...licenseProps,
 });
 
 const panel = usePanel();

@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import type { LicenseStatus } from "@kirby-tools/licensing";
 import type { PropType } from "vue";
 import type { ContentVersion, Report } from "../../types";
+import { useLicenseStatus } from "@kirby-tools/licensing";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
-import { usePanel } from "kirbyuse";
-import { onBeforeUnmount, ref } from "vue";
 import { useAuditLabels, usePluginContext } from "../../composables";
-import { LICENSE_ACTIVATE_EVENT } from "../../constants";
 import ReportBody from "../Ui/ReportBody.vue";
 
 defineProps({
@@ -37,29 +34,13 @@ const emit = defineEmits<{
   (event: "success"): void;
 }>();
 
-const panel = usePanel();
 const labels = useAuditLabels();
 const hasLicenseButtons = !__PLAYGROUND__ && !__ZERO_ONE__;
 
-const licenseStatus = ref<LicenseStatus>();
-const licenseDialog = ref<string>();
-
-if (hasLicenseButtons) {
-  usePluginContext().then((context) => {
-    licenseStatus.value = context.licenseStatus;
-    licenseDialog.value = context.licenseDialog;
-  });
-
-  // Kirby reopens this dialog from its history after the activation dialog,
-  // with the status it had before.
-  const onActivate = () => {
-    licenseStatus.value = "active";
-  };
-  panel.events.on(LICENSE_ACTIVATE_EVENT, onActivate);
-  onBeforeUnmount(() => {
-    panel.events.off(LICENSE_ACTIVATE_EVENT, onActivate);
-  });
-}
+const { licenseStatus, licenseDialog } = useLicenseStatus({
+  pluginId: "seo-audit",
+  resolveContext: usePluginContext,
+});
 </script>
 
 <template>
@@ -79,7 +60,10 @@ if (hasLicenseButtons) {
       :links="links"
       :labels="labels"
     >
-      <template v-if="licenseStatus && licenseDialog" #options>
+      <template
+        v-if="hasLicenseButtons && licenseStatus && licenseDialog"
+        #options
+      >
         <LicensingButtonGroup
           :dialog="licenseDialog"
           :license-status="licenseStatus"

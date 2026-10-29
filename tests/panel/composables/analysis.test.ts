@@ -55,7 +55,6 @@ vi.mock("kirbyuse", async (importOriginal) => {
     createLogger: () => logger,
     usePanel: () => panel,
     useContent: () => ({ isEditable }),
-    registerPluginAssets: vi.fn(),
   };
 });
 
