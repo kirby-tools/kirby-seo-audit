@@ -1,144 +1,15 @@
 <?php
 
+use Kirby\Data\Json;
 use KirbyTools\Licensing\LicensePanel;
 
-// Kirby ships no bare `es` translation.
-$spanish = [
-    'johannschopplich.seo-audit.label' => 'Auditoría SEO',
-    'johannschopplich.seo-audit.analyze' => 'Analizar',
-    'johannschopplich.seo-audit.results' => 'Puntuaciones SEO y Legibilidad',
-    'johannschopplich.seo-audit.results.seo' => 'Puntuaciones SEO',
-    'johannschopplich.seo-audit.results.readability' => 'Puntuaciones de Legibilidad',
-    'johannschopplich.seo-audit.issues' => 'Problemas',
-    'johannschopplich.seo-audit.rating.good' => 'Bueno',
-    'johannschopplich.seo-audit.rating.ok' => 'OK',
-    'johannschopplich.seo-audit.rating.bad' => 'Necesita mejora',
-    'johannschopplich.seo-audit.rating.feedback' => 'Comentarios',
-    'johannschopplich.seo-audit.rating.error' => 'Errores',
-    'johannschopplich.seo-audit.rating.none' => 'No disponible',
-    'johannschopplich.seo-audit.category.seo' => 'SEO',
-    'johannschopplich.seo-audit.category.readability' => 'Legibilidad',
-    'johannschopplich.seo-audit.version.changes' => 'Cambios sin guardar',
-    'johannschopplich.seo-audit.version.latest' => 'Versión publicada',
-    'johannschopplich.seo-audit.rating.stale' => 'Contenido modificado desde entonces',
-    'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Informe generado',
-    'johannschopplich.seo-audit.notification.analyzeError' => 'No se pudo generar el informe.',
-    'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No hay URL de vista previa – desactivada en el blueprint o no permitida para este rol.',
-    'johannschopplich.seo-audit.error.previewResponse' => 'La URL de vista previa {url} devolvió el estado {status}, así que no hay ninguna página que analizar.',
-    'johannschopplich.seo-audit.error.previewUnauthorized' => 'La URL de vista previa {url} devolvió el estado 401. Para Basic Auth, indica las credenciales en proxy.params.basicAuth.',
-    'johannschopplich.seo-audit.error.previewUnreachable' => 'No se pudo acceder a la URL de vista previa {url}.',
-    'johannschopplich.seo-audit.error.incompatibleLocale' => 'El idioma {locale} no es compatible con la evaluación Yoast SEO {assessment}. Solo {compatibleLocales} son compatibles.'
-];
+$translations = [];
 
-return array_replace_recursive(
-    LicensePanel::translations(),
-    [
-        'en' => [
-            'johannschopplich.seo-audit.label' => 'SEO Audit',
-            'johannschopplich.seo-audit.analyze' => 'Analyze',
-            'johannschopplich.seo-audit.results' => 'SEO & Readability Scores',
-            'johannschopplich.seo-audit.results.seo' => 'SEO Scores',
-            'johannschopplich.seo-audit.results.readability' => 'Readability Scores',
-            'johannschopplich.seo-audit.issues' => 'Issues',
-            'johannschopplich.seo-audit.rating.good' => 'Good',
-            'johannschopplich.seo-audit.rating.ok' => 'OK',
-            'johannschopplich.seo-audit.rating.bad' => 'Needs improvement',
-            'johannschopplich.seo-audit.rating.feedback' => 'Feedback',
-            'johannschopplich.seo-audit.rating.error' => 'Errors',
-            'johannschopplich.seo-audit.rating.none' => 'Not available',
-            'johannschopplich.seo-audit.category.seo' => 'SEO',
-            'johannschopplich.seo-audit.category.readability' => 'Readability',
-            'johannschopplich.seo-audit.version.changes' => 'Unsaved changes',
-            'johannschopplich.seo-audit.version.latest' => 'Published version',
-            'johannschopplich.seo-audit.rating.stale' => 'Content changed since',
-            'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Report generated',
-            'johannschopplich.seo-audit.notification.analyzeError' => 'Could not generate report.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'No preview URL – disabled in the blueprint or not allowed for this role.',
-            'johannschopplich.seo-audit.error.previewResponse' => 'The preview URL {url} returned status {status}, so there is no page to analyze.',
-            'johannschopplich.seo-audit.error.previewUnauthorized' => 'The preview URL {url} returned status 401. For Basic Auth, set the credentials in proxy.params.basicAuth.',
-            'johannschopplich.seo-audit.error.previewUnreachable' => 'The preview URL {url} could not be reached.',
-            'johannschopplich.seo-audit.error.incompatibleLocale' => 'The language {locale} is not supported by the Yoast SEO assessment {assessment}. Only {compatibleLocales} are compatible.'
-        ],
-        'de' => [
-            'johannschopplich.seo-audit.label' => 'SEO-Audit',
-            'johannschopplich.seo-audit.analyze' => 'Analysieren',
-            'johannschopplich.seo-audit.results' => 'SEO & Lesbarkeits-Wertungen',
-            'johannschopplich.seo-audit.results.seo' => 'SEO-Wertungen',
-            'johannschopplich.seo-audit.results.readability' => 'Lesbarkeits-Wertungen',
-            'johannschopplich.seo-audit.issues' => 'Probleme',
-            'johannschopplich.seo-audit.rating.good' => 'Gut',
-            'johannschopplich.seo-audit.rating.ok' => 'OK',
-            'johannschopplich.seo-audit.rating.bad' => 'Verbesserungsbedarf',
-            'johannschopplich.seo-audit.rating.feedback' => 'Rückmeldung',
-            'johannschopplich.seo-audit.rating.error' => 'Fehler',
-            'johannschopplich.seo-audit.rating.none' => 'Nicht verfügbar',
-            'johannschopplich.seo-audit.category.seo' => 'SEO',
-            'johannschopplich.seo-audit.category.readability' => 'Lesbarkeit',
-            'johannschopplich.seo-audit.version.changes' => 'Ungespeicherte Änderungen',
-            'johannschopplich.seo-audit.version.latest' => 'Veröffentlichte Version',
-            'johannschopplich.seo-audit.rating.stale' => 'Inhalt seitdem geändert',
-            'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Bericht generiert',
-            'johannschopplich.seo-audit.notification.analyzeError' => 'Bericht konnte nicht generiert werden.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Keine Vorschau-URL – im Blueprint deaktiviert oder für diese Rolle nicht erlaubt.',
-            'johannschopplich.seo-audit.error.previewResponse' => 'Die Vorschau-URL {url} lieferte Status {status}, es gibt also keine Seite zum Analysieren.',
-            'johannschopplich.seo-audit.error.previewUnauthorized' => 'Die Vorschau-URL {url} lieferte Status 401. Hinterlege für Basic Auth die Zugangsdaten in proxy.params.basicAuth.',
-            'johannschopplich.seo-audit.error.previewUnreachable' => 'Die Vorschau-URL {url} war nicht erreichbar.',
-            'johannschopplich.seo-audit.error.incompatibleLocale' => 'Die Sprache {locale} wird von der Yoast-SEO-Bewertung {assessment} nicht unterstützt. Es sind nur {compatibleLocales} kompatibel.'
-        ],
-        'fr' => [
-            'johannschopplich.seo-audit.label' => 'Audit SEO',
-            'johannschopplich.seo-audit.analyze' => 'Analyser',
-            'johannschopplich.seo-audit.results' => 'Scores SEO et Lisibilité',
-            'johannschopplich.seo-audit.results.seo' => 'Scores SEO',
-            'johannschopplich.seo-audit.results.readability' => 'Scores de Lisibilité',
-            'johannschopplich.seo-audit.issues' => 'Problèmes',
-            'johannschopplich.seo-audit.rating.good' => 'Bon',
-            'johannschopplich.seo-audit.rating.ok' => 'OK',
-            'johannschopplich.seo-audit.rating.bad' => 'À améliorer',
-            'johannschopplich.seo-audit.rating.feedback' => 'Retour',
-            'johannschopplich.seo-audit.rating.error' => 'Erreurs',
-            'johannschopplich.seo-audit.rating.none' => 'Non disponible',
-            'johannschopplich.seo-audit.category.seo' => 'SEO',
-            'johannschopplich.seo-audit.category.readability' => 'Lisibilité',
-            'johannschopplich.seo-audit.version.changes' => 'Modifications non enregistrées',
-            'johannschopplich.seo-audit.version.latest' => 'Version publiée',
-            'johannschopplich.seo-audit.rating.stale' => 'Contenu modifié depuis',
-            'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Rapport généré',
-            'johannschopplich.seo-audit.notification.analyzeError' => 'Impossible de générer le rapport.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Aucune URL d\'aperçu – désactivée dans le blueprint ou non autorisée pour ce rôle.',
-            'johannschopplich.seo-audit.error.previewResponse' => 'L\'URL d\'aperçu {url} a renvoyé le statut {status}, il n\'y a donc aucune page à analyser.',
-            'johannschopplich.seo-audit.error.previewUnauthorized' => 'L\'URL d\'aperçu {url} a renvoyé le statut 401. Pour Basic Auth, renseignez les identifiants dans proxy.params.basicAuth.',
-            'johannschopplich.seo-audit.error.previewUnreachable' => 'L\'URL d\'aperçu {url} n\'a pas pu être atteinte.',
-            'johannschopplich.seo-audit.error.incompatibleLocale' => 'La langue {locale} n\'est pas prise en charge par l\'évaluation Yoast SEO {assessment}. Seules {compatibleLocales} sont compatibles.'
-        ],
-        'nl' => [
-            'johannschopplich.seo-audit.label' => 'SEO-Audit',
-            'johannschopplich.seo-audit.analyze' => 'Analyseren',
-            'johannschopplich.seo-audit.results' => 'SEO & Leesbaarheids-scores',
-            'johannschopplich.seo-audit.results.seo' => 'SEO-scores',
-            'johannschopplich.seo-audit.results.readability' => 'Leesbaarheids-scores',
-            'johannschopplich.seo-audit.issues' => 'Problemen',
-            'johannschopplich.seo-audit.rating.good' => 'Goed',
-            'johannschopplich.seo-audit.rating.ok' => 'OK',
-            'johannschopplich.seo-audit.rating.bad' => 'Kan beter',
-            'johannschopplich.seo-audit.rating.feedback' => 'Feedback',
-            'johannschopplich.seo-audit.rating.error' => 'Fouten',
-            'johannschopplich.seo-audit.rating.none' => 'Niet beschikbaar',
-            'johannschopplich.seo-audit.category.seo' => 'SEO',
-            'johannschopplich.seo-audit.category.readability' => 'Leesbaarheid',
-            'johannschopplich.seo-audit.version.changes' => 'Niet-opgeslagen wijzigingen',
-            'johannschopplich.seo-audit.version.latest' => 'Gepubliceerde versie',
-            'johannschopplich.seo-audit.rating.stale' => 'Inhoud sindsdien gewijzigd',
-            'johannschopplich.seo-audit.notification.analyzeSuccess' => 'Analyse gegenereerd',
-            'johannschopplich.seo-audit.notification.analyzeError' => 'Het rapport kon niet worden gegenereerd.',
-            'johannschopplich.seo-audit.error.missingPreviewUrl' => 'Geen preview-URL – uitgeschakeld in de blueprint of niet toegestaan voor deze rol.',
-            'johannschopplich.seo-audit.error.previewResponse' => 'De preview-URL {url} gaf status {status} terug, er is dus geen pagina om te analyseren.',
-            'johannschopplich.seo-audit.error.previewUnauthorized' => 'De preview-URL {url} gaf status 401 terug. Vul voor Basic Auth de inloggegevens in bij proxy.params.basicAuth.',
-            'johannschopplich.seo-audit.error.previewUnreachable' => 'De preview-URL {url} was niet bereikbaar.',
-            'johannschopplich.seo-audit.error.incompatibleLocale' => 'De taal {locale} wordt niet ondersteund door de Yoast SEO-beoordeling {assessment}. Alleen {compatibleLocales} zijn compatibel.'
-        ],
-        'es' => $spanish,
-        'es_ES' => $spanish,
-        'es_419' => $spanish
-    ]
-);
+foreach (glob(dirname(__DIR__, 2) . '/translations/*.json') as $file) {
+    $translations[pathinfo($file, PATHINFO_FILENAME)] = Json::read($file);
+}
+
+// Kirby ships no bare `es` translation.
+$translations['es_ES'] = $translations['es_419'] = $translations['es'];
+
+return array_replace_recursive(LicensePanel::translations(), $translations);
