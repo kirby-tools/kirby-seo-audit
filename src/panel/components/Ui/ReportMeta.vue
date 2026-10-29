@@ -15,7 +15,8 @@ const props = defineProps({
 const panel = usePanel();
 
 const { format } = new Intl.DateTimeFormat(
-  panel.translation.code.replace("_", "-"),
+  // Kirby's `sr@latin` is not a BCP 47 tag.
+  panel.translation.code.replace("_", "-").replace("@latin", "-Latn"),
   {
     dateStyle: "short",
     timeStyle: "short",
