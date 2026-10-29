@@ -8,8 +8,8 @@ use KirbyTools\Licensing\Licenses;
 use KirbyTools\Licensing\LicenseUtils;
 
 /**
- * The license state the Panel receives. The Zero One edition ships without
- * the licensing package and replaces this class.
+ * The Zero One edition ships without the licensing package and replaces this
+ * class.
  */
 final class Licensing
 {
