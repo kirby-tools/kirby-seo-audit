@@ -35,6 +35,26 @@ composer require johannschopplich/kirby-seo-audit
 
 Download and copy this repository to `/site/plugins/kirby-seo-audit`.
 
+## Upgrading from SEO Audit 3
+
+SEO Audit 4 requires Kirby 6, which has no plugin sections, so the SEO Audit section is a field now. Kirby shows `Invalid section type ("seo-audit")` until you move it from `sections:` to `fields:`. Its options stay the same:
+
+```yaml
+# SEO Audit 3
+sections:
+  seoAudit:
+    type: seo-audit
+    keyphraseField: metaKeyphrase
+
+# SEO Audit 4
+fields:
+  seoAudit:
+    type: seo-audit
+    keyphraseField: metaKeyphrase
+```
+
+The view button and the field resolve `keyphrase` and `synonyms` as Kirby string templates, so single braces count as a query too: `{ page.title }` resolves like `{{ page.title }}`, and a literal `{…}` in the value is replaced. An unknown `logLevel` on the field shows an error in its place instead of falling back to the global option.
+
 ## Documentation
 
 For installation, configuration, and usage, see the [Kirby SEO Audit documentation](https://kirby.tools/docs/seo-audit).
