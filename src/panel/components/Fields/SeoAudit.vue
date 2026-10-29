@@ -86,7 +86,6 @@ const { analyze, isAnalyzing, rating, report } = useAnalysis({
   },
 });
 
-// The playground re-runs the analysis when its assessments or language change.
 if (__PLAYGROUND__) {
   const throttledAnalyze = throttle(analyzeAndNotify, 1000);
   watch(
