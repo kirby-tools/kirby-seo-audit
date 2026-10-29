@@ -8,8 +8,8 @@ export function useAuditLabels() {
   return computed(() =>
     createAuditLabels(
       (key) => panel.t(key) ?? key,
-      // Kirby sets it to a BCP 47 tag of the Panel language, like `sr` for `sr@latin`.
-      document.documentElement.lang,
+      // Kirby's `sr@latin` is not a BCP 47 tag.
+      panel.translation.code.replace("_", "-").replace("@latin", "-Latn"),
     ),
   );
 }
