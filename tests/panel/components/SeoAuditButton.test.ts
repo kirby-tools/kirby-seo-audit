@@ -10,9 +10,12 @@ const api = { get: vi.fn() };
 let resolveOptions: (language: string | null) => Promise<AnalysisOptions>;
 
 vi.mock("kirbyuse", () => ({
-  useApi: () => api,
   useContent: () => ({ currentContent: ref({}) }),
-  usePanel: () => ({ view: { path: "pages/about" }, t: (key: string) => key }),
+  usePanel: () => ({
+    api,
+    view: { path: "pages/about" },
+    t: (key: string) => key,
+  }),
 }));
 
 vi.mock("../../../src/panel/composables", () => ({
