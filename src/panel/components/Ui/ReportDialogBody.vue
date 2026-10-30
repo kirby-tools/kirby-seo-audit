@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AuditLabels, ContentVersion, Report } from "../../types";
+import type { ContentVersion, Report, ReportLabels } from "../../types";
 import { computed } from "vue";
-import { reportHeading } from "../../utils/audit-labels";
-import AuditResult from "./AuditResult.vue";
+import { reportHeading } from "../../utils/report-labels";
 import ReportMeta from "./ReportMeta.vue";
 import ReportRatings from "./ReportRatings.vue";
+import ResultList from "./ResultList.vue";
 
 const props = defineProps({
   results: {
@@ -20,7 +20,7 @@ const props = defineProps({
     default: true,
   },
   labels: {
-    type: Object as PropType<AuditLabels>,
+    type: Object as PropType<ReportLabels>,
     required: true,
   },
 });
@@ -29,7 +29,7 @@ const heading = computed(() => reportHeading(props.results, props.labels));
 </script>
 
 <template>
-  <AuditResult :results="results" :links="links" :labels="labels">
+  <ResultList :results="results" :links="links" :labels="labels">
     <template #header>
       <div
         class="ksr-mb-[var(--spacing-6)] ksr-flex ksr-items-start ksr-justify-between"
@@ -57,5 +57,5 @@ const heading = computed(() => reportHeading(props.results, props.labels));
         />
       </p>
     </template>
-  </AuditResult>
+  </ResultList>
 </template>

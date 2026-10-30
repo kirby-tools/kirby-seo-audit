@@ -1,7 +1,7 @@
 export { default as translations } from "../../translations/en.json";
-export { default as AuditButton } from "./components/Ui/AuditButton.vue";
-export { default as AuditField } from "./components/Ui/AuditField.vue";
-export { default as ReportBody } from "./components/Ui/ReportBody.vue";
+export { default as FieldBody } from "./components/Ui/FieldBody.vue";
+export { default as ReportDialogBody } from "./components/Ui/ReportDialogBody.vue";
+export { default as ViewButtonBody } from "./components/Ui/ViewButtonBody.vue";
 export type * from "./types";
-export * from "./utils/audit-labels";
+export * from "./utils/report-labels";
 export { worstRating } from "./utils/seo-score";

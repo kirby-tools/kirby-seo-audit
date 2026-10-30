@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AuditLabels, Report } from "../../types";
+import type { Report, ReportLabels } from "../../types";
 import { CATEGORIES } from "../../constants";
-import RatingStatus from "./RatingStatus.vue";
+import RatingLight from "./RatingLight.vue";
 
 defineProps({
   ratings: {
@@ -10,7 +10,7 @@ defineProps({
     required: true,
   },
   labels: {
-    type: Object as PropType<AuditLabels>,
+    type: Object as PropType<ReportLabels>,
     required: true,
   },
 });
@@ -25,7 +25,7 @@ defineProps({
         v-if="ratings[category]"
         class="ksr-inline-flex ksr-items-center ksr-gap-[var(--spacing-2)]"
       >
-        <RatingStatus
+        <RatingLight
           :rating="ratings[category].rating"
           class="ksr-size-[var(--spacing-3)]"
         />

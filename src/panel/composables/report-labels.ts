@@ -1,12 +1,12 @@
 import { toIntlLocale, usePanel } from "kirbyuse";
 import { computed } from "vue";
-import { createAuditLabels } from "../utils/audit-labels";
+import { createReportLabels } from "../utils/report-labels";
 
-export function useAuditLabels() {
+export function useReportLabels() {
   const panel = usePanel();
 
   return computed(() =>
-    createAuditLabels(
+    createReportLabels(
       (key) => panel.t(key) ?? key,
       toIntlLocale(panel.translation.code),
     ),

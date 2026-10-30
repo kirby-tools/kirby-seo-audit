@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AuditLabels, Report, ResultRating } from "../../types";
+import type { Report, ReportLabels, ResultRating } from "../../types";
 import { computed, toRaw } from "vue";
 import { groupResultsByRating } from "../../utils/seo-filter";
-import AuditResultItem from "./AuditResultItem.vue";
+import ResultItem from "./ResultItem.vue";
 
 const props = defineProps({
   results: {
@@ -15,7 +15,7 @@ const props = defineProps({
     default: true,
   },
   labels: {
-    type: Object as PropType<AuditLabels>,
+    type: Object as PropType<ReportLabels>,
     required: true,
   },
 });
@@ -71,7 +71,7 @@ const ratingGroups = computed(() => {
           </span>
         </div>
 
-        <AuditResultItem
+        <ResultItem
           v-for="(resultItem, resultIndex) in group.results"
           :key="resultIndex"
           :result="resultItem"

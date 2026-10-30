@@ -62,7 +62,7 @@ export interface ReportStorageScope {
 }
 
 /** The fixed strings the audit components show, translated by the caller. */
-export interface AuditLabels {
+export interface ReportLabels {
   analyze: string;
   /** Report headings by the categories that have results; `all` when both have. */
   results: Record<Category | "all", string>;

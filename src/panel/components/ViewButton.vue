@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AnalyzeOnTrigger, LogLevel } from "../../constants";
-import type { AnalysisOptions, ButtonOptionsResponse } from "../../types";
+import type { AnalyzeOnTrigger, LogLevel } from "../constants";
+import type { AnalysisOptions, ButtonOptionsResponse } from "../types";
 import { useContent, usePanel } from "kirbyuse";
-import { useAnalysis, usePluginContext } from "../../composables";
-import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
+import { useAnalysis, usePluginContext } from "../composables";
+import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../constants";
 import {
   resolveKeyphrase,
   resolveLogLevelIndex,
   resolveSynonyms,
-} from "../../utils/analysis-options";
-import AuditButton from "../Ui/AuditButton.vue";
+} from "../utils/analysis-options";
+import ViewButtonBody from "./Ui/ViewButtonBody.vue";
 
 // The view button props Kirby passes (`disabled`, `responsive`, …) would override the button's own.
 defineOptions({ inheritAttrs: false });
@@ -128,7 +128,7 @@ async function openReport() {
 </script>
 
 <template>
-  <AuditButton
+  <ViewButtonBody
     :label="label || panel.t('johannschopplich.seo-audit.label')"
     :theme="theme"
     :rating="rating"
