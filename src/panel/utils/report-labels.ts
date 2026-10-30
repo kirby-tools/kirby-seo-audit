@@ -1,9 +1,9 @@
 import type {
-  AuditLabels,
   Category,
   CategoryRating,
   ContentVersion,
   Report,
+  ReportLabels,
   ResultRating,
 } from "../types";
 import { CATEGORIES } from "../constants";
@@ -19,13 +19,13 @@ const RATINGS: (ResultRating | CategoryRating)[] = [
 const VERSIONS: ContentVersion[] = ["latest", "changes"];
 
 /**
- * Renders the audit labels through `t`, so a host outside the Panel can
+ * Renders the report labels through `t`, so a host outside the Panel can
  * resolve the plugin's translation keys from its own copy.
  */
-export function createAuditLabels(
+export function createReportLabels(
   t: (key: string) => string,
   locale: string,
-): AuditLabels {
+): ReportLabels {
   const prefix = "johannschopplich.seo-audit";
 
   return {
@@ -43,17 +43,20 @@ export function createAuditLabels(
     ) as Record<Category, string>,
     ratings: Object.fromEntries(
       RATINGS.map((rating) => [rating, t(`${prefix}.rating.${rating}`)]),
-    ) as AuditLabels["ratings"],
+    ) as ReportLabels["ratings"],
     versions: Object.fromEntries(
       VERSIONS.map((version) => [version, t(`${prefix}.version.${version}`)]),
-    ) as AuditLabels["versions"],
+    ) as ReportLabels["versions"],
     stale: t(`${prefix}.rating.stale`),
     issues: t(`${prefix}.issues`),
     locale,
   };
 }
 
-export function reportHeading(results: Report["results"], labels: AuditLabels) {
+export function reportHeading(
+  results: Report["results"],
+  labels: ReportLabels,
+) {
   if (results.seo.length > 0 && results.readability.length > 0) {
     return labels.results.all;
   }
@@ -69,7 +72,7 @@ export function formatReportMeta(
     timestamp,
     isStale,
   }: Pick<Report, "version" | "timestamp"> & { isStale?: boolean },
-  labels: AuditLabels,
+  labels: ReportLabels,
 ) {
   const { format } = new Intl.DateTimeFormat(labels.locale, {
     dateStyle: "short",

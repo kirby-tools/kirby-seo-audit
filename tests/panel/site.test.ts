@@ -13,12 +13,12 @@ describe("site barrel", () => {
   it("loads without `window`", async () => {
     expect(globalThis.window).toBeUndefined();
 
-    const { AuditButton, AuditField, ReportBody } =
+    const { FieldBody, ReportDialogBody, ViewButtonBody } =
       await import("../../src/panel/site");
 
-    expect(AuditButton).toBeTypeOf("object");
-    expect(AuditField).toBeTypeOf("object");
-    expect(ReportBody).toBeTypeOf("object");
+    expect(ViewButtonBody).toBeTypeOf("object");
+    expect(FieldBody).toBeTypeOf("object");
+    expect(ReportDialogBody).toBeTypeOf("object");
   });
 
   it("imports only kirbyuse/props and vue", async () => {

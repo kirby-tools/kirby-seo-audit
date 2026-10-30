@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import type { Result, ResultRating } from "../../types";
 import { computed } from "vue";
-import RatingStatus from "./RatingStatus.vue";
+import RatingLight from "./RatingLight.vue";
 
 const props = defineProps({
   result: {
@@ -38,7 +38,7 @@ function stripTags(html: string) {
 
 <template>
   <div class="ksr-flex ksr-items-start ksr-gap-[var(--spacing-2)]">
-    <RatingStatus
+    <RatingLight
       :rating="result.rating"
       class="ksr-mt-[var(--spacing-1)] ksr-size-[var(--spacing-3)]"
     />

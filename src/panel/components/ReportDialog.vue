@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { ContentVersion, Report } from "../../types";
+import type { ContentVersion, Report } from "../types";
 import { useLicenseStatus } from "@kirby-tools/licensing";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
-import { useAuditLabels, usePluginContext } from "../../composables";
-import ReportBody from "../Ui/ReportBody.vue";
+import { usePluginContext, useReportLabels } from "../composables";
+import ReportDialogBody from "./Ui/ReportDialogBody.vue";
 
 defineProps({
   results: {
@@ -34,7 +34,7 @@ const emit = defineEmits<{
   (event: "success"): void;
 }>();
 
-const labels = useAuditLabels();
+const labels = useReportLabels();
 const hasLicenseButtons = !__PLAYGROUND__ && !__ZERO_ONE__;
 
 const { licenseStatus, licenseDialog } = useLicenseStatus({
@@ -52,7 +52,7 @@ const { licenseStatus, licenseDialog } = useLicenseStatus({
     class="k-seo-audit-report-dialog"
     @cancel="emit('cancel')"
   >
-    <ReportBody
+    <ReportDialogBody
       :results="results"
       :ratings="ratings"
       :version="version"
@@ -70,6 +70,6 @@ const { licenseStatus, licenseDialog } = useLicenseStatus({
           pricing-url="https://kirby.tools/seo-audit/buy"
         />
       </template>
-    </ReportBody>
+    </ReportDialogBody>
   </k-dialog>
 </template>

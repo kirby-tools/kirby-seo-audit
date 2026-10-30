@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AuditLabels, ContentVersion } from "../../types";
+import type { ContentVersion, ReportLabels } from "../../types";
 import { computed } from "vue";
-import { formatReportMeta } from "../../utils/audit-labels";
+import { formatReportMeta } from "../../utils/report-labels";
 
 const props = defineProps({
   version: String as PropType<ContentVersion>,
@@ -12,7 +12,7 @@ const props = defineProps({
   },
   isStale: Boolean,
   labels: {
-    type: Object as PropType<AuditLabels>,
+    type: Object as PropType<ReportLabels>,
     required: true,
   },
 });

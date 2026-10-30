@@ -3,7 +3,7 @@ import type { AnalysisOptions } from "../../../src/panel/types";
 import { shallowMount } from "@vue/test-utils";
 import { beforeEach, expect, it, vi } from "vitest";
 import { ref } from "vue";
-import SeoAuditButton from "../../../src/panel/components/ViewButtons/SeoAuditButton.vue";
+import ViewButton from "../../../src/panel/components/ViewButton.vue";
 import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../../src/panel/constants";
 
 const api = { get: vi.fn() };
@@ -34,7 +34,7 @@ beforeEach(() => {
 });
 
 it("resolves the keyphrase { page.title } through the button-options route", async () => {
-  shallowMount(SeoAuditButton, {
+  shallowMount(ViewButton, {
     props: { keyphrase: "{ page.title }" },
   });
 
@@ -50,7 +50,7 @@ it("resolves the keyphrase { page.title } through the button-options route", asy
 });
 
 it("skips the button-options route without a keyphrase or synonyms", async () => {
-  shallowMount(SeoAuditButton);
+  shallowMount(ViewButton);
 
   await resolveOptions(null);
 
@@ -59,7 +59,7 @@ it("skips the button-options route without a keyphrase or synonyms", async () =>
 
 it("keeps its own keyphrase when the button-options route returns null", async () => {
   api.get.mockResolvedValue({ keyphrase: null, synonyms: null });
-  shallowMount(SeoAuditButton, {
+  shallowMount(ViewButton, {
     props: { keyphrase: "Kirby CMS" },
   });
 

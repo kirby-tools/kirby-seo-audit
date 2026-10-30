@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AuditLabels, ContentVersion, Report } from "../../types";
+import type { ContentVersion, Report, ReportLabels } from "../../types";
 import {
   help as helpProp,
   id as idProp,
   name as nameProp,
 } from "kirbyuse/props";
-import AuditResult from "./AuditResult.vue";
 import ReportMeta from "./ReportMeta.vue";
 import ReportRatings from "./ReportRatings.vue";
+import ResultList from "./ResultList.vue";
 
 defineProps({
   ...helpProp,
@@ -19,7 +19,7 @@ defineProps({
     required: true,
   },
   labels: {
-    type: Object as PropType<AuditLabels>,
+    type: Object as PropType<ReportLabels>,
     required: true,
   },
   isAnalyzing: Boolean,
@@ -70,7 +70,7 @@ const emit = defineEmits<{
           theme="passive"
           :class="[isAnalyzing && 'ksr-pointer-events-none ksr-animate-pulse']"
         >
-          <AuditResult
+          <ResultList
             :key="timestamp"
             :results="results"
             :links="links"
@@ -84,7 +84,7 @@ const emit = defineEmits<{
                 class="ksr-mb-[var(--spacing-3)]"
               />
             </template>
-          </AuditResult>
+          </ResultList>
         </k-box>
 
         <p

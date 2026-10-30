@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AnalyzeOnTrigger, LogLevel } from "../../constants";
-import type { AnalysisOptions } from "../../types";
+import type { AnalyzeOnTrigger, LogLevel } from "../constants";
+import type { AnalysisOptions } from "../types";
 import { licenseProps } from "@kirby-tools/licensing";
 import { LicensingButtonGroup } from "@kirby-tools/licensing/components";
 import { useContent, usePanel } from "kirbyuse";
@@ -13,17 +13,13 @@ import {
 } from "kirbyuse/props";
 import throttle from "throttleit";
 import { ref, watch } from "vue";
-import {
-  useAnalysis,
-  useAuditLabels,
-  usePluginContext,
-} from "../../composables";
+import { useAnalysis, usePluginContext, useReportLabels } from "../composables";
 import {
   resolveKeyphrase,
   resolveLogLevelIndex,
   resolveSynonyms,
-} from "../../utils/analysis-options";
-import AuditField from "../Ui/AuditField.vue";
+} from "../utils/analysis-options";
+import FieldBody from "./Ui/FieldBody.vue";
 
 const props = defineProps({
   // Declared to keep `disabled` off `k-field`, so the field never looks disabled.
@@ -65,7 +61,7 @@ const props = defineProps({
 });
 
 const panel = usePanel();
-const labels = useAuditLabels();
+const labels = useReportLabels();
 const hasLicenseButtons = !__PLAYGROUND__ && !__ZERO_ONE__;
 const { currentContent } = useContent();
 
@@ -148,7 +144,7 @@ async function analyzeAndNotify() {
 </script>
 
 <template>
-  <AuditField
+  <FieldBody
     :id="id"
     :help="help"
     :label="label"
@@ -170,5 +166,5 @@ async function analyzeAndNotify() {
         pricing-url="https://kirby.tools/seo-audit/buy"
       />
     </template>
-  </AuditField>
+  </FieldBody>
 </template>
