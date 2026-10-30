@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import type { AnalyzeOnTrigger, LogLevel } from "../../constants";
 import type { AnalysisOptions, ButtonOptionsResponse } from "../../types";
-import { useApi, useContent, usePanel } from "kirbyuse";
+import { useContent, usePanel } from "kirbyuse";
 import { useAnalysis, usePluginContext } from "../../composables";
 import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
 import {
@@ -58,7 +58,6 @@ const props = defineProps({
 });
 
 const panel = usePanel();
-const api = useApi();
 const { currentContent } = useContent();
 
 const { analyze, isAnalyzing, rating } = useAnalysis({
@@ -81,7 +80,7 @@ async function resolveAnalysisOptions(
   const queriedProps: ButtonOptionsResponse =
     !__PLAYGROUND__ &&
     (isNonEmptyString(props.keyphrase) || isNonEmptyString(props.synonyms))
-      ? await api.get<ButtonOptionsResponse>(
+      ? await panel.api.get<ButtonOptionsResponse>(
           PLUGIN_BUTTON_OPTIONS_API_ROUTE,
           { path: panel.view.path },
           { language },
