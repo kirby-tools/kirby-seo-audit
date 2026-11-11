@@ -7,12 +7,12 @@ Use the terms from `GLOSSARY.md`. Decisions are in `docs/adr/`.
 ## Commands
 
 ```bash
-composer test              # PHPUnit
-composer csfix             # php-cs-fixer, lives in tools/phpcs/vendor/bin/, not vendor/bin/
-pnpm test                  # Vitest, for the Panel code
-pnpm run test:types        # typecheck with vue-tsc
-pnpm run lint              # ESLint
-pnpm run build:zero-one    # build the Zero One edition
+composer test
+composer csfix         # lives in tools/phpcs/vendor/bin/, not vendor/bin/
+pnpm test --run
+pnpm run test:types
+pnpm run lint
+pnpm run build:zero-one
 ```
 
 ## Conventions
