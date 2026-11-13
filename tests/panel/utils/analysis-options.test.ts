@@ -63,4 +63,8 @@ describe("resolveLogLevelIndex", () => {
     expect(resolveLogLevelIndex()).toBe(1);
     expect(resolveLogLevelIndex(null, null)).toBe(1);
   });
+
+  it("indexes the default level for an unknown fallback", () => {
+    expect(resolveLogLevelIndex(undefined, "verbose" as never)).toBe(1);
+  });
 });
