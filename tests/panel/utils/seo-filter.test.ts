@@ -180,12 +180,23 @@ describe("filterYoastSeoResults", () => {
     expect(seo.map((i) => i._identifier)).toEqual(["wordComplexity"]);
   });
 
-  it("leaves locale compatibility unchecked while no assessment is selected", () => {
-    const results = [createResult("wordComplexity")];
+  it("throws IncompatibleLocaleError for a selected assessment Yoast returns no result for", () => {
+    const options = createOptions({ assessments: ["passivevoice"] });
 
-    const { seo } = filterYoastSeoResults(results, createOptions(), "nl");
+    expect(() => filterYoastSeoResults([], options, "da")).toThrow(
+      IncompatibleLocaleError,
+    );
+  });
 
-    expect(seo.map((i) => i._identifier)).toEqual(["wordComplexity"]);
+  it("skips an assessment the locale cannot score while no assessment is selected", () => {
+    const results = [
+      createResult("textSentenceLength"),
+      createResult("titleWidth"),
+    ];
+
+    const { seo } = filterYoastSeoResults(results, createOptions(), "da");
+
+    expect(seo.map((i) => i._identifier)).toEqual(["titleWidth"]);
   });
 });
 

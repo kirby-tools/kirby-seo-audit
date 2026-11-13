@@ -42,6 +42,21 @@ export function filterYoastSeoResults(
     readability: [],
   };
 
+  for (const [assessment, compatibleLocales] of Object.entries(
+    YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
+  )) {
+    if (
+      options.assessments.includes(assessment.toLowerCase()) &&
+      !compatibleLocales.includes(locale)
+    ) {
+      throw new IncompatibleLocaleError({
+        locale,
+        assessment,
+        compatibleLocales,
+      });
+    }
+  }
+
   for (const result of analysisResults) {
     if (!result.text) continue;
 
@@ -61,18 +76,12 @@ export function filterYoastSeoResults(
 
     if (options.assessments.length > 0) {
       if (!isNamedByAssessments(result, options.assessments)) continue;
-
+    } else {
       const compatibleLocales = Object.entries(
         YOAST_ASSESSMENTS_LOCALE_COMPATIBILITY_MAP,
       ).find(([key]) => key.toLowerCase() === id)?.[1];
 
-      if (compatibleLocales && !compatibleLocales.includes(locale)) {
-        throw new IncompatibleLocaleError({
-          locale,
-          assessment: result._identifier,
-          compatibleLocales,
-        });
-      }
+      if (compatibleLocales && !compatibleLocales.includes(locale)) continue;
     }
 
     resultsByCategory[result._category].push({
