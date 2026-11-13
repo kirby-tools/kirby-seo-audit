@@ -27,6 +27,10 @@ describe("resolveDocumentLocale", () => {
     expect(resolveDocumentLocale("xx")).toBe("en-US");
   });
 
+  it("falls back to en-US for an unknown xx-YY", () => {
+    expect(resolveDocumentLocale("xx-YY")).toBe("en-US");
+  });
+
   it("falls back to en-US for an empty language", () => {
     expect(resolveDocumentLocale("")).toBe("en-US");
   });
