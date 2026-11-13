@@ -354,6 +354,17 @@ describe("useAnalysis", () => {
     expect(notifyReportError).not.toHaveBeenCalled();
   });
 
+  it("reloads the rating after a failed automatic run", async () => {
+    runAnalysis.mockRejectedValue(new Error("Preview unreachable"));
+    const { rating } = await loadAnalysis();
+    ratingResponse = storedRating;
+
+    publish("de");
+    await flushPromises();
+
+    expect(rating.value).toEqual(storedRating);
+  });
+
   it("a run by another participant on the same view reaches report", async () => {
     const participant = await loadAnalysis();
     const { analyze } = await loadAnalysis();

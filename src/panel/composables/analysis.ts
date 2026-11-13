@@ -184,6 +184,7 @@ export function useAnalysis({
       await pendingRun;
     } catch (error) {
       logger.error(error);
+      await loadRating();
     }
   }
 
