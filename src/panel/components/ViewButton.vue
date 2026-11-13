@@ -47,7 +47,7 @@ const props = defineProps({
   logLevel: String as PropType<LogLevel>,
   label: String,
   analyzeOn: {
-    type: [String, Boolean] as PropType<AnalyzeOnTrigger | boolean | null>,
+    type: [String, Boolean] as PropType<AnalyzeOnTrigger | false | null>,
     // Keeps Vue from casting an absent prop to `false` and overriding the global option.
     default: null,
   },

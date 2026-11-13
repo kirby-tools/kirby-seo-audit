@@ -41,7 +41,7 @@ final class SeoAuditField extends DisplayField
      * `null` falls back to the global `analyzeOn` option.
      */
     #[Prop]
-    protected string|bool|null $analyzeOn = null;
+    protected string|false|null $analyzeOn = null;
 
     #[Prop(computed: true)]
     protected string|null $logLevel = null;
