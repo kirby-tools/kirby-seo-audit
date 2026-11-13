@@ -70,7 +70,7 @@ const links = ref(props.links);
 
 const { analyze, isAnalyzing, rating, report } = useAnalysis({
   resolveOptions: resolveAnalysisOptions,
-  contentSelector: () => props.contentSelector,
+  contentSelector: () => props.contentSelector || "body",
   analyzeOn: () => props.analyzeOn,
   storage: {
     scope: () => ({
