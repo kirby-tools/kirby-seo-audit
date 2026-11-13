@@ -155,8 +155,7 @@ describe("useAnalysis", () => {
     expect(api.get).toHaveBeenCalledWith(
       "__seo-audit__/rating",
       { path: "pages/about" },
-      { language: "de" },
-      true,
+      { language: "de", silent: true },
     );
     expect(rating.value).toEqual(storedRating);
   });
@@ -192,9 +191,7 @@ describe("useAnalysis", () => {
         counts: { good: 2, ok: 1, bad: 1 },
         version: "changes",
       },
-      { language: "de" },
-      "POST",
-      true,
+      { language: "de", silent: true },
     );
     expect(rating.value).toEqual(serverRating);
   });
@@ -325,8 +322,7 @@ describe("useAnalysis", () => {
     expect(api.get).toHaveBeenCalledWith(
       "__seo-audit__/rating",
       { path: "pages/about" },
-      { language: "de" },
-      true,
+      { language: "de", silent: true },
     );
   });
 

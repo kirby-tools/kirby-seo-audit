@@ -43,8 +43,7 @@ it("resolves the keyphrase { page.title } through the button-options route", asy
   expect(api.get).toHaveBeenCalledWith(
     PLUGIN_BUTTON_OPTIONS_API_ROUTE,
     { path: "pages/about" },
-    expect.anything(),
-    true,
+    expect.objectContaining({ silent: true }),
   );
   expect(keyword).toBe("Analyzing Kirby");
 });

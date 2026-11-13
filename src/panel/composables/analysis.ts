@@ -122,9 +122,7 @@ export function useAnalysis({
         response = await panel.api.post<Rating>(
           PLUGIN_RATING_API_ROUTE,
           { path, ...record },
-          { language },
-          "POST",
-          true,
+          { language, silent: true },
         );
       } catch (error) {
         logger.error(error);
@@ -154,7 +152,11 @@ export function useAnalysis({
     if (pendingLoads.has(key)) return pendingLoads.get(key);
 
     const request = panel.api
-      .get<Rating>(PLUGIN_RATING_API_ROUTE, { path }, { language }, true)
+      .get<Rating>(
+        PLUGIN_RATING_API_ROUTE,
+        { path },
+        { language, silent: true },
+      )
       .then((response) => {
         records.value = { ...records.value, [key]: response };
       })

@@ -118,8 +118,7 @@ async function resolvePreviewTarget(
     await panel.api.get<PreviewUrlResponse>(
       PLUGIN_PREVIEW_URL_API_ROUTE,
       { path: panel.view.path, version },
-      { language },
-      true,
+      { language, silent: true },
     );
 
   if (!url) {
@@ -240,9 +239,7 @@ async function fetchHtml({ url, path, language, version }: PreviewTarget) {
   } = await usePanel().api.post<ProxyResponse>(
     PLUGIN_PROXY_API_ROUTE,
     path ? { path, version } : { url },
-    { language },
-    "POST",
-    true,
+    { language, silent: true },
   );
 
   if (code === null) {

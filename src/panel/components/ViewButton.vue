@@ -83,8 +83,7 @@ async function resolveAnalysisOptions(
       ? await panel.api.get<ButtonOptionsResponse>(
           PLUGIN_BUTTON_OPTIONS_API_ROUTE,
           { path: panel.view.path },
-          { language },
-          true,
+          { language, silent: true },
         )
       : props;
   const { config } = await usePluginContext();
