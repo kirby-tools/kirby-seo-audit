@@ -66,6 +66,21 @@ final class SeoAuditFieldTest extends ApiRouteTestCase
         $this->assertSame('negative', $props['theme']);
     }
 
+    #[Test]
+    public function analyzeOn_true_turns_the_field_into_an_error_field(): void
+    {
+        $props = $this->formField($this->appWithField(['analyzeOn' => true]))->toArray();
+
+        $this->assertSame('info', $props['type']);
+        $this->assertSame('negative', $props['theme']);
+    }
+
+    #[Test]
+    public function analyzeOn_exports_false_unchanged(): void
+    {
+        $this->assertFalse($this->formField($this->appWithField(['analyzeOn' => false]))->toArray()['analyzeOn']);
+    }
+
     private function appWithField(array $field = []): App
     {
         return self::bootApp([

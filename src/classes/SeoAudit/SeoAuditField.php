@@ -11,6 +11,7 @@ use Kirby\Toolkit\Str;
 
 final class SeoAuditField extends DisplayField
 {
+    private const ANALYZE_ON_TRIGGERS = ['publish'];
     private const LOG_LEVELS = ['error', 'warn', 'info', 'debug'];
 
     #[Prop(computed: true)]
@@ -75,6 +76,17 @@ final class SeoAuditField extends DisplayField
         }
 
         return $this->synonyms;
+    }
+
+    public function analyzeOn(): string|false|null
+    {
+        if (is_string($this->analyzeOn) && !in_array($this->analyzeOn, self::ANALYZE_ON_TRIGGERS, true)) {
+            throw new InvalidArgumentException(
+                message: 'Invalid analyzeOn "' . $this->analyzeOn . '", expected one of: ' . implode(', ', self::ANALYZE_ON_TRIGGERS) . ', false'
+            );
+        }
+
+        return $this->analyzeOn;
     }
 
     public function logLevel(): string|null
