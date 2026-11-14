@@ -93,7 +93,7 @@ final class SeoAuditField extends DisplayField
     {
         if ($this->logLevel !== null && !in_array($this->logLevel, self::LOG_LEVELS, true)) {
             throw new InvalidArgumentException(
-                message: 'Invalid log level "' . $this->logLevel . '", expected one of: ' . implode(', ', self::LOG_LEVELS)
+                message: 'Invalid logLevel "' . $this->logLevel . '", expected one of: ' . implode(', ', self::LOG_LEVELS)
             );
         }
 
