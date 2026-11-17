@@ -1,5 +1,4 @@
-import type { LicenseStatus } from "@kirby-tools/licensing";
-import type { PluginAsset } from "kirbyuse";
+import type { PluginContext } from "@kirby-tools/licensing";
 import type { AnalyzeOnTrigger, CATEGORIES, LogLevel } from "./constants";
 
 export type Category = (typeof CATEGORIES)[number];
@@ -59,7 +58,21 @@ export interface ReportStorageScope {
   path: string;
   /** `null` on single-language sites. */
   language: string | null;
-  section: string;
+  field: string;
+}
+
+/** The fixed strings the audit components show, translated by the caller. */
+export interface ReportLabels {
+  analyze: string;
+  /** Report headings by the categories that have results; `all` when both have. */
+  results: Record<Category | "all", string>;
+  categories: Record<Category, string>;
+  ratings: Record<ResultRating | CategoryRating, string>;
+  versions: Record<ContentVersion, string>;
+  stale: string;
+  issues: string;
+  /** The locale the report timestamp is formatted in. */
+  locale: string;
 }
 
 export interface AnalysisOptions {
@@ -108,10 +121,8 @@ export interface PluginConfig {
   logLevel?: LogLevel | null;
 }
 
-export interface PluginContextResponse {
+export interface PluginContextResponse extends PluginContext {
   config: PluginConfig;
-  assets: PluginAsset[];
-  licenseStatus?: LicenseStatus;
 }
 
 export interface ButtonOptionsResponse {

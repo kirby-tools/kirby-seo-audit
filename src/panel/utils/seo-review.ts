@@ -233,5 +233,5 @@ export function extractContent(
   contentSelector: string,
 ) {
   const elements = htmlDocument.querySelectorAll(contentSelector);
-  return Array.from(elements, (element) => element.innerHTML).join("\n");
+  return Array.from(elements, (element) => element.outerHTML).join("\n");
 }

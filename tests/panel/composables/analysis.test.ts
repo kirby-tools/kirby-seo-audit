@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import type {
   AnalysisOptions,
   PluginConfig,
@@ -5,13 +6,14 @@ import type {
   Report,
   ReportStorageScope,
 } from "../../../src/panel/types";
+import { flushPromises, mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { markRaw, reactive } from "vue";
+import { defineComponent, markRaw, reactive } from "vue";
 import {
   readStoredReport,
   writeStoredReport,
 } from "../../../src/panel/utils/storage";
-import { flushPromises } from "../helpers/flush-promises";
+import { createEventBus } from "../helpers/event-bus";
 
 const api = { get: vi.fn(), post: vi.fn() };
 const events = createEventBus();
@@ -23,9 +25,8 @@ const panel = reactive({
   events: markRaw(events),
 });
 const isEditable = { value: true };
-const isKirby5 = vi.fn(() => true);
 const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() };
-const beforeUnmountHooks: Array<() => void> = [];
+const unmountHosts: Array<() => void> = [];
 const runAnalysis =
   vi.fn<
     (
@@ -45,16 +46,15 @@ vi.stubGlobal("localStorage", {
 let pluginConfig: PluginConfig;
 let ratingResponse: Rating;
 
-vi.mock("kirbyuse", async () => {
+vi.mock("kirbyuse", async (importOriginal) => {
   const { baseKirbyuseMock } = await import("../helpers/mock-kirbyuse");
+  const { usePanelEvent } = await importOriginal<typeof import("kirbyuse")>();
   return {
     ...baseKirbyuseMock(),
+    usePanelEvent,
     createLogger: () => logger,
     usePanel: () => panel,
     useContent: () => ({ isEditable }),
-    isKirby5,
-    onBeforeUnmount: (hook: () => void) => beforeUnmountHooks.push(hook),
-    registerPluginAssets: vi.fn(),
   };
 });
 
@@ -115,7 +115,7 @@ const storedReport: Report = {
 const storageScope: ReportStorageScope = {
   path: "pages/about",
   language: "de",
-  section: "seo",
+  field: "seo",
 };
 
 beforeEach(() => {
@@ -135,16 +135,15 @@ beforeEach(() => {
   notifyReportError.mockReset();
   logger.error.mockReset();
   events.clear();
-  beforeUnmountHooks.length = 0;
   panel.view.path = "pages/about";
   panel.language.code = "de";
   isEditable.value = true;
-  isKirby5.mockReturnValue(true);
   storedItems.clear();
   window.panel = panel as unknown as Window["panel"];
 });
 
 afterEach(() => {
+  for (const unmount of unmountHosts.splice(0)) unmount();
   vi.useRealTimers();
 });
 
@@ -156,8 +155,7 @@ describe("useAnalysis", () => {
     expect(api.get).toHaveBeenCalledWith(
       "__seo-audit__/rating",
       { path: "pages/about" },
-      { headers: { "x-language": "de" } },
-      true,
+      { language: "de", silent: true },
     );
     expect(rating.value).toEqual(storedRating);
   });
@@ -193,9 +191,7 @@ describe("useAnalysis", () => {
         counts: { good: 2, ok: 1, bad: 1 },
         version: "changes",
       },
-      { headers: { "x-language": "de" } },
-      "POST",
-      true,
+      { language: "de", silent: true },
     );
     expect(rating.value).toEqual(serverRating);
   });
@@ -206,7 +202,7 @@ describe("useAnalysis", () => {
 
     await analyze();
 
-    expect(currentReport.value).toBe(report);
+    expect(currentReport.value).toEqual(report);
   });
 
   it("analyze keeps the record local without isEditable", async () => {
@@ -277,7 +273,7 @@ describe("useAnalysis", () => {
     expect(currentReport.value).toBeUndefined();
 
     panel.language.code = "de";
-    expect(currentReport.value).toBe(report);
+    expect(currentReport.value).toEqual(report);
   });
 
   it("runs the analysis once in the published language on content.publish", async () => {
@@ -326,8 +322,7 @@ describe("useAnalysis", () => {
     expect(api.get).toHaveBeenCalledWith(
       "__seo-audit__/rating",
       { path: "pages/about" },
-      { headers: { "x-language": "de" } },
-      true,
+      { language: "de", silent: true },
     );
   });
 
@@ -355,13 +350,24 @@ describe("useAnalysis", () => {
     expect(notifyReportError).not.toHaveBeenCalled();
   });
 
+  it("reloads the rating after a failed automatic run", async () => {
+    runAnalysis.mockRejectedValue(new Error("Preview unreachable"));
+    const { rating } = await loadAnalysis();
+    ratingResponse = storedRating;
+
+    publish("de");
+    await flushPromises();
+
+    expect(rating.value).toEqual(storedRating);
+  });
+
   it("a run by another participant on the same view reaches report", async () => {
     const participant = await loadAnalysis();
     const { analyze } = await loadAnalysis();
 
     await analyze();
 
-    expect(participant.report.value).toBe(report);
+    expect(participant.report.value).toEqual(report);
   });
 
   it("seeds report from storage when persisted", async () => {
@@ -413,10 +419,10 @@ describe("useAnalysis", () => {
     ).toBeUndefined();
   });
 
-  it("stops reacting to content.publish after onBeforeUnmount", async () => {
+  it("stops reacting to content.publish after the host unmounts", async () => {
     await loadAnalysis();
 
-    for (const hook of beforeUnmountHooks) hook();
+    for (const unmount of unmountHosts.splice(0)) unmount();
     publish("de");
     await flushPromises();
 
@@ -435,33 +441,23 @@ async function loadAnalysis({
 } = {}) {
   const { useAnalysis } =
     await import("../../../src/panel/composables/analysis");
-  const composable = useAnalysis({
-    resolveOptions,
-    contentSelector: () => "main",
-    analyzeOn: () => analyzeOn,
-    storage,
-  });
+  let composable!: ReturnType<typeof useAnalysis>;
+  const host = mount(
+    defineComponent({
+      setup() {
+        composable = useAnalysis({
+          resolveOptions,
+          contentSelector: () => "main",
+          analyzeOn: () => analyzeOn,
+          storage,
+        });
+        return () => null;
+      },
+    }),
+  );
+  unmountHosts.push(() => host.unmount());
   await flushPromises();
   return composable;
-}
-
-function createEventBus() {
-  const listeners = new Map<string, Set<(payload: unknown) => void>>();
-
-  return {
-    on(event: string, handler: (payload: unknown) => void) {
-      listeners.set(event, (listeners.get(event) ?? new Set()).add(handler));
-    },
-    off(event: string, handler: (payload: unknown) => void) {
-      listeners.get(event)?.delete(handler);
-    },
-    emit(event: string, payload: unknown) {
-      for (const handler of listeners.get(event) ?? []) handler(payload);
-    },
-    clear() {
-      listeners.clear();
-    },
-  };
 }
 
 // Kirby emits `content.publish` with the values, the API path, and the language.

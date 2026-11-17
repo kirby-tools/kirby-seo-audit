@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import type { Result, ResultRating } from "../../types";
-import { computed, usePanel } from "kirbyuse";
-import RatingStatus from "./RatingStatus.vue";
+import { computed } from "vue";
+import RatingLight from "./RatingLight.vue";
 
 const props = defineProps({
   result: {
@@ -13,11 +13,13 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  issuesLabel: {
+    type: String,
+    required: true,
+  },
 });
 
 const TRAILING_EXCLAMATION_REGEX = /!$/;
-
-const panel = usePanel();
 
 const displayText = computed(() => {
   const text = replaceTrailingExclamation(props.result.text);
@@ -36,7 +38,7 @@ function stripTags(html: string) {
 
 <template>
   <div class="ksr-flex ksr-items-start ksr-gap-[var(--spacing-2)]">
-    <RatingStatus
+    <RatingLight
       :rating="result.rating"
       class="ksr-mt-[var(--spacing-1)] ksr-size-[var(--spacing-3)]"
     />
@@ -45,14 +47,11 @@ function stripTags(html: string) {
       <div v-html="displayText" />
       <details v-if="result.details">
         <summary class="ksr-[font-weight:var(--font-semi)]">
-          {{ panel.t("johannschopplich.seo-audit.issues") }}
+          {{ issuesLabel }}
         </summary>
-        <k-box
-          data-theme="passive"
-          :text="result.details.text"
-          html
-          class="ksr-my-[var(--spacing-1)]"
-        />
+        <k-box theme="passive" class="ksr-my-[var(--spacing-1)]">
+          <div class="k-text" v-html="result.details.text" />
+        </k-box>
       </details>
     </div>
   </div>

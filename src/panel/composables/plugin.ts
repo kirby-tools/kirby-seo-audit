@@ -1,31 +1,8 @@
 import type { PluginContextResponse } from "../types";
-import { registerPluginAssets } from "kirbyuse";
+import { createPluginContext } from "@kirby-tools/licensing";
 import { PLUGIN_CONTEXT_API_ROUTE } from "../constants";
 
-let context: PluginContextResponse | undefined;
-let pendingPromise: Promise<PluginContextResponse> | undefined;
-
-export function usePluginContext() {
-  if (context) return Promise.resolve(context);
-  if (pendingPromise) return pendingPromise;
-
-  pendingPromise = window.panel.api
-    .get<PluginContextResponse>(
-      PLUGIN_CONTEXT_API_ROUTE,
-      undefined,
-      undefined,
-      // Avoid showing Panel loading indicator.
-      true,
-    )
-    .then((response) => {
-      registerPluginAssets(response.assets);
-      context = response;
-      return context;
-    })
-    // Without this a failing request stays cached as a rejection and no later view recovers without a full reload.
-    .finally(() => {
-      pendingPromise = undefined;
-    });
-
-  return pendingPromise;
-}
+export const usePluginContext = createPluginContext<PluginContextResponse>({
+  route: PLUGIN_CONTEXT_API_ROUTE,
+  pluginId: "seo-audit",
+});

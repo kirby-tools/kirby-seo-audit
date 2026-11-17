@@ -6,7 +6,7 @@ import type {
   ProxyResponse,
   Report,
 } from "../types";
-import { isKirby5, useContent, usePanel } from "kirbyuse";
+import { useContent, usePanel } from "kirbyuse";
 import {
   PLUGIN_PREVIEW_URL_API_ROUTE,
   PLUGIN_PROXY_API_ROUTE,
@@ -18,7 +18,6 @@ import {
   PreviewUnreachableError,
 } from "../utils/error";
 import { resolveReportLanguage } from "../utils/locale";
-import { createLanguageRequestOptions } from "../utils/request";
 import {
   createSeoReport,
   createYoastSeoReport,
@@ -119,8 +118,7 @@ async function resolvePreviewTarget(
     await panel.api.get<PreviewUrlResponse>(
       PLUGIN_PREVIEW_URL_API_ROUTE,
       { path: panel.view.path, version },
-      createLanguageRequestOptions(language),
-      true,
+      { language, silent: true },
     );
 
   if (!url) {
@@ -142,7 +140,7 @@ async function resolvePreviewTarget(
 async function resolveContentVersion(): Promise<ContentVersion> {
   const { content, hasChanges, isEditable } = useContent();
 
-  if (!isKirby5() || !hasChanges.value) {
+  if (!hasChanges.value) {
     return "latest";
   }
 
@@ -241,9 +239,7 @@ async function fetchHtml({ url, path, language, version }: PreviewTarget) {
   } = await usePanel().api.post<ProxyResponse>(
     PLUGIN_PROXY_API_ROUTE,
     path ? { path, version } : { url },
-    createLanguageRequestOptions(language),
-    "POST",
-    true,
+    { language, silent: true },
   );
 
   if (code === null) {

@@ -10,11 +10,10 @@ class ComposerStaticInit7180d4d74add38c339b66f0b3ad50c8b
         'K' =>
         array (
             'Kirby\\' => 6,
+            'KirbyTools\\Licensing\\' => 21,
         ),
         'J' =>
         array (
-            'JohannSchopplich\\Licensing\\' => 27,
-            'JohannSchopplich\\KirbyTools\\' => 28,
             'JohannSchopplich\\' => 17,
         ),
     );
@@ -24,13 +23,9 @@ class ComposerStaticInit7180d4d74add38c339b66f0b3ad50c8b
         array (
             0 => __DIR__ . '/..' . '/getkirby/composer-installer/src',
         ),
-        'JohannSchopplich\\Licensing\\' =>
+        'KirbyTools\\Licensing\\' =>
         array (
             0 => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src',
-        ),
-        'JohannSchopplich\\KirbyTools\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src',
         ),
         'JohannSchopplich\\' =>
         array (
@@ -40,27 +35,26 @@ class ComposerStaticInit7180d4d74add38c339b66f0b3ad50c8b
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'JohannSchopplich\\KirbyTools\\FieldNormalizer' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/FieldNormalizer.php',
-        'JohannSchopplich\\KirbyTools\\FieldResolver' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/FieldResolver.php',
-        'JohannSchopplich\\KirbyTools\\ModelResolver' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/ModelResolver.php',
-        'JohannSchopplich\\KirbyTools\\QueryResolver' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-utils/src/QueryResolver.php',
-        'JohannSchopplich\\Licensing\\Http\\HttpClientInterface' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Http/HttpClientInterface.php',
-        'JohannSchopplich\\Licensing\\Http\\KirbyHttpClient' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Http/KirbyHttpClient.php',
-        'JohannSchopplich\\Licensing\\LicenseActivator' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseActivator.php',
-        'JohannSchopplich\\Licensing\\LicensePanel' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicensePanel.php',
-        'JohannSchopplich\\Licensing\\LicenseRepository' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseRepository.php',
-        'JohannSchopplich\\Licensing\\LicenseStatus' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseStatus.php',
-        'JohannSchopplich\\Licensing\\LicenseUtils' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseUtils.php',
-        'JohannSchopplich\\Licensing\\LicenseValidator' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseValidator.php',
-        'JohannSchopplich\\Licensing\\Licenses' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Licenses.php',
-        'JohannSchopplich\\Licensing\\PluginLicense' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/PluginLicense.php',
-        'JohannSchopplich\\Licensing\\PluginLicenseExtensions' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/PluginLicenseExtensions.php',
+        'JohannSchopplich\\SeoAudit\\Licensing' => __DIR__ . '/../..' . '/src/classes/SeoAudit/Licensing.php',
         'JohannSchopplich\\SeoAudit\\PanelContext' => __DIR__ . '/../..' . '/src/classes/SeoAudit/PanelContext.php',
         'JohannSchopplich\\SeoAudit\\PreviewTarget' => __DIR__ . '/../..' . '/src/classes/SeoAudit/PreviewTarget.php',
         'JohannSchopplich\\SeoAudit\\Proxy' => __DIR__ . '/../..' . '/src/classes/SeoAudit/Proxy.php',
         'JohannSchopplich\\SeoAudit\\Rating' => __DIR__ . '/../..' . '/src/classes/SeoAudit/Rating.php',
         'JohannSchopplich\\SeoAudit\\RatingStore' => __DIR__ . '/../..' . '/src/classes/SeoAudit/RatingStore.php',
+        'JohannSchopplich\\SeoAudit\\SeoAuditField' => __DIR__ . '/../..' . '/src/classes/SeoAudit/SeoAuditField.php',
         'JohannSchopplich\\SeoAudit\\ViewButtonOptions' => __DIR__ . '/../..' . '/src/classes/SeoAudit/ViewButtonOptions.php',
+        'KirbyTools\\Licensing\\ActivationException' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/ActivationException.php',
+        'KirbyTools\\Licensing\\ActivationOutcome' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/ActivationOutcome.php',
+        'KirbyTools\\Licensing\\Http\\HttpClientInterface' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Http/HttpClientInterface.php',
+        'KirbyTools\\Licensing\\Http\\KirbyHttpClient' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Http/KirbyHttpClient.php',
+        'KirbyTools\\Licensing\\LicenseActivator' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseActivator.php',
+        'KirbyTools\\Licensing\\LicensePanel' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicensePanel.php',
+        'KirbyTools\\Licensing\\LicenseRepository' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseRepository.php',
+        'KirbyTools\\Licensing\\LicenseStatus' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseStatus.php',
+        'KirbyTools\\Licensing\\LicenseUtils' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseUtils.php',
+        'KirbyTools\\Licensing\\LicenseValidator' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/LicenseValidator.php',
+        'KirbyTools\\Licensing\\Licenses' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/Licenses.php',
+        'KirbyTools\\Licensing\\PluginLicense' => __DIR__ . '/..' . '/johannschopplich/kirby-tools-licensing/src/PluginLicense.php',
         'Kirby\\ComposerInstaller\\CmsInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
         'Kirby\\ComposerInstaller\\Installer' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
         'Kirby\\ComposerInstaller\\Plugin' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Plugin.php',

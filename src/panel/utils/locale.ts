@@ -15,12 +15,15 @@ export function resolveDocumentLocale(lang: string) {
   const [subtag = "", ...rest] = (lang || "").split("-");
   const language = subtag.toLowerCase();
   const resolved = LANGUAGE_ALIASES[language] ?? language;
+  const locale = LANGUAGE_TO_LOCALE_MAP[resolved];
+
+  if (!locale) return LANGUAGE_TO_LOCALE_MAP.en;
 
   if (rest.length > 0) {
     return [resolved, ...rest].join("-");
   }
 
-  return LANGUAGE_TO_LOCALE_MAP[resolved] ?? LANGUAGE_TO_LOCALE_MAP.en;
+  return locale;
 }
 
 /** Reduces a region-coded Panel translation like `es_419` to the language the report texts are keyed by. */

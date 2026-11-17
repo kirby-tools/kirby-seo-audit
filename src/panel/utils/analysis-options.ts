@@ -32,9 +32,9 @@ export function resolveLogLevelIndex(
   logLevel?: LogLevel | null,
   fallback?: LogLevel | null,
 ) {
-  return LOG_LEVELS.indexOf(
-    logLevel && LOG_LEVELS.includes(logLevel)
-      ? logLevel
-      : (fallback ?? DEFAULT_LOG_LEVEL),
+  const level = [logLevel, fallback].find(
+    (i): i is LogLevel => !!i && LOG_LEVELS.includes(i),
   );
+
+  return LOG_LEVELS.indexOf(level ?? DEFAULT_LOG_LEVEL);
 }

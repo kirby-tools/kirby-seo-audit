@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import type { AnalyzeOnTrigger, LogLevel } from "../../constants";
-import type {
-  AnalysisOptions,
-  ButtonOptionsResponse,
-  CategoryRating,
-} from "../../types";
-import { computed, useApi, useContent, usePanel } from "kirbyuse";
-import { useAnalysis, usePluginContext } from "../../composables";
-import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../../constants";
+import type { AnalyzeOnTrigger, LogLevel } from "../constants";
+import type { AnalysisOptions, ButtonOptionsResponse } from "../types";
+import { useContent, usePanel } from "kirbyuse";
+import { useAnalysis, usePluginContext } from "../composables";
+import { PLUGIN_BUTTON_OPTIONS_API_ROUTE } from "../constants";
 import {
   resolveKeyphrase,
   resolveLogLevelIndex,
   resolveSynonyms,
-} from "../../utils/analysis-options";
-import { createLanguageRequestOptions } from "../../utils/request";
-import { worstRating } from "../../utils/seo-score";
+} from "../utils/analysis-options";
+import ViewButtonBody from "./Ui/ViewButtonBody.vue";
+
+// The view button props Kirby passes (`disabled`, `responsive`, …) would override the button's own.
+defineOptions({ inheritAttrs: false });
 
 const props = defineProps({
   keyphrase: {
@@ -49,7 +47,7 @@ const props = defineProps({
   logLevel: String as PropType<LogLevel>,
   label: String,
   analyzeOn: {
-    type: [String, Boolean] as PropType<AnalyzeOnTrigger | boolean | null>,
+    type: [String, Boolean] as PropType<AnalyzeOnTrigger | false | null>,
     // Keeps Vue from casting an absent prop to `false` and overriding the global option.
     default: null,
   },
@@ -59,15 +57,7 @@ const props = defineProps({
   },
 });
 
-const BADGE_THEMES: Record<CategoryRating, string> = {
-  good: "positive",
-  ok: "notice",
-  bad: "negative",
-  none: "passive",
-};
-
 const panel = usePanel();
-const api = useApi();
 const { currentContent } = useContent();
 
 const { analyze, isAnalyzing, rating } = useAnalysis({
@@ -76,17 +66,8 @@ const { analyze, isAnalyzing, rating } = useAnalysis({
   analyzeOn: () => props.analyzeOn,
 });
 
-const badge = computed(() => {
-  if (!rating.value?.timestamp) return undefined;
-
-  return {
-    theme: BADGE_THEMES[worstRating(rating.value)],
-    text: rating.value.isStale ? "!" : undefined,
-  };
-});
-
-function hasKirbyQuery(value: unknown) {
-  return typeof value === "string" && value.includes("{{");
+function isNonEmptyString(value: unknown) {
+  return typeof value === "string" && value !== "";
 }
 
 async function resolveAnalysisOptions(
@@ -95,30 +76,31 @@ async function resolveAnalysisOptions(
   const content = currentContent.value;
 
   // A view button's props reach the Panel unresolved, so the server resolves
-  // the ones carrying a Kirby query.
+  // a keyphrase or synonyms given as a non-empty string.
   const queriedProps: ButtonOptionsResponse =
     !__PLAYGROUND__ &&
-    (hasKirbyQuery(props.keyphrase) || hasKirbyQuery(props.synonyms))
-      ? await api.get<ButtonOptionsResponse>(
+    (isNonEmptyString(props.keyphrase) || isNonEmptyString(props.synonyms))
+      ? await panel.api.get<ButtonOptionsResponse>(
           PLUGIN_BUTTON_OPTIONS_API_ROUTE,
           { path: panel.view.path },
-          createLanguageRequestOptions(language),
-          true,
+          { language, silent: true },
         )
       : props;
   const { config } = await usePluginContext();
 
+  // The route answers `null` for a prop the blueprint doesn't set, like one
+  // from `panel.viewButtons`, which the button then uses as written.
   return {
     assessments: __PLAYGROUND__ ? content.assessments : props.assessments,
     logLevel: resolveLogLevelIndex(props.logLevel, config.logLevel),
     keyword: resolveKeyphrase(
       content,
-      queriedProps.keyphrase,
+      queriedProps.keyphrase ?? props.keyphrase,
       props.keyphraseField,
     ),
     synonyms: resolveSynonyms(
       content,
-      queriedProps.synonyms,
+      queriedProps.synonyms ?? props.synonyms,
       props.synonymsField,
     ),
   };
@@ -145,16 +127,11 @@ async function openReport() {
 </script>
 
 <template>
-  <k-button
-    :icon="isAnalyzing ? 'loader' : 'seo-audit-analyze'"
-    :text="label || panel.t('johannschopplich.seo-audit.label')"
+  <ViewButtonBody
+    :label="label || panel.t('johannschopplich.seo-audit.label')"
     :theme="theme"
-    :badge="badge"
-    :disabled="isAnalyzing"
-    variant="filled"
-    size="sm"
-    responsive
+    :rating="rating"
+    :is-analyzing="isAnalyzing"
     @click="openReport()"
-  >
-  </k-button>
+  />
 </template>

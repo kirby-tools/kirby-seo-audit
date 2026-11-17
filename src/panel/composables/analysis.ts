@@ -4,18 +4,10 @@ import type {
   Report,
   ReportStorageScope,
 } from "../types";
-import {
-  computed,
-  isKirby5,
-  onBeforeUnmount,
-  ref,
-  useContent,
-  usePanel,
-  watch,
-} from "kirbyuse";
+import { useContent, usePanel, usePanelEvent } from "kirbyuse";
+import { computed, ref, watch } from "vue";
 import { PLUGIN_RATING_API_ROUTE } from "../constants";
 import { resolveAnalyzeOn } from "../utils/analyze-on";
-import { createLanguageRequestOptions } from "../utils/request";
 import { toRatingRecord } from "../utils/seo-score";
 import { readStoredReport, writeStoredReport } from "../utils/storage";
 import { useLogger } from "./logger";
@@ -23,7 +15,7 @@ import { usePluginContext } from "./plugin";
 import { useSeoReview } from "./seo-review";
 import { isZeroOneValid } from "./zero-one";
 
-// Shared by the button and the section on the same view, so a run in either
+// Shared by the button and the field on the same view, so a run in either
 // updates both; the reports exist only in this session.
 const records = ref<Record<string, Rating>>({});
 const reports = ref<Record<string, Report>>({});
@@ -46,7 +38,6 @@ export function useAnalysis({
     isPersisted: () => boolean;
   };
 }) {
-  const _isKirby5 = isKirby5();
   const panel = usePanel();
   const logger = useLogger();
   const { currentContent, isEditable } = useContent();
@@ -119,8 +110,6 @@ export function useAnalysis({
     language: string | null,
     newReport: Report,
   ) {
-    if (!_isKirby5) return;
-
     const record = toRatingRecord(newReport, newReport.version);
     let response: Rating = {
       ...record,
@@ -133,9 +122,7 @@ export function useAnalysis({
         response = await panel.api.post<Rating>(
           PLUGIN_RATING_API_ROUTE,
           { path, ...record },
-          createLanguageRequestOptions(language),
-          "POST",
-          true,
+          { language, silent: true },
         );
       } catch (error) {
         logger.error(error);
@@ -158,8 +145,6 @@ export function useAnalysis({
   }
 
   function loadRating() {
-    if (!_isKirby5) return;
-
     const path = panel.view.path;
     const language = panel.language.code;
     const key = analysisKey(path, language);
@@ -170,8 +155,7 @@ export function useAnalysis({
       .get<Rating>(
         PLUGIN_RATING_API_ROUTE,
         { path },
-        createLanguageRequestOptions(language),
-        true,
+        { language, silent: true },
       )
       .then((response) => {
         records.value = { ...records.value, [key]: response };
@@ -202,6 +186,7 @@ export function useAnalysis({
       await pendingRun;
     } catch (error) {
       logger.error(error);
+      await loadRating();
     }
   }
 
@@ -210,13 +195,7 @@ export function useAnalysis({
     // the view path is watched along with the language.
     watch(currentKey, () => loadRating(), { immediate: true });
 
-    // Subscribed synchronously: an unmount before an async setup resolves
-    // would call `off` first, which the event bus silently ignores.
-    panel.events.on("content.publish", onPublish);
-
-    onBeforeUnmount(() => {
-      panel.events.off("content.publish", onPublish);
-    });
+    usePanelEvent("content.publish", onPublish);
   }
 
   return {

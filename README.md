@@ -6,8 +6,8 @@ Kirby SEO Audit is a plugin for [Kirby CMS](https://getkirby.com) that brings th
 
 ## Features
 
-- 🎛️ **View Button & Section**: Run the analysis from the page header or inline in a section.
-- 🔍 **SEO & Readability Assessments**: Powered by the Yoast SEO engine, plus checks of our own.
+- 🎛️ **View Button & Field**: Run the analysis from the page header or inline in a field.
+- 🔍 **SEO & Readability Assessments**: Powered by the Yoast SEO engine, plus the plugin's own checks.
 - 📊 **Result Groups**: Every result sorted into Good, OK, Needs improvement, Feedback, or Errors.
 - 🚦 **SEO & Readability Ratings**: One light per category. The view button shows the page's rating, kept per page and language and readable in blueprints and templates.
 - ✍️ **Unsaved Changes**: The analysis reads what the form shows, before the page is published.
@@ -21,7 +21,7 @@ Kirby SEO Audit is a commercial plugin that requires a license. You can install 
 
 ## Requirements
 
-- Kirby 4 or Kirby 5
+- Kirby 6
 
 ## Installation
 
@@ -33,7 +33,27 @@ composer require johannschopplich/kirby-seo-audit
 
 ### Manual Installation
 
-Download and copy this repository to `/site/plugins/kirby-seo-audit`.
+Download a [release](https://github.com/kirby-tools/kirby-seo-audit/releases) and extract it to `/site/plugins/kirby-seo-audit`.
+
+## Upgrading from SEO Audit 3
+
+SEO Audit 4 requires Kirby 6, which has no plugin sections, so the SEO Audit section is a field now. Kirby shows `Invalid section type ("seo-audit")` until you move it from `sections:` to `fields:`. Its options stay the same:
+
+```yaml
+# SEO Audit 3
+sections:
+  seoAudit:
+    type: seo-audit
+    keyphraseField: metaKeyphrase
+
+# SEO Audit 4
+fields:
+  seoAudit:
+    type: seo-audit
+    keyphraseField: metaKeyphrase
+```
+
+The view button and the field resolve `keyphrase` and `synonyms` as Kirby string templates, so single braces count as a query too: `{ page.title }` resolves like `{{ page.title }}`, and a literal `{…}` in the value is replaced. An unknown `logLevel` on the field shows an error in its place instead of falling back to the global option.
 
 ## Documentation
 
@@ -53,7 +73,7 @@ For the sake of reproducible bug reports, please include the following informati
 
 - Kirby & Kirby SEO Audit version
 - Browser environment (name, version, operating system)
-- Global and section configuration (without any sensitive information)
+- Global and field configuration (without any sensitive information)
 - Steps to reproduce the bug (if no reproduction is provided)
 - Screenshots or screen recordings if applicable
 
