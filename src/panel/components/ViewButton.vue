@@ -58,7 +58,7 @@ const props = defineProps({
 });
 
 const panel = usePanel();
-const { currentContent } = useContent();
+const { currentContent, modelPath } = useContent();
 
 const { analyze, isAnalyzing, rating } = useAnalysis({
   resolveOptions: resolveAnalysisOptions,
@@ -82,7 +82,7 @@ async function resolveAnalysisOptions(
     (isNonEmptyString(props.keyphrase) || isNonEmptyString(props.synonyms))
       ? await panel.api.get<ButtonOptionsResponse>(
           PLUGIN_BUTTON_OPTIONS_API_ROUTE,
-          { path: panel.view.path },
+          { path: modelPath.value! },
           { language, silent: true },
         )
       : props;

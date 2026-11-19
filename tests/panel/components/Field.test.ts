@@ -6,10 +6,7 @@ import Field from "../../../src/panel/components/Field.vue";
 
 vi.mock("kirbyuse", () => ({
   useContent: () => ({ currentContent: ref({}) }),
-  usePanel: () => ({
-    view: { path: "pages/about" },
-    language: { code: "en" },
-  }),
+  usePanel: () => ({}),
 }));
 
 vi.mock("@kirby-tools/licensing/components", () => ({

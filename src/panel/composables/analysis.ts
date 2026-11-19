@@ -40,12 +40,12 @@ export function useAnalysis({
 }) {
   const panel = usePanel();
   const logger = useLogger();
-  const { currentContent, isEditable } = useContent();
+  const { currentContent, isEditable, modelPath } = useContent();
   const { runAnalysis, notifyReportError } = useSeoReview();
 
   const isAnalyzing = ref(false);
   const currentKey = computed(() =>
-    analysisKey(panel.view.path, panel.language.code),
+    analysisKey(modelPath.value!, panel.language.code),
   );
   const rating = computed(() => records.value[currentKey.value]);
   const report = computed(
@@ -72,15 +72,20 @@ export function useAnalysis({
   }
 
   async function run(language: string | null): Promise<Report | undefined> {
-    // A view or language switch during the analysis must not move the run, so
-    // the view path and the storage scope are read before the first `await`.
-    const path = panel.view.path;
+    // A view switch during the analysis must not move its path or storage
+    // scope, so both are read before the first `await`.
+    const path = modelPath.value!;
     const storageScope = storage?.scope();
     isAnalyzing.value = true;
 
     try {
       const options = await resolveOptions(language);
-      const newReport = await runAnalysis(language, contentSelector(), options);
+      const newReport = await runAnalysis(
+        path,
+        language,
+        contentSelector(),
+        options,
+      );
       reports.value = {
         ...reports.value,
         [analysisKey(path, language)]: newReport,
@@ -145,7 +150,7 @@ export function useAnalysis({
   }
 
   function loadRating() {
-    const path = panel.view.path;
+    const path = modelPath.value!;
     const language = panel.language.code;
     const key = analysisKey(path, language);
 
@@ -178,7 +183,7 @@ export function useAnalysis({
         return;
       }
 
-      const key = analysisKey(panel.view.path, language);
+      const key = analysisKey(modelPath.value!, language);
       if (inFlightRuns.has(key)) return;
 
       const pendingRun = run(language).finally(() => inFlightRuns.delete(key));
@@ -192,7 +197,7 @@ export function useAnalysis({
 
   if (!__PLAYGROUND__) {
     // A view button survives the move to another model of the same kind, so
-    // the view path is watched along with the language.
+    // the model path is watched along with the language.
     watch(currentKey, () => loadRating(), { immediate: true });
 
     usePanelEvent("content.publish", onPublish);

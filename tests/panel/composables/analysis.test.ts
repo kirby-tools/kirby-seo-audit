@@ -19,17 +19,18 @@ const api = { get: vi.fn(), post: vi.fn() };
 const events = createEventBus();
 // Reactive like the Panel's own state, so a language switch reaches the computed refs.
 const panel = reactive({
-  view: { path: "pages/about" },
   language: { code: "de" },
   api: markRaw(api),
   events: markRaw(events),
 });
 const isEditable = { value: true };
+const modelPath = { value: "pages/about" };
 const logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() };
 const unmountHosts: Array<() => void> = [];
 const runAnalysis =
   vi.fn<
     (
+      path: string,
       language: string,
       contentSelector: string,
       options: AnalysisOptions,
@@ -54,7 +55,7 @@ vi.mock("kirbyuse", async (importOriginal) => {
     usePanelEvent,
     createLogger: () => logger,
     usePanel: () => panel,
-    useContent: () => ({ isEditable }),
+    useContent: () => ({ isEditable, modelPath }),
   };
 });
 
@@ -135,8 +136,8 @@ beforeEach(() => {
   notifyReportError.mockReset();
   logger.error.mockReset();
   events.clear();
-  panel.view.path = "pages/about";
   panel.language.code = "de";
+  modelPath.value = "pages/about";
   isEditable.value = true;
   storedItems.clear();
   window.panel = panel as unknown as Window["panel"];
@@ -165,7 +166,12 @@ describe("useAnalysis", () => {
 
     await expect(analyze()).resolves.toBe(report);
 
-    expect(runAnalysis).toHaveBeenCalledExactlyOnceWith("de", "main", options);
+    expect(runAnalysis).toHaveBeenCalledExactlyOnceWith(
+      "pages/about",
+      "de",
+      "main",
+      options,
+    );
   });
 
   it("analyze posts the record of the report and exposes the server's answer as rating", async () => {
@@ -222,18 +228,29 @@ describe("useAnalysis", () => {
     });
   });
 
-  it("analyze runs in the language it started in after a switch during resolveOptions", async () => {
-    const { analyze } = await loadAnalysis({
-      resolveOptions: async () => {
-        panel.language.code = "en";
-        return options;
-      },
-    });
+  it.each([
+    ["language", () => (panel.language.code = "en")],
+    ["model", () => (modelPath.value = "pages/other")],
+  ])(
+    "analyze runs on the model and language it started on after a %s switch during resolveOptions",
+    async (_, switchDuringRun) => {
+      const { analyze } = await loadAnalysis({
+        resolveOptions: async () => {
+          switchDuringRun();
+          return options;
+        },
+      });
 
-    await analyze();
+      await analyze();
 
-    expect(runAnalysis).toHaveBeenCalledExactlyOnceWith("de", "main", options);
-  });
+      expect(runAnalysis).toHaveBeenCalledExactlyOnceWith(
+        "pages/about",
+        "de",
+        "main",
+        options,
+      );
+    },
+  );
 
   it("analyze sets isAnalyzing during the run and clears it after", async () => {
     const pendingRun = Promise.withResolvers<Report>();
@@ -282,7 +299,12 @@ describe("useAnalysis", () => {
     publish("en");
     await flushPromises();
 
-    expect(runAnalysis).toHaveBeenCalledExactlyOnceWith("en", "main", options);
+    expect(runAnalysis).toHaveBeenCalledExactlyOnceWith(
+      "pages/about",
+      "en",
+      "main",
+      options,
+    );
   });
 
   it.each([
@@ -398,22 +420,30 @@ describe("useAnalysis", () => {
     expect(currentReport.value).toBeUndefined();
   });
 
-  it("analyze writes the report to storage under its start language", async () => {
+  it("analyze writes the report to storage under its start model and language", async () => {
     const pendingRun = Promise.withResolvers<Report>();
     runAnalysis.mockReturnValue(pendingRun.promise);
     const { analyze } = await loadAnalysis({
       storage: {
-        scope: () => ({ ...storageScope, language: panel.language.code }),
+        scope: () => ({
+          ...storageScope,
+          path: modelPath.value,
+          language: panel.language.code,
+        }),
         isPersisted: () => true,
       },
     });
 
     const pendingAnalysis = analyze();
+    modelPath.value = "pages/other";
     panel.language.code = "en";
     pendingRun.resolve(report);
     await pendingAnalysis;
 
     expect(readStoredReport(storageScope)).toEqual(report);
+    expect(
+      readStoredReport({ ...storageScope, path: "pages/other" }),
+    ).toBeUndefined();
     expect(
       readStoredReport({ ...storageScope, language: "en" }),
     ).toBeUndefined();

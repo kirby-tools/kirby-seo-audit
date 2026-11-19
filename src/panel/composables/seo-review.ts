@@ -32,13 +32,18 @@ export function useSeoReview() {
   const { currentContent } = useContent();
 
   async function runAnalysis(
+    path: string,
     language: string | null,
     contentSelector: string,
     options: AnalysisOptions,
   ): Promise<Report> {
     const target: PreviewTarget = __PLAYGROUND__
       ? { url: currentContent.value.targeturl }
-      : await resolvePreviewTarget(language, await resolveContentVersion());
+      : await resolvePreviewTarget(
+          path,
+          language,
+          await resolveContentVersion(),
+        );
     const { results, ratings } = await generateReport(
       target,
       contentSelector,
@@ -110,6 +115,7 @@ export function useSeoReview() {
 }
 
 async function resolvePreviewTarget(
+  path: string,
   language: string | null,
   version: ContentVersion,
 ): Promise<PreviewTarget> {
@@ -117,17 +123,17 @@ async function resolvePreviewTarget(
   const { url, version: resolvedVersion } =
     await panel.api.get<PreviewUrlResponse>(
       PLUGIN_PREVIEW_URL_API_ROUTE,
-      { path: panel.view.path, version },
+      { path, version },
       { language, silent: true },
     );
 
   if (!url) {
-    throw new MissingPreviewUrlError({ path: panel.view.path });
+    throw new MissingPreviewUrlError({ path });
   }
 
   return {
     url,
-    path: panel.view.path,
+    path,
     language,
     version: resolvedVersion,
   };

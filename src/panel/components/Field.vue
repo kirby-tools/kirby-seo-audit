@@ -63,7 +63,7 @@ const props = defineProps({
 const panel = usePanel();
 const labels = useReportLabels();
 const hasLicenseButtons = !__PLAYGROUND__ && !__ZERO_ONE__;
-const { currentContent } = useContent();
+const { currentContent, modelPath } = useContent();
 
 // The playground writes it from its own toggle.
 const links = ref(props.links);
@@ -74,7 +74,7 @@ const { analyze, isAnalyzing, rating, report } = useAnalysis({
   analyzeOn: () => props.analyzeOn,
   storage: {
     scope: () => ({
-      path: panel.view.path,
+      path: modelPath.value!,
       language: panel.language.code,
       field: String(props.name),
     }),
