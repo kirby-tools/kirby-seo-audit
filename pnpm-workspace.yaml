@@ -2,7 +2,7 @@ minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - kirbyuse@2.0.0-beta.7
   - '@kirby-tools/licensing@1.1.0'
-  - kirby-types@2.0.0-beta.8
+  - kirby-types@2.0.0-beta.9
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
