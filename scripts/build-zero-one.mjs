@@ -12,18 +12,18 @@ await $`git archive --format=tar --prefix=kirby-seo-audit/ HEAD | tar -x -C ${di
 
 await fs.copy("./zero-one", `${distDir}/kirby-seo-audit`, { overwrite: true });
 
-// Update composer.json (remove licensing dependency).
+// The plugin's own classes are still PSR-4 autoloaded. `composer install`
+// rebuilds the autoloader together with the `InstalledVersions` class its
+// class map points to, which `dump-autoload` leaves out.
 const composer = await fs.readJson(`${distDir}/kirby-seo-audit/composer.json`);
 delete composer.require;
+delete composer["require-dev"];
 await fs.writeJson(`${distDir}/kirby-seo-audit/composer.json`, composer, {
   spaces: 2,
 });
-await fs.remove(`${distDir}/kirby-seo-audit/composer.lock`);
 await fs.remove(`${distDir}/kirby-seo-audit/vendor`);
-
-// This edition ships without Composer dependencies, but the plugin's own
-// classes are still PSR-4 autoloaded, so the autoloader has to be rebuilt.
-await $`composer dump-autoload --optimize --no-interaction --working-dir=${distDir}/kirby-seo-audit`;
+await $`composer install --no-dev --no-interaction --working-dir=${distDir}/kirby-seo-audit`;
+await fs.remove(`${distDir}/kirby-seo-audit/composer.lock`);
 
 await fs.copy("./index.js", `${distDir}/kirby-seo-audit/index.js`);
 await fs.copy("./index.css", `${distDir}/kirby-seo-audit/index.css`);
