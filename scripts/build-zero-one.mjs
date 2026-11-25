@@ -1,3 +1,4 @@
+import process from "node:process";
 import { $, fs } from "zx";
 
 const { version } = await fs.readJson("./package.json");
@@ -25,9 +26,10 @@ await fs.remove(`${distDir}/kirby-seo-audit/vendor`);
 await $`composer install --no-dev --no-interaction --working-dir=${distDir}/kirby-seo-audit`;
 await fs.remove(`${distDir}/kirby-seo-audit/composer.lock`);
 
-await fs.copy("./index.js", `${distDir}/kirby-seo-audit/index.js`);
-await fs.copy("./index.css", `${distDir}/kirby-seo-audit/index.css`);
-await fs.copy("./assets", `${distDir}/kirby-seo-audit/assets`);
+// The tracked `index.js` stays the main edition's.
+await $({
+  env: { ...process.env, ZERO_ONE: "true" },
+})`kirbyup src/panel/index.ts --out-dir ${distDir}/kirby-seo-audit`;
 
 await $`cd ${distDir} && zip -r ../${zipName} kirby-seo-audit`;
 
