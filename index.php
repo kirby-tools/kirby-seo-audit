@@ -29,7 +29,10 @@ Kirby::plugin(
             'seo-audit' => SeoAuditField::class
         ],
         'hooks' => require __DIR__ . '/src/extensions/hooks.php',
-        'translations' => require __DIR__ . '/src/extensions/translations.php',
+        'translations' => array_replace_recursive(
+            LicensePanel::translations(),
+            require __DIR__ . '/src/extensions/translations.php'
+        ),
         ...require __DIR__ . '/src/extensions/model-methods.php'
     ],
     license: fn ($plugin) => new PluginLicense($plugin, Licensing::PACKAGE_NAME)
