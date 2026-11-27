@@ -14,8 +14,7 @@
     "parse5": "^8.1.1",
     "tiny-segmenter": "^0.2.0",
     "tokenizer2": "^2.0.1",
-    "unenv": "^2.0.0-rc.25",
-    "zod": "^3.25.76"
+    "unenv": "^2.0.0-rc.25"
   },
   "devDependencies": {
     "tsdown": "^0.23.7"
