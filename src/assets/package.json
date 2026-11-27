@@ -11,13 +11,13 @@
     "htmlparser2": "^3.10.1",
     "lodash": "^4.18.1",
     "loglevel": "^1.9.2",
-    "parse5": "^8.0.1",
+    "parse5": "^8.1.1",
     "tiny-segmenter": "^0.2.0",
     "tokenizer2": "^2.0.1",
-    "unenv": "^2.0.0-rc.24",
+    "unenv": "^2.0.0-rc.25",
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "tsdown": "^0.23.1"
+    "tsdown": "^0.23.7"
   }
 }

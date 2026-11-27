@@ -9,6 +9,9 @@ shellEmulator: true
 packages:
   - src/assets
 
+overrides:
+  "@babel/runtime": ^7.26.10
+
 allowBuilds:
   "@parcel/watcher": true
   esbuild: true
